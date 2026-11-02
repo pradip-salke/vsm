@@ -1,4 +1,3 @@
-import { specialisationLinks } from './site';
 import type { HeroSlide } from './types';
 
 const banner = '/images/figma/academics-banner.webp';
@@ -97,4 +96,3 @@ export const specialisationTabs = [
   { label: 'Admission Procedure', id: 'admission-procedure' },
 ];
 
-export const specialisationNavigation = specialisationLinks;

@@ -5,7 +5,7 @@ import { PageHero } from '@/components/sections/PageHero';
 import { EnquirySection } from '@/components/sections/EnquirySection';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { IconList } from '@/components/sections/IconList';
-import { academicSpecialisations, specialisationHero, specialisationNavigation, specialisationTabs } from '@/content/academic-specialisations';
+import { academicSpecialisations, specialisationHero, specialisationTabs } from '@/content/academic-specialisations';
 import { admissionSteps } from '@/content/academics';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
@@ -39,6 +39,14 @@ export default async function SpecialisationPage({ params }: Props) {
     { label: page.title },
   ];
   const listItems = (items: string[]) => items.map((text) => ({ icon: '/images/figma/icon-neutral.svg', iconSize: 32, text }));
+  const renderIconList = (items: string[], label: string) => {
+    const list = <IconList items={listItems(items)} className={styles.list} />;
+    return items.length > 5 ? (
+      <div className={styles.listViewport} role="region" aria-label={`${label} list`} tabIndex={0}>
+        {list}
+      </div>
+    ) : list;
+  };
 
   return (
     <div className={layout.page}>
@@ -52,7 +60,6 @@ export default async function SpecialisationPage({ params }: Props) {
       <div className={`${layout.layout} ${styles.layout}`}>
         <aside className={`${layout.sidebar} ${styles.sidebar}`} aria-label={`${page.title} overview`}>
           <div className={styles.summary}>
-            <div className={styles.specialisationIcon}><img src={page.image} alt="" width="72" height="72" /></div>
             <h2>At a Glance</h2>
             <dl>
               <div><dt>Programme</dt><dd>PGDM</dd></div>
@@ -61,8 +68,6 @@ export default async function SpecialisationPage({ params }: Props) {
               <div><dt>Location</dt><dd>Andheri, Mumbai</dd></div>
             </dl>
             <Button href={APPLY_PATH} size="lg">Apply Now</Button>
-            <h3>Explore Specialisations</h3>
-            <ul>{specialisationNavigation.map((item) => <li key={item.href}><a href={item.href}>{item.label}</a></li>)}</ul>
           </div>
         </aside>
         <main className={layout.main}>
@@ -72,17 +77,17 @@ export default async function SpecialisationPage({ params }: Props) {
           </section>
           <section id="why-specialisation" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={`Why Choose PGDM in ${page.title}?`} />
-            <IconList items={listItems(page.reasons)} className={styles.list} />
+            {renderIconList(page.reasons, 'Reasons to choose this specialisation')}
           </section>
           <section id="career-opportunities" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={`Careers in ${page.title}`} />
             <p className={styles.paragraph}>The PGDM specialisation combines management fundamentals with applied learning to prepare students for opportunities across industries.</p>
-            <IconList items={listItems(page.roles)} className={styles.list} />
+            {renderIconList(page.roles, 'Career opportunities')}
           </section>
           <section id="specialisation-curriculum" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={`${page.title} Curriculum`} />
             <p className={styles.paragraph}>Alongside the common PGDM foundation, students study specialisation-focused subjects and apply their learning through projects and industry exposure.</p>
-            <IconList items={listItems(page.subjects)} className={styles.list} />
+            {renderIconList(page.subjects, 'Curriculum subjects')}
           </section>
           <section id="admission-procedure" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title="PGDM Admission Procedure" />

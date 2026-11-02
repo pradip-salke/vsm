@@ -129,7 +129,7 @@ export function Carousel({
     if (!autoplayMs || positions.length < 2) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => {
-      if (!pausedRef.current && document.visibilityState === 'visible') goTo((active + 1) % positions.length);
+      if (!pausedRef.current) goTo((active + 1) % positions.length);
     }, autoplayMs);
     return () => window.clearInterval(timer);
   }, [autoplayMs, positions.length, active, goTo]);
@@ -149,8 +149,6 @@ export function Carousel({
       role="region"
       aria-roledescription="carousel"
       aria-label={label}
-      onPointerEnter={pause}
-      onPointerLeave={resume}
       onFocusCapture={pause}
       onBlurCapture={resume}
     >

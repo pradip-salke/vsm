@@ -20,7 +20,7 @@
 }
 
 .life .carousel {
-  --slide-width: calc((100% - var(--slide-gap) * 2) / 3);
+  --slide-width: calc((100% - var(--slide-gap) * 2) / 2.45);
 }
 
 .video .carousel {

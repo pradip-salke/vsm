@@ -1,8 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Fragment } from 'react';
+import { Icon } from '@/components/ui/Icon';
+import { icons } from '@/components/ui/icons';
 import type { ReactNode } from 'react';
 import { Carousel } from '@/components/ui/Carousel';
 import type { HeroSlide } from '@/content/types';
+import { heroSlides } from '@/content/home';
 import styles from './PageHero.module.css';
 
 type Crumb = { label: string; href?: string };
@@ -16,7 +20,13 @@ type PageHeroProps = {
 };
 
 export function PageHero({ slides, actions, breadcrumb, size = 'home' }: PageHeroProps) {
-  const rendered = slides.map((slide, index) => {
+  // Inner pages have one copy block, but the banner still needs to behave as
+  // the same three-image carousel shown in the shared hero design.
+  const bannerSlides = size === 'inner' && slides.length === 1
+    ? [slides[0], ...heroSlides.slice(1).map(({ image }) => ({ ...slides[0], image }))]
+    : slides;
+
+  const rendered = bannerSlides.map((slide, index) => {
     const Heading = index === 0 ? 'h1' : 'p';
     return (
       <div key={slide.title + index} className={styles.slide}>
@@ -34,10 +44,17 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home' }: PageHer
           {breadcrumb && (
             <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
               <ol role="list">
-                {breadcrumb.map((crumb) => (
-                  <li key={crumb.label}>
-                    {crumb.href ? <Link href={crumb.href}>{crumb.label}</Link> : <span aria-current="page">{crumb.label}</span>}
-                  </li>
+                {breadcrumb.map((crumb, index) => (
+                  <Fragment key={`${crumb.label}-${index}`}>
+                    {index > 0 && (
+                      <li className={styles.separator} aria-hidden="true">
+                        <Icon src={icons.chevronDown} className={styles.chevron} />
+                      </li>
+                    )}
+                    <li>
+                      {crumb.href ? <Link href={crumb.href}>{crumb.label}</Link> : <span aria-current="page">{crumb.label}</span>}
+                    </li>
+                  </Fragment>
                 ))}
               </ol>
             </nav>
@@ -57,7 +74,10 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home' }: PageHer
       {rendered.length > 1 ? (
         <Carousel label="Highlights" slides={rendered} dotsPlacement="overlay" autoplayMs={6000} className={styles.carousel} />
       ) : (
-        rendered[0]
+        <>
+          {rendered[0]}
+          {size === 'inner' && <div className={styles.singleDots} aria-hidden="true"><span data-active /><span /><span /></div>}
+        </>
       )}
     </section>
   );

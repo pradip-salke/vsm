@@ -3,7 +3,7 @@
 }
 
 .carousel {
-  --slide-width: calc((100% - var(--slide-gap) * 2) / 3);
+  --slide-width: calc((100% - var(--slide-gap) * 2) / 2.45);
   margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
 }
 

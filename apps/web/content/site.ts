@@ -93,13 +93,26 @@ export const mainNav: NavItem[] = [
 
 /** Secondary links shown only in the mobile / hamburger drawer. */
 export const drawerNav: NavLink[] = [
-  { label: 'About VSM', href: '/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/' },
-  { label: 'Our Philosophy', href: '/about-us/our-philosophy/' },
-  { label: 'Infrastructure', href: '/about-us/infrastructure/' },
   { label: 'Committee', href: '/committee/' },
   { label: 'Anti-Ragging Policy', href: '/anti-ragging-policy/' },
-  { label: 'Career', href: '/career/' },
-  { label: 'Blogs', href: '/blogs/' },
+];
+
+export const aboutLinks: NavLink[] = [
+  { label: 'About VSM', href: 'https://vsmedu.com/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/' },
+  { label: 'Our Philosophy', href: 'https://vsmedu.com/about-us/our-philosophy/' },
+  { label: 'Academic Advisory Board', href: 'https://vsmedu.com/about-us/academic-advisory-board/' },
+  { label: 'Trustee’s Message', href: 'https://vsmedu.com/about-us/trustee-message/' },
+  { label: 'Vice Chairman Message', href: 'https://vsmedu.com/about-us/vice-chairman-message/' },
+  { label: 'Director Message', href: 'https://vsmedu.com/about-us/director-message/' },
+  { label: 'Affiliation & Industry Leadership', href: 'https://vsmedu.com/about-us/affiliation-industry-leadership/' },
+  { label: 'Infrastructure', href: 'https://vsmedu.com/about-us/infrastructure/' },
+  { label: 'Student Residence', href: 'https://vsmedu.com/?page_id=415' },
+  { label: 'Board of Governance', href: 'https://vsmedu.com/wp-content/uploads/2026/08/DocScanner-25-Aug-2026-3-56-pm.pdf' },
+];
+
+export const careerAndBlogLinks: NavLink[] = [
+  { label: 'Career', href: 'https://vsmedu.com/career/' },
+  { label: 'Blogs', href: 'https://vsmedu.com/blogs/' },
 ];
 
 export const footer = {

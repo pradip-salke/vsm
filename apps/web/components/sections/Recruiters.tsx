@@ -37,7 +37,7 @@ export function Recruiters() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setInterval(() => {
-      if (!pausedRef.current && document.visibilityState === 'visible') {
+      if (!pausedRef.current) {
         setActivePage((page) => (page + 1) % 3);
       }
     }, 6000);
@@ -48,8 +48,6 @@ export function Recruiters() {
     <section
       className={styles.section}
       aria-labelledby="recruiters-title"
-      onPointerEnter={() => { pausedRef.current = true; }}
-      onPointerLeave={() => { pausedRef.current = false; }}
       onFocusCapture={() => { pausedRef.current = true; }}
       onBlurCapture={() => { pausedRef.current = false; }}
     >

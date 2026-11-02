@@ -45,7 +45,7 @@
 }
 
 .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div {
-  margin-top: 101px;
+  margin-top: 31px;
 }
 
 .page > :global(section[aria-label='Introduction']) h1 {

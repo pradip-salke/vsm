@@ -325,6 +325,10 @@
 }
 
 @media (max-width: 767px) {
+  .inner {
+    min-height: 4rem;
+  }
+
   .years,
   .brandDivider,
   .harvard {

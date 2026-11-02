@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { contact, footer, specialisationLinks } from '@/content/site';
+import { aboutLinks, careerAndBlogLinks, contact, footer, specialisationLinks } from '@/content/site';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
 import { PhoneList } from '@/components/ui/PhoneList';
@@ -26,6 +26,19 @@ export function SiteFooter() {
               {specialisationLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href}>PGDM in {link.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-labelledby="footer-about">
+            <h2 id="footer-about" className={styles.heading}>
+              About
+            </h2>
+            <ul className={styles.links} role="list">
+              {[...aboutLinks, ...careerAndBlogLinks].map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href}>{link.label}</Link>
                 </li>
               ))}
             </ul>

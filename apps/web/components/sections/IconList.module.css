@@ -4,7 +4,7 @@
   --badge: clamp(3.25rem, 2.6rem + 1.75vw, 4.8125rem); /* 77px */
   display: flex;
   flex-direction: column;
-  gap: clamp(0.5rem, 0.2rem + 0.8vw, 1.875rem);
+  gap: var(--list-gap, clamp(0.5rem, 0.2rem + 0.8vw, 1.875rem));
 }
 
 .item {
