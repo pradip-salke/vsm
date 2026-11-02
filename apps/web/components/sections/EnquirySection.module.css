@@ -1,0 +1,113 @@
+.section {
+  padding-block: var(--section-spacing);
+}
+
+/*
+ * Figma at 1920: 1034px form column, 25px gap, 612 × 682 card 39px below the eyebrow,
+ * the pair inset 4.5px inside the container.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1034fr) minmax(0, 612fr);
+  align-items: start;
+  gap: var(--space-7) clamp(1rem, 1.302vw, 1.5625rem);
+  padding-inline: calc(var(--page-gutter) * 124.5 / 120);
+}
+
+/* 50px below the title's baseline; its 0.25em descent is already inside the line box */
+.form {
+  margin-top: calc(clamp(1.5rem, 2.604vw, 3.125rem) - var(--font-size-h1) * 0.25);
+}
+
+/* Label/value blocks 30px apart (48px before Stay Connected), measured between trimmed text */
+.card {
+  --block-gap: calc(clamp(1rem, 1.563vw, 1.875rem) - var(--font-size-body) * 0.507);
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+  margin-top: clamp(1rem, 2.031vw, 2.4375rem);
+  padding: clamp(1.5rem, 2.292vw, 2.75rem) clamp(1.5rem, 2.083vw, 2.5rem) clamp(1rem, 0.938vw, 1.125rem);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.card > :last-child {
+  margin-top: clamp(0.5rem, 0.938vw, 1.125rem);
+}
+
+.label {
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-extrabold);
+  line-height: calc(36 / 22);
+}
+
+/* 20px from the label to the value's cap line (cap sits 0.55em into the 39.1px line) */
+.value {
+  margin-top: calc(clamp(0.75rem, 1.042vw, 1.25rem) - var(--font-size-body) * 0.55);
+  font-size: var(--font-size-body);
+  font-style: normal;
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-body);
+  opacity: 0.9;
+}
+
+.value a:hover {
+  text-decoration: underline;
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.75rem, 1.042vw, 1.25rem);
+  margin-top: clamp(0.75rem, 1.042vw, 1.25rem);
+}
+
+/* 84px white circles with navy glyphs */
+.social {
+  display: grid;
+  place-items: center;
+  width: clamp(3.25rem, 4.375vw, 5.25rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-navy-label);
+  transition: transform var(--transition-fast);
+}
+
+a.social:hover {
+  transform: translateY(-3px);
+}
+
+.social span {
+  --icon-size: clamp(1.5rem, 2.083vw, 2.5rem);
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: 1fr;
+    padding-inline: var(--page-gutter);
+  }
+
+  .card {
+    margin-top: 0;
+  }
+}
+
+/* Keep all five circles on one row; they shrink below 52px only when the card is too narrow */
+@media (max-width: 599px) {
+  .socials {
+    flex-wrap: nowrap;
+  }
+
+  .socials li {
+    flex: 0 1 clamp(3.25rem, 4.375vw, 5.25rem);
+    min-width: 0;
+  }
+
+  .social {
+    width: 100%;
+  }
+}

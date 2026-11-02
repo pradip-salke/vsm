@@ -1,0 +1,61 @@
+/* Word strip: #0a192f, 100px tall, Urbanist Medium 50px, grey words with teal highlights */
+.marquee {
+  overflow: hidden;
+  background: var(--color-dark);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: scroll 40s linear infinite;
+}
+
+.marquee:hover .track {
+  animation-play-state: paused;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-height: clamp(3.75rem, 3.15rem + 2.6vw, 6.25rem);
+  color: var(--color-text-muted);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-stat);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.row li {
+  display: flex;
+  align-items: center;
+}
+
+.row li::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  margin-inline: clamp(1.5rem, 1rem + 2vw, 3.3rem);
+  border-radius: 50%;
+  background: var(--color-marquee-dot);
+}
+
+.highlight {
+  color: var(--color-primary);
+}
+
+@keyframes scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

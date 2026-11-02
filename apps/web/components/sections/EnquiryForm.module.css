@@ -1,0 +1,173 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Figma: fields span 1014 of the 1034px column, 20px apart */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.042vw, 1.25rem);
+  width: calc(100% * 1014 / 1034);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+/* 80px tall, 12px radius, #808080 border */
+.input {
+  width: 100%;
+  min-height: clamp(3.25rem, 4.167vw, 5rem);
+  padding: 0 clamp(0.9rem, 1.042vw, 1.25rem);
+  border: var(--border-width) solid var(--color-border-input);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--font-size-input);
+  transition: border-color var(--transition-fast);
+}
+
+.input::placeholder {
+  color: var(--color-placeholder);
+  opacity: 1;
+}
+
+.input:hover {
+  border-color: var(--color-text);
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(0 139 177 / 20%);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--color-error);
+}
+
+.select {
+  appearance: none;
+  background: var(--color-surface) url('/images/figma/icon-chevron-grey.svg') right 1rem center / 1.5rem no-repeat;
+  padding-right: 3rem;
+  color: var(--color-placeholder);
+}
+
+.select:valid {
+  color: var(--color-text);
+}
+
+.captchaBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.captchaText {
+  padding-left: 0.5rem;
+  color: var(--color-heading);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.6rem);
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  user-select: none;
+}
+
+.refresh {
+  width: clamp(1.75rem, 1.979vw, 2.375rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-icon);
+  transition: transform var(--transition-base);
+}
+
+.refresh:hover {
+  transform: rotate(-90deg);
+}
+
+/*
+ * Figma: consent text (Manrope Medium 22/39.1, #505050) cap line 51px below the fields,
+ * 28px box aligned to that cap line, text 14px after it.
+ */
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.625rem, 0.729vw, 0.875rem);
+  margin-top: calc(clamp(1.5rem, 2.656vw, 3.1875rem) - 0.55em);
+  color: var(--color-text-answer);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-body);
+}
+
+.checkbox {
+  flex: none;
+  width: clamp(1.25rem, 1.458vw, 1.75rem);
+  aspect-ratio: 1;
+  margin: 0.55em 0 0;
+  border: var(--border-width) solid rgb(0 0 0 / 45%);
+  border-radius: 3px;
+  background: var(--color-surface) center / 75% no-repeat;
+  appearance: none;
+  cursor: pointer;
+}
+
+.checkbox:checked {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z' fill='%23fff'/%3E%3C/svg%3E");
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.checkbox[aria-invalid='true'] {
+  border-color: var(--color-error);
+}
+
+.error {
+  color: var(--color-error);
+  font-size: var(--font-size-table);
+  line-height: 1.4;
+}
+
+/* Figma: 207 × 70 button, 49px below the consent text's baseline; height scales with the fields */
+.form .submit {
+  min-height: clamp(3rem, 3.646vw, 4.375rem);
+  margin-top: calc(clamp(1.5rem, 2.552vw, 3.0625rem) - var(--font-size-body) * 0.507);
+}
+
+/* Takes no space until it has a message, so the section ends at the button */
+.status {
+  margin-top: var(--space-3);
+  color: var(--color-primary-dark);
+  font-size: var(--font-size-input);
+}
+
+.status:empty {
+  margin: 0;
+}
+
+.statusError {
+  color: var(--color-error);
+}
+
+@media (max-width: 479px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

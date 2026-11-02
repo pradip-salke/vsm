@@ -1,0 +1,138 @@
+/*
+ * VS Medu design tokens, taken from the Figma style guides (Color 1:754,
+ * Typography 1:18, Buttons 1:5) and the 1920px Home / Academics frames.
+ * Fluid sizes interpolate between 375px and 1920px viewports.
+ */
+:root {
+  /* Brand colours */
+  --color-primary: #008bb1;
+  --color-primary-dark: #00779a;
+  --color-secondary: #272e6d;
+  --color-secondary-deep: #252a67;
+  --color-dark: #0a192f;
+  --color-cream: #f4f0e8;
+  --color-page: #faf9f6;
+  --color-surface: #ffffff;
+  --color-sky: #ddf8ff;
+  --color-success: #00ba00;
+  --color-error: #c62828;
+
+  /* Text */
+  --color-heading: #111111;
+  --color-text: #212121;
+  --color-text-strong: #1e1e1e;
+  --color-text-body: #4f4d4d;
+  --color-text-muted: #737373;
+  --color-text-subtle: #848484;
+  --color-text-label: #616161;
+  --color-placeholder: rgb(0 0 0 / 50%);  /* form placeholders */
+  --color-text-answer: #505050;
+  --color-text-inverse: #ffffff;
+  --color-text-inverse-muted: rgb(255 255 255 / 74%);
+  --color-icon: #1c1b1f;         /* Material icon fill (captcha refresh, FAQ toggles) */
+  --color-text-faq: #464646;
+  --color-nav-dropdown: #272727;
+  --color-navy-icon: #182364;    /* glyphs inside white social circles */
+  --color-navy-label: #333e7d;
+
+  /* Accents */
+  --color-dot: #d9d9d9;          /* separator dots */
+  --color-divider-dark: #8b8b8b; /* header logo divider */
+  --color-marquee-dot: #484848;
+  --color-faculty-bg: #f8f4e7;
+
+  /* Lines */
+  --color-border: #c9c9c9;
+  --color-border-strong: #a2a2a2;
+  --color-border-input: #808080;
+  --color-border-soft: rgb(0 0 0 / 31%);
+  --color-rule: #686868;
+  --color-border-inverse: rgb(255 255 255 / 18%);
+
+  /* Overlays */
+  --overlay-media: rgb(0 0 0 / 40%);
+  --overlay-modal: rgb(10 25 47 / 84%);
+  --surface-glass: rgb(255 255 255 / 11%);
+
+  /* Typography */
+  --font-heading: var(--font-urbanist), 'Urbanist', system-ui, sans-serif;
+  --font-body: var(--font-manrope), 'Manrope', system-ui, sans-serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Type scales in proportion to the 1920 frame (px / 1920 × 100vw) until it reaches a readable floor */
+  --font-size-display: clamp(3rem, 5.729vw, 6.875rem);      /* 110px */
+  --font-size-h1: clamp(2rem, 3.125vw, 3.75rem);            /* 60px */
+  --font-size-stat: clamp(1.875rem, 2.604vw, 3.125rem);     /* 50px */
+  --font-size-h2: clamp(1.75rem, 2.083vw, 2.5rem);          /* 40px */
+  --font-size-h3: clamp(1.375rem, 1.771vw, 2.125rem);       /* 34px */
+  --font-size-h4: clamp(1.125rem, 1.354vw, 1.625rem);       /* 26px */
+  --font-size-lead: var(--font-size-h4);                    /* 26px */
+  --font-size-body: clamp(1rem, 1.146vw, 1.375rem);         /* 22px */
+  --font-size-input: clamp(0.9375rem, 0.938vw, 1.125rem);   /* 18px */
+  --font-size-small: clamp(0.8125rem, 0.885vw, 1.0625rem);  /* 17px */
+  --font-size-table: clamp(0.8125rem, 0.833vw, 1rem);       /* 16px */
+
+  --line-height-tight: 1.1;
+  --line-height-heading: 1.2;
+  --line-height-body: 1.777;
+  --line-height-eyebrow: 1.75;
+  --letter-spacing-eyebrow: 0.09em;
+  --letter-spacing-button: 0.17em;
+
+  /* Layout */
+  --container-width: 105rem;                         /* 1680px content */
+  --page-gutter: clamp(1.25rem, 6.25vw, 7.5rem);     /* 120px at 1920 */
+  --container-max: calc(var(--container-width) + var(--page-gutter) * 2);
+  --section-spacing: clamp(2.5rem, 2.045rem + 1.942vw, 4.375rem); /* 70px */
+  --header-height: clamp(4.5rem, 3.6rem + 3.6vw, 7.625rem);        /* 122px */
+  --topbar-height: 3.5625rem;                                      /* 57px */
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: clamp(1.5rem, 1.257rem + 1.036vw, 2.5rem);   /* 40px */
+  --space-7: clamp(2rem, 1.636rem + 1.553vw, 3.5rem);     /* 56px */
+  --space-8: clamp(2.5rem, 1.894rem + 2.589vw, 5rem);     /* 80px */
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: clamp(14px, 1.1vw, 21px);
+  --radius-xl: clamp(18px, 1.6vw, 30px);
+  --radius-modal: clamp(20px, 2.1vw, 40px);
+  --radius-pill: 999px;
+
+  /* Borders, shadows */
+  --border-width: 1px;
+  --shadow-card: 0 10px 30px rgb(10 25 47 / 8%);
+  --shadow-modal: 0 24px 60px rgb(0 0 0 / 30%);
+  --focus-ring: 0 0 0 3px var(--color-surface), 0 0 0 5px var(--color-primary);
+
+  /* Motion */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 450ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Carousel defaults (overridden per section) */
+  --slide-gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+  --dots-offset: clamp(1.5rem, 1rem + 2vw, 3rem);
+
+  /* Breakpoints (reference only; CSS media queries cannot read variables) */
+  --breakpoint-sm: 430px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --z-header: 50;
+  --z-drawer: 80;
+  --z-modal: 100;
+}

@@ -1,0 +1,89 @@
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.center {
+  align-items: center;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--font-size-lead);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-eyebrow);
+  letter-spacing: var(--letter-spacing-eyebrow);
+  text-transform: uppercase;
+}
+
+.eyebrow-primary {
+  color: var(--color-primary);
+}
+
+.dark .eyebrow-plain {
+  color: var(--color-heading);
+}
+
+.light .eyebrow-plain {
+  color: var(--color-text-inverse);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-heading);
+  text-wrap: pretty;
+}
+
+.display {
+  font-size: var(--font-size-display);
+  line-height: var(--line-height-tight);
+}
+
+.h1 {
+  font-size: var(--font-size-h1);
+}
+
+.h2 {
+  font-size: var(--font-size-h2);
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.dark .title {
+  color: var(--color-heading);
+}
+
+.light .title {
+  color: var(--color-text-inverse);
+}
+
+/* Grey rule under the title (1503px of 1680 in Figma) */
+.withRule .title {
+  padding-bottom: clamp(1rem, 0.6rem + 1.5vw, 2rem);
+  border-bottom: var(--border-width) solid var(--color-rule);
+  max-width: 89.5%;
+}
+
+.description {
+  margin-top: var(--space-4);
+  color: var(--color-text-body);
+}
+
+.withRule .description {
+  margin-top: clamp(1.5rem, 1rem + 2vw, 3rem);
+}
+
+.light .description {
+  color: var(--color-text-inverse);
+}
+
+@media (max-width: 767px) {
+  .withRule .title {
+    max-width: none;
+  }
+}

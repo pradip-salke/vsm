@@ -1,0 +1,116 @@
+.list {
+  /* Distance the highlight band extends past the list's left edge */
+  --band-bleed: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
+  --badge: clamp(3.25rem, 2.6rem + 1.75vw, 4.8125rem); /* 77px */
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 0.2rem + 0.8vw, 1.875rem);
+}
+
+.item {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 0.7rem + 0.8vw, 1.3rem);
+  min-height: var(--badge);
+  color: var(--color-text-strong);
+  line-height: 1.6;
+}
+
+/* Teal band (92px tall in Figma) from the viewport edge to the end of the row */
+.item::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: calc((var(--badge) * 1.195 - 100%) / -2) var(--band-end, 0) calc((var(--badge) * 1.195 - 100%) / -2)
+    calc(-1 * var(--band-bleed));
+  background: var(--color-primary);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.item[data-active]::before,
+.item:hover::before {
+  opacity: 1;
+}
+
+.list:hover .item[data-active]:not(:hover)::before {
+  opacity: 0;
+}
+
+.badge {
+  position: relative;
+  flex: none;
+  width: var(--badge);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-secondary-deep);
+  color: var(--color-text-inverse);
+  transition:
+    background-color var(--transition-base),
+    color var(--transition-base);
+}
+
+.glyph,
+.layers {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--glyph);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+}
+
+.glyph > span {
+  position: absolute;
+  inset: 0;
+}
+
+.layer {
+  position: absolute;
+  aspect-ratio: 1;
+}
+
+.layer > span {
+  position: absolute;
+  inset: 0;
+}
+
+.text {
+  transition: color var(--transition-base);
+}
+
+.item[data-active] .badge,
+.item:hover .badge {
+  background: var(--color-surface);
+  color: var(--color-secondary-deep);
+}
+
+.item[data-active] .text,
+.item:hover .text {
+  color: var(--color-text-inverse);
+}
+
+.list:hover .item[data-active]:not(:hover) .badge {
+  background: var(--color-secondary-deep);
+  color: var(--color-text-inverse);
+}
+
+.list:hover .item[data-active]:not(:hover) .text {
+  color: var(--color-text-strong);
+}
+
+/* Admission Procedure: rows separated by full-width lines */
+.divided {
+  gap: 0;
+}
+
+.divided .item {
+  min-height: clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem); /* 118px */
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.divided .item::before {
+  inset-block: 0;
+}

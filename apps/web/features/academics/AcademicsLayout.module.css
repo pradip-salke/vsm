@@ -1,0 +1,199 @@
+.page {
+  --section-spacing: 70px;
+}
+
+@media (min-width: 1024px) {
+  .main > :global(#about-program).block {
+    padding-top: clamp(4rem, 5.2vw, 6.25rem);
+    padding-bottom: clamp(4rem, 3.99vw, 4.8125rem);
+  }
+
+  .main > :global(#program-videos).block {
+    padding-top: clamp(2.5rem, 2.604vw, 3.125rem);
+    padding-bottom: clamp(3rem, 4.875vw, 5.8125rem);
+  }
+
+  .main > :global(#gallery).block {
+    padding-top: clamp(2.5rem, 2.604vw, 3.125rem);
+    padding-bottom: clamp(3rem, 5.5vw, 6.625rem);
+  }
+
+  .main > :global(#events).block,
+  .main > :global(#curriculum).block {
+    padding-top: clamp(2.5rem, 2.604vw, 3.125rem);
+  }
+
+  .main > :global(#events).block {
+    padding-bottom: clamp(3rem, 5vw, 6rem);
+  }
+
+  .main :global(#events) h2 {
+    line-height: 0.7;
+  }
+
+  .main > :global(#events).block > section > div > div:nth-child(2) {
+    margin-top: 42px;
+  }
+}
+
+/* Match the AICTE banner copy to the original 1920px Figma frame. */
+.page > :global(section[aria-label='Introduction']) :global(nav[aria-label='Breadcrumb']) ol {
+  align-items: center;
+  height: 24px;
+  font-size: var(--font-size-body);
+  line-height: 24px;
+}
+
+.page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div {
+  margin-top: 101px;
+}
+
+.page > :global(section[aria-label='Introduction']) h1 {
+  line-height: 0.95;
+}
+
+.page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div > p {
+  margin-top: 30px;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  line-height: 39.1px;
+}
+
+.page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div > div {
+  margin-top: 22px;
+}
+
+/*
+ * Two-column body of the Academics frame: white sidebar (621px incl. the
+ * 120px gutter) and a content column whose blocks are split by full-width lines.
+ */
+.layout {
+  width: 100vw;
+  --edge: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
+  --column-inset: clamp(1.25rem, 0.5rem + 3.23vw, 4.375rem); /* 70px at 1920px */
+  display: grid;
+  grid-template-columns: calc(var(--edge) + clamp(17rem, 9rem + 20vw, 31.3125rem)) minmax(0, 1fr);
+}
+
+.sidebar {
+  padding-left: var(--edge);
+  border-right: var(--border-width) solid var(--color-border-soft);
+  background: var(--color-surface);
+}
+
+.main {
+  min-width: 0;
+}
+
+.block {
+  --bleed-right: var(--edge);
+  --column-bleed: var(--edge);
+  padding: 70px calc(var(--edge) + 0.365vw) 70px var(--column-inset);
+  border-bottom: var(--border-width) solid var(--color-border-soft);
+}
+
+.block.why {
+  --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem);
+  --column-bleed: clamp(0px, 4.375vw, 84px);
+  padding: clamp(2.5rem, 2.604vw, 3.125rem) 0 6.25rem var(--column-inset);
+}
+
+.main > .block > :global(section) {
+  padding-block: 0;
+}
+
+.block:last-child {
+  border-bottom: 0;
+}
+
+/* Clear the sticky tab strip when jumping to a section */
+.main [id] {
+  scroll-margin-top: clamp(4.5rem, 3.6rem + 2.4vw, 7rem);
+}
+
+.main h2 {
+  line-height: 0.87;
+}
+
+.main :global(#about-program) h2 {
+  line-height: 0.95;
+}
+
+.main :global(#about-program) > section > div:first-child {
+  gap: 1.25rem;
+}
+
+.main :global(#about-program) > section > div:nth-child(2) {
+  margin-top: 2.5rem;
+}
+
+/* Admission steps: rows and the highlight band span the whole column */
+.main .steps {
+  --band-bleed: 0px;
+  --band-end: 0px;
+  margin: var(--space-6) calc(-1 * var(--edge)) 0 calc(-1 * var(--column-inset));
+  border-top: var(--border-width) solid var(--color-border-soft);
+}
+
+.steps > li {
+  padding-inline: var(--column-inset) var(--edge);
+}
+
+/* Carousels run to the viewport edge inside the column */
+.bleed {
+  overflow-x: clip;
+}
+
+@media (max-width: 1023px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    padding-inline: var(--page-gutter);
+    border-right: 0;
+    border-bottom: var(--border-width) solid var(--color-border-soft);
+  }
+
+  .block {
+    --column-inset: var(--page-gutter);
+    padding: var(--section-spacing) var(--page-gutter);
+  }
+
+  .block.why {
+    --column-inset: var(--page-gutter);
+    --column-bleed: 0px;
+    padding: var(--section-spacing) var(--page-gutter);
+  }
+
+  .main h2 {
+    line-height: 1.1;
+  }
+
+  .main :global(#about-program) > section > div:first-child {
+    gap: var(--space-2);
+  }
+
+  .main :global(#about-program) > section > div:nth-child(2) {
+    margin-top: var(--space-5);
+  }
+
+  .block {
+    padding-right: var(--page-gutter);
+  }
+}
+
+@media (max-width: 767px) {
+  .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div {
+    margin-top: var(--space-5);
+  }
+
+  .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div > p {
+    margin-top: var(--space-2);
+    line-height: 1.6;
+  }
+
+  .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div > div {
+    margin-top: var(--space-5);
+  }
+}

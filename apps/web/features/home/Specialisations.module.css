@@ -1,0 +1,115 @@
+/* Dark band; 3 + 2 cell grid drawn with thin white lines */
+.section {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+  background: var(--color-dark);
+  color: var(--color-text-inverse);
+}
+
+.heading {
+  max-width: 72rem;
+}
+
+.gridWrap {
+  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
+  border-block: var(--border-width) solid var(--color-border-inverse);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-block: 0;
+  list-style: none;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  grid-column: span 2;
+  padding: clamp(1.5rem, 1rem + 1.6vw, 3rem) clamp(1.25rem, 0.8rem + 1.2vw, 2.9rem);
+  border-left: var(--border-width) solid var(--color-border-inverse);
+}
+
+.cell:nth-child(3) {
+  border-right: var(--border-width) solid var(--color-border-inverse);
+}
+
+.cell:nth-child(n + 4) {
+  grid-column: span 3;
+  border-top: var(--border-width) solid var(--color-border-inverse);
+}
+
+.cell:nth-child(5) {
+  border-right: var(--border-width) solid var(--color-border-inverse);
+}
+
+.icon {
+  width: clamp(3.25rem, 2.6rem + 1.8vw, 5.5rem);
+  height: auto;
+}
+
+.title {
+  margin-top: clamp(1.5rem, 1rem + 1.4vw, 2.6rem);
+  color: var(--color-text-inverse);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.06;
+}
+
+.description {
+  margin-top: var(--space-3);
+  max-width: 30em;
+}
+
+.link {
+  margin-top: auto;
+  padding-top: var(--space-6);
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cell,
+  .cell:nth-child(n + 4) {
+    grid-column: span 1;
+    border-right: 0;
+    border-top: var(--border-width) solid var(--color-border-inverse);
+  }
+
+  .cell:nth-child(-n + 2) {
+    border-top: 0;
+  }
+
+  .cell:nth-child(even) {
+    border-right: var(--border-width) solid var(--color-border-inverse);
+  }
+
+  .cell:last-child {
+    grid-column: 1 / -1;
+    border-right: var(--border-width) solid var(--color-border-inverse);
+  }
+}
+
+@media (max-width: 599px) {
+  .grid {
+    grid-template-columns: 1fr;
+    padding-inline: 0;
+  }
+
+  .cell,
+  .cell:nth-child(n),
+  .cell:last-child {
+    grid-column: auto;
+    border-inline: 0;
+    border-top: var(--border-width) solid var(--color-border-inverse);
+    padding-inline: var(--page-gutter);
+  }
+
+  .cell:first-child {
+    border-top: 0;
+  }
+}

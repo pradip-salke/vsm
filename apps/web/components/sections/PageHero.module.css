@@ -1,0 +1,148 @@
+.hero {
+  --hero-height: clamp(30rem, 15.2rem + 33vw, 51.25rem); /* 820px */
+  position: relative;
+  background: var(--color-page);
+}
+
+.inner {
+  --hero-height: clamp(26rem, 16.6rem + 20vw, 34.9375rem); /* 559px */
+}
+
+.carousel {
+  --slide-gap: 0px;
+}
+
+.home .carousel {
+  --hero-dots-bottom: clamp(1.5rem, 1rem + 2.13vw, 3.1875rem);
+}
+
+.slide {
+  position: relative;
+  display: grid;
+  min-height: var(--hero-height);
+  overflow: hidden;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 70% center;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: var(--space-8);
+}
+
+.home .content {
+  justify-content: flex-start;
+  padding-top: clamp(5rem, 2rem + 8.5vw, 13.25rem);
+}
+
+.inner .content {
+  justify-content: flex-start;
+  padding-top: clamp(1.25rem, 0.9rem + 1vw, 1.75rem);
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-input);
+}
+
+.breadcrumb li + li::before {
+  content: '›';
+  margin-right: 0.6em;
+  font-size: 1.2em;
+}
+
+.breadcrumb a:hover {
+  color: var(--color-primary);
+}
+
+.breadcrumb [aria-current] {
+  color: var(--color-heading);
+}
+
+.copy {
+  max-width: 52rem;
+}
+
+.inner .copy {
+  max-width: 42rem;
+  margin-top: clamp(1.5rem, 1rem + 2.4vw, 3.5rem);
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.subtitle {
+  max-width: 34em;
+  margin-top: var(--space-4);
+  color: var(--color-heading);
+  font-size: var(--font-size-lead);
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.77;
+}
+
+.inner .subtitle {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-input);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-body);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5) clamp(1.5rem, 1rem + 1.6vw, 3rem);
+  margin-top: clamp(1.75rem, 1rem + 2.6vw, 4.125rem);
+}
+
+.inner .actions {
+  margin-top: clamp(1.25rem, 1rem + 1.2vw, 2.25rem);
+}
+
+/* Below tablet the photo sits under the copy so text never overlaps faces */
+@media (max-width: 767px) {
+  .slide {
+    min-height: 0;
+    grid-template-rows: auto auto;
+  }
+
+  .image {
+    position: relative;
+    grid-row: 2;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-position: 78% center;
+  }
+
+  .content,
+  .home .content,
+  .inner .content {
+    grid-row: 1;
+    padding-block: var(--space-6) var(--space-7);
+  }
+
+  .inner .copy {
+    margin-top: var(--space-5);
+  }
+}

@@ -1,0 +1,134 @@
+.sticky {
+  position: sticky;
+  top: clamp(3.75rem, 3rem + 2.3vw, 6.4375rem);
+}
+
+.glance {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: min(100%, 364px);
+  padding: clamp(3rem, 5.208vw, 6.25rem) var(--space-5) 2.125rem 0;
+}
+
+.title {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+}
+
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 3.906vw, 4.6875rem);
+  margin-top: clamp(3.9375rem, 3.28vw, 3.9375rem);
+}
+
+.facts > div {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 1.198vw, 1.4375rem);
+}
+
+.facts dt {
+  color: var(--color-text-label);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-extrabold);
+  line-height: 36px;
+}
+
+.facts dd {
+  margin-top: 0;
+  margin-inline: 0;
+  color: var(--color-heading);
+  font-size: clamp(1.5rem, 1.77vw, 2.125rem);
+  font-weight: var(--font-weight-extrabold);
+  line-height: 36px;
+  white-space: nowrap;
+}
+
+.apply {
+  margin-top: 2.75rem;
+  width: 359px;
+  min-height: 114px;
+}
+
+/* 132px rows with full-width rules */
+.actions {
+  margin-left: calc(-1 * var(--edge, var(--page-gutter)));
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: clamp(4.5rem, 3.4rem + 3vw, 8.25rem);
+  padding-left: var(--edge, var(--page-gutter));
+  border-top: var(--border-width) solid var(--color-border-soft);
+  color: var(--color-heading);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-extrabold);
+  transition: color var(--transition-fast);
+}
+
+.actions li:last-child .action {
+  border-bottom: var(--border-width) solid var(--color-border-soft);
+}
+
+.action:hover {
+  color: var(--color-primary);
+}
+
+.brochure {
+  color: var(--color-primary);
+}
+
+.brochure span {
+  --icon-size: 1.1em;
+}
+
+.brochure:hover {
+  color: var(--color-primary-dark);
+}
+
+.mail {
+  --mail-size: 1em;
+}
+
+@media (max-width: 1023px) {
+  .sticky {
+    position: static;
+  }
+
+  .glance {
+    width: min(100%, 364px);
+    padding-right: 0;
+  }
+
+  .facts {
+    margin-top: 3rem;
+  }
+
+  .facts > div {
+    gap: 1rem;
+  }
+
+  .facts dt,
+  .facts dd {
+    line-height: 1.5;
+  }
+
+  .apply {
+    width: min(100%, 359px);
+    min-height: clamp(3.5rem, 2.6rem + 3.9vw, 7.125rem);
+  }
+
+  .actions {
+    margin-inline: calc(-1 * var(--page-gutter));
+  }
+
+  .action {
+    padding-left: var(--page-gutter);
+  }
+}

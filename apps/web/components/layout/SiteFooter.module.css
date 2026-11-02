@@ -1,0 +1,157 @@
+.footer {
+  /* Bottom padding is measured to the copyright baseline, so trim its descender space */
+  padding-block: var(--section-spacing) calc(var(--section-spacing) - var(--font-size-body) * 0.507);
+  background: var(--color-dark);
+  color: var(--color-text-inverse);
+  line-height: 1.8;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.08fr 1.05fr 1fr;
+  gap: var(--space-7) clamp(2rem, 4vw, 5rem);
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 34rem;
+}
+
+.logo {
+  width: clamp(11rem, 9rem + 8vw, 25.9375rem);
+  padding: 0.6rem 0.8rem;
+  background: var(--color-surface);
+}
+
+.logo img {
+  width: 100%;
+  height: auto;
+}
+
+.heading {
+  margin-bottom: var(--space-5);
+  color: var(--color-text-inverse);
+  font-family: var(--font-body);
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 0.3rem + 0.6vw, 1.1rem);
+}
+
+.links a,
+.contacts a,
+.bottomNav a {
+  transition: color var(--transition-fast);
+}
+
+.links a:hover,
+.contacts a:hover,
+.bottomNav a:hover {
+  color: var(--color-primary);
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.contacts li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.contacts address {
+  font-style: normal;
+}
+
+.contactIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.5rem;
+  aspect-ratio: 1;
+  border: 1.5px solid var(--color-text-inverse);
+  border-radius: 50%;
+}
+
+.contactIcon span {
+  --icon-size: 1.25rem;
+}
+
+.bottomNav,
+.copyright {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-body);
+}
+
+/* Figma rule spans x130–1785.5 of the 120–1800 container; the 41px gaps are to the link caps */
+.bottomNav {
+  --rule-gap: clamp(1.5rem, 2.135vw, 2.5625rem);
+  margin: clamp(2.5rem, 4.635vw, 5.5625rem) calc(100% * 14.5 / 1680) 0 calc(100% * 10 / 1680);
+  padding-block: calc(var(--rule-gap) - 0.55em) calc(var(--rule-gap) - 0.507em);
+  border-block: var(--border-width) solid rgb(255 255 255 / 40%);
+}
+
+.bottomNav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 0;
+}
+
+.bottomNav li {
+  display: flex;
+  align-items: center;
+}
+
+/* Dot separators between links */
+.bottomNav li + li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-inline: clamp(1rem, 1.5625vw, 1.875rem);
+  border-radius: 50%;
+  background: var(--color-dot);
+}
+
+.copyright {
+  margin-top: calc(clamp(2rem, 3.4375vw, 4.125rem) - 0.55em);
+  color: rgb(255 255 255 / 60%);
+  text-align: center;
+}
+
+/* The link row no longer fits on one line, so separators would start wrapped lines */
+@media (max-width: 1279px) {
+  .bottomNav li + li::before {
+    display: none;
+  }
+
+  .bottomNav ul {
+    gap: 0.75rem 1.5rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 599px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,61 @@
+/* Light-blue strip, 103px tall; active tab teal with a 2px underline */
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: calc(var(--z-header) - 1);
+  background: var(--color-sky);
+}
+
+.list {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 1rem + 2vw, 4.4rem);
+  min-height: clamp(3.75rem, 5.365vw, 6.4375rem);
+  margin-block: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.list li {
+  display: flex;
+  flex: none;
+}
+
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--color-heading);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-extrabold);
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 calc(50% - 1em);
+  height: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transition: transform var(--transition-base);
+}
+
+.link:hover,
+.link[aria-current] {
+  color: var(--color-primary);
+}
+
+.link[aria-current]::after {
+  transform: none;
+}
+
+.link:focus-visible {
+  outline-offset: -2px;
+}

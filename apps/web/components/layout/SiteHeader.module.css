@@ -1,0 +1,333 @@
+.header {
+  position: relative;
+  z-index: var(--z-header);
+}
+
+.mainBar {
+  background: var(--color-surface);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1rem, 2vw, 3rem);
+  min-height: var(--header-height);
+}
+
+/*
+ * Brand lockup, measured in Figma at 1920 (logo at x 110, 10px inside the gutter):
+ * VSM 266×78 → 14 → 63 years 144.65×72.33 (top +1.31) → 5.12 → divider 1×57.72 (top +10.07)
+ * → 20.18 → Harvard 111.05×69.40 (top +1.31). Everything derives from --logo-w so it scales as one unit.
+ */
+.brand {
+  --logo-w: clamp(9.5rem, 13.854vw, 16.625rem);
+  display: flex;
+  align-items: flex-start;
+  min-width: 0;
+  margin-left: calc(var(--page-gutter) / -12);
+}
+
+.logo {
+  flex: none;
+  width: var(--logo-w);
+}
+
+.logo img,
+.years,
+.harvard,
+.aicte {
+  width: 100%;
+  height: auto;
+}
+
+.years {
+  flex: none;
+  width: calc(var(--logo-w) * 144.653 / 266);
+  margin: calc(var(--logo-w) * 1.31 / 266) 0 0 calc(var(--logo-w) * 14 / 266);
+}
+
+.brandDivider {
+  flex: none;
+  width: 1px;
+  height: calc(var(--logo-w) * 57.715 / 266);
+  margin: calc(var(--logo-w) * 10.07 / 266) 0 0 calc(var(--logo-w) * 5.117 / 266);
+  background: var(--color-divider-dark);
+}
+
+.harvard {
+  flex: none;
+  width: calc(var(--logo-w) * 111.047 / 266);
+  margin: calc(var(--logo-w) * 1.31 / 266) 0 0 calc(var(--logo-w) * 20.18 / 266);
+}
+
+/* Figma: nav starts 59px after the Harvard logo (row gap + 1.074vw at 1920) */
+.nav {
+  margin-inline: 1.074vw auto;
+}
+
+/* Figma: Manrope Medium 22px items 35px apart; scales with the viewport so the row fits down to 1280 */
+.navList {
+  --nav-font: clamp(0.9375rem, 1.146vw, 1.375rem);
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.823vw, 2.1875rem);
+}
+
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navLink {
+  color: var(--color-heading);
+  font-size: var(--nav-font);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+}
+
+.navLink:hover,
+.navItem:focus-within > .navLink {
+  color: var(--color-primary);
+}
+
+.chevron {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  margin-left: calc(var(--nav-font) * 6 / 22);
+  border: 0;
+  background: none;
+  color: var(--color-heading);
+  font-size: var(--nav-font);
+}
+
+.chevron span {
+  --icon-size: 1.1em;
+  transition: transform var(--transition-base);
+}
+
+.navItem[data-open] .chevron span,
+.navItem:hover .chevron span {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: -1rem;
+  min-width: 16rem;
+  padding: 0.75rem 0;
+  border-top: 3px solid var(--color-primary);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.5rem);
+  transition:
+    opacity var(--transition-base),
+    transform var(--transition-base),
+    visibility var(--transition-base);
+}
+
+/* Hover bridge so the menu stays open while the pointer travels down */
+.navItem::after {
+  content: '';
+  position: absolute;
+  inset: 100% -1rem auto;
+  height: calc((var(--header-height) - 2rem) / 2);
+}
+
+.dropdown {
+  margin-top: calc((var(--header-height) - 2rem) / 2);
+}
+
+.navItem:hover .dropdown,
+.navItem[data-open] .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.dropdownLink {
+  display: block;
+  padding: 0.55rem 1.25rem;
+  color: var(--color-text);
+  font-size: var(--font-size-input);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.dropdownLink:hover,
+.dropdownLink:focus-visible {
+  background: var(--color-sky);
+  color: var(--color-primary);
+}
+
+/* Figma: AICTE 92px → 68px → hamburger 50.52×39.3, ending 7.5px inside the gutter */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3.542vw, 4.25rem);
+  flex: none;
+  margin-right: calc(var(--page-gutter) * 7.5 / 120);
+}
+
+/* Figma: top 12px in the 122px bar, i.e. centred 3px high */
+.aicte {
+  --aicte-w: clamp(3rem, 4.792vw, 5.75rem);
+  width: var(--aicte-w);
+  margin-bottom: calc(var(--aicte-w) * 6 / 92);
+}
+
+.menuToggle {
+  display: grid;
+  place-items: center;
+  width: clamp(2.5rem, 2.631vw, 3.1577rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-nav-dropdown);
+}
+
+.menuToggle span {
+  --icon-size: 100%;
+}
+
+/* Drawer */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-drawer);
+  background: var(--overlay-modal);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transition-base),
+    visibility var(--transition-base);
+}
+
+.backdrop[data-open] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.drawer {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: calc(var(--z-drawer) + 1);
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 28rem);
+  padding: var(--space-5);
+  overflow-y: auto;
+  background: var(--color-surface);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition:
+    transform var(--transition-slow),
+    visibility var(--transition-slow);
+}
+
+.drawer[data-open] {
+  transform: none;
+  visibility: visible;
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+}
+
+.drawerLogo {
+  width: 11rem;
+  height: auto;
+}
+
+.drawerClose {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-heading);
+}
+
+.drawerClose span {
+  --icon-size: 100%;
+}
+
+.drawerList {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawerLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 0;
+  border-bottom: var(--border-width) solid var(--color-border);
+  color: var(--color-heading);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  list-style: none;
+}
+
+.drawerLink::-webkit-details-marker {
+  display: none;
+}
+
+.drawerSecondary {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-body);
+}
+
+.drawerChevron {
+  transition: transform var(--transition-base);
+}
+
+.drawerGroup[open] .drawerChevron {
+  transform: rotate(180deg);
+}
+
+.drawerSub {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0 0.75rem 1rem;
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.drawerSub a {
+  padding: 0.45rem 0;
+  color: var(--color-text-body);
+  font-size: var(--font-size-input);
+}
+
+.drawerSub a:hover {
+  color: var(--color-primary);
+}
+
+@media (max-width: 1279px) {
+  .nav {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .years,
+  .brandDivider,
+  .harvard {
+    display: none;
+  }
+}

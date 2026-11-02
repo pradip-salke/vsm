@@ -1,0 +1,456 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EnquiryStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  SPAM
+}
+
+model AdminUser {
+  id           Int        @id @default(autoincrement())
+  email        String     @unique @db.VarChar(254)
+  name         String     @db.VarChar(160)
+  passwordHash String     @db.VarChar(255)
+  status       UserStatus @default(ACTIVE)
+  lastLoginAt  DateTime?  @db.DateTime(3)
+  createdAt    DateTime   @default(now()) @db.DateTime(3)
+  updatedAt    DateTime   @updatedAt @db.DateTime(3)
+  deletedAt    DateTime?  @db.DateTime(3)
+  userRoles    UserRole[]
+  sessions     Session[]
+  authoredPages Page[]    @relation("PageAuthor")
+  auditLogs    AuditLog[]
+  reviewedEnquiries Enquiry[] @relation("EnquiryReviewer")
+  @@map("admin_users")
+}
+
+model Role {
+  id              Int              @id @default(autoincrement())
+  code            String           @unique @db.VarChar(80)
+  name            String           @db.VarChar(120)
+  description     String?          @db.VarChar(500)
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+  @@map("roles")
+}
+
+model Permission {
+  id              Int              @id @default(autoincrement())
+  code            String           @unique @db.VarChar(100)
+  description     String?          @db.VarChar(300)
+  rolePermissions RolePermission[]
+  @@map("permissions")
+}
+
+model UserRole {
+  userId Int
+  roleId Int
+  user   AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role      @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  roleId       Int
+  permissionId Int
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model Session {
+  id        Int       @id @default(autoincrement())
+  tokenHash String    @unique @db.Char(64)
+  userId    Int
+  expiresAt DateTime  @db.DateTime(3)
+  userAgent String?   @db.VarChar(500)
+  ipAddress String?   @db.VarChar(45)
+  createdAt DateTime  @default(now()) @db.DateTime(3)
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, expiresAt])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+model Page {
+  id          Int           @id @default(autoincrement())
+  slug        String        @unique @db.VarChar(240)
+  title       String        @db.VarChar(240)
+  templateKey String        @db.VarChar(80)
+  status      ContentStatus @default(DRAFT)
+  authorId    Int
+  publishedAt DateTime?     @db.DateTime(3)
+  createdAt   DateTime      @default(now()) @db.DateTime(3)
+  updatedAt   DateTime      @updatedAt @db.DateTime(3)
+  deletedAt   DateTime?     @db.DateTime(3)
+  author      AdminUser     @relation("PageAuthor", fields: [authorId], references: [id], onDelete: Restrict)
+  sections    PageSection[]
+  seo         SeoMetadata?
+  @@index([status, publishedAt])
+  @@map("pages")
+}
+
+model PageSection {
+  id            Int      @id @default(autoincrement())
+  pageId        Int
+  sectionKey    String   @db.VarChar(100)
+  blockType     String   @db.VarChar(80)
+  schemaVersion Int      @default(1)
+  position      Int
+  content       Json
+  enabled       Boolean  @default(true)
+  page          Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  @@unique([pageId, sectionKey])
+  @@index([pageId, position])
+  @@map("page_sections")
+}
+
+model ProgrammeCategory {
+  id         Int         @id @default(autoincrement())
+  slug       String      @unique @db.VarChar(160)
+  name       String      @db.VarChar(160)
+  sortOrder  Int         @default(0)
+  programmes Programme[]
+  @@map("programme_categories")
+}
+
+model Programme {
+  id                Int                     @id @default(autoincrement())
+  slug              String                  @unique @db.VarChar(200)
+  title             String                  @db.VarChar(240)
+  code              String?                 @unique @db.VarChar(60)
+  categoryId        Int
+  durationMonths    Int?
+  academicSession   String?                 @db.VarChar(40)
+  description       String?                 @db.Text
+  eligibility       String?                 @db.Text
+  fee               Decimal?                @db.Decimal(12, 2)
+  status            ContentStatus           @default(DRAFT)
+  publishedAt       DateTime?               @db.DateTime(3)
+  createdAt         DateTime                @default(now()) @db.DateTime(3)
+  updatedAt         DateTime                @updatedAt @db.DateTime(3)
+  deletedAt         DateTime?               @db.DateTime(3)
+  category          ProgrammeCategory       @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  specialisations   ProgrammeSpecialisation[]
+  seo               SeoMetadata?
+  @@index([categoryId, status])
+  @@index([status, publishedAt])
+  @@map("programmes")
+}
+
+model Specialisation {
+  id         Int                       @id @default(autoincrement())
+  slug       String                    @unique @db.VarChar(160)
+  name       String                    @db.VarChar(160)
+  description String?                  @db.Text
+  programmes ProgrammeSpecialisation[]
+  @@map("specialisations")
+}
+
+model ProgrammeSpecialisation {
+  programmeId      Int
+  specialisationId Int
+  position         Int @default(0)
+  programme        Programme      @relation(fields: [programmeId], references: [id], onDelete: Cascade)
+  specialisation   Specialisation @relation(fields: [specialisationId], references: [id], onDelete: Restrict)
+  @@id([programmeId, specialisationId])
+  @@index([programmeId, position])
+  @@map("programme_specialisations")
+}
+
+model MediaAsset {
+  id          Int      @id @default(autoincrement())
+  storageKey  String   @unique @db.VarChar(500)
+  originalName String  @db.VarChar(255)
+  mimeType    String   @db.VarChar(120)
+  byteSize    BigInt
+  width       Int?
+  height      Int?
+  checksum    String?  @db.Char(64)
+  altText     String?  @db.VarChar(500)
+  scanStatus  String   @default("PENDING") @db.VarChar(30)
+  createdAt   DateTime @default(now()) @db.DateTime(3)
+  deletedAt   DateTime? @db.DateTime(3)
+  @@index([checksum])
+  @@index([mimeType, createdAt])
+  banners     Banner[]
+  downloads   Download[]
+  newsCovers  NewsPost[] @relation("NewsCover")
+  eventCovers Event[] @relation("EventCover")
+  blogCovers  BlogPost[] @relation("BlogCover")
+  galleryItems GalleryItem[]
+  @@map("media_assets")
+}
+
+model SeoMetadata {
+  id          Int      @id @default(autoincrement())
+  pageId      Int?     @unique
+  programmeId Int?     @unique
+  newsPostId  Int?     @unique
+  eventId     Int?     @unique
+  blogPostId  Int?     @unique
+  title       String?  @db.VarChar(255)
+  description String?  @db.VarChar(500)
+  canonicalUrl String? @db.VarChar(2048)
+  noIndex     Boolean  @default(false)
+  ogImageUrl  String?  @db.VarChar(2048)
+  page        Page?    @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  programme   Programme? @relation(fields: [programmeId], references: [id], onDelete: Cascade)
+  newsPost    NewsPost? @relation(fields: [newsPostId], references: [id], onDelete: Cascade)
+  event       Event? @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  blogPost    BlogPost? @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  @@map("seo_metadata")
+}
+
+model UrlRedirect {
+  id         Int      @id @default(autoincrement())
+  sourcePath String   @unique @db.VarChar(2048)
+  targetPath String   @db.VarChar(2048)
+  statusCode Int      @default(301)
+  active     Boolean  @default(true)
+  reason     String?  @db.VarChar(500)
+  createdAt  DateTime @default(now()) @db.DateTime(3)
+  updatedAt  DateTime @updatedAt @db.DateTime(3)
+  @@index([targetPath])
+  @@map("url_redirects")
+}
+
+model Enquiry {
+  id             Int           @id @default(autoincrement())
+  name           String        @db.VarChar(160)
+  email          String?       @db.VarChar(254)
+  phone          String        @db.VarChar(32)
+  city           String?       @db.VarChar(120)
+  message        String?       @db.VarChar(4000)
+  source         String?       @db.VarChar(120)
+  consent        Boolean       @default(false)
+  consentVersion String        @db.VarChar(40)
+  consentedAt    DateTime?     @db.DateTime(3)
+  status         EnquiryStatus @default(NEW)
+  reviewerId     Int?
+  submittedAt    DateTime      @default(now()) @db.DateTime(3)
+  retentionAt    DateTime?     @db.DateTime(3)
+  reviewer       AdminUser?    @relation("EnquiryReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  @@index([status, submittedAt])
+  @@index([email])
+  @@index([phone])
+  @@map("enquiries")
+}
+
+model UrlRoute {
+  id        Int      @id @default(autoincrement())
+  path      String   @unique @db.VarChar(2048)
+  ownerType String   @db.VarChar(80)
+  ownerId   Int
+  createdAt DateTime @default(now()) @db.DateTime(3)
+  @@index([ownerType, ownerId])
+  @@map("url_routes")
+}
+
+model Banner {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(240)
+  mediaId     Int
+  targetUrl   String?   @db.VarChar(2048)
+  altText     String?   @db.VarChar(500)
+  startsAt    DateTime? @db.DateTime(3)
+  endsAt      DateTime? @db.DateTime(3)
+  position    Int       @default(0)
+  status      ContentStatus @default(DRAFT)
+  media       MediaAsset @relation(fields: [mediaId], references: [id], onDelete: Restrict)
+  @@index([status, startsAt, endsAt])
+  @@map("banners")
+}
+
+model NewsPost {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique @db.VarChar(240)
+  title       String    @db.VarChar(240)
+  excerpt     String?   @db.VarChar(1000)
+  body        String?   @db.LongText
+  coverMediaId Int?
+  status      ContentStatus @default(DRAFT)
+  publishedAt DateTime? @db.DateTime(3)
+  createdAt   DateTime  @default(now()) @db.DateTime(3)
+  updatedAt   DateTime  @updatedAt @db.DateTime(3)
+  deletedAt   DateTime? @db.DateTime(3)
+  cover       MediaAsset? @relation("NewsCover", fields: [coverMediaId], references: [id], onDelete: SetNull)
+  seo         SeoMetadata?
+  @@index([status, publishedAt])
+  @@map("news_posts")
+}
+
+model Event {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique @db.VarChar(240)
+  title       String    @db.VarChar(240)
+  summary     String?   @db.VarChar(1000)
+  body        String?   @db.LongText
+  startsAt    DateTime? @db.DateTime(3)
+  endsAt      DateTime? @db.DateTime(3)
+  venue       String?   @db.VarChar(500)
+  coverMediaId Int?
+  status      ContentStatus @default(DRAFT)
+  publishedAt DateTime? @db.DateTime(3)
+  createdAt   DateTime  @default(now()) @db.DateTime(3)
+  updatedAt   DateTime  @updatedAt @db.DateTime(3)
+  deletedAt   DateTime? @db.DateTime(3)
+  cover       MediaAsset? @relation("EventCover", fields: [coverMediaId], references: [id], onDelete: SetNull)
+  seo         SeoMetadata?
+  @@index([status, startsAt])
+  @@map("events")
+}
+
+model BlogPost {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique @db.VarChar(240)
+  title       String    @db.VarChar(240)
+  excerpt     String?   @db.VarChar(1000)
+  body        String?   @db.LongText
+  authorName  String?   @db.VarChar(160)
+  coverMediaId Int?
+  status      ContentStatus @default(DRAFT)
+  publishedAt DateTime? @db.DateTime(3)
+  createdAt   DateTime  @default(now()) @db.DateTime(3)
+  updatedAt   DateTime  @updatedAt @db.DateTime(3)
+  deletedAt   DateTime? @db.DateTime(3)
+  cover       MediaAsset? @relation("BlogCover", fields: [coverMediaId], references: [id], onDelete: SetNull)
+  seo         SeoMetadata?
+  @@index([status, publishedAt])
+  @@map("blog_posts")
+}
+
+model GalleryAlbum {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique @db.VarChar(240)
+  title       String    @db.VarChar(240)
+  description String?   @db.Text
+  eventDate   DateTime? @db.DateTime(3)
+  status      ContentStatus @default(DRAFT)
+  position    Int       @default(0)
+  items       GalleryItem[]
+  @@index([status, position])
+  @@map("gallery_albums")
+}
+
+model GalleryItem {
+  id          Int         @id @default(autoincrement())
+  albumId     Int
+  mediaId     Int
+  caption     String?     @db.VarChar(500)
+  altOverride String?     @db.VarChar(500)
+  position    Int         @default(0)
+  album       GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  media       MediaAsset  @relation(fields: [mediaId], references: [id], onDelete: Restrict)
+  @@unique([albumId, position])
+  @@map("gallery_items")
+}
+
+model Download {
+  id             Int       @id @default(autoincrement())
+  title          String    @db.VarChar(240)
+  category       String    @db.VarChar(100)
+  academicSession String?  @db.VarChar(40)
+  mediaId        Int
+  status         ContentStatus @default(DRAFT)
+  position       Int       @default(0)
+  media          MediaAsset @relation(fields: [mediaId], references: [id], onDelete: Restrict)
+  @@index([status, category, position])
+  @@map("downloads")
+}
+
+model WebsiteSetting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique @db.VarChar(120)
+  value     Json
+  isPublic  Boolean  @default(false)
+  updatedAt DateTime @updatedAt @db.DateTime(3)
+  @@map("website_settings")
+}
+
+model Application {
+  id             Int       @id @default(autoincrement())
+  firstName      String    @db.VarChar(120)
+  middleName     String?   @db.VarChar(120)
+  lastName       String    @db.VarChar(120)
+  email          String    @db.VarChar(254)
+  phone          String    @db.VarChar(32)
+  parentPhone    String?   @db.VarChar(32)
+  dateOfBirth    DateTime? @db.Date
+  address        String?   @db.VarChar(1000)
+  city           String?   @db.VarChar(120)
+  postalCode     String?   @db.VarChar(20)
+  country        String?   @db.VarChar(100)
+  consent        Boolean
+  consentVersion String    @db.VarChar(40)
+  consentedAt    DateTime  @db.DateTime(3)
+  status         String    @default("SUBMITTED") @db.VarChar(30)
+  submittedAt    DateTime  @default(now()) @db.DateTime(3)
+  education      ApplicationEducation[]
+  examScores     ApplicationExamScore[]
+  @@index([status, submittedAt])
+  @@index([email])
+  @@index([phone])
+  @@map("applications")
+}
+
+model ApplicationEducation {
+  id            Int         @id @default(autoincrement())
+  applicationId Int
+  stage         String      @db.VarChar(30)
+  institution   String?     @db.VarChar(240)
+  board         String?     @db.VarChar(240)
+  stream        String?     @db.VarChar(160)
+  passingYear   Int?
+  resultPercent Decimal?    @db.Decimal(5, 2)
+  application  Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  @@unique([applicationId, stage])
+  @@map("application_education")
+}
+
+model ApplicationExamScore {
+  id            Int         @id @default(autoincrement())
+  applicationId Int
+  examCode      String      @db.VarChar(40)
+  score         Decimal?    @db.Decimal(10, 3)
+  rank          Int?
+  session       String?     @db.VarChar(40)
+  application  Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  @@index([applicationId])
+  @@map("application_exam_scores")
+}
+
+model AuditLog {
+  id         BigInt    @id @default(autoincrement())
+  actorId    Int?
+  action     String    @db.VarChar(120)
+  entityType String    @db.VarChar(100)
+  entityId   String?   @db.VarChar(100)
+  requestId  String?   @db.VarChar(100)
+  createdAt  DateTime  @default(now()) @db.DateTime(3)
+  actor      AdminUser? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  @@index([entityType, entityId, createdAt])
+  @@index([actorId, createdAt])
+  @@map("audit_logs")
+}

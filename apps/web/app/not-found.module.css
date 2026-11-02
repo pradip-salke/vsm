@@ -1,0 +1,12 @@
+.notFound {
+  padding-block: var(--section-spacing);
+  min-height: 50vh;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5) var(--space-7);
+  margin-top: var(--space-7);
+}

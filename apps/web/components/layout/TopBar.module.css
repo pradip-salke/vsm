@@ -1,0 +1,119 @@
+.topBar {
+  background: var(--color-secondary);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-small);
+  line-height: 1.3;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--topbar-height);
+}
+
+.contacts {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3.333vw, 4rem);
+  min-width: 0;
+}
+
+/* Figma at 1920: 44px disc at x 122, label 9px after it, value 14px after the label */
+.contact {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 0.729vw, 0.875rem);
+  min-width: 0;
+}
+
+.circle {
+  --circle: clamp(1.75rem, 2.292vw, 2.75rem);
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--circle);
+  aspect-ratio: 1;
+  margin-inline: calc(var(--page-gutter) / 60) clamp(-0.3125rem, -0.26vw, 0px);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 14%);
+}
+
+.mail {
+  --mail-size: calc(var(--circle) * 21 / 44);
+}
+
+.label {
+  font-weight: var(--font-weight-regular);
+}
+
+.value {
+  font-weight: var(--font-weight-extrabold);
+  white-space: nowrap;
+}
+
+.value:hover {
+  text-decoration: underline;
+}
+
+/* Figma: 25px rule, 16px after the first number and 17px before the second */
+.secondary {
+  position: relative;
+  padding-left: 1em;
+  margin-left: 0.12em;
+}
+
+.secondary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: var(--border-width);
+  height: calc(1em * 25 / 17);
+  background: rgb(255 255 255 / 60%);
+  transform: translateY(-50%);
+}
+
+/* Figma: 34px discs, 8px apart, 127px from the frame edge (gutter + 7) */
+.socials {
+  display: flex;
+  gap: 0.5rem;
+  margin-right: calc(var(--page-gutter) * 7 / 120);
+}
+
+.social {
+  display: grid;
+  place-items: center;
+  width: clamp(1.75rem, 1.771vw, 2.125rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-surface);
+  transition: transform var(--transition-fast);
+}
+
+.social img {
+  width: calc(var(--glyph) * 100% / 34);
+  height: auto;
+}
+
+.social:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1023px) {
+  .label {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .email,
+  .secondary {
+    display: none;
+  }
+
+  .inner {
+    min-height: 2.75rem;
+  }
+}

@@ -1,0 +1,58 @@
+/* Figma: active pill 72 × 18, inactive 18px circles at 30% opacity, 6px gap */
+.dots {
+  --dot-size: clamp(0.75rem, 0.65rem + 0.4vw, 1.125rem);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--dots-offset, 2rem);
+}
+
+.center {
+  justify-content: center;
+}
+
+.start {
+  justify-content: flex-start;
+}
+
+.dot {
+  position: relative;
+  width: var(--dot-size);
+  height: var(--dot-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--dot-color);
+  opacity: 0.3;
+  transition:
+    width var(--transition-base),
+    opacity var(--transition-base);
+}
+
+/* Enlarge the hit area without changing the visual size */
+.dot::after {
+  content: '';
+  position: absolute;
+  inset: -10px -3px;
+}
+
+.dot[aria-current='true'] {
+  width: calc(var(--dot-size) * 4);
+  opacity: 1;
+}
+
+.dot:hover {
+  opacity: 0.6;
+}
+
+.dot[aria-current='true']:hover {
+  opacity: 1;
+}
+
+.dark {
+  --dot-color: var(--color-heading);
+}
+
+.light {
+  --dot-color: var(--color-text-inverse);
+}

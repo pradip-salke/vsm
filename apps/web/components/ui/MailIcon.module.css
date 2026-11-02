@@ -1,0 +1,29 @@
+.mail {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: var(--mail-size, 1.25rem);
+  aspect-ratio: 35 / 26;
+}
+
+/* Layer heights from the exported SVG ratios (flap 14.6 / 35, body 18.5 / 35) */
+.mail .flap,
+.mail .body {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.mail .flap {
+  top: 0;
+  height: calc(100% * 14.63 / 26);
+  -webkit-mask-position: center top;
+  mask-position: center top;
+}
+
+.mail .body {
+  bottom: 0;
+  height: calc(100% * 18.51 / 26);
+  -webkit-mask-position: center bottom;
+  mask-position: center bottom;
+}

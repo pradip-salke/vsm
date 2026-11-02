@@ -1,0 +1,180 @@
+.prose {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-5);
+}
+
+.inlineLink {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.inlineLink:hover {
+  color: var(--color-primary);
+}
+
+/* Year 1+ / Year 2+ switch */
+.yearTabs {
+  display: flex;
+  gap: clamp(1.25rem, 1rem + 1vw, 2.25rem);
+  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
+}
+
+.yearTab {
+  position: relative;
+  padding: 0.4rem 0 0.6rem;
+  border: 0;
+  background: none;
+  color: var(--color-heading);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.yearTab::after {
+  content: '';
+  position: absolute;
+  inset: auto -0.4rem 0 0;
+  height: 2px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+}
+
+.yearTab[aria-selected='true'] {
+  color: var(--color-primary);
+}
+
+.yearTab[aria-selected='true']::after {
+  transform: none;
+}
+
+/* Tables: teal header with 11px top corners, white body, #c9c9c9 rules */
+.tableScroll {
+  margin-top: var(--space-5);
+  overflow-x: auto;
+  border-radius: 11px;
+}
+
+.tableScroll:focus-visible {
+  outline-offset: 4px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  color: var(--color-heading);
+  font-size: var(--font-size-table);
+  line-height: 1.5;
+}
+
+.table thead th,
+.table thead td {
+  padding: 0.85em 1.4em;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-size: var(--font-size-input);
+  font-weight: var(--font-weight-extrabold);
+  text-align: left;
+}
+
+.table thead :is(th, td) + :is(th, td) {
+  border-left: var(--border-width) solid rgb(255 255 255 / 45%);
+}
+
+.table tbody :is(th, td) {
+  padding: 1.25em 1.4em;
+  border-top: var(--border-width) solid var(--color-border);
+  vertical-align: top;
+  text-align: left;
+}
+
+.table tbody :is(th, td) + :is(th, td) {
+  border-left: var(--border-width) solid var(--color-border);
+}
+
+.table tbody th {
+  font-size: var(--font-size-input);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.curriculumTable {
+  min-width: 46rem;
+}
+
+.curriculumTable thead th:first-of-type {
+  text-align: center;
+}
+
+.curriculumTable tbody tr > :first-child {
+  width: 17%;
+}
+
+.courseList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+}
+
+.totalRow td {
+  font-weight: var(--font-weight-extrabold);
+  text-align: center !important;
+}
+
+.feeTable {
+  min-width: 30rem;
+  font-weight: var(--font-weight-extrabold);
+}
+
+.feeTable :is(th, td):first-child {
+  width: 43.5%;
+}
+
+.table.feeTable :is(th, td) {
+  padding-left: 10.5%;
+}
+
+/* Fee rows are 94px tall in Figma */
+.table.feeTable tbody :is(th, td) {
+  padding-block: clamp(1rem, 0.5rem + 1.3vw, 2.25rem);
+}
+
+.feeTable tbody th {
+  font-size: var(--font-size-table);
+}
+
+.note {
+  margin-top: var(--space-5);
+  color: var(--color-text-body);
+  font-weight: var(--font-weight-extrabold);
+}
+
+/* Eligibility: dark box, two columns with the graduate cap icon */
+.eligibility {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6) clamp(1.5rem, 1rem + 3vw, 8rem);
+  margin-top: var(--space-6);
+  padding: clamp(1.5rem, 1rem + 1.4vw, 2.8rem) clamp(1.25rem, 0.8rem + 1.4vw, 2.75rem);
+  border-radius: var(--radius-xs);
+  background: var(--color-dark);
+  color: var(--color-text-inverse);
+}
+
+.eligibility li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.graduate {
+  --icon-size: clamp(2.5rem, 2rem + 1.4vw, 4.25rem);
+  color: var(--color-text-inverse);
+}
+
+@media (max-width: 767px) {
+  .eligibility {
+    grid-template-columns: 1fr;
+  }
+}

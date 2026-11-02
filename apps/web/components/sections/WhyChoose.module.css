@@ -1,0 +1,113 @@
+.page {
+  overflow-x: clip;
+  padding-block: var(--section-spacing);
+}
+
+.body {
+  --column-gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
+  align-items: start;
+  gap: var(--space-6) var(--column-gap);
+  margin-top: var(--space-7);
+}
+
+.list {
+  --band-end: calc(-1 * var(--column-gap));
+  padding-top: clamp(0.5rem, 0.3rem + 0.6vw, 1.1rem);
+}
+
+/*
+ * Home, Figma at 1920: list column 120–948, image 868 × 715 from 948 (16px past the container),
+ * and the active band runs 86px under the image's rounded left edge.
+ */
+.page .body {
+  grid-template-columns: minmax(0, 828fr) minmax(0, 868fr);
+  column-gap: 0;
+  margin-right: calc(-100% * 16 / 1680);
+}
+
+/* Figma: 77px badges on a 107px pitch, first badge 25px below the image top */
+.page .list {
+  --band-end: calc(-100% * 86 / 828);
+  --badge: clamp(3.25rem, 4.01vw, 4.8125rem);
+  gap: clamp(0.5rem, 1.5625vw, 1.875rem);
+  padding-top: calc(100% * 25 / 828);
+}
+
+.page .media {
+  position: relative;
+  z-index: 1;
+}
+
+.media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 868 / 715;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+}
+
+/* Academics column: image (488 × 606) is cut off by the right viewport edge, ~405px visible */
+.column .body {
+  width: calc(100% + clamp(0px, 4.375vw, 84px));
+  grid-template-columns: minmax(0, 1.609fr) minmax(10rem, 1fr);
+  column-gap: clamp(1rem, 3.49vw, 4.1875rem);
+  margin-top: 35px;
+}
+
+.column .list {
+  --band-bleed: var(--column-inset, var(--page-gutter));
+  --badge: clamp(3.25rem, 4.01vw, 4.8125rem);
+  gap: clamp(0.5rem, 1.5625vw, 1.875rem);
+  padding-top: 11px;
+}
+
+.column .media {
+  margin-right: 0;
+}
+
+.column .media img {
+  aspect-ratio: 488 / 606;
+  object-position: left center;
+  border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+}
+
+@media (max-width: 1023px) {
+  .body,
+  .column .body {
+    grid-template-columns: 1fr;
+    width: 100%;
+    column-gap: 0;
+    margin-top: var(--space-6);
+  }
+
+  .page .body {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-6);
+    margin-right: 0;
+  }
+
+  .list,
+  .page .list {
+    --band-end: calc(-1 * var(--page-gutter));
+  }
+
+  .page .list {
+    padding-top: clamp(0.5rem, 0.3rem + 0.6vw, 1.1rem);
+  }
+
+  .media img,
+  .column .media img {
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-xl);
+  }
+
+  .column .media {
+    margin-right: 0;
+  }
+
+  .column .list {
+    padding-top: clamp(0.5rem, 0.3rem + 0.6vw, 1.1rem);
+  }
+}

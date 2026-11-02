@@ -1,0 +1,182 @@
+.page {
+  padding-block: var(--section-spacing);
+  background: var(--color-dark);
+}
+
+.carousel {
+  --slide-width: calc((100% - var(--slide-gap) * 3) / 4);
+  margin-top: var(--space-6);
+}
+
+.column .carousel {
+  --slide-width: calc((100% - var(--slide-gap) * 2) / 3);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.photo {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--color-faculty-bg);
+}
+
+.photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 406 / 413;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform var(--transition-slow);
+}
+
+.card:hover .photo img,
+.card:focus-visible .photo img {
+  transform: scale(1.04);
+}
+
+.name {
+  margin-top: var(--space-5);
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.role {
+  margin-top: var(--space-1);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-input);
+  line-height: 1.5;
+}
+
+.page .name {
+  color: var(--color-text-inverse);
+}
+
+.column .name {
+  color: var(--color-heading);
+  font-size: var(--font-size-input);
+}
+
+.column .role {
+  color: var(--color-text-body);
+  font-size: var(--font-size-table);
+}
+
+/* Profile modal (Figma "Profile expand"): 1268 × 541 white card, 40px radius */
+.dialog {
+  width: min(100% - 2 * var(--page-gutter), 79.25rem);
+  max-width: none;
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-modal);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-modal);
+  overflow: auto;
+}
+
+.dialog::backdrop {
+  background: var(--overlay-modal);
+}
+
+.modalCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 20.3rem) minmax(0, 1fr);
+  gap: clamp(1.5rem, 1rem + 2vw, 2.6rem);
+  padding: clamp(1.25rem, 0.8rem + 2vw, 2.25rem);
+}
+
+.close {
+  position: absolute;
+  top: clamp(1rem, 0.6rem + 1.4vw, 2rem);
+  right: clamp(1rem, 0.6rem + 1.4vw, 2rem);
+  width: clamp(2.5rem, 2.1rem + 1vw, 3.375rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: var(--color-surface);
+  color: var(--color-heading);
+  border-radius: 50%;
+}
+
+.modalPhoto {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 325 / 470;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 15px;
+}
+
+.modalBody {
+  padding-top: var(--space-4);
+  padding-right: clamp(3rem, 2rem + 3vw, 5rem);
+}
+
+.modalName {
+  color: var(--color-heading);
+  font-family: var(--font-body);
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-extrabold);
+  text-transform: uppercase;
+}
+
+.modalRole {
+  margin-top: var(--space-1);
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-input);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-5);
+  color: rgb(98 98 98 / 80%);
+  font-size: var(--font-size-input);
+  line-height: 1.7;
+}
+
+.details dt,
+.details dd {
+  display: inline;
+}
+
+@media (max-width: 1279px) {
+  .carousel {
+    --slide-width: calc((100% - var(--slide-gap) * 2) / 2.6);
+  }
+
+  .column .carousel {
+    --slide-width: calc((100% - var(--slide-gap)) / 2.2);
+  }
+}
+
+@media (max-width: 767px) {
+  .carousel,
+  .column .carousel {
+    --slide-width: 78%;
+  }
+
+  .modalCard {
+    grid-template-columns: 1fr;
+  }
+
+  .modalPhoto {
+    width: min(60%, 14rem);
+  }
+
+  .modalBody {
+    padding-right: 0;
+  }
+}

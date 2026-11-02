@@ -1,0 +1,121 @@
+/* Consumers override --slide-width / --slide-gap / --dots-offset; defaults live in tokens.css */
+.carousel {
+  position: relative;
+  min-width: 0;
+}
+
+.navigation {
+  position: absolute;
+  z-index: 1;
+  inset: 50% 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 1rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.navigation button {
+  display: grid;
+  place-items: center;
+  width: clamp(3rem, 3.75vw, 4.5rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1.5px solid #111;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.navigation button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.previousIcon,
+.nextIcon {
+  --icon-size: 0.75rem;
+  width: 0.46rem;
+}
+
+.previousIcon { transform: rotate(90deg); }
+.nextIcon { transform: rotate(-90deg); }
+
+.track {
+  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--slide-width, 100%);
+  gap: var(--slide-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.track:focus-visible {
+  outline-offset: 6px;
+}
+
+.controls {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: var(--dots-offset, 2rem);
+}
+
+.controlsStart {
+  justify-content: flex-start;
+}
+
+.controlsCentered {
+  justify-content: center;
+}
+
+.controls > :global([role='group']) {
+  margin-top: 0;
+}
+
+.slide {
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.centered {
+  padding-inline: calc((100% - var(--slide-width, 100%)) / 2);
+}
+
+.centered .slide {
+  scroll-snap-align: center;
+}
+
+/* Extend the track to the viewport's right edge while slides stay aligned to the container */
+.overlay {
+  position: relative;
+  --dots-offset: 0;
+}
+
+.overlay > .controls {
+  position: absolute;
+  inset: auto 0 var(--hero-dots-bottom, clamp(1rem, 0.5rem + 2vw, 2.4rem));
+  margin-top: 0;
+}
+
+.bleed {
+  --bleed-right: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
+}
+
+.bleed .track {
+  margin-right: calc(-1 * var(--bleed-right));
+  padding-right: var(--bleed-right);
+  scroll-padding-right: var(--bleed-right);
+}

@@ -1,0 +1,21 @@
+{
+  "name": "vs-medu-platform",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build --workspace=@vsmedu/contracts && npm run build --workspace=@vsmedu/api && npm run build --workspace=@vsmedu/web && npm run build --workspace=@vsmedu/admin",
+    "test": "npm run test --workspace=@vsmedu/api",
+    "db:generate": "prisma generate",
+    "db:validate": "prisma validate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:seed": "prisma db seed"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": { "dotenv": "^16.6.1" }
+}
