@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/components/navigation/Link';
 import { Carousel } from '@/components/ui/Carousel';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';

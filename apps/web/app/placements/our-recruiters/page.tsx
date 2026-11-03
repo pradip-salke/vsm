@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { PlacementPageShell, PlacementSection } from '../PlacementPageShell';
 import styles from '../PlacementPage.module.css';
 import { placementIntro, recruiterAssets } from '@/content/placements';
@@ -17,7 +18,7 @@ export default function RecruitersPage() {
         <div className={styles.logoGrid}>
           {recruiterAssets.map((company) => (
             <figure className={styles.logoCard} key={company.alt}>
-              <img src={company.src} alt={company.alt} loading="lazy" />
+              <Image src={company.src} alt={company.alt} width={240} height={120} sizes="(max-width: 767px) 42vw, (max-width: 1199px) 22vw, 16vw" />
             </figure>
           ))}
         </div>

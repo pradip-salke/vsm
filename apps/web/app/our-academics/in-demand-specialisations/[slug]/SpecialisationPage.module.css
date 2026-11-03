@@ -11,7 +11,7 @@
   padding: clamp(3rem, 5.208vw, 6.25rem) var(--space-5) 2.125rem 0;
 }
 
-.summary h2 { font-size: var(--font-size-h2); font-weight: var(--font-weight-medium); line-height: 1; }
+.summary h2 { font-size: var(--font-size-h2); font-weight: var(--font-weight-medium); line-height: var(--line-height-heading); }
 .summary dl { display: flex; flex-direction: column; gap: clamp(2.5rem, 3.906vw, 4.6875rem); width: calc(100% + var(--space-5)); margin: clamp(3rem, 3.28vw, 3.9375rem) 0 0; }
 .summary dl > div { display: flex; flex-direction: column; gap: clamp(1rem, 1.198vw, 1.4375rem); }
 .summary dt { color: var(--color-text-label); font-size: var(--font-size-body); font-weight: var(--font-weight-extrabold); line-height: 36px; }

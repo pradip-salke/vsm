@@ -111,8 +111,8 @@ export const aboutLinks: NavLink[] = [
 ];
 
 export const careerAndBlogLinks: NavLink[] = [
-  { label: 'Career', href: 'https://vsmedu.com/career/' },
-  { label: 'Blogs', href: 'https://vsmedu.com/blogs/' },
+  { label: 'Career', href: '/career/' },
+  { label: 'Blogs', href: '/blogs/' },
 ];
 
 export const footer = {

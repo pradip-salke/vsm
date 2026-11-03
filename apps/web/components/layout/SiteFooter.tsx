@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/components/navigation/Link';
 import { aboutLinks, careerAndBlogLinks, contact, footer, specialisationLinks } from '@/content/site';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
@@ -13,7 +13,7 @@ export function SiteFooter() {
         <div className={styles.grid}>
           <div className={styles.about}>
             <Link href="/" className={styles.logo} aria-label="Valia School of Management home">
-              <Image src="/images/brand/vsm-logo.svg" alt="Valia School of Management" width={266} height={78} />
+              <Image src="/images/brand/vsm-logo.svg" alt="Valia School of Management" width={266} height={78} sizes="266px" />
             </Link>
             <p>{footer.about}</p>
           </div>
@@ -38,7 +38,7 @@ export function SiteFooter() {
             <ul className={styles.links} role="list">
               {[...aboutLinks, ...careerAndBlogLinks].map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link href={link.href} target={link.href.endsWith('.pdf') ? '_blank' : undefined} rel={link.href.endsWith('.pdf') ? 'noopener noreferrer' : undefined}>{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -73,7 +73,7 @@ export function SiteFooter() {
           <ul role="list">
             {footer.bottomLinks.map((link) => (
               <li key={link.label}>
-                <a href={link.href}>{link.label}</a>
+                <Link href={link.href}>{link.label}</Link>
               </li>
             ))}
           </ul>

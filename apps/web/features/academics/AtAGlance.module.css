@@ -14,7 +14,7 @@
 .title {
   font-size: var(--font-size-h2);
   font-weight: var(--font-weight-medium);
-  line-height: 1;
+  line-height: var(--line-height-heading);
 }
 
 .facts {

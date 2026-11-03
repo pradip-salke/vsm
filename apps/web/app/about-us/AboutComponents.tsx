@@ -6,10 +6,10 @@ export function AboutCopy({ paragraphs }: { paragraphs: string[] }) {
   return <div className={styles.copy}>{paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>;
 }
 
-export function ProfileGrid({ profiles, compact = false }: { profiles: AboutProfile[]; compact?: boolean }) {
-  return <div className={compact ? styles.pastYears : styles.profileGrid}>
-    {profiles.map((profile) => <article className={styles.profile} key={profile.name}>
-      {profile.image && <Image src={`/images/about/${profile.image}`} alt={profile.name} width={600} height={750} />}
+export function ProfileGrid({ profiles, compact = false, advisory = false, uniformImage = false }: { profiles: AboutProfile[]; compact?: boolean; advisory?: boolean; uniformImage?: boolean }) {
+  return <div className={`${compact ? styles.pastYears : styles.profileGrid}${advisory ? ` ${styles.advisoryGrid}` : ''}${uniformImage ? ` ${styles.uniformImageGrid}` : ''}`}>
+    {profiles.map((profile) => <article className={`${styles.profile}${advisory ? ` ${styles.advisoryProfile}` : ''}`} key={profile.name}>
+      {profile.image && <Image src={`/images/about/${profile.image}`} alt={profile.name} width={600} height={750} sizes="(max-width: 650px) min(100vw, 18rem), (max-width: 900px) 8rem, 10rem" />}
       <div className={styles.profileCopy}>
         <h3>{profile.name}</h3>
         {profile.role && <p className={styles.profileRole}>{profile.role}</p>}
@@ -21,7 +21,7 @@ export function ProfileGrid({ profiles, compact = false }: { profiles: AboutProf
 
 export function MessageBlock({ name, role, image, paragraphs }: { name?: string; role?: string; image: string; paragraphs?: string[] }) {
   return <article className={styles.message}>
-    <Image src={`/images/about/${image}`} alt={name ?? ''} width={600} height={750} />
+    <Image src={`/images/about/${image}`} alt={name ?? ''} width={600} height={750} sizes="(max-width: 650px) min(100vw, 18rem), 15rem" />
     <div>
       {name && <h3>{name}</h3>}
       {role && <p className={styles.messageRole}>{role}</p>}

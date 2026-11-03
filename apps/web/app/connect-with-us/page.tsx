@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { EnquirySection } from '@/components/sections/EnquirySection';
 import { PlacementPageShell, PlacementSection } from '../placements/PlacementPageShell';
 
 export const metadata: Metadata = {
@@ -16,7 +15,6 @@ export default function ConnectWithUsPage() {
         <p><strong>Email address:</strong> <a href="mailto:info@vsmedu.in">info@vsmedu.in</a> · <a href="mailto:placement@vsmedu.in">placement@vsmedu.in</a></p>
         <p><strong>Contact number:</strong> <a href="tel:+917304343478">+91 73043 43478</a> · <a href="tel:+917304343460">+91 73043 43460</a></p>
       </PlacementSection>
-      <EnquirySection />
     </PlacementPageShell>
   );
 }

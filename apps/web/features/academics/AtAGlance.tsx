@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/Button';
+import { Link } from '@/components/navigation/Link';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
 import { MailIcon } from '@/components/ui/MailIcon';
@@ -33,10 +34,10 @@ export function AtAGlance() {
           </a>
         </li>
         <li>
-          <a href="/contact-us/" className={styles.action}>
+          <Link href="/contact-us/" className={styles.action}>
             Contact Us
             <MailIcon variant="dark" className={styles.mail} />
-          </a>
+          </Link>
         </li>
       </ul>
     </div>

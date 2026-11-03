@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { PageHero } from '@/components/sections/PageHero';
-import { EnquirySection } from '@/components/sections/EnquirySection';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { IconList } from '@/components/sections/IconList';
 import { academicSpecialisations, specialisationHero, specialisationTabs } from '@/content/academic-specialisations';
@@ -96,7 +95,6 @@ export default async function SpecialisationPage({ params }: Props) {
           </section>
         </main>
       </div>
-      <EnquirySection />
     </div>
   );
 }

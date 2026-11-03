@@ -12,8 +12,8 @@ export default function AboutVsmPage() {
     <AboutSection><AboutCopy paragraphs={aboutVsm.paragraphs} /></AboutSection>
     <AboutSection title="Our Vision & Mission">
       <div className={styles.visionMission}>
-        <article className={styles.visionCard}><Image src="/images/about/vision.png" alt="" width={100} height={100} /><div><h3>Our Vision</h3><p>{aboutVsm.vision}</p></div></article>
-        <article className={styles.visionCard}><Image src="/images/about/mission.png" alt="" width={100} height={100} /><div><h3>Our Mission</h3><p>{aboutVsm.mission}</p></div></article>
+        <article className={styles.visionCard}><Image src="/images/about/vision.png" alt="" width={100} height={100} sizes="100px" /><div><h3>Our Vision</h3><p>{aboutVsm.vision}</p></div></article>
+        <article className={styles.visionCard}><Image src="/images/about/mission.png" alt="" width={100} height={100} sizes="100px" /><div><h3>Our Mission</h3><p>{aboutVsm.mission}</p></div></article>
       </div>
     </AboutSection>
   </AboutPageShell>;

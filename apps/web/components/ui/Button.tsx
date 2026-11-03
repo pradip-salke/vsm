@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/components/navigation/Link';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import { Icon } from './Icon';
 import { icons } from './icons';

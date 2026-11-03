@@ -28,7 +28,7 @@
   }
 
   .main :global(#events) h2 {
-    line-height: 0.7;
+    line-height: var(--line-height-heading);
   }
 
   .main > :global(#events).block > section > div > div:nth-child(2) {
@@ -49,7 +49,7 @@
 }
 
 .page > :global(section[aria-label='Introduction']) h1 {
-  line-height: 0.95;
+  line-height: var(--line-height-heading);
 }
 
 .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div > p {
@@ -112,11 +112,11 @@
 }
 
 .main h2 {
-  line-height: 0.87;
+  line-height: var(--line-height-heading);
 }
 
 .main :global(#about-program) h2 {
-  line-height: 0.95;
+  line-height: var(--line-height-heading);
 }
 
 .main :global(#about-program) > section > div:first-child {
@@ -167,7 +167,7 @@
   }
 
   .main h2 {
-    line-height: 1.1;
+    line-height: var(--line-height-heading);
   }
 
   .main :global(#about-program) > section > div:first-child {

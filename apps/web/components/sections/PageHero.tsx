@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/components/navigation/Link';
 import { Fragment } from 'react';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
@@ -72,7 +72,7 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home' }: PageHer
   return (
     <section className={`${styles.hero} ${styles[size]}`} aria-label="Introduction">
       {rendered.length > 1 ? (
-        <Carousel label="Highlights" slides={rendered} dotsPlacement="overlay" autoplayMs={6000} className={styles.carousel} />
+        <Carousel label="Highlights" slides={rendered} dotsPlacement="overlay" dotsTone="light" autoplayMs={6000} className={styles.carousel} />
       ) : (
         <>
           {rendered[0]}

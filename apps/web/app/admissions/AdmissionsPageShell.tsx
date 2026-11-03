@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Link } from '@/components/navigation/Link';
 import { Button } from '@/components/ui/Button';
 import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';
@@ -24,7 +25,7 @@ export function AdmissionsPageShell({ title, subtitle, active, children }: {
       <Button variant="arrow" href="mailto:admissions@vsmedu.in">Enquire now</Button>
     </>} />
     <nav className={styles.nav} aria-label="Admissions pages"><ul className={`container ${styles.navList}`} role="list">
-      {admissionPages.map((page) => <li key={page.href}><a href={page.href} aria-current={page.label === active ? 'page' : undefined}>{page.label}</a></li>)}
+      {admissionPages.map((page) => <li key={page.href}><Link href={page.href} aria-current={page.label === active ? 'page' : undefined}>{page.label}</Link></li>)}
     </ul></nav>
     <div className={styles.content}>{children}</div>
   </>;

@@ -111,7 +111,7 @@
 }
 
 .navItem[data-open] .chevron span,
-.navItem:hover .chevron span {
+.navItem:not([data-dismissed]):hover .chevron span {
   transform: rotate(180deg);
 }
 
@@ -146,7 +146,7 @@
   margin-top: calc((var(--header-height) - 2rem) / 2);
 }
 
-.navItem:hover .dropdown,
+.navItem:not([data-dismissed]):hover .dropdown,
 .navItem[data-open] .dropdown {
   opacity: 1;
   visibility: visible;

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Manrope, Urbanist } from 'next/font/google';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
+import { EnquirySection } from '@/components/sections/EnquirySection';
 import './globals.css';
 
 const urbanist = Urbanist({ subsets: ['latin'], weight: ['500', '800'], variable: '--font-urbanist', display: 'swap' });
@@ -16,13 +17,16 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1, them
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${urbanist.variable} ${manrope.variable}`}>
+    <html lang="en" className={`${urbanist.variable} ${manrope.variable}`} data-scroll-behavior="smooth">
       <body>
         <a className="skip-link" href="#main">
           Skip to content
         </a>
         <SiteHeader />
-        <main id="main">{children}</main>
+        <main id="main">
+          {children}
+          <EnquirySection />
+        </main>
         <SiteFooter />
       </body>
     </html>

@@ -44,6 +44,7 @@ export function TopBar() {
                     alt=""
                     width={glyph.size}
                     height={glyph.size}
+                    sizes={`${glyph.size}px`}
                     style={{ '--glyph': glyph.size } as CSSProperties}
                   />
                 </a>

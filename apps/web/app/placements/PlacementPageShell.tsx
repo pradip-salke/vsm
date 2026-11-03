@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
-import Link from 'next/link';
+import { Link } from '@/components/navigation/Link';
 import { Button } from '@/components/ui/Button';
 import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';
 import { APPLY_PATH } from '@/content/site';
+import { placementBatches } from '@/content/placements';
 import styles from './PlacementPage.module.css';
 
 export const placementPages = [
@@ -36,6 +37,15 @@ export function PlacementPageShell({ title, active, children }: { title: string;
           ))}
         </ul>
       </nav>
+      {active === 'Placement Records' && (
+        <nav className={`container ${styles.batchNav}`} aria-label="Placement batch records">
+          {placementBatches.map((batch) => (
+            <Link href={batch.href} aria-current={title.includes(batch.label.slice(5, 12)) ? 'page' : undefined} key={batch.href}>
+              {batch.label}
+            </Link>
+          ))}
+        </nav>
+      )}
       <div className={styles.main}>{children}</div>
     </>
   );

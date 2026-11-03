@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Link } from '@/components/navigation/Link';
 import { PlacementPageShell, PlacementSection } from './PlacementPageShell';
 import styles from './PlacementPage.module.css';
 import { batch2022Highlights, placementIntro } from '@/content/placements';

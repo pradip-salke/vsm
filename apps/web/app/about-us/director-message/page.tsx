@@ -8,10 +8,10 @@ import styles from '../about.module.css';
 export const metadata: Metadata = { title: "Director's Message", description: 'A message from Dr. Sandeep Sawant, Director of Valia School of Management.', alternates: { canonical: '/about-us/director-message/' } };
 
 export default function DirectorMessagePage() {
-  return <AboutPageShell title="Director's Message" active="Director Message">
+  return <AboutPageShell title="Director's Message" active="Director Message" viewportContent>
     <AboutSection title="Message From Director">
       <div className={styles.message}>
-        <Image src="/images/about/director-sandeep.jpg" alt="Dr. Sandeep Sawant, Director of Valia School of Management" width={600} height={750} />
+        <Image src="/images/about/director-sandeep.jpg" alt="Dr. Sandeep Sawant, Director of Valia School of Management" width={600} height={750} sizes="(max-width: 650px) min(100vw, 18rem), 15rem" />
         <div className={styles.copy}>
           <p className={styles.profileRole}>{message.greeting}</p>
           {message.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}

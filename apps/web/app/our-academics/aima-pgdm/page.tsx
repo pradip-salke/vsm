@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import Image from 'next/image';
+import { Link } from '@/components/navigation/Link';
 import { Button } from '@/components/ui/Button';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { EnquirySection } from '@/components/sections/EnquirySection';
 import { IconList } from '@/components/sections/IconList';
 import { PageHero } from '@/components/sections/PageHero';
 import { admissionSteps } from '@/content/academics';
@@ -126,13 +126,13 @@ export default function AimaPgdmPage() {
             <IconList items={aimaExitAwardItems} className={styles.iconList} />
             <div className={styles.certificate}>
               <h3>PGDM Certificate</h3>
-              <img
+              <Image
                 className={styles.certificateImage}
                 src="https://vsmedu.com/wp-content/uploads/2024/01/pgdm_certificate.jpg"
                 alt="AIMA PGDM Certificate"
                 width={1452}
                 height={1820}
-                loading="lazy"
+                sizes="(max-width: 767px) 45vw, 160px"
               />
               <Button href={APPLY_PATH}>Apply Now</Button>
             </div>
@@ -144,7 +144,6 @@ export default function AimaPgdmPage() {
           </section>
         </div>
       </div>
-      <EnquirySection />
     </div>
   );
 }

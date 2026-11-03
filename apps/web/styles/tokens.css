@@ -76,8 +76,8 @@
   --font-size-small: clamp(0.8125rem, 0.885vw, 1.0625rem);  /* 17px */
   --font-size-table: clamp(0.8125rem, 0.833vw, 1rem);       /* 16px */
 
-  --line-height-tight: 1.1;
-  --line-height-heading: 1.2;
+  --line-height-tight: 1.2;
+  --line-height-heading: 1.3;
   --line-height-body: 1.777;
   --line-height-eyebrow: 1.75;
   --letter-spacing-eyebrow: 0.09em;

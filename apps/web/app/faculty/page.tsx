@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/sections/PageHero';
-import { EnquirySection } from '@/components/sections/EnquirySection';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { academicsHero } from '@/content/academics';
 import { facultyDirectory } from '@/content/faculty-directory';
@@ -66,7 +65,6 @@ export default function FacultyPage() {
           </section>
         </main>
       </div>
-      <EnquirySection />
     </div>
   );
 }

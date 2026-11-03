@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/Button';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { EnquirySection } from '@/components/sections/EnquirySection';
 import { FacultySection } from '@/components/sections/FacultySection';
 import { FaqSection } from '@/components/sections/FaqSection';
 import { IconList } from '@/components/sections/IconList';
@@ -99,7 +98,6 @@ export default function AictePgdmPage() {
       <Internships />
       <Testimonials />
       <FaqSection />
-      <EnquirySection />
     </div>
   );
 }

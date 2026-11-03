@@ -43,6 +43,7 @@
 .logoCard { display: grid; place-items: center; min-height: 7rem; padding: 1rem; border: 1px solid var(--color-border-soft); border-radius: var(--radius-sm); background: var(--color-surface); }
 .logoCard img { display: block; width: 100%; max-width: 11rem; max-height: 4.25rem; object-fit: contain; }
 .recordGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.recordCarousel { --slide-gap: 1rem; --slide-width: calc((100% - 2rem) / 3); --dots-offset: var(--space-5); }
 .recordLink { display: block; overflow: hidden; border: 1px solid var(--color-border-soft); border-radius: var(--radius-sm); background: var(--color-surface); }
 .recordLink img { display: block; width: 100%; height: auto; }
 .recordFallback { display: grid; min-height: 12rem; place-items: center; padding: 1rem; color: var(--color-text-answer); text-align: center; }
@@ -64,6 +65,7 @@
 @media (max-width: 900px) {
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .logoGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .recordCarousel { --slide-width: calc((100% - 1rem) / 2); }
 }
 
 @media (max-width: 599px) {
@@ -71,4 +73,5 @@
   .cards, .stats, .alumniGrid { grid-template-columns: 1fr; }
   .logoGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .recordGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .recordCarousel { --slide-width: 100%; }
 }

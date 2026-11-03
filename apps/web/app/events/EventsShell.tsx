@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import Link from 'next/link';
+import { Link } from '@/components/navigation/Link';
 import { Button } from '@/components/ui/Button';
 import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';

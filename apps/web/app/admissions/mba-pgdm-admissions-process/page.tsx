@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/Button';
 import { AdmissionsPageShell, AdmissionSection } from '../AdmissionsPageShell';
-import { EnquiryForm } from '@/components/sections/EnquiryForm';
 import { APPLY_PATH } from '@/content/site';
 import styles from '../Admissions.module.css';
 
@@ -35,7 +34,6 @@ export default function AdmissionsProcessPage() {
     </AdmissionSection>
     <AdmissionSection title="Begin Your Management Journey – Apply Now">
       <p className={styles.lead}>Take the first step toward your management career. Complete the application form to get started.</p>
-      <EnquiryForm />
       <div className={styles.actions}><Button href={APPLY_PATH}>Complete Application Form</Button><Button variant="arrow" href="mailto:admissions@vsmedu.in">Contact Admissions</Button></div>
     </AdmissionSection>
   </AdmissionsPageShell>;

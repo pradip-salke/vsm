@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { memo, useEffect, useRef, useState, type CSSProperties } from 'react';
 import Image from 'next/image';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { recruiters } from '@/content/shared';
@@ -9,7 +9,7 @@ import styles from './Recruiters.module.css';
 /** Each group repeats the logos so one group is wider than a 1920px viewport. */
 const groupLogos = [...recruiters, ...recruiters];
 
-function LogoRow({ offset = false }: { offset?: boolean }) {
+const LogoRow = memo(function LogoRow({ offset = false }: { offset?: boolean }) {
   // Rendered twice so the CSS loop is seamless; the copy is hidden from assistive tech.
   return (
     <div className={`${styles.row} ${offset ? styles.offset : ''}`}>
@@ -27,7 +27,7 @@ function LogoRow({ offset = false }: { offset?: boolean }) {
       ))}
     </div>
   );
-}
+});
 
 export function Recruiters() {
   const [activePage, setActivePage] = useState(0);

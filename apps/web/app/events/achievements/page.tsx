@@ -9,9 +9,9 @@ export default function AchievementsPage() {
   return <EventsShell title="Achievements" active="Achievements"><section className={`container ${styles.section}`}>
     <header className={styles.heading}><h2>Bright Education Visionaries Awards 2025</h2><p>Valia School of Management celebrates recognition for its contribution to education and management learning.</p></header>
     <div className={styles.cards}>{[
-      ['r3.jpeg', 'Bright Education Visionaries Awards 2025 – event photograph 1'],
-      ['r2-819x1024.jpeg', 'Bright Education Visionaries Awards 2025 – event photograph 2'],
-      ['r1-819x1024.jpeg', 'Bright Education Visionaries Awards 2025 – event photograph 3'],
-    ].map(([file, alt]) => <figure className={styles.card} key={file}><Image className={styles.image} src={`https://vsmedu.com/wp-content/uploads/2026/06/${file}`} alt={alt} width={819} height={1024} unoptimized /></figure>)}</div>
+      ['r3-768x960.jpeg', 'Bright Education Visionaries Awards 2025 – event photograph 1'],
+      ['r2-768x960.jpeg', 'Bright Education Visionaries Awards 2025 – event photograph 2'],
+      ['r1.jpeg', 'Bright Education Visionaries Awards 2025 – event photograph 3'],
+    ].map(([file, alt]) => <figure className={styles.card} key={file}><Image className={styles.achievementImage} src={`https://vsmedu.com/wp-content/uploads/2026/06/${file}`} alt={alt} width={768} height={960} referrerPolicy="no-referrer" /></figure>)}</div>
   </section></EventsShell>;
 }

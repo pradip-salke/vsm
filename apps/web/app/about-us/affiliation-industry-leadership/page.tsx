@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: 'Affiliation & Industry Leadership', 
 export default function AffiliationPage() {
   return <AboutPageShell title="Affiliation & Industry Leadership" active="Affiliation & Industry Leadership">
     <AboutSection title="Affiliation and Industry Leadership at Valia School of Management"><AboutCopy paragraphs={affiliationIntro} /></AboutSection>
-    <AboutSection title="Industry Leadership"><ProfileGrid profiles={industryLeaders} /></AboutSection>
-    <AboutSection title="AIMA Past Presidents - A Decade of Exemplary Leadership"><ProfileGrid profiles={aimaPastPresidents} compact /></AboutSection>
+    <AboutSection title="Industry Leadership"><ProfileGrid profiles={industryLeaders} advisory uniformImage /></AboutSection>
+    <AboutSection title="AIMA Past Presidents - A Decade of Exemplary Leadership"><ProfileGrid profiles={aimaPastPresidents} compact advisory uniformImage /></AboutSection>
   </AboutPageShell>;
 }

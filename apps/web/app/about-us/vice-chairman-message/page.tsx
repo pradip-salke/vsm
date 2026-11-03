@@ -8,10 +8,10 @@ import styles from '../about.module.css';
 export const metadata: Metadata = { title: 'Vice Chairman Message', description: 'A message to VSM students and families from the Vice Chairman.', alternates: { canonical: '/about-us/vice-chairman-message/' } };
 
 export default function ViceChairmanMessagePage() {
-  return <AboutPageShell title="Vice Chairman Message" active="Vice Chairman Message">
+  return <AboutPageShell title="Vice Chairman Message" active="Vice Chairman Message" viewportContent>
     <AboutSection title="Message From Vice Chairman">
       <div className={styles.message}>
-        <Image src="/images/about/vice-bryan.jpeg" alt="Bryan Dsouza, Vice Chairman" width={600} height={900} />
+        <Image src="/images/about/vice-bryan.jpeg" alt="Bryan Dsouza, Vice Chairman" width={600} height={900} sizes="(max-width: 650px) min(100vw, 18rem), 15rem" />
         <div className={styles.copy}>
           <p className={styles.profileRole}>{message.greeting}</p>
           {message.intro.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}

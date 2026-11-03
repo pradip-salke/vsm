@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/Button';
-import { EnquirySection } from '@/components/sections/EnquirySection';
 import { FacultySection } from '@/components/sections/FacultySection';
 import { FaqSection } from '@/components/sections/FaqSection';
 import { Internships } from '@/components/sections/Internships';
@@ -53,7 +52,6 @@ export default function HomePage() {
       <MediaCarousel id="life-at-vsm" title="Life @ VSM" items={homeLife} layout="life" background="cream" />
       <FaqSection />
       <CtaBanner />
-      <EnquirySection />
     </>
   );
 }

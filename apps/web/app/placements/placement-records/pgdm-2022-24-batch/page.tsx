@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
+import { Carousel } from '@/components/ui/Carousel';
 import { PlacementPageShell, PlacementSection } from '../../PlacementPageShell';
 import styles from '../../PlacementPage.module.css';
-import { batch2022Highlights, batch2022InternshipAssets, batch2022PlacementAssets, placementBatches } from '@/content/placements';
+import { batch2022Highlights, batch2022InternshipAssets, batch2022PlacementAssets } from '@/content/placements';
 
 export const metadata: Metadata = {
   title: 'PGDM 2022–24 Placement Records',
@@ -19,10 +21,29 @@ export default function PlacementBatch2022Page() {
         <h3 className={styles.sectionSubheading}>Key Highlights · Final Placement: In Progress</h3>
         <div className={styles.stats}>{batch2022Highlights.map(([value, label]) => <div key={label} className={styles.stat}><strong>{value}</strong><span>{label}</span></div>)}</div>
         <h3 className={styles.sectionSubheading}>Placements Records</h3>
-        <div className={styles.recordGrid}>{batch2022PlacementAssets.map((asset) => <a className={styles.recordLink} href={asset.src} target="_blank" rel="noreferrer" key={asset.src}><img src={asset.src} alt={asset.alt} loading="lazy" /></a>)}</div>
+        <Carousel
+          label="Placement records for PGDM 2022–24 batch"
+          slides={batch2022PlacementAssets.map((asset) => (
+            <a className={styles.recordLink} href={asset.src} target="_blank" rel="noreferrer" key={asset.src}>
+              <Image src={asset.src} alt={asset.alt} width={724} height={1024} sizes="(max-width: 767px) 90vw, 30vw" />
+            </a>
+          ))}
+          className={styles.recordCarousel}
+          dotsTone="dark"
+          autoplayMs={6000}
+        />
         <h3 className={styles.sectionSubheading}>Internship Records</h3>
-        <div className={styles.recordGrid}>{batch2022InternshipAssets.map((asset) => <a className={styles.recordLink} href={asset.src} target="_blank" rel="noreferrer" key={asset.src}><img src={asset.src} alt={asset.alt} loading="lazy" /></a>)}</div>
-        <nav className={styles.batchNav} aria-label="Placement batch records">{placementBatches.map((batch) => <a href={batch.href} aria-current={batch.label.includes('2022') ? 'page' : undefined} key={batch.href}>{batch.label}</a>)}</nav>
+        <Carousel
+          label="Internship records for PGDM 2022–24 batch"
+          slides={batch2022InternshipAssets.map((asset) => (
+            <a className={styles.recordLink} href={asset.src} target="_blank" rel="noreferrer" key={asset.src}>
+              <Image src={asset.src} alt={asset.alt} width={724} height={1024} sizes="(max-width: 767px) 90vw, 30vw" />
+            </a>
+          ))}
+          className={styles.recordCarousel}
+          dotsTone="dark"
+          autoplayMs={6000}
+        />
       </PlacementSection>
     </PlacementPageShell>
   );

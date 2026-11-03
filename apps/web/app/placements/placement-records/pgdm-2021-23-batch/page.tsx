@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { PlacementPageShell, PlacementSection } from '../../PlacementPageShell';
 import styles from '../../PlacementPage.module.css';
-import { batch2021Highlights, placementBatches, salaryPlacementRows, specializationPlacementRows } from '@/content/placements';
+import { batch2021Highlights, salaryPlacementRows, specializationPlacementRows } from '@/content/placements';
 
 export const metadata: Metadata = {
   title: 'PGDM 2021–23 Placement Records',
@@ -24,7 +24,6 @@ export default function PlacementBatch2021Page() {
         <h3 className={styles.sectionSubheading}>Average &amp; Highest Salary Range Offered Specialization-wise</h3>
         <div className={styles.tableWrap}><table className={styles.table}><thead><tr><th scope="col">Stream</th><th scope="col">Average Salary · PGDM Batch 2021–23</th><th scope="col">Highest Salary · PGDM Batch 2021–23</th></tr></thead>
           <tbody>{salaryPlacementRows.map(([name, average, highest]) => <tr key={name}><td>{name}</td><td>{average}</td><td>{highest}</td></tr>)}</tbody></table></div>
-        <nav className={styles.batchNav} aria-label="Placement batch records">{placementBatches.map((batch) => <a href={batch.href} aria-current={batch.label.includes('2021') ? 'page' : undefined} key={batch.href}>{batch.label}</a>)}</nav>
       </PlacementSection>
     </PlacementPageShell>
   );

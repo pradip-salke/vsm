@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/components/navigation/Link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 import { drawerNav, mainNav, type NavItem } from '@/content/site';
@@ -10,19 +10,19 @@ import { icons } from '@/components/ui/icons';
 import { TopBar } from './TopBar';
 import styles from './SiteHeader.module.css';
 
-function DesktopNavItem({ item }: { item: NavItem }) {
+function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string }) {
   const [open, setOpen] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
   const menuId = useId();
   const ref = useRef<HTMLLIElement>(null);
+  const previousPathname = useRef(pathname);
 
   useEffect(() => {
-    if (!open) return;
-    const onPointer = (event: PointerEvent) => {
-      if (!ref.current?.contains(event.target as Node)) setOpen(false);
-    };
-    document.addEventListener('pointerdown', onPointer);
-    return () => document.removeEventListener('pointerdown', onPointer);
-  }, [open]);
+    if (previousPathname.current === pathname) return;
+    previousPathname.current = pathname;
+    setOpen(false);
+    setDismissed(true);
+  }, [pathname]);
 
   if (!item.children) {
     return (
@@ -39,6 +39,14 @@ function DesktopNavItem({ item }: { item: NavItem }) {
       ref={ref}
       className={styles.navItem}
       data-open={open || undefined}
+      data-dismissed={dismissed || undefined}
+      onPointerEnter={() => {
+        if (dismissed) setDismissed(false);
+      }}
+      onPointerLeave={() => {
+        setOpen(false);
+        setDismissed(false);
+      }}
       onKeyDown={(event) => {
         if (event.key === 'Escape') {
           setOpen(false);
@@ -49,7 +57,7 @@ function DesktopNavItem({ item }: { item: NavItem }) {
         if (!ref.current?.contains(event.relatedTarget as Node)) setOpen(false);
       }}
     >
-      <Link className={styles.navLink} href={item.href}>
+      <Link className={styles.navLink} href={item.href} onClick={() => { setOpen(false); setDismissed(true); }}>
         {item.label}
       </Link>
       <button
@@ -58,14 +66,17 @@ function DesktopNavItem({ item }: { item: NavItem }) {
         aria-expanded={open}
         aria-controls={menuId}
         aria-label={`${item.label} menu`}
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => {
+          setDismissed(false);
+          setOpen((value) => !value);
+        }}
       >
         <Icon src={icons.chevronDown} />
       </button>
       <ul id={menuId} className={styles.dropdown} role="list">
         {item.children.map((child) => (
           <li key={child.href + child.label}>
-            <Link className={styles.dropdownLink} href={child.href} onClick={() => setOpen(false)}>
+            <Link className={styles.dropdownLink} href={child.href} onClick={() => { setOpen(false); setDismissed(true); }}>
               {child.label}
             </Link>
           </li>
@@ -89,7 +100,10 @@ function MobileNav({ onNavigate }: { onNavigate: () => void }) {
               <ul className={styles.drawerSub} role="list">
                 {item.children.map((child) => (
                   <li key={child.href + child.label}>
-                    <Link href={child.href} onClick={onNavigate}>
+                    <Link href={child.href} onClick={(event) => {
+                      event.currentTarget.closest('details')?.removeAttribute('open');
+                      onNavigate();
+                    }}>
                       {child.label}
                     </Link>
                   </li>
@@ -164,7 +178,7 @@ export function SiteHeader() {
           <nav className={styles.nav} aria-label="Main">
             <ul className={styles.navList} role="list">
               {mainNav.map((item) => (
-                <DesktopNavItem key={item.label} item={item} />
+                <DesktopNavItem key={item.label} item={item} pathname={pathname} />
               ))}
             </ul>
           </nav>

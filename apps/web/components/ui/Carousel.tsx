@@ -57,7 +57,9 @@ export function Carousel({
           : slide.offsetLeft - padStart;
       return Math.round(Math.min(Math.max(target, 0), Math.max(max, 0)));
     });
-    setPositions(next);
+    setPositions((current) =>
+      current.length === next.length && current.every((position, index) => position === next[index]) ? current : next,
+    );
   }, [align]);
 
   const syncActive = useCallback(() => {
