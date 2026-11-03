@@ -46,6 +46,7 @@ export function FaqSection() {
           eyebrow="Empowering Your Academic Journey: Your Questions Answered"
           title="FAQ About PGDM Admissions"
           rule
+          className={styles.heading}
         >
           <p>{faqIntro}</p>
         </SectionHeading>

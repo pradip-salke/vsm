@@ -1,9 +1,9 @@
 /* Figma: active pill 72 × 18, inactive 18px circles at 30% opacity, 6px gap */
 .dots {
-  --dot-size: clamp(0.75rem, 0.65rem + 0.4vw, 1.125rem);
+  --dot-size: var(--carousel-dot-size);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: clamp(2.4px, 0.25vw, 4.8px);
   margin-top: var(--dots-offset, 2rem);
 }
 

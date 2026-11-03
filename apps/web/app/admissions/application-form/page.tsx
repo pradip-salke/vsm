@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { AdmissionsPageShell, AdmissionSection } from '../AdmissionsPageShell';
 import { AdmissionsApplicationForm } from './AdmissionsApplicationForm';
 import { FaqList, type FaqItem } from '@/components/sections/FaqSection';
+import faqStyles from '@/components/sections/FaqSection.module.css';
 import styles from '../Admissions.module.css';
 
 export const metadata: Metadata = {
@@ -21,6 +22,8 @@ const faqs: FaqItem[] = [
 export default function ApplicationFormPage() {
   return <AdmissionsPageShell title="PGDM Application Form – 2026" subtitle="Begin Your Management Journey – Apply Now" active="Application Form">
     <AdmissionSection title="PGDM Admission 2026–28 | Apply Now"><h3 className={styles.subheading}>Application Form</h3><AdmissionsApplicationForm /></AdmissionSection>
-    <AdmissionSection title="FAQs"><FaqList items={faqs} /></AdmissionSection>
+    <AdmissionSection title="FAQs" className={faqStyles.section} titleClassName={faqStyles.title}>
+      <FaqList items={faqs} />
+    </AdmissionSection>
   </AdmissionsPageShell>;
 }

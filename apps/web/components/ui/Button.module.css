@@ -18,8 +18,8 @@
 /* Primary: 207 × 70 teal pill */
 .primary {
   min-width: min(100%, 9.4em);
-  min-height: clamp(3rem, 2.45rem + 2.33vw, 4.375rem);
-  padding: 0 26px;
+  min-height: clamp(2.75rem, 3.646vw, 4.375rem);
+  padding-inline: clamp(0.875rem, 1.354vw, 1.625rem);
   border-radius: var(--radius-pill);
   background: var(--color-primary);
   color: var(--color-text-inverse);
@@ -41,7 +41,7 @@
 
 .primary.lg {
   min-width: min(100%, 16.3em);
-  min-height: clamp(3.5rem, 2.6rem + 3.9vw, 7.125rem);
+  min-height: clamp(3.5rem, 5.938vw, 7.125rem);
 }
 
 /* Secondary: tracked uppercase label with tilted arrow and 1px underline */

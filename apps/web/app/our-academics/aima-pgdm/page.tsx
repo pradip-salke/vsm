@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { Link } from '@/components/navigation/Link';
 import { Button } from '@/components/ui/Button';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { IconList } from '@/components/sections/IconList';
@@ -8,6 +7,7 @@ import { PageHero } from '@/components/sections/PageHero';
 import { admissionSteps } from '@/content/academics';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
 import { AimaCourseModules } from '@/features/academics/AimaCourseModules';
+import { AtAGlance } from '@/features/academics/AtAGlance';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import {
   aimaBreadcrumb,
@@ -30,6 +30,12 @@ export const metadata: Metadata = {
   alternates: { canonical: '/our-academics/aima-pgdm/' },
 };
 
+const aimaGlance = [
+  { label: 'Duration', value: '2 Years' },
+  { label: 'Study Mode', value: 'Blended' },
+  { label: 'Total Fees', value: 'INR 4 Lakhs' },
+];
+
 export default function AimaPgdmPage() {
   return (
     <div className={layout.page}>
@@ -48,21 +54,7 @@ export default function AimaPgdmPage() {
 
       <div className={layout.layout}>
         <aside className={layout.sidebar} aria-label="AIMA PGDM summary">
-          <div className={styles.summary}>
-            <section className={styles.glance} aria-labelledby="aima-glance-title">
-              <h2 id="aima-glance-title">At a Glance</h2>
-              <dl className={styles.facts}>
-                <div><dt>Duration</dt><dd>2 Years</dd></div>
-                <div><dt>Study Mode</dt><dd>Blended</dd></div>
-                <div><dt>Total Fees</dt><dd>INR 4 Lakhs</dd></div>
-              </dl>
-              <Button href={APPLY_PATH} size="lg" className={styles.apply}>Apply Now</Button>
-            </section>
-            <ul className={styles.actions} role="list">
-              <li><a href={ENQUIRY_ANCHOR}>Download Brochure</a></li>
-              <li><Link href="/contact-us/">Contact Us</Link></li>
-            </ul>
-          </div>
+          <AtAGlance facts={aimaGlance} />
         </aside>
 
         <div className={layout.main}>

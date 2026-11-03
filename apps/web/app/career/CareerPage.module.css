@@ -3,7 +3,7 @@
 .sectionHeading { max-width: 48rem; margin: 0 auto clamp(2rem, 4vw, 3.5rem); text-align: center; }
 .eyebrow { display: block; margin-bottom: .65rem; color: var(--color-primary-dark); font-size: .875rem; font-weight: var(--font-weight-extrabold); letter-spacing: .12em; text-transform: uppercase; }
 .sectionHeading h2 { margin: 0; color: var(--color-heading); font-family: var(--font-urbanist); font-size: clamp(2rem, 1.3rem + 2vw, 3.25rem); font-weight: var(--font-weight-extrabold); line-height: 1.1; }
-.sectionHeading p { margin: .9rem 0 0; color: var(--color-text-answer); line-height: var(--line-height-body); }
+.sectionHeading p { margin: var(--heading-copy-gap) 0 0; color: var(--color-text-answer); line-height: var(--line-height-body); }
 .applicationGrid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: stretch; gap: clamp(1.5rem, 4vw, 4rem); }
 .imageWrap { position: relative; min-height: 32rem; overflow: hidden; border-radius: var(--radius-md); background: var(--color-cream); }
 .imageWrap::after { position: absolute; inset: 35% 0 0; background: linear-gradient(transparent, rgb(20 28 46 / 78%)); content: ''; pointer-events: none; }

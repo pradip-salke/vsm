@@ -1,24 +1,9 @@
 .sidebar { min-width: 0; }
 .layout { width: 100%; }
 
-.summary {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: sticky;
-  top: clamp(3.75rem, 3rem + 2.3vw, 6.4375rem);
-  width: min(100%, 364px);
-  padding: clamp(3rem, 5.208vw, 6.25rem) var(--space-5) 2.125rem 0;
-}
-
-.summary h2 { font-size: var(--font-size-h2); font-weight: var(--font-weight-medium); line-height: var(--line-height-heading); }
-.summary dl { display: flex; flex-direction: column; gap: clamp(2.5rem, 3.906vw, 4.6875rem); width: calc(100% + var(--space-5)); margin: clamp(3rem, 3.28vw, 3.9375rem) 0 0; }
-.summary dl > div { display: flex; flex-direction: column; gap: clamp(1rem, 1.198vw, 1.4375rem); }
-.summary dt { color: var(--color-text-label); font-size: var(--font-size-body); font-weight: var(--font-weight-extrabold); line-height: 36px; }
-.summary dd { margin: 0; color: var(--color-heading); font-size: clamp(1.5rem, 1.77vw, 2.125rem); font-weight: var(--font-weight-extrabold); line-height: 36px; }
-.summary > a { width: 359px; min-height: 114px; margin-top: 2.75rem; }
 .section { min-height: 18rem; }
-.paragraph { max-width: 70ch; margin-top: 1.5rem; color: var(--color-text-body); font-size: var(--font-size-body); line-height: 1.75; }
+.paragraph { max-width: 70ch; margin-top: var(--space-5); color: var(--color-text-body); font-size: var(--font-size-body); line-height: 1.75; }
+.section > .paragraph:first-of-type { margin-top: var(--heading-copy-gap); }
 .listViewport {
   --list-gap: clamp(.5rem, .35rem + .4vw, 1rem);
   --badge: clamp(3.25rem, 2.6rem + 1.75vw, 4.8125rem);
@@ -42,19 +27,10 @@
 
 @media (max-width: 1023px) {
   .sidebar { padding: var(--section-spacing) var(--page-gutter); }
-  .summary { position: static; width: min(100%, 500px); padding: 0; }
-  .summary dl { flex-direction: row; flex-wrap: wrap; gap: 1.5rem 2rem; width: 100%; margin-top: var(--space-5); }
-  .summary dl > div { min-width: 8rem; gap: 1rem; }
-  .summary dt, .summary dd { line-height: 1.5; }
-  .summary > a { width: min(100%, 359px); min-height: clamp(3.5rem, 2.6rem + 3.9vw, 7.125rem); }
   .listViewport {
     --band-start: 0px;
     --band-extension: var(--page-gutter);
     margin-inline: 0 calc(-1 * var(--page-gutter));
   }
   .list { --band-bleed: 0px; --band-end: calc(-1 * var(--page-gutter)); }
-}
-
-@media (max-width: 600px) {
-  .summary dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

@@ -8,6 +8,7 @@ import { academicSpecialisations, specialisationHero, specialisationTabs } from 
 import { admissionSteps } from '@/content/academics';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
+import { AtAGlance } from '@/features/academics/AtAGlance';
 import layout from '@/features/academics/AcademicsLayout.module.css';
 import styles from './SpecialisationPage.module.css';
 
@@ -37,6 +38,12 @@ export default async function SpecialisationPage({ params }: Props) {
     { label: 'Academics', href: '/our-academics/aicte-pgdm-courses-in-mumbai/' },
     { label: page.title },
   ];
+  const overviewFacts = [
+    { label: 'Programme', value: 'PGDM' },
+    { label: 'Duration', value: '2 Years' },
+    { label: 'Study Mode', value: 'Full Time' },
+    { label: 'Location', value: 'Andheri, Mumbai' },
+  ];
   const listItems = (items: string[]) => items.map((text) => ({ icon: '/images/figma/icon-neutral.svg', iconSize: 32, text }));
   const renderIconList = (items: string[], label: string) => {
     const list = <IconList items={listItems(items)} className={styles.list} />;
@@ -58,16 +65,7 @@ export default async function SpecialisationPage({ params }: Props) {
       <AcademicsTabs tabs={specialisationTabs} />
       <div className={`${layout.layout} ${styles.layout}`}>
         <aside className={`${layout.sidebar} ${styles.sidebar}`} aria-label={`${page.title} overview`}>
-          <div className={styles.summary}>
-            <h2>At a Glance</h2>
-            <dl>
-              <div><dt>Programme</dt><dd>PGDM</dd></div>
-              <div><dt>Duration</dt><dd>2 Years</dd></div>
-              <div><dt>Study Mode</dt><dd>Full Time</dd></div>
-              <div><dt>Location</dt><dd>Andheri, Mumbai</dd></div>
-            </dl>
-            <Button href={APPLY_PATH} size="lg">Apply Now</Button>
-          </div>
+          <AtAGlance facts={overviewFacts} showActions={false} />
         </aside>
         <main className={layout.main}>
           <section id="overview" className={`${layout.block} ${styles.section}`}>

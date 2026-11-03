@@ -5,10 +5,10 @@
 .navList a { position:relative; display:flex; align-items:center; color:var(--color-heading); font-weight:var(--font-weight-extrabold); white-space:nowrap; }
 .navList a:hover,.navList a[aria-current] { color:var(--color-primary); }
 .navList a[aria-current]::after { content:''; position:absolute; inset:auto 0 calc(50% - 1em); height:2px; background:var(--color-primary); }
-.content { padding-block: clamp(2.5rem,2.045rem + 1.942vw,4.375rem); }
-.section { padding-block: clamp(2rem,1.2rem + 2vw,3rem); border-bottom:1px solid var(--color-border-soft); }
+.content { padding-block: 0; }
+.section { padding: var(--section-rule-gap) 0 var(--section-spacing); border-bottom:1px solid var(--color-border-soft); }
 .section:last-child { border-bottom:0; }
-.heading { margin-bottom:clamp(1.25rem,1rem + 1vw,2rem); font-size:var(--font-size-h2); }
+.heading { margin-bottom:var(--heading-copy-gap); font-size:var(--font-size-h2); }
 .lead { max-width:70rem; margin-bottom:1rem; }
 .list { display:grid; gap:0; padding:0; list-style:none; border-top:1px solid var(--color-border); }
 .list li { display:flex; gap:1rem; align-items:flex-start; padding:1.2rem 1rem; border-bottom:1px solid var(--color-border); background:var(--color-page); }

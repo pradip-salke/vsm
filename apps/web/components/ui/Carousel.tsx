@@ -18,6 +18,8 @@ type CarouselProps = {
   bleed?: boolean;
   /** `overlay` pins the dots inside the bottom of the slides (hero banners). */
   dotsPlacement?: 'below' | 'overlay';
+  /** Use the first slide's content height for every slide's information card. */
+  cardHeightFromFirst?: boolean;
   autoplayMs?: number;
   navigationButtons?: boolean;
 };
@@ -36,6 +38,7 @@ export function Carousel({
   dotsAlign = 'center',
   bleed = false,
   dotsPlacement = 'below',
+  cardHeightFromFirst = false,
   autoplayMs = 6000,
   navigationButtons = false,
 }: CarouselProps) {
@@ -81,11 +84,6 @@ export function Carousel({
   }, [positions]);
 
   useEffect(() => {
-    if (align !== 'center') return;
-    Array.from(trackRef.current?.children ?? []).forEach((slide, index) => slide.toggleAttribute('data-active', index === active));
-  }, [active, align, positions]);
-
-  useEffect(() => {
     measure();
     const track = trackRef.current;
     if (!track) return;
@@ -93,6 +91,29 @@ export function Carousel({
     observer.observe(track);
     return () => observer.disconnect();
   }, [measure, slides.length]);
+
+  useEffect(() => {
+    if (!cardHeightFromFirst) return;
+    const track = trackRef.current;
+    const firstContent = track?.children[0]?.querySelector<HTMLElement>('[data-card-height-source]');
+    const carousel = track?.parentElement;
+    if (!firstContent || !carousel) return;
+
+    const updateHeight = () => {
+      const card = firstContent.parentElement;
+      if (!card) return;
+      const styles = getComputedStyle(card);
+      const padding = parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+      carousel.style.setProperty('--testimonial-card-height', `${firstContent.getBoundingClientRect().height + padding}px`);
+    };
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(firstContent);
+    return () => {
+      observer.disconnect();
+      carousel.style.removeProperty('--testimonial-card-height');
+    };
+  }, [cardHeightFromFirst, slides.length]);
 
   useEffect(() => {
     syncActive();
@@ -159,6 +180,7 @@ export function Carousel({
           <li
             key={index}
             className={styles.slide}
+            data-active={align === 'center' && active === index ? '' : undefined}
             aria-roledescription="slide"
             aria-label={`${index + 1} of ${slides.length}`}
           >

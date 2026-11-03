@@ -19,7 +19,8 @@ export function Testimonials() {
         <div className={styles.media}>
           <Image src={media.src} alt={media.alt} width={media.width} height={media.height} sizes="(max-width: 767px) 88vw, 55vw" />
         </div>
-        <div className={styles.card}>
+        <div className={styles.card} data-info-card>
+          <div className={styles.cardContent} data-card-height-source={item === testimonials[0] ? '' : undefined}>
           <blockquote className={styles.quote}>
             <p>“{item.quote}”</p>
           </blockquote>
@@ -34,6 +35,7 @@ export function Testimonials() {
             <span className={styles.name}>{item.name}</span>
             <span className={styles.batch}>Batch: {item.batch}</span>
           </figcaption>
+          </div>
         </div>
       </figure>
     );
@@ -51,7 +53,14 @@ export function Testimonials() {
           align="center"
         />
       </div>
-      <Carousel label="Student testimonials" slides={slides} align="center" dotsTone="light" className={styles.carousel} />
+      <Carousel
+        label="Student testimonials"
+        slides={slides}
+        align="center"
+        dotsTone="light"
+        cardHeightFromFirst
+        className={styles.carousel}
+      />
     </section>
   );
 }

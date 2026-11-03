@@ -1,32 +1,8 @@
-.page {
-  --section-spacing: 70px;
+.main > :global(#about-program).block {
+  padding-top: clamp(4.375rem, 5.208vw, 6.25rem);
 }
 
 @media (min-width: 1024px) {
-  .main > :global(#about-program).block {
-    padding-top: clamp(4rem, 5.2vw, 6.25rem);
-    padding-bottom: clamp(4rem, 3.99vw, 4.8125rem);
-  }
-
-  .main > :global(#program-videos).block {
-    padding-top: clamp(2.5rem, 2.604vw, 3.125rem);
-    padding-bottom: clamp(3rem, 4.875vw, 5.8125rem);
-  }
-
-  .main > :global(#gallery).block {
-    padding-top: clamp(2.5rem, 2.604vw, 3.125rem);
-    padding-bottom: clamp(3rem, 5.5vw, 6.625rem);
-  }
-
-  .main > :global(#events).block,
-  .main > :global(#curriculum).block {
-    padding-top: clamp(2.5rem, 2.604vw, 3.125rem);
-  }
-
-  .main > :global(#events).block {
-    padding-bottom: clamp(3rem, 5vw, 6rem);
-  }
-
   .main :global(#events) h2 {
     line-height: var(--line-height-heading);
   }
@@ -39,9 +15,9 @@
 /* Match the AICTE banner copy to the original 1920px Figma frame. */
 .page > :global(section[aria-label='Introduction']) :global(nav[aria-label='Breadcrumb']) ol {
   align-items: center;
-  height: 24px;
+  height: var(--breadcrumb-icon-size);
   font-size: var(--font-size-body);
-  line-height: 24px;
+  line-height: 1;
 }
 
 .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div {
@@ -70,9 +46,9 @@
 .layout {
   width: 100vw;
   --edge: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
-  --column-inset: clamp(1.25rem, 0.5rem + 3.23vw, 4.375rem); /* 70px at 1920px */
+  --column-inset: clamp(1.25rem, 3.646vw, 4.375rem); /* 70px at 1920px */
   display: grid;
-  grid-template-columns: calc(var(--edge) + clamp(17rem, 9rem + 20vw, 31.3125rem)) minmax(0, 1fr);
+  grid-template-columns: calc(var(--edge) + clamp(16rem, 26.094vw, 31.3125rem)) minmax(0, 1fr);
 }
 
 .sidebar {
@@ -88,14 +64,14 @@
 .block {
   --bleed-right: var(--edge);
   --column-bleed: var(--edge);
-  padding: 70px calc(var(--edge) + 0.365vw) 70px var(--column-inset);
+  padding: var(--section-rule-gap) calc(var(--edge) + 0.365vw) var(--section-spacing) var(--column-inset);
   border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
 .block.why {
   --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem);
   --column-bleed: clamp(0px, 4.375vw, 84px);
-  padding: clamp(2.5rem, 2.604vw, 3.125rem) 0 6.25rem var(--column-inset);
+  padding: var(--section-rule-gap) 0 var(--section-spacing) var(--column-inset);
 }
 
 .main > .block > :global(section) {
@@ -103,6 +79,10 @@
 }
 
 .block:last-child {
+  border-bottom: 0;
+}
+
+.beforeFacultyBlock {
   border-bottom: 0;
 }
 
@@ -124,7 +104,7 @@
 }
 
 .main :global(#about-program) > section > div:nth-child(2) {
-  margin-top: 2.5rem;
+  margin-top: var(--heading-copy-gap);
 }
 
 /* Admission steps: rows and the highlight band span the whole column */
@@ -157,13 +137,13 @@
 
   .block {
     --column-inset: var(--page-gutter);
-    padding: var(--section-spacing) var(--page-gutter);
+    padding: var(--section-rule-gap) var(--page-gutter) var(--section-spacing);
   }
 
   .block.why {
     --column-inset: var(--page-gutter);
     --column-bleed: 0px;
-    padding: var(--section-spacing) var(--page-gutter);
+    padding: var(--section-rule-gap) var(--page-gutter) var(--section-spacing);
   }
 
   .main h2 {
@@ -175,7 +155,7 @@
   }
 
   .main :global(#about-program) > section > div:nth-child(2) {
-    margin-top: var(--space-5);
+    margin-top: var(--heading-copy-gap);
   }
 
   .block {

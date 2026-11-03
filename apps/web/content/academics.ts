@@ -125,7 +125,6 @@ export const curriculum: CurriculumTable[] = [
       { label: '', cells: ['', '', 'Summer Internship (2)'] },
     ],
     total: { label: 'Year Total Credits', value: '57' },
-    note: 'Non-Credit Compulsory Courses: Outbound Training, Critical Analytical Thinking, Emotional Intelligence, Programming Python and Negotiation Skills.',
   },
   {
     year: 'Year 2+',

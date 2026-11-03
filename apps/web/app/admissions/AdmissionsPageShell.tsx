@@ -31,8 +31,10 @@ export function AdmissionsPageShell({ title, subtitle, active, children }: {
   </>;
 }
 
-export function AdmissionSection({ id, title, children }: { id?: string; title: string; children: ReactNode }) {
-  return <section id={id} className={`container ${styles.section}`}>
-    <h2 className={styles.heading}>{title}</h2>{children}
+export function AdmissionSection({ id, title, children, className, titleClassName }: {
+  id?: string; title: string; children: ReactNode; className?: string; titleClassName?: string;
+}) {
+  return <section id={id} className={`container ${styles.section} ${className ?? ''}`}>
+    <h2 className={`${styles.heading} ${titleClassName ?? ''}`}>{title}</h2>{children}
   </section>;
 }

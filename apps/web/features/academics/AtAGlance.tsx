@@ -7,7 +7,12 @@ import { atAGlance } from '@/content/academics';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import styles from './AtAGlance.module.css';
 
-export function AtAGlance() {
+type AtAGlanceProps = {
+  facts?: { label: string; value: string }[];
+  showActions?: boolean;
+};
+
+export function AtAGlance({ facts = atAGlance, showActions = true }: AtAGlanceProps) {
   return (
     <div className={styles.sticky}>
       <section className={styles.glance} aria-labelledby="glance-title">
@@ -15,7 +20,7 @@ export function AtAGlance() {
           At a Glance
         </h2>
         <dl className={styles.facts}>
-          {atAGlance.map((fact) => (
+          {facts.map((fact) => (
             <div key={fact.label}>
               <dt>{fact.label}</dt>
               <dd>{fact.value}</dd>
@@ -26,20 +31,22 @@ export function AtAGlance() {
           Apply Now
         </Button>
       </section>
-      <ul className={styles.actions} role="list">
-        <li>
-          <a href={ENQUIRY_ANCHOR} className={`${styles.action} ${styles.brochure}`}>
-            Download Brochure
-            <Icon src={icons.download} />
-          </a>
-        </li>
-        <li>
-          <Link href="/contact-us/" className={styles.action}>
-            Contact Us
-            <MailIcon variant="dark" className={styles.mail} />
-          </Link>
-        </li>
-      </ul>
+      {showActions && (
+        <ul className={styles.actions} role="list">
+          <li>
+            <a href={ENQUIRY_ANCHOR} className={`${styles.action} ${styles.brochure}`}>
+              Download Brochure
+              <Icon src={icons.download} />
+            </a>
+          </li>
+          <li>
+            <Link href="/contact-us/" className={styles.action}>
+              Contact Us
+              <MailIcon variant="dark" className={styles.mail} />
+            </Link>
+          </li>
+        </ul>
+      )}
     </div>
   );
 }

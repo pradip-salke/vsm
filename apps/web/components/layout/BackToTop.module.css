@@ -1,0 +1,41 @@
+.button {
+  position: fixed;
+  right: clamp(1rem, 2.5vw, 3rem);
+  bottom: var(--back-to-top-bottom, clamp(1rem, 1.25vw, 1.5rem));
+  z-index: calc(var(--z-header) - 1);
+  display: grid;
+  place-items: center;
+  width: clamp(2.75rem, 3.125vw, 3.75rem);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 35%);
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: 0 4px 16px rgb(10 25 47 / 22%);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  background: var(--color-primary-dark);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 3px;
+}
+
+.arrow {
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-top: 0.25rem;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+}

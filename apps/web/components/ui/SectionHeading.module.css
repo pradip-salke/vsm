@@ -70,12 +70,12 @@
 }
 
 .description {
-  margin-top: var(--space-4);
+  margin-top: calc(var(--heading-copy-gap) - var(--space-2));
   color: var(--color-text-body);
 }
 
 .withRule .description {
-  margin-top: clamp(1.5rem, 1rem + 2vw, 3rem);
+  margin-top: calc(var(--heading-copy-gap) - var(--space-2));
 }
 
 .light .description {

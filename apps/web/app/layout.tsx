@@ -3,6 +3,7 @@ import { Manrope, Urbanist } from 'next/font/google';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { EnquirySection } from '@/components/sections/EnquirySection';
+import { BackToTop } from '@/components/layout/BackToTop';
 import './globals.css';
 
 const urbanist = Urbanist({ subsets: ['latin'], weight: ['500', '800'], variable: '--font-urbanist', display: 'swap' });
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <EnquirySection />
         </main>
         <SiteFooter />
+        <BackToTop />
       </body>
     </html>
   );

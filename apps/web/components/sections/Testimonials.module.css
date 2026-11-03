@@ -33,19 +33,22 @@
   transition: height var(--transition-slow);
 }
 
-[data-active] .media img {
+.carousel [data-active] .media img {
   height: 100%;
 }
 
 .card {
+  height: var(--testimonial-card-height, auto);
+  overflow-y: auto;
   padding: clamp(1.25rem, 0.8rem + 1.6vw, 2.5rem);
   border-radius: 20px;
-  background: var(--surface-glass);
+  background: transparent;
   opacity: 0.55;
-  transition: opacity var(--transition-slow);
+  transition: background-color var(--transition-slow), opacity var(--transition-slow);
 }
 
-[data-active] .card {
+.carousel [data-active] .card {
+  background: var(--surface-glass);
   opacity: 1;
 }
 

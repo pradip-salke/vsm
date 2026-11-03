@@ -1,5 +1,6 @@
 .section {
   padding-block: var(--section-spacing);
+  background: var(--color-cream);
 }
 
 /*

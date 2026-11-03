@@ -1,0 +1,7 @@
+{
+  "/our-academics/aima-pgdm/page": "app/our-academics/aima-pgdm/page.js",
+  "/our-academics/in-demand-specialisations/[slug]/page": "app/our-academics/in-demand-specialisations/[slug]/page.js",
+  "/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/page": "app/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/page.js",
+  "/about-us/our-philosophy/page": "app/about-us/our-philosophy/page.js",
+  "/_not-found/page": "app/_not-found/page.js"
+}

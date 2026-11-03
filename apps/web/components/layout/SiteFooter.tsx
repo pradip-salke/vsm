@@ -8,7 +8,7 @@ import styles from './SiteFooter.module.css';
 
 export function SiteFooter() {
   return (
-    <footer className={styles.footer}>
+    <footer id="site-footer" className={styles.footer}>
       <div className="container">
         <div className={styles.grid}>
           <div className={styles.about}>
@@ -32,13 +32,26 @@ export function SiteFooter() {
           </nav>
 
           <nav aria-labelledby="footer-about">
-            <h2 id="footer-about" className={styles.heading}>
-              About
-            </h2>
-            <ul className={styles.links} role="list">
-              {[...aboutLinks, ...careerAndBlogLinks].map((link) => (
+            <h2 id="footer-about" className={styles.heading}>About Us</h2>
+            <details className={styles.aboutMenu}>
+              <summary className={styles.aboutSummary}>
+                Explore About Us
+                <span className={styles.aboutChevron} aria-hidden="true">
+                  <Icon src={icons.chevronDown} />
+                </span>
+              </summary>
+              <ul className={`${styles.links} ${styles.aboutLinks}`} role="list">
+                {aboutLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} target={link.href.endsWith('.pdf') ? '_blank' : undefined} rel={link.href.endsWith('.pdf') ? 'noopener noreferrer' : undefined}>{link.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </details>
+            <ul className={`${styles.links} ${styles.careerLinks}`} role="list">
+              {careerAndBlogLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} target={link.href.endsWith('.pdf') ? '_blank' : undefined} rel={link.href.endsWith('.pdf') ? 'noopener noreferrer' : undefined}>{link.label}</Link>
+                  <Link href={link.href}>{link.label}</Link>
                 </li>
               ))}
             </ul>

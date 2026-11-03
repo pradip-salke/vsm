@@ -38,7 +38,7 @@ function FacultyModal({ member, onClose }: { member: FacultyMember | null; onClo
       {member && (
         <div className={styles.modalCard}>
           <button type="button" className={styles.close} onClick={onClose} aria-label="Close profile">
-            <Icon src={icons.close} size="100%" />
+            <Icon src={icons.close} size="13px" />
           </button>
           <Image
             className={styles.modalPhoto}

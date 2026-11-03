@@ -75,7 +75,7 @@ export default function AictePgdmPage() {
           <div id="events" className={`${layout.block} ${layout.bleed}`}>
             <MediaCarousel id="events-carousel" title="Upcoming Events" items={academicsEvents} layout="video" variant="column" uppercase play />
           </div>
-          <div id="curriculum" className={layout.block}>
+          <div id="curriculum" className={`${layout.block} ${layout.beforeFacultyBlock}`}>
             <Curriculum />
           </div>
           <div className={`${layout.block} ${layout.bleed}`}>

@@ -9,7 +9,7 @@
 .section + .section { border-top: 1px solid var(--color-border-soft); }
 .heading { max-width: 50rem; margin-bottom: var(--space-6); }
 .heading h2 { color: var(--color-heading); font-size: var(--font-size-h2); }
-.heading p { margin-top: var(--space-3); color: var(--color-text-answer); }
+.heading p { margin-top: var(--heading-copy-gap); color: var(--color-text-answer); }
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 1.5vw, 1.75rem); }
 .card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid var(--color-border-soft); border-radius: var(--radius-sm); background: var(--color-surface); transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }

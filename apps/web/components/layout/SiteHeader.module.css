@@ -1,5 +1,6 @@
 .header {
-  position: relative;
+  position: sticky;
+  top: calc(-1 * var(--topbar-height));
   z-index: var(--z-header);
 }
 
@@ -325,8 +326,8 @@
 }
 
 @media (max-width: 767px) {
-  .inner {
-    min-height: 4rem;
+  .header {
+    --topbar-height: 2.5rem;
   }
 
   .years,
