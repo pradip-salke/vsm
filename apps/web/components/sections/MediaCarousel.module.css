@@ -16,11 +16,14 @@
 
 /* Slide widths as a share of the 1680px container */
 .events .carousel {
-  --slide-width: calc((100% - var(--slide-gap) * 2) / 2.45);
+  /* Figma Home: 688px event cards at 1920px, with a 24px gap. */
+  --slide-width: clamp(20rem, 35.833vw, 43rem);
 }
 
 .life .carousel {
-  --slide-width: calc((100% - var(--slide-gap) * 2) / 2.45);
+  /* Figma Home: 535px gallery cards at 1920px, proportionally fluid below it. */
+  --slide-gap: clamp(1rem, 1.771vw, 2.125rem);
+  --slide-width: clamp(18rem, 27.865vw, 33.4375rem);
 }
 
 .video .carousel {

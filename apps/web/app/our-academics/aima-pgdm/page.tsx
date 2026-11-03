@@ -62,7 +62,7 @@ export default function AimaPgdmPage() {
             <SectionHeading title="About Valia School of Management" />
             <div className={blocks.prose}>
               <p>The Cosmopolitan Education Society, established in 1961, through VSM offers a transformative 2-year PGDM program as an AIMA – Centre for Management Education. This AICTE-approved program is designed to go beyond academic theory, providing a hands-on journey toward industry excellence.</p>
-              <IconList items={aimaSpecialisationItems} className={styles.iconList} />
+              <IconList items={aimaSpecialisationItems} divided className={styles.iconList} />
               <p>Our curriculum emphasizes practical learning through rigorous case studies and valuable guest sessions led by industry experts. This immersive approach equips students with deep management knowledge and essential skills to excel in today’s dynamic business world.</p>
               <p>Join us to experience one of the top AIMA-PGDM programs and launch your journey to success.</p>
             </div>
@@ -73,7 +73,7 @@ export default function AimaPgdmPage() {
             <div className={blocks.prose}>
               <p>The All India Management Association (AIMA) is the Voice of India’s Leaders and Managers, and the apex body of the management profession in India. AIMA is a not for profit, nonlobbying organization.</p>
               <h3 className={styles.subheading}>Why AIMA- Centre for Management Education?</h3>
-              <IconList items={aimaWhyItems} className={styles.iconList} />
+              <IconList items={aimaWhyItems} divided className={styles.iconList} />
             </div>
           </section>
 
@@ -88,12 +88,12 @@ export default function AimaPgdmPage() {
           <section id="program-structure" className={layout.block}>
             <SectionHeading title="PGDM Program Structure" />
             <p className={styles.moduleNote}>4 Modules / Six Months each</p>
-            <IconList items={aimaProgramStructureItems} className={styles.iconList} />
+            <IconList items={aimaProgramStructureItems} divided className={styles.iconList} />
           </section>
 
           <section id="specialisations" className={layout.block}>
             <SectionHeading title="Specialisations" />
-            <IconList items={aimaSpecialisationItems} className={styles.iconList} />
+            <IconList items={aimaSpecialisationItems} divided className={styles.iconList} />
           </section>
 
           <div id="course-modules" className={layout.block}>
@@ -113,9 +113,9 @@ export default function AimaPgdmPage() {
 
           <section id="other-details" className={layout.block}>
             <SectionHeading title="Other Details" />
-            <IconList items={aimaOtherDetailItems} className={styles.iconList} />
+            <IconList items={aimaOtherDetailItems} divided className={styles.iconList} />
             <h3 className={styles.subheading}>Multi Exit</h3>
-            <IconList items={aimaExitAwardItems} className={styles.iconList} />
+            <IconList items={aimaExitAwardItems} divided className={styles.iconList} />
             <div className={styles.certificate}>
               <h3>PGDM Certificate</h3>
               <Image

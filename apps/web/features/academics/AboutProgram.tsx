@@ -6,7 +6,12 @@ export function AboutProgram() {
   const { link } = aboutProgram;
   return (
     <section aria-labelledby="about-program-title">
-      <SectionHeading id="about-program-title" eyebrow="About Program" title={aboutProgram.title} />
+      <SectionHeading
+        id="about-program-title"
+        eyebrow="About Program"
+        title={aboutProgram.title}
+        className={styles.aboutProgramHeading}
+      />
       <div className={styles.prose}>
         {aboutProgram.paragraphs.map((paragraph) => {
           const [before, after] = paragraph.split('{link}');

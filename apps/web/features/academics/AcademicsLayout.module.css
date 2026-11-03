@@ -72,6 +72,7 @@
   --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem);
   --column-bleed: clamp(0px, 4.375vw, 84px);
   padding: var(--section-rule-gap) 0 var(--section-spacing) var(--column-inset);
+  border-bottom: 0;
 }
 
 .main > .block > :global(section) {

@@ -7,9 +7,10 @@
 .listViewport {
   --list-gap: clamp(.5rem, .35rem + .4vw, 1rem);
   --badge: clamp(3.25rem, 2.6rem + 1.75vw, 4.8125rem);
+  --divided-row-height: clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem);
   --band-start: var(--column-inset, 0px);
   --band-extension: calc(var(--edge, var(--page-gutter)) + .365vw);
-  max-height: calc((var(--badge) * 5) + (var(--list-gap) * 4));
+  max-height: calc(var(--divided-row-height) * 5);
   margin: 1.75rem calc(-1 * var(--band-extension)) 0 calc(-1 * var(--band-start));
   padding-inline: var(--band-start) var(--band-extension);
   overflow-y: auto;

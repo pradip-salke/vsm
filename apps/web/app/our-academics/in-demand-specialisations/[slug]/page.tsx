@@ -46,7 +46,7 @@ export default async function SpecialisationPage({ params }: Props) {
   ];
   const listItems = (items: string[]) => items.map((text) => ({ icon: '/images/figma/icon-neutral.svg', iconSize: 32, text }));
   const renderIconList = (items: string[], label: string) => {
-    const list = <IconList items={listItems(items)} className={styles.list} />;
+    const list = <IconList items={listItems(items)} divided className={styles.list} />;
     return items.length > 5 ? (
       <div className={styles.listViewport} role="region" aria-label={`${label} list`} tabIndex={0}>
         {list}

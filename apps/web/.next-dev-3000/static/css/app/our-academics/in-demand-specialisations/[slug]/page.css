@@ -419,11 +419,13 @@
 
 /* Admission Procedure: rows separated by full-width lines */
 .IconList_divided__IEC0k {
+  --divided-row-height: clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem);
   gap: 0;
+  border-top: var(--border-width) solid var(--color-border);
 }
 
 .IconList_divided__IEC0k .IconList_item__jHiRA {
-  min-height: clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem); /* 118px */
+  min-height: var(--divided-row-height); /* 118px */
   border-bottom: var(--border-width) solid var(--color-border);
 }
 
@@ -741,6 +743,7 @@
 }
 
 .AtAGlance_glance__J_2fS {
+  --sidebar-gap-reduction: clamp(3px, 0.520833vw, 10px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -757,14 +760,14 @@
 .AtAGlance_facts__YWTA5 {
   display: flex;
   flex-direction: column;
-  gap: clamp(2.5rem, 3.906vw, 4.6875rem);
-  margin-top: clamp(3.9375rem, 3.28vw, 3.9375rem);
+  gap: calc(clamp(2.5rem, 3.906vw, 4.6875rem) - var(--sidebar-gap-reduction));
+  margin-top: calc(clamp(3.9375rem, 3.28vw, 3.9375rem) - var(--sidebar-gap-reduction));
 }
 
 .AtAGlance_facts__YWTA5 > div {
   display: flex;
   flex-direction: column;
-  gap: clamp(1.25rem, 1.198vw, 1.4375rem);
+  gap: calc(clamp(1.25rem, 1.198vw, 1.4375rem) - var(--sidebar-gap-reduction));
 }
 
 .AtAGlance_facts__YWTA5 dt {
@@ -787,7 +790,6 @@
 .AtAGlance_glance__J_2fS .AtAGlance_apply__hGFn4.AtAGlance_apply__hGFn4 {
   margin-top: clamp(1.375rem, 2.292vw, 2.75rem);
   width: min(100%, clamp(15rem, 18.698vw, 22.4375rem));
-  min-height: clamp(3.5rem, 5.938vw, 7.125rem);
 }
 
 /* 132px rows with full-width rules */
@@ -845,11 +847,11 @@
   }
 
   .AtAGlance_facts__YWTA5 {
-    margin-top: 3rem;
+    margin-top: calc(3rem - var(--sidebar-gap-reduction));
   }
 
   .AtAGlance_facts__YWTA5 > div {
-    gap: 1rem;
+    gap: calc(1rem - var(--sidebar-gap-reduction));
   }
 
   .AtAGlance_facts__YWTA5 dt,
@@ -859,7 +861,6 @@
 
   .AtAGlance_glance__J_2fS .AtAGlance_apply__hGFn4.AtAGlance_apply__hGFn4 {
     width: min(100%, 359px);
-    min-height: clamp(3.5rem, 2.6rem + 3.9vw, 7.125rem);
   }
 
   .AtAGlance_actions__Bvh66 {
@@ -948,6 +949,7 @@
   --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem);
   --column-bleed: clamp(0px, 4.375vw, 84px);
   padding: var(--section-rule-gap) 0 var(--section-spacing) var(--column-inset);
+  border-bottom: 0;
 }
 
 .AcademicsLayout_main__uDUIQ > .AcademicsLayout_block___7m3k > section {
@@ -1066,9 +1068,10 @@
 .SpecialisationPage_listViewport__tJx_f {
   --list-gap: clamp(.5rem, .35rem + .4vw, 1rem);
   --badge: clamp(3.25rem, 2.6rem + 1.75vw, 4.8125rem);
+  --divided-row-height: clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem);
   --band-start: var(--column-inset, 0px);
   --band-extension: calc(var(--edge, var(--page-gutter)) + .365vw);
-  max-height: calc((var(--badge) * 5) + (var(--list-gap) * 4));
+  max-height: calc(var(--divided-row-height) * 5);
   margin: 1.75rem calc(-1 * var(--band-extension)) 0 calc(-1 * var(--band-start));
   padding-inline: var(--band-start) var(--band-extension);
   overflow-y: auto;

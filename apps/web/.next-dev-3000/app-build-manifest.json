@@ -47,6 +47,24 @@
       "static/chunks/main-app.js",
       "static/css/app/our-academics/in-demand-specialisations/[slug]/page.css",
       "static/chunks/app/our-academics/in-demand-specialisations/[slug]/page.js"
+    ],
+    "/gallery/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/gallery/[slug]/page.css",
+      "static/chunks/app/gallery/[slug]/page.js"
+    ],
+    "/events/gallery/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/events/gallery/page.css",
+      "static/chunks/app/events/gallery/page.js"
+    ],
+    "/videos-of-speakers/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/videos-of-speakers/page.css",
+      "static/chunks/app/videos-of-speakers/page.js"
     ]
   }
 }

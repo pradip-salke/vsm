@@ -27,7 +27,7 @@ export function AtAGlance({ facts = atAGlance, showActions = true }: AtAGlancePr
             </div>
           ))}
         </dl>
-        <Button href={APPLY_PATH} size="lg" className={styles.apply}>
+        <Button href={APPLY_PATH} className={styles.apply}>
           Apply Now
         </Button>
       </section>

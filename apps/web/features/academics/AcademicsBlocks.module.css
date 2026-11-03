@@ -4,6 +4,10 @@
   margin-top: var(--heading-copy-gap);
 }
 
+.aboutProgramHeading {
+  gap: calc(var(--space-2) * 0.45);
+}
+
 .inlineLink {
   text-decoration: underline;
   text-underline-offset: 3px;

@@ -78,7 +78,7 @@ export function AimaCourseModules() {
           </table>
         </div>
         <h3 className={styles.moduleFourTitle}>Module 4 – Common for all Specialisations (Post Graduate Diploma in Management PGDM)</h3>
-        <IconList items={aimaModuleFourItems} className={styles.iconList} />
+        <IconList items={aimaModuleFourItems} divided className={styles.iconList} />
       </div>
     </section>
   );
