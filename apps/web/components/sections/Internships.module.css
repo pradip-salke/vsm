@@ -6,7 +6,7 @@
   /* Figma Home: three 549px cards with 16px gutters in the 1680px content area. */
   --slide-gap: clamp(0.5rem, 0.833vw, 1rem);
   --slide-width: calc((100% - var(--slide-gap) * 2) / 3);
-  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
+  margin-top: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - clamp(2px, 0.520833vw, 10px));
 }
 
 .card {

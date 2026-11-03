@@ -46,7 +46,8 @@
 .layout {
   width: 100vw;
   --edge: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
-  --column-inset: clamp(1.25rem, 3.646vw, 4.375rem); /* 70px at 1920px */
+  --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem); /* 43px at 1920px, matching Why Choose VSM */
+  --academic-section-bottom: calc(var(--section-spacing) + 0.78125vw); /* +15px at 1920px */
   display: grid;
   grid-template-columns: calc(var(--edge) + clamp(16rem, 26.094vw, 31.3125rem)) minmax(0, 1fr);
 }
@@ -64,15 +65,14 @@
 .block {
   --bleed-right: var(--edge);
   --column-bleed: var(--edge);
-  padding: var(--section-rule-gap) calc(var(--edge) + 0.365vw) var(--section-spacing) var(--column-inset);
+  padding: var(--section-rule-gap) calc(var(--edge) + 0.365vw) var(--academic-section-bottom) var(--column-inset);
   border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
 .block.why {
-  --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem);
   --column-bleed: clamp(0px, 4.375vw, 84px);
-  padding: var(--section-rule-gap) 0 var(--section-spacing) var(--column-inset);
-  border-bottom: 0;
+  padding: var(--section-rule-gap) 0 var(--academic-section-bottom) var(--column-inset);
+  border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
 .main > .block > :global(section) {
@@ -138,13 +138,13 @@
 
   .block {
     --column-inset: var(--page-gutter);
-    padding: var(--section-rule-gap) var(--page-gutter) var(--section-spacing);
+    padding: var(--section-rule-gap) var(--page-gutter) var(--academic-section-bottom);
   }
 
   .block.why {
     --column-inset: var(--page-gutter);
     --column-bleed: 0px;
-    padding: var(--section-rule-gap) var(--page-gutter) var(--section-spacing);
+    padding: var(--section-rule-gap) var(--page-gutter) var(--academic-section-bottom);
   }
 
   .main h2 {

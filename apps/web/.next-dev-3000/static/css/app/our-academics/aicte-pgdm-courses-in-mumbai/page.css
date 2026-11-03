@@ -149,7 +149,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  margin-top: calc(var(--dots-offset, 2rem) - 0.78125vw);
+  margin-top: calc(var(--dots-offset, 2rem) - 0.78125vw - 10px);
 }
 
 .Carousel_controlsStart__flb05 {
@@ -351,7 +351,7 @@
 .FacultySection_role__OEghU {
   margin-top: var(--space-1);
   color: var(--color-text-subtle);
-  font-size: var(--font-size-input);
+  font-size: var(--font-size-paragraph);
   line-height: 1.5;
 }
 
@@ -361,12 +361,12 @@
 
 .FacultySection_column__e2oCm .FacultySection_name__DIf7W {
   color: var(--color-heading);
-  font-size: var(--font-size-input);
+  font-size: var(--font-size-h4);
 }
 
 .FacultySection_column__e2oCm .FacultySection_role__OEghU {
   color: var(--color-text-body);
-  font-size: var(--font-size-table);
+  font-size: var(--font-size-paragraph);
 }
 
 /* Profile modal (Figma "Profile expand"): 1268 × 541 white card, 40px radius */
@@ -751,7 +751,7 @@
   align-items: center;
   justify-content: center;
   gap: clamp(3px, 0.3125vw, 6px);
-  margin-top: calc(clamp(2rem, 1.5rem + 1.5vw, 3.6875rem) - 0.78125vw);
+  margin-top: calc(clamp(2rem, 1.5rem + 1.5vw, 3.6875rem) - 0.78125vw - 10px);
 }
 
 .Recruiters_control__omG0M {
@@ -1030,7 +1030,7 @@
   /* Figma Home: three 549px cards with 16px gutters in the 1680px content area. */
   --slide-gap: clamp(0.5rem, 0.833vw, 1rem);
   --slide-width: calc((100% - var(--slide-gap) * 2) / 3);
-  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
+  margin-top: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - clamp(2px, 0.520833vw, 10px));
 }
 
 .Internships_card__qRw0K {
@@ -1800,7 +1800,7 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-gap: var(--space-6) clamp(1.5rem, 1rem + 3vw, 8rem);
   gap: var(--space-6) clamp(1.5rem, 1rem + 3vw, 8rem);
-  margin-top: var(--space-6);
+  margin-top: calc(var(--space-6) - clamp(2px, 0.364583vw, 7px));
   padding: clamp(1.5rem, 1rem + 1.4vw, 2.8rem) clamp(1.25rem, 0.8rem + 1.4vw, 2.75rem);
   border-radius: var(--radius-xs);
   background: var(--color-dark);
@@ -1908,7 +1908,8 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 .AcademicsLayout_layout__rIML_ {
   width: 100vw;
   --edge: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
-  --column-inset: clamp(1.25rem, 3.646vw, 4.375rem); /* 70px at 1920px */
+  --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem); /* 43px at 1920px, matching Why Choose VSM */
+  --academic-section-bottom: calc(var(--section-spacing) + 0.78125vw); /* +15px at 1920px */
   display: grid;
   grid-template-columns: calc(var(--edge) + clamp(16rem, 26.094vw, 31.3125rem)) minmax(0, 1fr);
 }
@@ -1926,15 +1927,14 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 .AcademicsLayout_block___7m3k {
   --bleed-right: var(--edge);
   --column-bleed: var(--edge);
-  padding: var(--section-rule-gap) calc(var(--edge) + 0.365vw) var(--section-spacing) var(--column-inset);
+  padding: var(--section-rule-gap) calc(var(--edge) + 0.365vw) var(--academic-section-bottom) var(--column-inset);
   border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
 .AcademicsLayout_block___7m3k.AcademicsLayout_why__jPl03 {
-  --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem);
   --column-bleed: clamp(0px, 4.375vw, 84px);
-  padding: var(--section-rule-gap) 0 var(--section-spacing) var(--column-inset);
-  border-bottom: 0;
+  padding: var(--section-rule-gap) 0 var(--academic-section-bottom) var(--column-inset);
+  border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
 .AcademicsLayout_main__uDUIQ > .AcademicsLayout_block___7m3k > section {
@@ -2000,13 +2000,13 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 
   .AcademicsLayout_block___7m3k {
     --column-inset: var(--page-gutter);
-    padding: var(--section-rule-gap) var(--page-gutter) var(--section-spacing);
+    padding: var(--section-rule-gap) var(--page-gutter) var(--academic-section-bottom);
   }
 
   .AcademicsLayout_block___7m3k.AcademicsLayout_why__jPl03 {
     --column-inset: var(--page-gutter);
     --column-bleed: 0px;
-    padding: var(--section-rule-gap) var(--page-gutter) var(--section-spacing);
+    padding: var(--section-rule-gap) var(--page-gutter) var(--academic-section-bottom);
   }
 
   .AcademicsLayout_main__uDUIQ h2 {

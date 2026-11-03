@@ -54,7 +54,7 @@
 .role {
   margin-top: var(--space-1);
   color: var(--color-text-subtle);
-  font-size: var(--font-size-input);
+  font-size: var(--font-size-paragraph);
   line-height: 1.5;
 }
 
@@ -64,12 +64,12 @@
 
 .column .name {
   color: var(--color-heading);
-  font-size: var(--font-size-input);
+  font-size: var(--font-size-h4);
 }
 
 .column .role {
   color: var(--color-text-body);
-  font-size: var(--font-size-table);
+  font-size: var(--font-size-paragraph);
 }
 
 /* Profile modal (Figma "Profile expand"): 1268 × 541 white card, 40px radius */
