@@ -98,15 +98,15 @@ export const drawerNav: NavLink[] = [
 ];
 
 export const aboutLinks: NavLink[] = [
-  { label: 'About VSM', href: 'https://vsmedu.com/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/' },
-  { label: 'Our Philosophy', href: 'https://vsmedu.com/about-us/our-philosophy/' },
-  { label: 'Academic Advisory Board', href: 'https://vsmedu.com/about-us/academic-advisory-board/' },
-  { label: 'Trustee’s Message', href: 'https://vsmedu.com/about-us/trustee-message/' },
-  { label: 'Vice Chairman Message', href: 'https://vsmedu.com/about-us/vice-chairman-message/' },
-  { label: 'Director Message', href: 'https://vsmedu.com/about-us/director-message/' },
-  { label: 'Affiliation & Industry Leadership', href: 'https://vsmedu.com/about-us/affiliation-industry-leadership/' },
-  { label: 'Infrastructure', href: 'https://vsmedu.com/about-us/infrastructure/' },
-  { label: 'Student Residence', href: 'https://vsmedu.com/?page_id=415' },
+  { label: 'About VSM', href: '/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/' },
+  { label: 'Our Philosophy', href: '/about-us/our-philosophy/' },
+  { label: 'Academic Advisory Board', href: '/about-us/academic-advisory-board/' },
+  { label: 'Trustee’s Message', href: '/about-us/trustee-message/' },
+  { label: 'Vice Chairman Message', href: '/about-us/vice-chairman-message/' },
+  { label: 'Director Message', href: '/about-us/director-message/' },
+  { label: 'Affiliation & Industry Leadership', href: '/about-us/affiliation-industry-leadership/' },
+  { label: 'Infrastructure', href: '/about-us/infrastructure/' },
+  { label: 'Student Residence', href: '/about-us/student-residence/' },
   { label: 'Board of Governance', href: 'https://vsmedu.com/wp-content/uploads/2026/08/DocScanner-25-Aug-2026-3-56-pm.pdf' },
 ];
 
@@ -123,7 +123,7 @@ export const footer = {
     { label: 'Admissions Process', href: '/admissions/mba-pgdm-admissions-process/' },
     { label: 'Application Form', href: APPLY_PATH },
     { label: 'Pay Online', href: '/pay-online/' },
-    { label: 'Students Residence', href: '/students-residence/' },
+    { label: 'Students Residence', href: '/about-us/student-residence/' },
     { label: 'Testimonials', href: '/#testimonials' },
     { label: 'Admin Login', href: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'http://localhost:5173' },
   ] satisfies NavLink[],

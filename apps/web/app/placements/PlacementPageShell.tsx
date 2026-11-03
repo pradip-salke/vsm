@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';
+import { APPLY_PATH } from '@/content/site';
 import styles from './PlacementPage.module.css';
 
 export const placementPages = [
@@ -19,7 +21,10 @@ export function PlacementPageShell({ title, active, children }: { title: string;
       <PageHero
         size="inner"
         slides={[slide]}
-        actions={null}
+        actions={<>
+          <Button href={APPLY_PATH}>Apply Now</Button>
+          <Button variant="arrow" href="mailto:admissions@vsmedu.in">Enquire now</Button>
+        </>}
         breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Placements', href: '/placements/' }, { label: title }]}
       />
       <nav className={styles.nav} aria-label="Placement pages">

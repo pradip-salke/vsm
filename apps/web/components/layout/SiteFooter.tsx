@@ -13,7 +13,7 @@ export function SiteFooter() {
         <div className={styles.grid}>
           <div className={styles.about}>
             <Link href="/" className={styles.logo} aria-label="Valia School of Management home">
-              <Image src="/images/brand/vsm-logo.webp" alt="Valia School of Management" width={413} height={121} />
+              <Image src="/images/brand/vsm-logo.svg" alt="Valia School of Management" width={266} height={78} />
             </Link>
             <p>{footer.about}</p>
           </div>

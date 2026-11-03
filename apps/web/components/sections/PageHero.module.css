@@ -46,9 +46,14 @@
 }
 
 .inner .content {
-  justify-content: flex-start;
-  padding-top: clamp(1.25rem, 0.9rem + 1vw, 1.75rem);
-  padding-bottom: var(--space-6);
+  position: relative;
+  justify-content: center;
+  padding-block: clamp(1rem, 0.9rem + 0.85vw, 1.75rem);
+}
+
+.inner .breadcrumb {
+  position: absolute;
+  inset: clamp(1rem, 1.40625vw, 1.6875rem) var(--page-gutter) auto;
 }
 
 .breadcrumb ol {
@@ -103,7 +108,7 @@
 
 .inner .copy {
   max-width: 42rem;
-  margin-top: 1.9375rem;
+  margin-top: 0;
 }
 
 .singleDots {
@@ -192,7 +197,11 @@
   }
 
   .inner .content {
-    padding-top: var(--space-3);
+    padding-block: var(--space-5);
+  }
+
+  .inner .breadcrumb {
+    position: static;
   }
 
   .inner .copy {

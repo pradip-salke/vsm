@@ -147,7 +147,7 @@ export function SiteHeader() {
         <div className={`container ${styles.inner}`}>
           <div className={styles.brand}>
             <Link href="/" className={styles.logo} aria-label="Valia School of Management home">
-              <Image src="/images/brand/vsm-logo.webp" alt="Valia School of Management" width={413} height={121} priority />
+              <Image src="/images/brand/vsm-logo.svg" alt="Valia School of Management" width={266} height={78} priority />
             </Link>
             <Image className={styles.years} src="/images/brand/63-years.webp" alt="63 years" width={145} height={73} priority />
             <span className={styles.brandDivider} aria-hidden />
@@ -198,7 +198,7 @@ export function SiteHeader() {
         inert={!drawerOpen}
       >
         <div className={styles.drawerHead}>
-          <Image src="/images/brand/vsm-logo.webp" alt="" width={413} height={121} className={styles.drawerLogo} />
+          <Image src="/images/brand/vsm-logo.svg" alt="" width={266} height={78} className={styles.drawerLogo} />
           <button type="button" className={styles.drawerClose} aria-label="Close menu" onClick={() => setDrawerOpen(false)}>
             <Icon src={icons.close} />
           </button>

@@ -19,7 +19,10 @@ export function AdmissionsPageShell({ title, subtitle, active, children }: {
   return <>
     <PageHero size="inner" slides={[slide]} breadcrumb={[
       { label: 'Home', href: '/' }, { label: 'Admissions', href: admissionPages[0].href }, { label: active },
-    ]} actions={<Button href={APPLY_PATH}>Apply Now</Button>} />
+    ]} actions={<>
+      <Button href={APPLY_PATH}>Apply Now</Button>
+      <Button variant="arrow" href="mailto:admissions@vsmedu.in">Enquire now</Button>
+    </>} />
     <nav className={styles.nav} aria-label="Admissions pages"><ul className={`container ${styles.navList}`} role="list">
       {admissionPages.map((page) => <li key={page.href}><a href={page.href} aria-current={page.label === active ? 'page' : undefined}>{page.label}</a></li>)}
     </ul></nav>

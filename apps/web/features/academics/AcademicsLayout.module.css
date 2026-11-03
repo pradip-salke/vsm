@@ -45,7 +45,7 @@
 }
 
 .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div {
-  margin-top: 31px;
+  margin-top: 0;
 }
 
 .page > :global(section[aria-label='Introduction']) h1 {
@@ -53,14 +53,14 @@
 }
 
 .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div > p {
-  margin-top: 30px;
+  margin-top: clamp(0.9375rem, 1.5625vw, 1.875rem);
   font-size: var(--font-size-body);
   font-weight: var(--font-weight-medium);
-  line-height: 39.1px;
+  line-height: clamp(1.6em, 2.036vw, 2.44375rem);
 }
 
 .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div > div {
-  margin-top: 22px;
+  margin-top: clamp(0.6875rem, 1.146vw, 1.375rem);
 }
 
 /*
