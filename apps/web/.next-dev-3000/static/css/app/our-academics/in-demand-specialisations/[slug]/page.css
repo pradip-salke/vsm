@@ -421,12 +421,31 @@
 .IconList_divided__IEC0k {
   --divided-row-height: clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem);
   gap: 0;
-  border-top: var(--border-width) solid var(--color-border);
+  position: relative;
+}
+
+.IconList_divided__IEC0k::before,
+.IconList_divided__IEC0k .IconList_item__jHiRA::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  right: calc(-1 * var(--academic-divider-right, 0px));
+  left: calc(-1 * var(--academic-divider-left, 0px));
+  height: var(--border-width);
+  background: var(--color-border);
+  pointer-events: none;
+}
+
+.IconList_divided__IEC0k::before {
+  top: 0;
 }
 
 .IconList_divided__IEC0k .IconList_item__jHiRA {
   min-height: var(--divided-row-height); /* 118px */
-  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.IconList_divided__IEC0k .IconList_item__jHiRA::after {
+  bottom: 0;
 }
 
 .IconList_divided__IEC0k .IconList_item__jHiRA::before {
@@ -584,7 +603,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  margin-top: calc(var(--dots-offset, 2rem) - 0.78125vw - 10px);
+  margin-top: calc(var(--dots-offset, 2rem) - 0.78125vw - 10px + 1.041667vw + var(--dots-space-adjustment, 0px));
 }
 
 .Carousel_controlsStart__flb05 {
@@ -924,6 +943,8 @@
   width: 100vw;
   --edge: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
   --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem); /* 43px at 1920px, matching Why Choose VSM */
+  --academic-divider-left: var(--column-inset);
+  --academic-divider-right: calc(var(--edge) + 0.365vw);
   --academic-section-bottom: calc(var(--section-spacing) + 0.78125vw); /* +15px at 1920px */
   display: grid;
   grid-template-columns: calc(var(--edge) + clamp(16rem, 26.094vw, 31.3125rem)) minmax(0, 1fr);
@@ -989,8 +1010,9 @@
 .AcademicsLayout_main__uDUIQ .AcademicsLayout_steps__XAant {
   --band-bleed: 0px;
   --band-end: 0px;
+  --academic-divider-left: 0px;
+  --academic-divider-right: 0.365vw;
   margin: var(--space-6) calc(-1 * var(--edge)) 0 calc(-1 * var(--column-inset));
-  border-top: var(--border-width) solid var(--color-border-soft);
 }
 
 .AcademicsLayout_steps__XAant > li {
@@ -1005,6 +1027,8 @@
 @media (max-width: 1023px) {
   .AcademicsLayout_layout__rIML_ {
     grid-template-columns: 1fr;
+    --academic-divider-left: var(--page-gutter);
+    --academic-divider-right: var(--page-gutter);
   }
 
   .AcademicsLayout_sidebar__DRcsT {
@@ -1022,6 +1046,11 @@
     --column-inset: var(--page-gutter);
     --column-bleed: 0px;
     padding: var(--section-rule-gap) var(--page-gutter) var(--academic-section-bottom);
+  }
+
+  .AcademicsLayout_main__uDUIQ .AcademicsLayout_steps__XAant {
+    --academic-divider-left: 0px;
+    --academic-divider-right: 0px;
   }
 
   .AcademicsLayout_main__uDUIQ h2 {

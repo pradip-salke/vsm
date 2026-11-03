@@ -70,7 +70,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  margin-top: calc(var(--dots-offset, 2rem) - 0.78125vw - 10px);
+  margin-top: calc(var(--dots-offset, 2rem) - 0.78125vw - 10px + 1.041667vw + var(--dots-space-adjustment, 0px));
 }
 
 .controlsStart {

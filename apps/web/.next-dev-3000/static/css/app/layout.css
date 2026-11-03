@@ -1528,7 +1528,7 @@ a.EnquirySection_social__4mfnh:hover {
   --color-divider-dark: #8b8b8b; /* header logo divider */
   --color-marquee-dot: #484848;
   --color-faculty-bg: #f8f4e7;
-  --carousel-dot-size: clamp(0.625rem, 0.625vw, 0.75rem);
+  --carousel-dot-size: clamp(0.75rem, 0.9375vw, 1.125rem); /* 18px at 1920px, responsive with a 12px floor */
 
   /* Lines */
   --color-border: #c9c9c9;

@@ -4,6 +4,10 @@
   color: var(--color-text-inverse);
 }
 
+.section.reducedBottom {
+  padding-bottom: calc(var(--section-spacing) + 1.041667vw);
+}
+
 /* Centre slide is 1052px of a 1920px frame; neighbours peek in at either side */
 .carousel {
   --slide-width: min(54.8vw, 65.75rem);

@@ -1,0 +1,8 @@
+.homePage {
+  --section-spacing: calc(clamp(2.5rem, 3.646vw, 4.375rem) + 1.041667vw);
+}
+
+.homePage + :global(#enquire-now) {
+  padding-top: calc(var(--section-spacing) * 2);
+  background: var(--color-page);
+}

@@ -16,6 +16,7 @@ import { CtaBanner } from '@/features/home/CtaBanner';
 import { PgdmProgram } from '@/features/home/PgdmProgram';
 import { Specialisations } from '@/features/home/Specialisations';
 import { StatsBar } from '@/features/home/StatsBar';
+import styles from './page.module.css';
 
 export const metadata: Metadata = {
   title: { absolute: 'AICTE Approved PGDM College in Mumbai | Valia School of Management' },
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <>
+    <div className={styles.homePage}>
       <PageHero
         slides={heroSlides}
         actions={
@@ -46,12 +47,12 @@ export default function HomePage() {
       <Specialisations />
       <Recruiters />
       <Internships />
-      <Testimonials />
+      <Testimonials reduceBottomPadding />
       <Marquee />
       <MediaCarousel id="events" title="Upcoming Events" items={homeEvents} layout="events" />
       <MediaCarousel id="life-at-vsm" title="Life @ VSM" items={homeLife} layout="life" background="cream" />
       <FaqSection />
       <CtaBanner />
-    </>
+    </div>
   );
 }

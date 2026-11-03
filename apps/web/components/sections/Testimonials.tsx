@@ -11,7 +11,7 @@ const initials = (name: string) =>
     .join('')
     .slice(0, 2);
 
-export function Testimonials() {
+export function Testimonials({ reduceBottomPadding = false }: { reduceBottomPadding?: boolean }) {
   const slides = testimonials.map((item) => {
     const media = item.image ?? testimonialFallbackImage;
     return (
@@ -42,7 +42,7 @@ export function Testimonials() {
   });
 
   return (
-    <section id="testimonials" className={styles.section} aria-labelledby="testimonials-title">
+    <section id="testimonials" className={`${styles.section} ${reduceBottomPadding ? styles.reducedBottom : ''}`} aria-labelledby="testimonials-title">
       <div className="container">
         <SectionHeading
           id="testimonials-title"

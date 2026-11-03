@@ -1,5 +1,5 @@
 .section {
-  padding-block: var(--section-spacing);
+  padding: var(--section-spacing) 0 calc(var(--section-spacing) + 1.041667vw);
 }
 
 .heading.heading {

@@ -29,6 +29,78 @@
       "static/chunks/main-app.js",
       "static/css/app/our-academics/in-demand-specialisations/[slug]/page.css",
       "static/chunks/app/our-academics/in-demand-specialisations/[slug]/page.js"
+    ],
+    "/our-academics/aima-pgdm/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/our-academics/aima-pgdm/page.css",
+      "static/chunks/app/our-academics/aima-pgdm/page.js"
+    ],
+    "/admissions/mba-pgdm-admissions-process/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/admissions/mba-pgdm-admissions-process/page.css",
+      "static/chunks/app/admissions/mba-pgdm-admissions-process/page.js"
+    ],
+    "/admissions/pgdm-fee-structure/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/admissions/pgdm-fee-structure/page.css",
+      "static/chunks/app/admissions/pgdm-fee-structure/page.js"
+    ],
+    "/admissions/application-form/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/admissions/application-form/page.css",
+      "static/chunks/app/admissions/application-form/page.js"
+    ],
+    "/admissions/refund-policy/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/admissions/refund-policy/page.css",
+      "static/chunks/app/admissions/refund-policy/page.js"
+    ],
+    "/placements/our-recruiters/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/placements/our-recruiters/page.css",
+      "static/chunks/app/placements/our-recruiters/page.js"
+    ],
+    "/placements/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/placements/page.css",
+      "static/chunks/app/placements/page.js"
+    ],
+    "/placements/placement-records/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/placements/placement-records/page.css",
+      "static/chunks/app/placements/placement-records/page.js"
+    ],
+    "/placements/placement-records/pgdm-2022-24-batch/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/placements/placement-records/pgdm-2022-24-batch/page.css",
+      "static/chunks/app/placements/placement-records/pgdm-2022-24-batch/page.js"
+    ],
+    "/placements/placement-records/pgdm-2021-23-batch/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/placements/placement-records/pgdm-2021-23-batch/page.css",
+      "static/chunks/app/placements/placement-records/pgdm-2021-23-batch/page.js"
+    ],
+    "/placements/alumni/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/placements/alumni/page.css",
+      "static/chunks/app/placements/alumni/page.js"
+    ],
+    "/connect-with-us/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/connect-with-us/page.css",
+      "static/chunks/app/connect-with-us/page.js"
     ]
   }
 }
