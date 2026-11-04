@@ -9,10 +9,12 @@ const WORDS: { text: string; highlight?: boolean }[] = [
 ];
 
 function WordRow({ hidden = false }: { hidden?: boolean }) {
+  const words = [...WORDS, { ...WORDS[0] }];
+
   return (
     <ul className={styles.row} role="list" aria-hidden={hidden || undefined}>
-      {WORDS.map((word) => (
-        <li key={word.text} className={word.highlight ? styles.highlight : undefined}>
+      {words.map((word, index) => (
+        <li key={`${word.text}-${index}`} className={word.highlight ? styles.highlight : undefined}>
           {word.text}
         </li>
       ))}

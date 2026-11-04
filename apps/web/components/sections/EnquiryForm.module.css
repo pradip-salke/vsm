@@ -76,7 +76,7 @@
 .captchaText {
   padding-left: 0.5rem;
   color: var(--color-heading);
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-body);
   font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.6rem);
   font-style: italic;
   font-weight: 700;
@@ -99,7 +99,7 @@
 }
 
 /*
- * Figma: consent text (Manrope Medium 22/39.1, #505050) cap line 51px below the fields,
+ * Figma: consent text (Urbanist Medium 22/39.1, #505050) cap line 51px below the fields,
  * 28px box aligned to that cap line, text 14px after it.
  */
 .consent {

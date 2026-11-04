@@ -46,11 +46,6 @@ export function FacultyDirectoryCards() {
             <span className={aboutStyles.profileCopy}>
               <span className={styles.cardTitle}>{member.name}</span>
               <span className={aboutStyles.profileRole}>{member.role}</span>
-              <span className={aboutStyles.profileDetails} role="list">
-                {member.details.map((detail) => (
-                  <span role="listitem" key={detail.label}>{detail.label}: {detail.value}</span>
-                ))}
-              </span>
             </span>
           </button>
         ))}

@@ -1,4 +1,4 @@
-/* Word strip: #0a192f, 100px tall, Urbanist Medium 50px, grey words with teal highlights */
+/* Black Ribbon: 1920px Figma frame, with fluid spacing and type below desktop. */
 .marquee {
   overflow: hidden;
   background: var(--color-dark);
@@ -18,14 +18,14 @@
   display: flex;
   align-items: center;
   margin: 0;
-  padding: 0;
+  padding-inline: clamp(1rem, 7.760417vw, 9.3125rem) clamp(1rem, 7.708333vw, 9.25rem);
   list-style: none;
-  min-height: clamp(3.75rem, 3.15rem + 2.6vw, 6.25rem);
+  min-height: calc(clamp(2.5rem, 5.208333vw, 6.25rem) + 0.390625vw);
   color: var(--color-text-muted);
   font-family: var(--font-heading);
-  font-size: var(--font-size-stat);
+  font-size: clamp(1.125rem, 2.604167vw, 3.125rem);
   font-weight: var(--font-weight-medium);
-  line-height: 1;
+  line-height: normal;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -35,17 +35,22 @@
   align-items: center;
 }
 
-.row li::after {
+.row li + li {
+  padding-left: clamp(0.75rem, 2.34375vw, 2.8125rem);
+}
+
+.row li + li::before {
   content: '';
-  width: 10px;
-  height: 10px;
-  margin-inline: clamp(1.5rem, 1rem + 2vw, 3.3rem);
+  flex: 0 0 clamp(0.25rem, 0.520833vw, 0.625rem);
+  width: clamp(0.25rem, 0.520833vw, 0.625rem);
+  height: clamp(0.25rem, 0.520833vw, 0.625rem);
+  margin-right: clamp(0.75rem, 2.34375vw, 2.8125rem);
   border-radius: 50%;
   background: var(--color-marquee-dot);
 }
 
 .highlight {
-  color: var(--color-primary);
+  color: #008db1;
 }
 
 @keyframes scroll {

@@ -1,7 +1,7 @@
 .button {
   position: fixed;
   right: clamp(1rem, 2.5vw, 3rem);
-  bottom: var(--back-to-top-bottom, clamp(1rem, 1.25vw, 1.5rem));
+  bottom: clamp(1rem, 1.25vw, 1.5rem);
   z-index: calc(var(--z-header) - 1);
   display: grid;
   place-items: center;

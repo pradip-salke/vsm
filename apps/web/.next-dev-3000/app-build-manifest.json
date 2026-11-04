@@ -24,83 +24,11 @@
       "static/css/app/our-academics/aicte-pgdm-courses-in-mumbai/page.css",
       "static/chunks/app/our-academics/aicte-pgdm-courses-in-mumbai/page.js"
     ],
-    "/our-academics/aima-pgdm/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/our-academics/aima-pgdm/page.css",
-      "static/chunks/app/our-academics/aima-pgdm/page.js"
-    ],
-    "/placements/placement-records/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/placements/placement-records/page.css",
-      "static/chunks/app/placements/placement-records/page.js"
-    ],
-    "/placements/placement-records/pgdm-2022-24-batch/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/placements/placement-records/pgdm-2022-24-batch/page.css",
-      "static/chunks/app/placements/placement-records/pgdm-2022-24-batch/page.js"
-    ],
-    "/faculty/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/faculty/page.css",
-      "static/chunks/app/faculty/page.js"
-    ],
     "/our-academics/in-demand-specialisations/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/our-academics/in-demand-specialisations/[slug]/page.css",
       "static/chunks/app/our-academics/in-demand-specialisations/[slug]/page.js"
-    ],
-    "/about-us/academic-advisory-board/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/academic-advisory-board/page.css",
-      "static/chunks/app/about-us/academic-advisory-board/page.js"
-    ],
-    "/about-us/our-philosophy/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/our-philosophy/page.css",
-      "static/chunks/app/about-us/our-philosophy/page.js"
-    ],
-    "/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/page.css",
-      "static/chunks/app/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/page.js"
-    ],
-    "/about-us/trustee-message/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/trustee-message/page.css",
-      "static/chunks/app/about-us/trustee-message/page.js"
-    ],
-    "/about-us/affiliation-industry-leadership/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/affiliation-industry-leadership/page.css",
-      "static/chunks/app/about-us/affiliation-industry-leadership/page.js"
-    ],
-    "/about-us/vice-chairman-message/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/vice-chairman-message/page.css",
-      "static/chunks/app/about-us/vice-chairman-message/page.js"
-    ],
-    "/career/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/career/page.css",
-      "static/chunks/app/career/page.js"
-    ],
-    "/admissions/application-form/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/admissions/application-form/page.css",
-      "static/chunks/app/admissions/application-form/page.js"
     ]
   }
 }

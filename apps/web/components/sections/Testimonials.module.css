@@ -5,19 +5,26 @@
 }
 
 .section.reducedBottom {
-  padding-bottom: calc(var(--section-spacing) + 1.041667vw);
+  padding-bottom: calc(var(--section-spacing) + 1.041667vw + 16px);
+}
+
+.section:not(.reducedBottom) {
+  margin-bottom: 20px;
 }
 
 /* Centre slide is 1052px of a 1920px frame; neighbours peek in at either side */
 .carousel {
   --slide-width: min(54.8vw, 65.75rem);
   --slide-gap: clamp(1rem, 0.6rem + 1.2vw, 1.75rem);
+  --dots-space-adjustment: 6px;
   margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
+  margin-bottom: 20px;
 }
 
 .slide {
   display: flex;
   flex-direction: column;
+  height: 100%;
   gap: clamp(1.25rem, 0.8rem + 1.4vw, 2.1rem);
 }
 
@@ -34,26 +41,27 @@
   height: 89.7%; /* 504px side slides */
   object-fit: cover;
   border-radius: var(--radius-lg);
-  transition: height var(--transition-slow);
-}
-
-.carousel [data-active] .media img {
-  height: 100%;
 }
 
 .card {
+  box-sizing: border-box;
+  flex: 1 0 auto;
   height: var(--testimonial-card-height, auto);
   overflow-y: auto;
   padding: clamp(1.25rem, 0.8rem + 1.6vw, 2.5rem);
   border-radius: 20px;
   background: transparent;
   opacity: 0.55;
-  transition: background-color var(--transition-slow), opacity var(--transition-slow);
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .carousel [data-active] .card {
   background: var(--surface-glass);
-  opacity: 1;
 }
 
 .quote {
@@ -68,7 +76,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
-  margin-top: clamp(1rem, 0.7rem + 1vw, 1.75rem);
+  margin-top: auto;
 }
 
 .avatar {

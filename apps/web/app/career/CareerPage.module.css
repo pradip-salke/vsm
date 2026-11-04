@@ -2,7 +2,7 @@
 .application { padding-block: var(--section-spacing); }
 .sectionHeading { max-width: 48rem; margin: 0 auto clamp(2rem, 4vw, 3.5rem); text-align: center; }
 .eyebrow { display: block; margin-bottom: .65rem; color: var(--color-primary-dark); font-size: .875rem; font-weight: var(--font-weight-extrabold); letter-spacing: .12em; text-transform: uppercase; }
-.sectionHeading h2 { margin: 0; color: var(--color-heading); font-family: var(--font-urbanist); font-size: clamp(2rem, 1.3rem + 2vw, 3.25rem); font-weight: var(--font-weight-extrabold); line-height: 1.1; }
+.sectionHeading h2 { margin: 0; color: var(--color-heading); font-family: var(--font-heading); font-size: clamp(2rem, 1.3rem + 2vw, 3.25rem); font-weight: var(--font-weight-extrabold); line-height: 1.1; }
 .sectionHeading p { margin: var(--heading-copy-gap) 0 0; color: var(--color-text-answer); line-height: var(--line-height-body); }
 .applicationGrid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: stretch; gap: clamp(1.5rem, 4vw, 4rem); }
 .imageWrap { position: relative; min-height: 32rem; overflow: hidden; border-radius: var(--radius-md); background: var(--color-cream); }
@@ -10,9 +10,9 @@
 .imageWrap > img { display: block; width: 100%; height: 100%; min-height: 32rem; object-fit: cover; }
 .imageCaption { position: absolute; z-index: 1; right: clamp(1.25rem, 3vw, 2.5rem); bottom: clamp(1.5rem, 3vw, 2.5rem); left: clamp(1.25rem, 3vw, 2.5rem); display: grid; gap: .25rem; color: white; }
 .imageCaption span { font-size: .95rem; }
-.imageCaption strong { font-family: var(--font-urbanist); font-size: clamp(1.6rem, 1.1rem + 1.5vw, 2.5rem); }
+.imageCaption strong { font-family: var(--font-heading); font-size: clamp(1.6rem, 1.1rem + 1.5vw, 2.5rem); }
 .formPanel { min-width: 0; padding: clamp(1.4rem, 3vw, 2.75rem); border: 1px solid var(--color-border, #e5e7eb); border-radius: var(--radius-md); background: var(--color-surface, #fff); box-shadow: var(--shadow-card); }
-.formPanel h3 { margin: 0; color: var(--color-heading); font-family: var(--font-urbanist); font-size: clamp(1.5rem, 1.2rem + .8vw, 2rem); font-weight: var(--font-weight-extrabold); }
+.formPanel h3 { margin: 0; color: var(--color-heading); font-family: var(--font-heading); font-size: clamp(1.5rem, 1.2rem + .8vw, 2rem); font-weight: var(--font-weight-extrabold); }
 .formIntro { margin: .5rem 0 1.5rem; color: var(--color-text-answer); line-height: var(--line-height-body); }
 .form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .field { display: grid; min-width: 0; gap: .45rem; color: var(--color-heading); font-size: .925rem; font-weight: var(--font-weight-bold); }
@@ -27,7 +27,7 @@
 .formStatus { grid-column: 1 / -1; margin: 0; color: var(--color-primary-dark); font-size: .9rem; line-height: 1.5; }
 .enquiry { padding-block: clamp(2.5rem, 5vw, 4.5rem); background: var(--color-cream); }
 .enquiryInner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
-.enquiryInner h2 { max-width: 52rem; margin: 0; color: var(--color-heading); font-family: var(--font-urbanist); font-size: clamp(1.7rem, 1.1rem + 1.7vw, 2.8rem); font-weight: var(--font-weight-extrabold); line-height: 1.15; }
+.enquiryInner h2 { max-width: 52rem; margin: 0; color: var(--color-heading); font-family: var(--font-heading); font-size: clamp(1.7rem, 1.1rem + 1.7vw, 2.8rem); font-weight: var(--font-weight-extrabold); line-height: 1.15; }
 
 @media (max-width: 800px) {
   .applicationGrid { grid-template-columns: 1fr; }

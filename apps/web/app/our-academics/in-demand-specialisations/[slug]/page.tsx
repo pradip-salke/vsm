@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
+import { AcademicClosingSections } from '@/components/sections/AcademicClosingSections';
 import { PageHero } from '@/components/sections/PageHero';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { IconList } from '@/components/sections/IconList';
@@ -39,7 +40,6 @@ export default async function SpecialisationPage({ params }: Props) {
     { label: page.title },
   ];
   const overviewFacts = [
-    { label: 'Programme', value: 'PGDM' },
     { label: 'Duration', value: '2 Years' },
     { label: 'Study Mode', value: 'Full Time' },
     { label: 'Location', value: 'Andheri, Mumbai' },
@@ -89,10 +89,10 @@ export default async function SpecialisationPage({ params }: Props) {
           <section id="admission-procedure" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title="PGDM Admission Procedure" />
             <IconList items={admissionSteps} ordered divided className={layout.steps} />
-            <Button href={APPLY_PATH} className={styles.apply}>Apply for PGDM</Button>
           </section>
         </main>
       </div>
+      <AcademicClosingSections />
     </div>
   );
 }

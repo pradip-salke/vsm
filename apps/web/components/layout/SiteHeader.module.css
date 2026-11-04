@@ -67,7 +67,7 @@
   margin-inline: 1.074vw auto;
 }
 
-/* Figma: Manrope Medium 22px items 35px apart; scales with the viewport so the row fits down to 1280 */
+/* Figma: Urbanist Medium 22px items 35px apart; scales with the viewport so the row fits down to 1280 */
 .navList {
   --nav-font: clamp(0.9375rem, 1.146vw, 1.375rem);
   display: flex;

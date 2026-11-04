@@ -1,6 +1,8 @@
 .page {
   overflow-x: clip;
   padding-block: var(--section-spacing);
+  --section-heading-gap: calc(var(--space-2) + 0.78125vw);
+  --section-rule-padding: calc(clamp(1rem, 0.6rem + 1.5vw, 2rem) - 0.78125vw);
 }
 
 .body {
@@ -24,6 +26,7 @@
 .page .body {
   grid-template-columns: minmax(0, 828fr) minmax(0, 868fr);
   column-gap: 0;
+  margin-top: calc(var(--space-7) - 1.015625vw);
   margin-right: calc(-100% * 16 / 1680);
 }
 
@@ -31,8 +34,19 @@
 .page .list {
   --band-end: calc(-100% * 86 / 828);
   --badge: clamp(3.25rem, 4.01vw, 4.8125rem);
+  width: 100%;
   gap: clamp(0.5rem, 1.5625vw, 1.875rem);
   padding-top: calc(100% * 25 / 828);
+}
+
+.page .list > li {
+  box-sizing: border-box;
+  padding-right: 10%;
+}
+
+.page .list > li > span:last-child {
+  width: 90%;
+  min-width: 0;
 }
 
 .page .media {
@@ -53,7 +67,7 @@
   width: calc(100% + clamp(0px, 4.375vw, 84px));
   grid-template-columns: minmax(0, 1.609fr) minmax(10rem, 1fr);
   column-gap: clamp(1rem, 3.49vw, 4.1875rem);
-  margin-top: 35px;
+  margin-top: var(--why-heading-content-gap, calc(var(--academic-heading-gap, clamp(15px, 2.34375vw, 45px)) - var(--why-heading-ink-bottom, 2px)));
 }
 
 .column .list {
@@ -79,7 +93,7 @@
     grid-template-columns: 1fr;
     width: 100%;
     column-gap: 0;
-    margin-top: var(--space-6);
+    margin-top: var(--why-heading-content-gap, var(--heading-content-gap, var(--space-6)));
   }
 
   .page .body {

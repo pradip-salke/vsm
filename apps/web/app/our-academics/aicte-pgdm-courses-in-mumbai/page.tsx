@@ -1,14 +1,11 @@
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/Button';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { AcademicClosingSections } from '@/components/sections/AcademicClosingSections';
 import { FacultySection } from '@/components/sections/FacultySection';
-import { FaqSection } from '@/components/sections/FaqSection';
 import { IconList } from '@/components/sections/IconList';
-import { Internships } from '@/components/sections/Internships';
 import { MediaCarousel } from '@/components/sections/MediaCarousel';
 import { PageHero } from '@/components/sections/PageHero';
-import { Recruiters } from '@/components/sections/Recruiters';
-import { Testimonials } from '@/components/sections/Testimonials';
 import { WhyChoose } from '@/components/sections/WhyChoose';
 import {
   academicsBreadcrumb,
@@ -69,7 +66,7 @@ export default function AictePgdmPage() {
           <div className={`${layout.block} ${layout.bleed} ${layout.why}`}>
             <WhyChoose id="why-vsm" image={academicsWhyImage} items={academicsAdvantages} variant="column" />
           </div>
-          <div id="gallery" className={`${layout.block} ${layout.bleed}`}>
+          <div id="gallery" className={`${layout.block} ${layout.bleed} ${layout.lifeBlock}`}>
             <MediaCarousel id="gallery-carousel" title="Life @ VSM" items={academicsGallery} layout="life" variant="column" />
           </div>
           <div id="events" className={`${layout.block} ${layout.bleed}`}>
@@ -94,10 +91,7 @@ export default function AictePgdmPage() {
         </div>
       </div>
 
-      <Recruiters />
-      <Internships variant="academic" />
-      <Testimonials />
-      <FaqSection />
+      <AcademicClosingSections />
     </div>
   );
 }

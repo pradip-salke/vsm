@@ -2,13 +2,17 @@
   padding-top: clamp(4.375rem, 5.208vw, 6.25rem);
 }
 
+.main > :global(#events).block {
+  padding-top: calc(var(--academic-heading-top-visible-gap) - var(--academic-title-ink-offset));
+}
+
+.main > :global(#events).block > section > div > div:nth-child(2) {
+  margin-top: calc(var(--academic-heading-bottom-visible-gap) - var(--academic-title-ink-offset));
+}
+
 @media (min-width: 1024px) {
   .main :global(#events) h2 {
     line-height: var(--line-height-heading);
-  }
-
-  .main > :global(#events).block > section > div > div:nth-child(2) {
-    margin-top: 42px;
   }
 }
 
@@ -45,6 +49,17 @@
  */
 .layout {
   width: 100vw;
+  --academic-heading-gap: clamp(15px, 2.34375vw, 45px);
+  --academic-heading-top-visible-gap: clamp(15px, 2.34375vw, 45px);
+  --academic-heading-bottom-visible-gap: clamp(12.5px, 1.953125vw, 37.5px);
+  /* Urbanist's heading line box includes transparent leading above and below the glyphs.
+     Compensate for that actual inset so these section gaps are measured from visible text. */
+  --academic-title-ink-offset: calc(var(--font-size-h1) * 0.25);
+  /* Compensate for Urbanist's transparent leading so visible glyph gaps match the target. */
+  --life-heading-ink-top: calc(var(--font-size-h1) * 0.225);
+  --life-heading-ink-bottom: calc(var(--font-size-h1) * 0.2);
+  --why-heading-ink-top: calc(var(--font-size-h1) * 0.25);
+  --why-heading-ink-bottom: calc(var(--font-size-h1) * 0.05);
   --edge: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
   --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem); /* 43px at 1920px, matching Why Choose VSM */
   --academic-divider-left: var(--column-inset);
@@ -71,10 +86,47 @@
   border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
+.main > :global(#curriculum).block {
+  --curriculum-year-tabs-gap: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - 17px);
+  padding-top: calc(var(--academic-heading-top-visible-gap) - var(--academic-title-ink-offset));
+  padding-bottom: max(0px, calc(var(--academic-section-bottom) - 14px));
+}
+
+.main > :global(#fees).block {
+  padding-bottom: max(0px, calc(var(--academic-section-bottom) - 10px));
+}
+
+.main > :global(#admission-procedure).block {
+  padding-top: max(0px, calc(var(--section-rule-gap) - 4px));
+}
+
+.main :global(#curriculum-title) + div {
+  margin-top: calc(
+    var(--academic-heading-bottom-visible-gap) -
+      var(--academic-title-ink-offset) - var(--space-2) - 0.25em
+  );
+}
+
+/* Keep the element-to-element spacing exact and scale from 30px at the 1280px viewport. */
+.lifeBlock {
+  --life-heading-top-space: max(0px, calc(2.34375vw - 10px));
+  --life-heading-space: max(0px, calc(2.34375vw - 10px));
+  padding-top: var(--life-heading-top-space);
+}
+
 .block.why {
+  --why-column-heading-gap: clamp(12px, 2.34375vw, 45px);
+  /* The heading's line box has transparent leading. Compensate so the visible glyph edge
+     has the requested gap, rather than placing the line-box edge at that gap. */
+  --why-heading-top-padding: max(0px, calc(var(--why-column-heading-gap) - var(--why-heading-ink-top)));
+  --why-heading-content-gap: max(0px, calc(var(--why-column-heading-gap) - 13px - var(--why-heading-ink-bottom)));
   --column-bleed: clamp(0px, 4.375vw, 84px);
-  padding: var(--section-rule-gap) 0 var(--academic-section-bottom) var(--column-inset);
+  padding: var(--why-heading-top-padding) 0 var(--academic-section-bottom) var(--column-inset);
   border-bottom: var(--border-width) solid var(--color-border-soft);
+}
+
+.main > .block.why {
+  padding-top: var(--why-heading-top-padding);
 }
 
 .main > .block > :global(section) {
@@ -144,6 +196,10 @@
   .block {
     --column-inset: var(--page-gutter);
     padding: var(--section-rule-gap) var(--page-gutter) var(--academic-section-bottom);
+  }
+
+  .lifeBlock {
+    padding-top: var(--life-heading-top-space);
   }
 
   .block.why {

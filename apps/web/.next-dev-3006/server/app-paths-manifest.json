@@ -1,0 +1,4 @@
+{
+  "/icon.png/route": "app/icon.png/route.js",
+  "/our-academics/in-demand-specialisations/[slug]/page": "app/our-academics/in-demand-specialisations/[slug]/page.js"
+}

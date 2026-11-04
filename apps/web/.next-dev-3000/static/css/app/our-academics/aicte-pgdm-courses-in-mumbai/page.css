@@ -205,7 +205,7 @@
 .SectionHeading_heading__VpwOy {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--section-heading-gap, var(--space-2));
 }
 
 .SectionHeading_center__7EJEJ {
@@ -243,7 +243,9 @@
 
 .SectionHeading_display__feNiv {
   font-size: var(--font-size-display);
-  line-height: var(--line-height-tight);
+  line-height: var(--section-display-line-height, var(--line-height-tight));
+  text-box-trim: var(--section-display-text-trim, none);
+  text-box-edge: var(--section-display-text-edge, auto);
 }
 
 .SectionHeading_h1___QBhq {
@@ -268,9 +270,9 @@
 
 /* Grey rule under the title (1503px of 1680 in Figma) */
 .SectionHeading_withRule__10a81 .SectionHeading_title__dKU6u {
-  padding-bottom: clamp(1rem, 0.6rem + 1.5vw, 2rem);
+  padding-bottom: var(--section-rule-padding, clamp(1rem, 0.6rem + 1.5vw, 2rem));
   border-bottom: var(--border-width) solid var(--color-rule);
-  max-width: 89.5%;
+  max-width: var(--section-rule-max-width, 89.5%);
 }
 
 .SectionHeading_description__b10_H {
@@ -298,7 +300,7 @@
 .FacultySection_page__ClpyA {
   position: relative;
   padding-block: var(--section-spacing);
-  padding-bottom: clamp(2.5rem, 3.646vw, 4.375rem);
+  padding-bottom: calc(clamp(2.5rem, 3.646vw, 4.375rem) + 1.5625vw);
   background: var(--color-dark);
 }
 
@@ -307,6 +309,13 @@
 .FacultySection_carousel__ixGMO {
   --slide-width: calc((100% - var(--slide-gap) * 3) / 4);
   margin-top: var(--space-6);
+}
+
+.FacultySection_page__ClpyA .FacultySection_carousel__ixGMO {
+  /* Tighten the Home card spacing while keeping the current card widths. */
+  --faculty-layout-gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+  --slide-gap: clamp(0.75rem, 0.833333vw, 1rem);
+  --slide-width: calc((100% - var(--faculty-layout-gap) * 3) / 4);
 }
 
 .FacultySection_column__e2oCm .FacultySection_carousel__ixGMO {
@@ -557,6 +566,10 @@
     --slide-width: calc((100% - var(--slide-gap) * 2) / 2.6);
   }
 
+  .FacultySection_page__ClpyA .FacultySection_carousel__ixGMO {
+    --slide-width: calc((100% - var(--faculty-layout-gap) * 2) / 2.6);
+  }
+
   .FacultySection_column__e2oCm .FacultySection_carousel__ixGMO {
     --slide-width: calc((100% - var(--slide-gap)) / 2.2);
   }
@@ -565,6 +578,10 @@
 @media (max-width: 767px) {
   .FacultySection_carousel__ixGMO,
   .FacultySection_column__e2oCm .FacultySection_carousel__ixGMO {
+    --slide-width: 78%;
+  }
+
+  .FacultySection_page__ClpyA .FacultySection_carousel__ixGMO {
     --slide-width: 78%;
   }
 
@@ -1080,6 +1097,186 @@
   color: var(--color-text-inverse);
 }
 
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./components/sections/Internships.module.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************/
+.Internships_section__trE0a {
+  padding-block: var(--section-spacing);
+}
+
+.Internships_academic__wbM5i {
+  padding-top: calc(var(--section-spacing) + 0.520833vw);
+}
+
+.Internships_academic__wbM5i .Internships_carousel__acKSu {
+  margin-top: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - clamp(2px, 0.520833vw, 10px) - 0.520833vw);
+}
+
+.Internships_carousel__acKSu {
+  /* Figma Home: three 549px cards with 16px gutters in the 1680px content area. */
+  --slide-gap: clamp(0.5rem, 0.833vw, 1rem);
+  --slide-width: calc((100% - var(--slide-gap) * 2) / 3);
+  margin-top: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - clamp(2px, 0.520833vw, 10px));
+}
+
+.Internships_card__qRw0K {
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.Internships_card__qRw0K img {
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1023px) {
+  .Internships_carousel__acKSu {
+    --slide-width: calc((100% - var(--slide-gap)) / 1.6);
+  }
+}
+
+@media (max-width: 599px) {
+  .Internships_carousel__acKSu {
+    --slide-width: 86%;
+  }
+}
+
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./components/sections/Testimonials.module.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************/
+.Testimonials_section__AD68F {
+  padding-block: var(--section-spacing);
+  background: var(--color-secondary-deep);
+  color: var(--color-text-inverse);
+}
+
+.Testimonials_section__AD68F.Testimonials_reducedBottom__pkqla {
+  padding-bottom: calc(var(--section-spacing) + 1.041667vw + 16px);
+}
+
+.Testimonials_section__AD68F:not(.Testimonials_reducedBottom__pkqla) {
+  margin-bottom: 20px;
+}
+
+/* Centre slide is 1052px of a 1920px frame; neighbours peek in at either side */
+.Testimonials_carousel__jqCss {
+  --slide-width: min(54.8vw, 65.75rem);
+  --slide-gap: clamp(1rem, 0.6rem + 1.2vw, 1.75rem);
+  --dots-space-adjustment: 6px;
+  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
+  margin-bottom: 20px;
+}
+
+.Testimonials_slide__eZHmZ {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: clamp(1.25rem, 0.8rem + 1.4vw, 2.1rem);
+}
+
+.Testimonials_media__6TCLM {
+  position: relative;
+  aspect-ratio: 1052 / 562;
+}
+
+.Testimonials_media__6TCLM img {
+  position: absolute;
+  inset: 0;
+  margin-block: auto;
+  width: 100%;
+  height: 89.7%; /* 504px side slides */
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+
+.Testimonials_card__5PQ3p {
+  box-sizing: border-box;
+  flex: 1 0 auto;
+  height: var(--testimonial-card-height, auto);
+  overflow-y: auto;
+  padding: clamp(1.25rem, 0.8rem + 1.6vw, 2.5rem);
+  border-radius: 20px;
+  background: transparent;
+  opacity: 0.55;
+}
+
+.Testimonials_cardContent__IVTdW {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.Testimonials_carousel__jqCss [data-active] .Testimonials_card__5PQ3p {
+  background: var(--surface-glass);
+}
+
+.Testimonials_quote__02z73 {
+  padding-bottom: clamp(1rem, 0.7rem + 1vw, 1.75rem);
+  border-bottom: var(--border-width) solid rgb(0 0 0 / 25%);
+  color: rgb(255 255 255 / 70%);
+  line-height: 1.85;
+}
+
+.Testimonials_person__F3kNx {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
+  margin-top: auto;
+}
+
+.Testimonials_avatar__vNZT4 {
+  flex: none;
+  width: clamp(3rem, 2.4rem + 1.6vw, 5rem);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: 50% 15%;
+}
+
+.Testimonials_initials__bj1Qt {
+  display: grid;
+  place-items: center;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.Testimonials_name__L_DK3 {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.Testimonials_batch__mj1gn {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
+  font-size: var(--font-size-table);
+  font-weight: var(--font-weight-bold);
+  opacity: 0.8;
+}
+
+.Testimonials_batch__mj1gn::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-dot);
+}
+
+@media (max-width: 767px) {
+  .Testimonials_carousel__jqCss {
+    --slide-width: 86vw;
+  }
+}
+
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./components/sections/IconList.module.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************/
@@ -1221,51 +1418,6 @@
   inset-block: 0;
 }
 
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./components/sections/Internships.module.css ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************/
-.Internships_section__trE0a {
-  padding-block: var(--section-spacing);
-}
-
-.Internships_academic__wbM5i {
-  padding-top: calc(var(--section-spacing) + 0.520833vw);
-}
-
-.Internships_academic__wbM5i .Internships_carousel__acKSu {
-  margin-top: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - clamp(2px, 0.520833vw, 10px) - 0.520833vw);
-}
-
-.Internships_carousel__acKSu {
-  /* Figma Home: three 549px cards with 16px gutters in the 1680px content area. */
-  --slide-gap: clamp(0.5rem, 0.833vw, 1rem);
-  --slide-width: calc((100% - var(--slide-gap) * 2) / 3);
-  margin-top: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - clamp(2px, 0.520833vw, 10px));
-}
-
-.Internships_card__qRw0K {
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
-}
-
-.Internships_card__qRw0K img {
-  width: 100%;
-  height: auto;
-}
-
-@media (max-width: 1023px) {
-  .Internships_carousel__acKSu {
-    --slide-width: calc((100% - var(--slide-gap)) / 1.6);
-  }
-}
-
-@media (max-width: 599px) {
-  .Internships_carousel__acKSu {
-    --slide-width: 86%;
-  }
-}
-
 /*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./components/sections/MediaCarousel.module.css ***!
   \************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -1283,6 +1435,10 @@
 
 .MediaCarousel_column__pNN_H .MediaCarousel_carousel__c7OZN {
   margin-top: var(--space-6);
+}
+
+.MediaCarousel_column__pNN_H.MediaCarousel_life__rAWQe .MediaCarousel_carousel__c7OZN {
+  margin-top: var(--life-heading-space, var(--space-6));
 }
 
 /* Slide widths as a share of the 1680px container */
@@ -1391,6 +1547,13 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
   background: var(--color-page);
 }
 
+/* The Home banner uses the space left after both stacked header rows. Its
+   design height remains the 1920px Figma proportion when the viewport allows. */
+.PageHero_home__lw40S {
+  --home-available-height: calc(100svh - var(--topbar-height) - var(--header-height) - var(--space-1));
+  --hero-height: min(clamp(30rem, 42.708vw, 51.25rem), var(--home-available-height));
+}
+
 .PageHero_inner__55S1R {
   --hero-height: clamp(24rem, 29.115vw, 34.9375rem); /* 559px at 1920 */
 }
@@ -1408,6 +1571,11 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
   display: grid;
   min-height: var(--hero-height);
   overflow: hidden;
+}
+
+.PageHero_home__lw40S .PageHero_slide__HvQj_ {
+  height: var(--hero-height);
+  min-height: 0;
 }
 
 .PageHero_image__7J5b_ {
@@ -1429,7 +1597,7 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 
 .PageHero_home__lw40S .PageHero_content__mafcK {
   justify-content: flex-start;
-  padding-top: clamp(5rem, 2rem + 8.5vw, 13.25rem);
+  padding-top: min(clamp(5rem, 2rem + 8.5vw, 13.25rem), calc(var(--home-available-height) - 25rem));
 }
 
 .PageHero_inner__55S1R .PageHero_content__mafcK {
@@ -1567,6 +1735,10 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 
 /* Below tablet the photo sits under the copy so text never overlaps faces */
 @media (max-width: 767px) {
+  .PageHero_home__lw40S {
+    --hero-height: auto;
+  }
+
   .PageHero_slide__HvQj_ {
     min-height: 0;
     grid-template-rows: auto auto;
@@ -1580,11 +1752,40 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
     object-position: 78% center;
   }
 
+  .PageHero_home__lw40S .PageHero_slide__HvQj_ {
+    height: auto;
+    grid-template-rows: auto auto;
+  }
+
   .PageHero_content__mafcK,
   .PageHero_home__lw40S .PageHero_content__mafcK,
   .PageHero_inner__55S1R .PageHero_content__mafcK {
     grid-row: 1;
     padding-block: var(--space-6);
+  }
+
+  .PageHero_home__lw40S .PageHero_content__mafcK {
+    padding-block: clamp(0.75rem, 2.2svh, 1.25rem);
+  }
+
+  .PageHero_home__lw40S .PageHero_title__e_9q4 {
+    font-size: clamp(1.5rem, 5svh, 2.25rem);
+    line-height: 1.12;
+  }
+
+  .PageHero_home__lw40S .PageHero_subtitle__SjkRw {
+    margin-top: clamp(0.5rem, 1.5svh, 0.875rem);
+    font-size: clamp(0.875rem, 2.5svh, 1.125rem);
+    line-height: 1.45;
+  }
+
+  .PageHero_home__lw40S .PageHero_actions__24nGs {
+    gap: clamp(0.5rem, 1.5svh, 0.875rem) 1rem;
+    margin-top: clamp(0.75rem, 2svh, 1.25rem);
+  }
+
+  .PageHero_home__lw40S .PageHero_actions__24nGs > * {
+    font-size: clamp(0.875rem, 2.2svh, 1rem);
   }
 
   .PageHero_inner__55S1R .PageHero_content__mafcK {
@@ -1604,131 +1805,26 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
   }
 }
 
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./components/sections/Testimonials.module.css ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************/
-.Testimonials_section__AD68F {
-  padding-block: var(--section-spacing);
-  background: var(--color-secondary-deep);
-  color: var(--color-text-inverse);
-}
-
-.Testimonials_section__AD68F.Testimonials_reducedBottom__pkqla {
-  padding-bottom: calc(var(--section-spacing) + 1.041667vw);
-}
-
-/* Centre slide is 1052px of a 1920px frame; neighbours peek in at either side */
-.Testimonials_carousel__jqCss {
-  --slide-width: min(54.8vw, 65.75rem);
-  --slide-gap: clamp(1rem, 0.6rem + 1.2vw, 1.75rem);
-  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
-}
-
-.Testimonials_slide__eZHmZ {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(1.25rem, 0.8rem + 1.4vw, 2.1rem);
-}
-
-.Testimonials_media__6TCLM {
-  position: relative;
-  aspect-ratio: 1052 / 562;
-}
-
-.Testimonials_media__6TCLM img {
-  position: absolute;
-  inset: 0;
-  margin-block: auto;
-  width: 100%;
-  height: 89.7%; /* 504px side slides */
-  object-fit: cover;
-  border-radius: var(--radius-lg);
-  transition: height var(--transition-slow);
-}
-
-.Testimonials_carousel__jqCss [data-active] .Testimonials_media__6TCLM img {
-  height: 100%;
-}
-
-.Testimonials_card__5PQ3p {
-  height: var(--testimonial-card-height, auto);
-  overflow-y: auto;
-  padding: clamp(1.25rem, 0.8rem + 1.6vw, 2.5rem);
-  border-radius: 20px;
-  background: transparent;
-  opacity: 0.55;
-  transition: background-color var(--transition-slow), opacity var(--transition-slow);
-}
-
-.Testimonials_carousel__jqCss [data-active] .Testimonials_card__5PQ3p {
-  background: var(--surface-glass);
-  opacity: 1;
-}
-
-.Testimonials_quote__02z73 {
-  padding-bottom: clamp(1rem, 0.7rem + 1vw, 1.75rem);
-  border-bottom: var(--border-width) solid rgb(0 0 0 / 25%);
-  color: rgb(255 255 255 / 70%);
-  line-height: 1.85;
-}
-
-.Testimonials_person__F3kNx {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
-  margin-top: clamp(1rem, 0.7rem + 1vw, 1.75rem);
-}
-
-.Testimonials_avatar__vNZT4 {
-  flex: none;
-  width: clamp(3rem, 2.4rem + 1.6vw, 5rem);
-  height: auto;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: 50% 15%;
-}
-
-.Testimonials_initials__bj1Qt {
-  display: grid;
-  place-items: center;
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  font-family: var(--font-heading);
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-extrabold);
-}
-
-.Testimonials_name__L_DK3 {
-  font-family: var(--font-heading);
-  font-size: var(--font-size-h3);
-  font-weight: var(--font-weight-extrabold);
-  line-height: 1.1;
-  text-transform: uppercase;
-}
-
-.Testimonials_batch__mj1gn {
-  display: flex;
-  align-items: center;
-  gap: clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
-  font-size: var(--font-size-table);
-  font-weight: var(--font-weight-bold);
-  opacity: 0.8;
-}
-
-.Testimonials_batch__mj1gn::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-dot);
-}
-
-@media (max-width: 767px) {
-  .Testimonials_carousel__jqCss {
-    --slide-width: 86vw;
+@media (max-width: 767px) and (max-height: 520px) {
+  .PageHero_home__lw40S .PageHero_content__mafcK {
+    padding-block: 0.5rem;
   }
+
+  .PageHero_home__lw40S .PageHero_title__e_9q4 {
+    font-size: clamp(1.375rem, 4.5svh, 1.75rem);
+    line-height: 1.08;
+  }
+
+  .PageHero_home__lw40S .PageHero_subtitle__SjkRw {
+    margin-top: 0.375rem;
+    font-size: clamp(0.8125rem, 2.3svh, 1rem);
+    line-height: 1.35;
+  }
+
+  .PageHero_home__lw40S .PageHero_actions__24nGs {
+    margin-top: 0.5rem;
+  }
+
 }
 
 /*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
@@ -1737,6 +1833,8 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 .WhyChoose_page__3uLuE {
   overflow-x: clip;
   padding-block: var(--section-spacing);
+  --section-heading-gap: calc(var(--space-2) + 0.78125vw);
+  --section-rule-padding: calc(clamp(1rem, 0.6rem + 1.5vw, 2rem) - 0.78125vw);
 }
 
 .WhyChoose_body__geE92 {
@@ -1761,6 +1859,7 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 .WhyChoose_page__3uLuE .WhyChoose_body__geE92 {
   grid-template-columns: minmax(0, 828fr) minmax(0, 868fr);
   column-gap: 0;
+  margin-top: calc(var(--space-7) - 1.015625vw);
   margin-right: calc(-100% * 16 / 1680);
 }
 
@@ -1768,8 +1867,19 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 .WhyChoose_page__3uLuE .WhyChoose_list__K8OuL {
   --band-end: calc(-100% * 86 / 828);
   --badge: clamp(3.25rem, 4.01vw, 4.8125rem);
+  width: 100%;
   gap: clamp(0.5rem, 1.5625vw, 1.875rem);
   padding-top: calc(100% * 25 / 828);
+}
+
+.WhyChoose_page__3uLuE .WhyChoose_list__K8OuL > li {
+  box-sizing: border-box;
+  padding-right: 10%;
+}
+
+.WhyChoose_page__3uLuE .WhyChoose_list__K8OuL > li > span:last-child {
+  width: 90%;
+  min-width: 0;
 }
 
 .WhyChoose_page__3uLuE .WhyChoose_media__xID1j {
@@ -1790,7 +1900,7 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
   width: calc(100% + clamp(0px, 4.375vw, 84px));
   grid-template-columns: minmax(0, 1.609fr) minmax(10rem, 1fr);
   column-gap: clamp(1rem, 3.49vw, 4.1875rem);
-  margin-top: 35px;
+  margin-top: var(--why-heading-content-gap, calc(var(--academic-heading-gap, clamp(15px, 2.34375vw, 45px)) - var(--why-heading-ink-bottom, 2px)));
 }
 
 .WhyChoose_column__VflhC .WhyChoose_list__K8OuL {
@@ -1816,7 +1926,7 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
     grid-template-columns: 1fr;
     width: 100%;
     column-gap: 0;
-    margin-top: var(--space-6);
+    margin-top: var(--why-heading-content-gap, var(--heading-content-gap, var(--space-6)));
   }
 
   .WhyChoose_page__3uLuE .WhyChoose_body__geE92 {
@@ -1875,7 +1985,7 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 .AcademicsBlocks_yearTabs__S_ZFD {
   display: flex;
   gap: clamp(1.25rem, 1rem + 1vw, 2.25rem);
-  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
+  margin-top: var(--curriculum-year-tabs-gap, clamp(1.5rem, 1rem + 1.6vw, 2.6rem));
 }
 
 .AcademicsBlocks_yearTab__hoNdt {
@@ -2078,13 +2188,17 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
   padding-top: clamp(4.375rem, 5.208vw, 6.25rem);
 }
 
+.AcademicsLayout_main__uDUIQ > #events.AcademicsLayout_block___7m3k {
+  padding-top: calc(var(--academic-heading-top-visible-gap) - var(--academic-title-ink-offset));
+}
+
+.AcademicsLayout_main__uDUIQ > #events.AcademicsLayout_block___7m3k > section > div > div:nth-child(2) {
+  margin-top: calc(var(--academic-heading-bottom-visible-gap) - var(--academic-title-ink-offset));
+}
+
 @media (min-width: 1024px) {
   .AcademicsLayout_main__uDUIQ #events h2 {
     line-height: var(--line-height-heading);
-  }
-
-  .AcademicsLayout_main__uDUIQ > #events.AcademicsLayout_block___7m3k > section > div > div:nth-child(2) {
-    margin-top: 42px;
   }
 }
 
@@ -2121,6 +2235,17 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
  */
 .AcademicsLayout_layout__rIML_ {
   width: 100vw;
+  --academic-heading-gap: clamp(15px, 2.34375vw, 45px);
+  --academic-heading-top-visible-gap: clamp(15px, 2.34375vw, 45px);
+  --academic-heading-bottom-visible-gap: clamp(12.5px, 1.953125vw, 37.5px);
+  /* Urbanist's heading line box includes transparent leading above and below the glyphs.
+     Compensate for that actual inset so these section gaps are measured from visible text. */
+  --academic-title-ink-offset: calc(var(--font-size-h1) * 0.25);
+  /* Compensate for Urbanist's transparent leading so visible glyph gaps match the target. */
+  --life-heading-ink-top: calc(var(--font-size-h1) * 0.225);
+  --life-heading-ink-bottom: calc(var(--font-size-h1) * 0.2);
+  --why-heading-ink-top: calc(var(--font-size-h1) * 0.25);
+  --why-heading-ink-bottom: calc(var(--font-size-h1) * 0.05);
   --edge: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
   --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem); /* 43px at 1920px, matching Why Choose VSM */
   --academic-divider-left: var(--column-inset);
@@ -2147,10 +2272,47 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
   border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
+.AcademicsLayout_main__uDUIQ > #curriculum.AcademicsLayout_block___7m3k {
+  --curriculum-year-tabs-gap: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - 17px);
+  padding-top: calc(var(--academic-heading-top-visible-gap) - var(--academic-title-ink-offset));
+  padding-bottom: max(0px, calc(var(--academic-section-bottom) - 14px));
+}
+
+.AcademicsLayout_main__uDUIQ > #fees.AcademicsLayout_block___7m3k {
+  padding-bottom: max(0px, calc(var(--academic-section-bottom) - 10px));
+}
+
+.AcademicsLayout_main__uDUIQ > #admission-procedure.AcademicsLayout_block___7m3k {
+  padding-top: max(0px, calc(var(--section-rule-gap) - 4px));
+}
+
+.AcademicsLayout_main__uDUIQ #curriculum-title + div {
+  margin-top: calc(
+    var(--academic-heading-bottom-visible-gap) -
+      var(--academic-title-ink-offset) - var(--space-2) - 0.25em
+  );
+}
+
+/* Keep the element-to-element spacing exact and scale from 30px at the 1280px viewport. */
+.AcademicsLayout_lifeBlock__rcAiO {
+  --life-heading-top-space: max(0px, calc(2.34375vw - 10px));
+  --life-heading-space: max(0px, calc(2.34375vw - 10px));
+  padding-top: var(--life-heading-top-space);
+}
+
 .AcademicsLayout_block___7m3k.AcademicsLayout_why__jPl03 {
+  --why-column-heading-gap: clamp(12px, 2.34375vw, 45px);
+  /* The heading's line box has transparent leading. Compensate so the visible glyph edge
+     has the requested gap, rather than placing the line-box edge at that gap. */
+  --why-heading-top-padding: max(0px, calc(var(--why-column-heading-gap) - var(--why-heading-ink-top)));
+  --why-heading-content-gap: max(0px, calc(var(--why-column-heading-gap) - 13px - var(--why-heading-ink-bottom)));
   --column-bleed: clamp(0px, 4.375vw, 84px);
-  padding: var(--section-rule-gap) 0 var(--academic-section-bottom) var(--column-inset);
+  padding: var(--why-heading-top-padding) 0 var(--academic-section-bottom) var(--column-inset);
   border-bottom: var(--border-width) solid var(--color-border-soft);
+}
+
+.AcademicsLayout_main__uDUIQ > .AcademicsLayout_block___7m3k.AcademicsLayout_why__jPl03 {
+  padding-top: var(--why-heading-top-padding);
 }
 
 .AcademicsLayout_main__uDUIQ > .AcademicsLayout_block___7m3k > section {
@@ -2220,6 +2382,10 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
   .AcademicsLayout_block___7m3k {
     --column-inset: var(--page-gutter);
     padding: var(--section-rule-gap) var(--page-gutter) var(--academic-section-bottom);
+  }
+
+  .AcademicsLayout_lifeBlock__rcAiO {
+    padding-top: var(--life-heading-top-space);
   }
 
   .AcademicsLayout_block___7m3k.AcademicsLayout_why__jPl03 {
@@ -2398,7 +2564,7 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 .AtAGlance_action__a9lQ5 {
   display: flex;
   align-items: center;
-  gap: clamp(0.75rem, 0.833vw, 1rem);
+  gap: 0.38em;
   min-height: clamp(4.5rem, 6.875vw, 8.25rem);
   padding-left: var(--edge, var(--page-gutter));
   border-top: var(--border-width) solid rgb(0 0 0 / 37%);
@@ -2423,7 +2589,8 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 }
 
 .AtAGlance_brochure__e90tP span {
-  --icon-size: 1.1em;
+  /* Figma's download glyph is a 65.692px square at the 1920px baseline. */
+  --icon-size: 1.9321em;
 }
 
 .AtAGlance_brochure__e90tP:hover {
@@ -2431,7 +2598,8 @@ a.MediaCarousel_item__XLx1k:focus-visible .MediaCarousel_frame__3npG5 img {
 }
 
 .AtAGlance_mail__WIuye {
-  --mail-size: 1em;
+  --mail-size: 1.03em;
+  margin-left: 0.2em;
 }
 
 @media (max-width: 1023px) {

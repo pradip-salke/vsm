@@ -4,13 +4,15 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   gap: var(--space-6) clamp(1.5rem, 2vw, 2.4rem);
-  padding-block: var(--section-spacing);
+  padding-top: calc(var(--section-spacing) - 1.171875vw);
+  padding-bottom: var(--section-spacing);
   padding-right: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
 }
 
 /* Figma: the 955 × 786 poster is centred on the copy column */
 .media {
   position: relative;
+  top: calc(-2.734375vw);
   align-self: center;
   aspect-ratio: 955 / 816;
 }

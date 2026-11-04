@@ -61,7 +61,7 @@
 .action {
   display: flex;
   align-items: center;
-  gap: clamp(0.75rem, 0.833vw, 1rem);
+  gap: 0.38em;
   min-height: clamp(4.5rem, 6.875vw, 8.25rem);
   padding-left: var(--edge, var(--page-gutter));
   border-top: var(--border-width) solid rgb(0 0 0 / 37%);
@@ -86,7 +86,8 @@
 }
 
 .brochure span {
-  --icon-size: 1.1em;
+  /* Figma's download glyph is a 65.692px square at the 1920px baseline. */
+  --icon-size: 1.9321em;
 }
 
 .brochure:hover {
@@ -94,7 +95,8 @@
 }
 
 .mail {
-  --mail-size: 1em;
+  --mail-size: 1.03em;
+  margin-left: 0.2em;
 }
 
 @media (max-width: 1023px) {

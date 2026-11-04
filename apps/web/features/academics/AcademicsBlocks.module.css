@@ -21,7 +21,7 @@
 .yearTabs {
   display: flex;
   gap: clamp(1.25rem, 1rem + 1vw, 2.25rem);
-  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
+  margin-top: var(--curriculum-year-tabs-gap, clamp(1.5rem, 1rem + 1.6vw, 2.6rem));
 }
 
 .yearTab {

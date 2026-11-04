@@ -7,11 +7,12 @@
 }
 
 .heading {
-  max-width: 72rem;
+  width: 70%;
+  max-width: none;
 }
 
 .gridWrap {
-  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
+  margin-top: clamp(0.5625rem, calc(1rem + 1.6vw - 15px), 1.6625rem);
   border-block: var(--border-width) solid var(--color-border-inverse);
 }
 
@@ -111,5 +112,11 @@
 
   .cell:first-child {
     border-top: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .heading {
+    width: 100%;
   }
 }

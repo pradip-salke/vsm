@@ -12,7 +12,7 @@
 .detail dd a:hover { text-decoration: underline; }
 .mapSection { min-width: 0; }
 .mapHeader { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: var(--space-4); }
-.mapHeader h2 { margin: 0; color: var(--color-primary-dark); font-family: var(--font-urbanist); font-size: clamp(1.5rem, 1.1rem + 1vw, 2rem); font-weight: var(--font-weight-extrabold); }
+.mapHeader h2 { margin: 0; color: var(--color-primary-dark); font-family: var(--font-heading); font-size: clamp(1.5rem, 1.1rem + 1vw, 2rem); font-weight: var(--font-weight-extrabold); }
 .mapHeader a { color: var(--color-primary-dark); font-weight: var(--font-weight-bold); text-underline-offset: .2em; }
 .mapHeader a:hover { text-decoration: underline; }
 .mapFrame { overflow: hidden; aspect-ratio: 4 / 3; border-radius: var(--radius-sm); background: var(--color-cream); }

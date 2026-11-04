@@ -14,6 +14,10 @@
   margin-top: var(--space-6);
 }
 
+.column.life .carousel {
+  margin-top: var(--life-heading-space, var(--space-6));
+}
+
 /* Slide widths as a share of the 1680px container */
 .events .carousel {
   /* Figma Home: 688px event cards at 1920px, with a 24px gap. */

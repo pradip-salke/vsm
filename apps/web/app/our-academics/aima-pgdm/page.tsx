@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { AcademicClosingSections } from '@/components/sections/AcademicClosingSections';
 import { IconList } from '@/components/sections/IconList';
 import { PageHero } from '@/components/sections/PageHero';
 import { admissionSteps } from '@/content/academics';
@@ -138,6 +139,7 @@ export default function AimaPgdmPage() {
           </section>
         </div>
       </div>
+      <AcademicClosingSections />
     </div>
   );
 }

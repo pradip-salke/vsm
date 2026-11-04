@@ -1,7 +1,7 @@
 .page {
   position: relative;
   padding-block: var(--section-spacing);
-  padding-bottom: clamp(2.5rem, 3.646vw, 4.375rem);
+  padding-bottom: calc(clamp(2.5rem, 3.646vw, 4.375rem) + 1.5625vw);
   background: var(--color-dark);
 }
 
@@ -10,6 +10,13 @@
 .carousel {
   --slide-width: calc((100% - var(--slide-gap) * 3) / 4);
   margin-top: var(--space-6);
+}
+
+.page .carousel {
+  /* Tighten the Home card spacing while keeping the current card widths. */
+  --faculty-layout-gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+  --slide-gap: clamp(0.75rem, 0.833333vw, 1rem);
+  --slide-width: calc((100% - var(--faculty-layout-gap) * 3) / 4);
 }
 
 .column .carousel {
@@ -254,6 +261,10 @@
     --slide-width: calc((100% - var(--slide-gap) * 2) / 2.6);
   }
 
+  .page .carousel {
+    --slide-width: calc((100% - var(--faculty-layout-gap) * 2) / 2.6);
+  }
+
   .column .carousel {
     --slide-width: calc((100% - var(--slide-gap)) / 2.2);
   }
@@ -262,6 +273,10 @@
 @media (max-width: 767px) {
   .carousel,
   .column .carousel {
+    --slide-width: 78%;
+  }
+
+  .page .carousel {
     --slide-width: 78%;
   }
 

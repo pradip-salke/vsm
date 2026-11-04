@@ -1,7 +1,7 @@
 .heading {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--section-heading-gap, var(--space-2));
 }
 
 .center {
@@ -39,7 +39,9 @@
 
 .display {
   font-size: var(--font-size-display);
-  line-height: var(--line-height-tight);
+  line-height: var(--section-display-line-height, var(--line-height-tight));
+  text-box-trim: var(--section-display-text-trim, none);
+  text-box-edge: var(--section-display-text-edge, auto);
 }
 
 .h1 {
@@ -64,9 +66,9 @@
 
 /* Grey rule under the title (1503px of 1680 in Figma) */
 .withRule .title {
-  padding-bottom: clamp(1rem, 0.6rem + 1.5vw, 2rem);
+  padding-bottom: var(--section-rule-padding, clamp(1rem, 0.6rem + 1.5vw, 2rem));
   border-bottom: var(--border-width) solid var(--color-rule);
-  max-width: 89.5%;
+  max-width: var(--section-rule-max-width, 89.5%);
 }
 
 .description {

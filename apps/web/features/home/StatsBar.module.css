@@ -1,29 +1,44 @@
-/* Teal band, 4 columns split by thin white rules */
+/* Counter band scaled from the 1920px Home Figma frame. */
 .stats {
-  background: var(--color-primary);
+  background: #008db1;
   color: var(--color-text-inverse);
 }
 
 .grid {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 338fr 425fr 463fr 439fr;
+  width: min(120rem, 100vw);
+  max-width: 120rem;
+  height: 18.75vw;
   margin-block: 0;
-  padding-block: clamp(2rem, 1.4rem + 2.4vw, 3.125rem);
+  padding-block: 2.604167vw;
+  padding-left: calc(var(--page-gutter) + 1.458333vw);
+  padding-right: calc(var(--page-gutter) - 0.677083vw);
 }
 
 .item {
+  position: relative;
   display: flex;
+  min-width: 0;
   flex-direction: column;
-  padding-inline: clamp(1rem, 0.4rem + 1.8vw, 2.25rem);
-  border-left: var(--border-width) solid rgb(255 255 255 / 60%);
+  margin-top: 1.145833vw;
+  padding-left: 2.552083vw;
 }
 
 .item:first-child {
-  padding-left: clamp(0rem, -1rem + 2vw, 1.75rem);
-  border-left: 0;
+  padding-left: 0;
 }
 
-/* Value is visually first; the label stays first in the DOM so the term precedes its value */
+.divider {
+  position: absolute;
+  top: -1.145833vw;
+  left: 0;
+  transform: scale(clamp(0.5, calc(100vw / 1920px), 1));
+  transform-origin: top left;
+  pointer-events: none;
+}
+
 .value {
   order: -1;
   margin: 0;
@@ -34,39 +49,62 @@
 }
 
 .label {
-  margin-top: var(--space-2);
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-extrabold);
-  line-height: 1.6;
-  letter-spacing: 0.06em;
+  height: 3.5em;
+  flex-shrink: 0;
+  margin-top: 0.520833vw;
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.75;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 
 .description {
-  margin: var(--space-5) 0 0;
-  max-width: 16em;
+  width: 15.052083vw;
+  max-width: 100%;
+  margin: 1.145833vw 0 0;
   color: var(--color-text-inverse-muted);
-  line-height: 1.6;
+  font-size: clamp(14px, 1.145833vw, 22px);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.777;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1100px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: var(--space-6);
-  }
-
-  .item:nth-child(odd) {
-    padding-left: 0;
-    border-left: 0;
-  }
-}
-
-@media (max-width: 429px) {
-  .grid {
-    grid-template-columns: 1fr;
+    height: auto;
+    row-gap: var(--space-7);
+    padding: var(--space-8) var(--page-gutter);
   }
 
   .item {
+    margin-top: 0;
+    padding-left: 0;
+  }
+
+  .item:nth-child(even) {
+    padding-left: var(--space-5);
+    border-left: var(--border-width) solid rgb(255 255 255 / 60%);
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .description {
+    width: min(100%, 20rem);
+    margin-top: var(--space-5);
+    font-size: var(--font-size-paragraph);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-5);
+  }
+
+  .item:nth-child(even) {
     padding-left: 0;
     border-left: 0;
   }
