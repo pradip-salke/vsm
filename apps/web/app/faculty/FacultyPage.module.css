@@ -23,17 +23,12 @@
 .summary dt { color: var(--color-text-label); font-size: var(--font-size-body); font-weight: var(--font-weight-extrabold); line-height: 36px; }
 .summary dd { margin: 0; color: var(--color-heading); font-size: clamp(1.5rem, 1.77vw, 2.125rem); font-weight: var(--font-weight-extrabold); line-height: 36px; }
 .section { min-height: 18rem; }
-.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 1.5vw, 1.75rem); margin-top: 2.5rem; }
-.card { min-width: 0; padding: clamp(1.25rem, 1.6vw, 2rem); border: 1px solid var(--color-border-soft); border-radius: var(--radius-md); background: var(--color-surface); }
-.avatar { display: grid; width: 4.25rem; height: 4.25rem; place-items: center; border-radius: 50%; background: var(--color-primary); color: var(--color-text-inverse); font-family: var(--font-heading); font-size: var(--font-size-h4); font-weight: var(--font-weight-bold); }
-.card h2 { margin-top: 1.25rem; font-size: var(--font-size-h4); font-weight: var(--font-weight-extrabold); line-height: 1.25; }
-.expertise { margin-top: .5rem; color: var(--color-primary); font-weight: var(--font-weight-bold); }
-.details { display: grid; gap: 1rem; margin-top: 1.25rem; }
-.details dt { margin-bottom: .2rem; color: var(--color-text-subtle); font-size: var(--font-size-small); font-weight: var(--font-weight-bold); text-transform: uppercase; }
-.details dd { color: var(--color-text-body); line-height: 1.55; }
+.facultyHeading + .facultyGrid { margin-top: 20px; }
+.facultyGrid.facultyGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; }
 .closing { max-width: 68ch; margin-top: 1.5rem; color: var(--color-text-body); line-height: 1.75; }
 
 @media (max-width: 1023px) {
+  .facultyGrid.facultyGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sidebar { padding: var(--section-spacing) var(--page-gutter); }
   .summary { position: static; width: min(100%, 500px); padding: 0; }
   .summary dl { flex-direction: row; flex-wrap: wrap; gap: 1.5rem 2rem; margin-top: var(--space-5); }
@@ -41,6 +36,7 @@
   .summary dt, .summary dd { line-height: 1.5; }
 }
 
-@media (max-width: 640px) {
-  .grid { grid-template-columns: 1fr; }
+@media (max-width: 650px) {
+  .facultyGrid.facultyGrid { grid-template-columns: 1fr; }
 }
+

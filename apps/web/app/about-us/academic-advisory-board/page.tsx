@@ -7,6 +7,6 @@ export const metadata: Metadata = { title: 'Academic Advisory Board', descriptio
 
 export default function AcademicAdvisoryBoardPage() {
   return <AboutPageShell title="Academic Advisory Board" active="Academic Advisory Board">
-    <AboutSection title="Academic Advisory Board"><ProfileGrid profiles={boardMembers} advisory /></AboutSection>
+    <AboutSection title="Academic Advisory Board"><ProfileGrid profiles={boardMembers} advisory facultyStyle /></AboutSection>
   </AboutPageShell>;
 }

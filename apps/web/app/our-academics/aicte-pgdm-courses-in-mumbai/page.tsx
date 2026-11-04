@@ -95,7 +95,7 @@ export default function AictePgdmPage() {
       </div>
 
       <Recruiters />
-      <Internships />
+      <Internships variant="academic" />
       <Testimonials />
       <FaqSection />
     </div>

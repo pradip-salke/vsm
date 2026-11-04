@@ -1,0 +1,21 @@
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+self["webpackHotUpdate_N_E"]("app/our-academics/aima-pgdm/page",{
+
+/***/ "(app-pages-browser)/./app/our-academics/aima-pgdm/AimaPgdmPage.module.css":
+/*!*************************************************************!*\
+  !*** ./app/our-academics/aima-pgdm/AimaPgdmPage.module.css ***!
+  \*************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval(__webpack_require__.ts("// extracted by mini-css-extract-plugin\nmodule.exports = {\"sectionLead\":\"AimaPgdmPage_sectionLead__guCqT\",\"iconList\":\"AimaPgdmPage_iconList__UmvtR\",\"otherDetailsViewport\":\"AimaPgdmPage_otherDetailsViewport__Qbwaf\",\"otherDetailsList\":\"AimaPgdmPage_otherDetailsList__32Xmi\",\"subheading\":\"AimaPgdmPage_subheading__l4ecW\",\"moduleNote\":\"AimaPgdmPage_moduleNote__TAEN9\",\"moduleList\":\"AimaPgdmPage_moduleList__m5LAo\",\"certificate\":\"AimaPgdmPage_certificate__O4WHL\",\"certificateImage\":\"AimaPgdmPage_certificateImage__tQoZI\"};\n    if(true) {\n      // 1793775542200\n      var cssReload = __webpack_require__(/*! ../../node_modules/next/dist/compiled/mini-css-extract-plugin/hmr/hotModuleReplacement.js */ \"(app-pages-browser)/../../node_modules/next/dist/compiled/mini-css-extract-plugin/hmr/hotModuleReplacement.js\")(module.id, {\"publicPath\":\"/_next/\",\"esModule\":false,\"locals\":true});\n      module.hot.dispose(cssReload);\n      \n    }\n  \nmodule.exports.__checksum = \"eb9178ac9fed\"\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwcC1wYWdlcy1icm93c2VyKS8uL2FwcC9vdXItYWNhZGVtaWNzL2FpbWEtcGdkbS9BaW1hUGdkbVBhZ2UubW9kdWxlLmNzcyIsIm1hcHBpbmdzIjoiQUFBQTtBQUNBLGtCQUFrQjtBQUNsQixPQUFPLElBQVU7QUFDakI7QUFDQSxzQkFBc0IsbUJBQU8sQ0FBQyxnTkFBMkcsY0FBYyxzREFBc0Q7QUFDN00sTUFBTSxVQUFVO0FBQ2hCO0FBQ0E7QUFDQTtBQUNBLHlCQUF5QiIsInNvdXJjZXMiOlsiRDpcXGlubm92aW5zXFxyZWFjdFxcdnNtXFxhcHBzXFx3ZWJcXGFwcFxcb3VyLWFjYWRlbWljc1xcYWltYS1wZ2RtXFxBaW1hUGdkbVBhZ2UubW9kdWxlLmNzcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBleHRyYWN0ZWQgYnkgbWluaS1jc3MtZXh0cmFjdC1wbHVnaW5cbm1vZHVsZS5leHBvcnRzID0ge1wic2VjdGlvbkxlYWRcIjpcIkFpbWFQZ2RtUGFnZV9zZWN0aW9uTGVhZF9fZ3VDcVRcIixcImljb25MaXN0XCI6XCJBaW1hUGdkbVBhZ2VfaWNvbkxpc3RfX1VtdnRSXCIsXCJvdGhlckRldGFpbHNWaWV3cG9ydFwiOlwiQWltYVBnZG1QYWdlX290aGVyRGV0YWlsc1ZpZXdwb3J0X19RYndhZlwiLFwib3RoZXJEZXRhaWxzTGlzdFwiOlwiQWltYVBnZG1QYWdlX290aGVyRGV0YWlsc0xpc3RfXzMyWG1pXCIsXCJzdWJoZWFkaW5nXCI6XCJBaW1hUGdkbVBhZ2Vfc3ViaGVhZGluZ19fbDRlY1dcIixcIm1vZHVsZU5vdGVcIjpcIkFpbWFQZ2RtUGFnZV9tb2R1bGVOb3RlX19UQUVOOVwiLFwibW9kdWxlTGlzdFwiOlwiQWltYVBnZG1QYWdlX21vZHVsZUxpc3RfX201TEFvXCIsXCJjZXJ0aWZpY2F0ZVwiOlwiQWltYVBnZG1QYWdlX2NlcnRpZmljYXRlX19PNFdITFwiLFwiY2VydGlmaWNhdGVJbWFnZVwiOlwiQWltYVBnZG1QYWdlX2NlcnRpZmljYXRlSW1hZ2VfX3RRb1pJXCJ9O1xuICAgIGlmKG1vZHVsZS5ob3QpIHtcbiAgICAgIC8vIDE3OTM3NzU1NDIyMDBcbiAgICAgIHZhciBjc3NSZWxvYWQgPSByZXF1aXJlKFwiRDovaW5ub3ZpbnMvcmVhY3QvdnNtL25vZGVfbW9kdWxlcy9uZXh0L2Rpc3QvY29tcGlsZWQvbWluaS1jc3MtZXh0cmFjdC1wbHVnaW4vaG1yL2hvdE1vZHVsZVJlcGxhY2VtZW50LmpzXCIpKG1vZHVsZS5pZCwge1wicHVibGljUGF0aFwiOlwiL19uZXh0L1wiLFwiZXNNb2R1bGVcIjpmYWxzZSxcImxvY2Fsc1wiOnRydWV9KTtcbiAgICAgIG1vZHVsZS5ob3QuZGlzcG9zZShjc3NSZWxvYWQpO1xuICAgICAgXG4gICAgfVxuICBcbm1vZHVsZS5leHBvcnRzLl9fY2hlY2tzdW0gPSBcImViOTE3OGFjOWZlZFwiXG4iXSwibmFtZXMiOltdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(app-pages-browser)/./app/our-academics/aima-pgdm/AimaPgdmPage.module.css\n"));
+
+/***/ })
+
+});

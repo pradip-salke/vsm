@@ -1,7 +1,11 @@
 .page {
+  position: relative;
   padding-block: var(--section-spacing);
+  padding-bottom: clamp(2.5rem, 3.646vw, 4.375rem);
   background: var(--color-dark);
 }
+
+.column { position: relative; }
 
 .carousel {
   --slide-width: calc((100% - var(--slide-gap) * 3) / 4);
@@ -73,8 +77,8 @@
 }
 
 /* Profile modal (Figma "Profile expand"): 1268 × 541 white card, 40px radius */
-.dialog {
-  width: min(79.25rem, calc(100% - var(--page-gutter) - var(--page-gutter)));
+.columnDialog {
+  width: min(79.25rem, calc(100% - var(--page-gutter) * 2));
   max-width: none;
   max-height: calc(100dvh - 2rem);
   padding: 0;
@@ -85,11 +89,9 @@
   overflow: auto;
 }
 
-.dialog::backdrop {
-  background: var(--overlay-modal);
-}
+.columnDialog::backdrop { background: var(--overlay-modal); }
 
-.modalCard {
+.columnModalCard {
   position: relative;
   display: grid;
   grid-template-columns: 20.3125rem minmax(0, 1fr);
@@ -98,61 +100,148 @@
   padding: 2.5rem 1.875rem 1.9375rem;
 }
 
+.columnModalCard .modalPhoto { height: 29.375rem; }
+.columnModalCard .modalBody { padding: 0.625rem 0.375rem 0 0; }
+.columnModalCard .modalName { width: 17.8125rem; font-size: var(--font-size-h4); line-height: 14px; }
+.columnModalCard .modalRole { margin-top: 1.375rem; font-size: var(--font-size-body); line-height: var(--line-height-body); }
+.columnModalCard .details { margin-top: 1.0625rem; font-size: var(--font-size-body); line-height: var(--line-height-body); }
+
+.profileOverlay {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0 0 2.5vh;
+  border: 0;
+  overflow: hidden;
+  background: var(--color-dark);
+  color: var(--color-text-inverse);
+}
+
+.profileOverlay::backdrop { background: var(--color-dark); }
+
+.popupIntro {
+  position: relative;
+  width: min(87.5vw, 145.2dvh, 1680px);
+  margin: min(5.208333vw, 8.643dvh, 100px) 0 0 min(6.25vw, 10.37dvh, 120px);
+  pointer-events: none;
+}
+
+.popupHeading { gap: min(1.5625vw, 2.59dvh, 30px); }
+.popupHeading > p {
+  font-size: min(1.354167vw, 2.248dvh, 26px);
+  line-height: 1.35;
+  letter-spacing: min(0.122vw, 0.2dvh, 2.34px);
+}
+.popupHeading > h2 {
+  font-size: min(3.125vw, 5.186dvh, 60px);
+  line-height: 1.05;
+}
+.popupHeading > div { margin-top: 0; }
+.popupHeading > div > p {
+  margin: 0;
+  max-width: 100%;
+  font-size: min(1.145833vw, 1.9dvh, 22px);
+  line-height: 1.35;
+}
+
+.modalCard {
+  position: absolute;
+  top: min(20.416667vw, 33.88dvh, 392px);
+  left: min(6.25vw, 10.37dvh, 120px);
+  display: grid;
+  grid-template-columns: 26.904% minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  column-gap: 3.642%;
+  width: min(66.041667vw, 109.594dvh, 1268px, calc(100% - 12.5vw));
+  height: min(46.76vh, 541px);
+  padding: min(2.083333vw, 3.46dvh, 40px) min(1.5625vw, 2.59dvh, 30px);
+  overflow: hidden;
+  border-radius: min(2.083333vw, 3.46dvh, 40px);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-modal);
+  pointer-events: auto;
+}
+
 .close {
   position: absolute;
   display: grid;
   place-items: center;
-  top: 1.4375rem;
-  right: 2.25rem;
-  width: 3.375rem;
+  top: min(1.197917vw, 1.99dvh, 23px);
+  right: min(1.875vw, 3.11dvh, 36px);
+  width: min(2.8125vw, 4.67dvh, 54px);
   aspect-ratio: 1;
   padding: 0;
   border: 1px solid var(--color-heading);
   background: var(--color-surface);
   color: var(--color-heading);
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .modalPhoto {
   width: 100%;
-  height: 29.375rem;
+  height: 100%;
+  min-height: 0;
   aspect-ratio: 325 / 470;
   object-fit: cover;
   object-position: center top;
-  border-radius: 15px;
+  border-radius: min(0.78125vw, 1.3dvh, 15px);
 }
 
 .modalBody {
-  padding-top: 0.625rem;
-  padding-right: 0.375rem;
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-left: 0;
+  padding-top: 0;
+  padding-right: min(0.3125vw, 0.52dvh, 6px);
+  overflow: visible;
 }
 
 .modalName {
-  width: 17.8125rem;
+  width: 100%;
   max-width: 100%;
+  margin-left: 0;
   color: var(--color-heading);
   font-family: var(--font-body);
-  font-size: var(--font-size-h4);
+  font-size: min(1.354167vw, 2.248dvh, 26px);
   font-weight: var(--font-weight-extrabold);
-  line-height: 14px;
-  text-align: center;
+  line-height: 1.15;
+  text-align: left;
   text-transform: uppercase;
 }
 
 .modalRole {
-  margin-top: 1.375rem;
+  width: 100%;
+  margin-top: min(1.145833vw, 1.9dvh, 22px);
   color: var(--color-text-subtle);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
+  font-size: min(1.041667vw, 1.73dvh, 20px);
+  line-height: 1.28;
 }
 
 .details {
   display: flex;
+  width: 100%;
+  min-height: 0;
   flex-direction: column;
-  margin-top: 1.0625rem;
+  flex: 0 0 auto;
+  max-height: none;
+  margin-top: min(0.885417vw, 1.47dvh, 17px);
+  overflow: visible;
   color: rgb(98 98 98 / 80%);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
+  font-size: min(0.9375vw, 1.555dvh, 18px);
+  line-height: 1.22;
+}
+
+.details > div {
+  display: block;
 }
 
 .details dt,
@@ -176,43 +265,136 @@
     --slide-width: 78%;
   }
 
+  .profileOverlay {
+    display: flex;
+    flex-direction: column;
+    gap: min(2.4vh, 16px);
+    padding: max(14px, 3.5vw) max(14px, 4vw);
+  }
+
+  .popupIntro {
+    flex: 0 0 auto;
+    width: 100%;
+    margin: 0;
+  }
+
+  .popupHeading { gap: clamp(8px, 1.4vh, 12px); }
+  .popupHeading > p { font-size: clamp(10px, 2.8vw, 14px); line-height: 1.2; letter-spacing: .04em; }
+  .popupHeading > h2 { max-width: 90%; font-size: clamp(20px, 6vw, 30px); line-height: 1.02; }
+  .popupHeading > div > p { font-size: clamp(9px, 2.5vw, 12px); line-height: 1.2; }
+
   .modalCard {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex: 1 1 0;
+    min-height: 0;
+    grid-template-columns: 30% minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    column-gap: 4%;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 12px;
+    border-radius: clamp(12px, 4vw, 22px);
+  }
+
+  .columnModalCard {
     grid-template-columns: 1fr;
     gap: 1.25rem;
     min-height: 0;
     padding: 1.25rem;
   }
 
+  .columnModalCard .modalPhoto { width: min(60%, 14rem); height: auto; }
+  .columnModalCard .modalBody { padding-right: 0; }
+  .columnModalCard .modalRole,
+  .columnModalCard .details { font-size: var(--font-size-input); line-height: 1.6; }
+  .columnModalCard .modalName { line-height: 1; }
+  .columnModalCard .modalRole { margin-top: var(--space-2); }
+  .columnModalCard .details { margin-top: var(--space-3); }
+
   .modalPhoto {
-    width: min(60%, 14rem);
-    height: auto;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    min-height: 0;
+    aspect-ratio: 325 / 470;
+    object-fit: cover;
   }
 
   .modalBody {
+    min-width: 0;
+    height: auto;
+    padding-top: 0;
     padding-right: 0;
+    overflow: visible;
   }
 
   .modalRole,
-  .details {
-    font-size: var(--font-size-input);
-    line-height: 1.6;
-  }
+  .details { font-size: clamp(8px, 2.35vw, 12px); line-height: 1.18; }
 
   .modalName {
-    line-height: 1;
+    width: 100%;
+    font-size: clamp(10px, 3vw, 15px);
+    line-height: 1.1;
+    text-align: left;
   }
 
   .modalRole {
-    margin-top: var(--space-2);
+    margin-top: 6px;
   }
 
   .details {
-    margin-top: var(--space-3);
+    margin-top: 8px;
+    max-height: none;
+    flex: 0 0 auto;
   }
 
   .close {
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 2.5rem;
+    top: 8px;
+    right: 8px;
+    width: clamp(24px, 7vw, 36px);
   }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .profileOverlay {
+    display: flex;
+    flex-direction: column;
+    gap: min(2vh, 18px);
+    padding: 2.5vh 4vw;
+  }
+
+  .popupIntro {
+    width: auto;
+    margin: 0;
+  }
+
+  .popupHeading { gap: min(1.8vh, 18px); }
+  .popupHeading > p { font-size: clamp(12px, 1.7vh, 18px); line-height: 1.25; }
+  .popupHeading > h2 { font-size: clamp(28px, 4.2vh, 42px); line-height: 1.05; }
+  .popupHeading > div > p { font-size: clamp(11px, 1.5vh, 16px); line-height: 1.25; }
+
+  .modalCard {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex: 1 1 0;
+    min-height: 0;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    grid-template-columns: 30% minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: stretch;
+    column-gap: 4%;
+    padding: 2vh 2vw;
+  }
+
+  .modalPhoto { height: 100%; }
+  .modalBody { height: auto; justify-content: flex-start; overflow: visible; padding-top: 0; }
+  .modalName { font-size: clamp(14px, 2vw, 22px); line-height: 1.1; }
+  .modalRole { margin-top: 1.2vh; font-size: clamp(12px, 1.7vw, 18px); line-height: 1.2; }
+  .details { margin-top: 1.2vh; font-size: clamp(10px, 1.45vw, 15px); line-height: 1.2; }
 }

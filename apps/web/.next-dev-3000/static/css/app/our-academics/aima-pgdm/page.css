@@ -696,6 +696,43 @@
   --band-end: calc(-1 * (var(--edge, var(--page-gutter)) + 0.365vw));
   margin-top: var(--space-5);
 }
+.AimaPgdmPage_otherDetailsViewport__Qbwaf {
+  --divided-row-height: clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem);
+  --band-start: var(--column-inset, var(--page-gutter));
+  --band-extension: calc(var(--edge, var(--page-gutter)) + .365vw);
+  --scrollbar-inset: 14px;
+  height: calc(var(--divided-row-height) * 5);
+  margin: var(--space-5) calc(-1 * var(--band-extension) + var(--scrollbar-inset)) 0 calc(-1 * var(--band-start));
+  padding-inline: var(--band-start) calc(var(--band-extension) - var(--scrollbar-inset));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #777777 #d6d6d6;
+}
+
+.AimaPgdmPage_otherDetailsViewport__Qbwaf::-webkit-scrollbar {
+  width: 8px;
+}
+
+.AimaPgdmPage_otherDetailsViewport__Qbwaf::-webkit-scrollbar-track {
+  border-radius: var(--radius-pill);
+  background: #d6d6d6;
+}
+
+.AimaPgdmPage_otherDetailsViewport__Qbwaf::-webkit-scrollbar-thumb {
+  min-height: 48px;
+  border: 2px solid #d6d6d6;
+  border-radius: var(--radius-pill);
+  background: #777777;
+}
+
+.AimaPgdmPage_otherDetailsViewport__Qbwaf::-webkit-scrollbar-thumb:hover {
+  background: #5f5f5f;
+}
+
+.AimaPgdmPage_otherDetailsViewport__Qbwaf .AimaPgdmPage_otherDetailsList__32Xmi { margin-top: 0; }
 .AimaPgdmPage_subheading__l4ecW { margin: var(--space-6) 0 var(--space-3); font-size: var(--font-size-h3); font-weight: var(--font-weight-extrabold); }
 .AimaPgdmPage_moduleNote__TAEN9 { margin-top: var(--heading-copy-gap); font-weight: var(--font-weight-extrabold); }
 .AimaPgdmPage_moduleList__m5LAo { display: grid; grid-gap: .6em; gap: .6em; margin: 0; padding-left: 1.15rem; }
@@ -705,6 +742,11 @@
 
 @media (max-width: 1023px) {
   .AimaPgdmPage_iconList__UmvtR { --band-end: calc(-1 * var(--page-gutter)); }
+  .AimaPgdmPage_otherDetailsViewport__Qbwaf {
+    --band-start: 0px;
+    --band-extension: var(--page-gutter);
+    margin-inline: 0 calc(-1 * var(--band-extension) + var(--scrollbar-inset));
+  }
 }
 
 @media (max-width: 767px) {

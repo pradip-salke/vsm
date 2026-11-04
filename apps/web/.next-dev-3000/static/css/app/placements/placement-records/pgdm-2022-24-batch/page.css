@@ -362,7 +362,7 @@
 .PlacementPage_recordGrid__Y0yrA { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-gap: 1rem; gap: 1rem; }
 .PlacementPage_recordCarousel__sxFyI { --slide-gap: 1rem; --slide-width: calc((100% - 2rem) / 3); --dots-space-adjustment: -0.520833vw; }
 .PlacementPage_recordLink__l7Xpt { display: block; overflow: hidden; aspect-ratio: 0.85; border: 1px solid var(--color-border-soft); border-radius: var(--radius-sm); background: var(--color-surface); }
-.PlacementPage_recordLink__l7Xpt img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.PlacementPage_recordLink__l7Xpt img { display: block; width: 100%; max-width: 100%; height: 100%; object-fit: cover; }
 .PlacementPage_recordFallback__XJHN6 { display: grid; min-height: 12rem; place-items: center; padding: 1rem; color: var(--color-text-answer); text-align: center; }
 .PlacementPage_batchNav__P_0yw { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: var(--space-6); }
 .PlacementPage_batchNav__P_0yw a { padding: .7rem 1rem; border: 1px solid var(--color-border); border-radius: 999px; color: var(--color-secondary-deep); font-weight: var(--font-weight-bold); }

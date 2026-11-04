@@ -113,7 +113,9 @@ export default function AimaPgdmPage() {
 
           <section id="other-details" className={layout.block}>
             <SectionHeading title="Other Details" />
-            <IconList items={aimaOtherDetailItems} divided className={styles.iconList} />
+            <div className={styles.otherDetailsViewport}>
+              <IconList items={aimaOtherDetailItems} divided className={`${styles.iconList} ${styles.otherDetailsList}`} />
+            </div>
             <h3 className={styles.subheading}>Multi Exit</h3>
             <IconList items={aimaExitAwardItems} divided className={styles.iconList} />
             <div className={styles.certificate}>

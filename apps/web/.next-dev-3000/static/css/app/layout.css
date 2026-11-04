@@ -93,8 +93,9 @@
   justify-content: space-between;
   width: 100%;
   padding: 0.65rem 0.75rem;
-  border: var(--border-width) solid rgb(255 255 255 / 35%);
-  border-radius: var(--radius-sm);
+  border: 0;
+  border-top: var(--border-width) solid rgb(255 255 255 / 35%);
+  border-radius: 0;
   color: var(--color-text-inverse);
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);

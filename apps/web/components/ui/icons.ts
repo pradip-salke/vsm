@@ -7,6 +7,7 @@ export const icons = {
   chevronDown: `${FIG}/icon-chevron-down.svg`,
   menu: `${FIG}/icon-menu.svg`,
   close: `${FIG}/icon-close.svg`,
+  closeX: `${FIG}/icon-close-x.svg`,
   phone: `${FIG}/icon-phone.svg`,
   mailOutline: `${FIG}/icon-mail-outline.svg`,
   callOutline: `${FIG}/icon-call-outline.svg`,

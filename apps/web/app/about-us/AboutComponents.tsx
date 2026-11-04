@@ -6,10 +6,10 @@ export function AboutCopy({ paragraphs }: { paragraphs: string[] }) {
   return <div className={styles.copy}>{paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>;
 }
 
-export function ProfileGrid({ profiles, compact = false, advisory = false, uniformImage = false }: { profiles: AboutProfile[]; compact?: boolean; advisory?: boolean; uniformImage?: boolean }) {
-  return <div className={`${compact ? styles.pastYears : styles.profileGrid}${advisory ? ` ${styles.advisoryGrid}` : ''}${uniformImage ? ` ${styles.uniformImageGrid}` : ''}`}>
-    {profiles.map((profile) => <article className={`${styles.profile}${advisory ? ` ${styles.advisoryProfile}` : ''}`} key={profile.name}>
-      {profile.image && <Image src={`/images/about/${profile.image}`} alt={profile.name} width={600} height={750} sizes="(max-width: 650px) min(100vw, 18rem), (max-width: 900px) 8rem, 10rem" />}
+export function ProfileGrid({ profiles, compact = false, advisory = false, uniformImage = false, facultyStyle = false, className = '' }: { profiles: AboutProfile[]; compact?: boolean; advisory?: boolean; uniformImage?: boolean; facultyStyle?: boolean; className?: string }) {
+  return <div className={`${compact ? styles.pastYears : styles.profileGrid}${advisory ? ` ${styles.advisoryGrid}` : ''}${uniformImage ? ` ${styles.uniformImageGrid}` : ''}${facultyStyle ? ` ${styles.facultyStyleGrid}` : ''}${className ? ` ${className}` : ''}`}>
+    {profiles.map((profile) => <article className={`${styles.profile}${advisory ? ` ${styles.advisoryProfile}` : ''}${facultyStyle ? ` ${styles.facultyStyleProfile}` : ''}`} key={profile.name}>
+      {profile.image && <Image src={profile.image.startsWith('https://') ? profile.image : `/images/about/${profile.image}`} alt={profile.name} width={600} height={750} sizes={facultyStyle ? '(max-width: 650px) 100vw, (max-width: 1023px) 50vw, 25vw' : '(max-width: 650px) min(100vw, 18rem), (max-width: 900px) 8rem, 10rem'} />}
       <div className={styles.profileCopy}>
         <h3>{profile.name}</h3>
         {profile.role && <p className={styles.profileRole}>{profile.role}</p>}
