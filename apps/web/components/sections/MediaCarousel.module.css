@@ -10,6 +10,23 @@
   margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
 }
 
+.page.events .carousel {
+  --slide-gap: calc(clamp(1rem, 0.7rem + 1.2vw, 1.5rem) + 5px);
+  margin-top: clamp(0.5625rem, calc(1rem + 1.6vw - 15px), 1.6625rem);
+}
+
+.page.events {
+  padding-bottom: calc(var(--section-spacing) + 6px);
+}
+
+.page.life .carousel {
+  margin-top: clamp(0.5625rem, calc(1rem + 1.6vw - 15px), 1.6625rem);
+}
+
+.page.life {
+  padding-bottom: calc(var(--section-spacing) + 5px);
+}
+
 .column .carousel {
   margin-top: var(--space-6);
 }

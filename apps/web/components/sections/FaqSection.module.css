@@ -23,6 +23,7 @@
 
 .heading.heading > p:first-child {
   margin-left: clamp(0.5rem, 1.042vw, 1.25rem);
+  margin-bottom: 10px;
   color: #008db1;
   font-family: var(--font-body);
   font-size: var(--font-size-lead);
@@ -48,15 +49,17 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 clamp(1rem, 2.5vw, 3rem);
+  grid-template-rows: repeat(var(--faq-rows), auto);
+  column-gap: clamp(1rem, 2.5vw, 3rem);
+  row-gap: clamp(1rem, 2.552vw, 3.0625rem);
   margin-top: clamp(1.5rem, 2.604vw, 3.125rem);
   margin-left: clamp(0.5rem, 0.417vw, 0.5rem);
 }
 
 .column {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(1rem, 2.552vw, 3.0625rem);
+  display: grid;
+  grid-row: span var(--faq-rows);
+  grid-template-rows: subgrid;
 }
 
 .item {
@@ -141,7 +144,7 @@
 }
 
 .more {
-  margin-top: clamp(1.5rem, 2.604vw, 3.125rem);
+  margin-top: calc(clamp(1.5rem, 2.604vw, 3.125rem) + 12px);
   margin-left: clamp(0.5rem, 0.417vw, 0.5rem);
 }
 
@@ -153,6 +156,15 @@
 @media (max-width: 767px) {
   .grid {
     grid-template-columns: 1fr;
+    grid-template-rows: none;
+    row-gap: 0;
+  }
+
+  .column {
+    display: flex;
+    grid-row: auto;
+    flex-direction: column;
+    gap: clamp(1rem, 2.03vw, 2.4375rem);
   }
 
   .heading.heading > h2,

@@ -2,13 +2,14 @@
 .section {
   --cell-width: clamp(10rem, 7.6rem + 10.2vw, 20.5625rem);
   --cell-height: calc(var(--cell-width) * 171 / 329);
-  padding-block: var(--section-spacing);
+  padding-top: var(--section-spacing);
+  padding-bottom: calc(var(--section-spacing) + 5px);
   background: var(--color-cream);
   overflow: hidden;
 }
 
 .rows {
-  margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
+  margin-top: clamp(0.8125rem, calc(1rem + 1.6vw - 11px), 1.9125rem);
   border-top: var(--border-width) solid var(--color-border-strong);
 }
 
@@ -55,7 +56,8 @@
   align-items: center;
   justify-content: center;
   gap: clamp(3px, 0.3125vw, 6px);
-  margin-top: calc(clamp(2rem, 1.5rem + 1.5vw, 3.6875rem) - 0.78125vw - 10px + 1.041667vw);
+  margin-top: calc(clamp(2rem, 1.5rem + 1.5vw, 3.6875rem) - 0.78125vw - 14px + 1.041667vw);
+  margin-bottom: calc(clamp(2rem, 1.5rem + 1.5vw, 3.6875rem) - 0.78125vw - 14px + 1.041667vw);
 }
 
 .control {
@@ -71,15 +73,15 @@
   transition: width 180ms ease, opacity 180ms ease;
 }
 
+.activeControl {
+  width: calc(var(--control-dot-size) * 4);
+  opacity: 1;
+}
+
 .control::after {
   position: absolute;
   inset: -8px -3px;
   content: '';
-}
-
-.control:first-child {
-  width: calc(var(--control-dot-size) * 4);
-  opacity: 1;
 }
 
 .control:focus-visible {

@@ -3,7 +3,7 @@ import { Link } from '@/components/navigation/Link';
 import { Fragment } from 'react';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Carousel } from '@/components/ui/Carousel';
 import type { HeroSlide } from '@/content/types';
 import { heroSlides } from '@/content/home';
@@ -23,13 +23,20 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home' }: PageHer
   // Inner pages have one copy block, but the banner still needs to behave as
   // the same three-image carousel shown in the shared hero design.
   const bannerSlides = size === 'inner' && slides.length === 1
-    ? [slides[0], ...heroSlides.slice(1).map(({ image }) => ({ ...slides[0], image }))]
+    ? [slides[0], ...heroSlides.slice(1).map(({ image, imagePosition, mobileImagePosition }) => ({ ...slides[0], image, imagePosition, mobileImagePosition }))]
     : slides;
 
   const rendered = bannerSlides.map((slide, index) => {
     const Heading = index === 0 ? 'h1' : 'p';
     return (
-      <div key={slide.title + index} className={styles.slide}>
+      <div
+        key={slide.title + index}
+        className={styles.slide}
+        style={{
+          '--hero-image-position': slide.imagePosition ?? '70% 100%',
+          '--hero-image-position-mobile': slide.mobileImagePosition ?? '78% 50%',
+        } as CSSProperties}
+      >
         <Image
           className={styles.image}
           src={slide.image.src}

@@ -6,6 +6,8 @@ const FIG = '/images/figma';
 const heroTitle = '2-YEARS FULL TIME AICTE APPROVED PGDM in Mumbai';
 const heroSubtitle = 'Building Future-Ready Leaders Through AI, Analytics And Industry Immersion.';
 
+const heroImagePositions = ['70% 100%', '56% 100%', '66% 100%'];
+
 export const heroSlides: HeroSlide[] = [1, 2, 3].map((n) => ({
   image: {
     src: `${FIG}/hero-${n}.webp`,
@@ -13,6 +15,8 @@ export const heroSlides: HeroSlide[] = [1, 2, 3].map((n) => ({
     width: 1918,
     height: 820,
   },
+  imagePosition: heroImagePositions[n - 1],
+  mobileImagePosition: ['78% 50%', '62% 50%', '72% 50%'][n - 1],
   title: heroTitle,
   subtitle: heroSubtitle,
 }));

@@ -9,6 +9,8 @@ const FIG = '/images/figma';
 
 export const academicsHero: HeroSlide = {
   image: { src: `${FIG}/academics-banner.webp`, alt: 'PGDM graduates celebrating at Valia School of Management', width: 1918, height: 820 },
+  imagePosition: '70% 100%',
+  mobileImagePosition: '78% 50%',
   title: 'PGDM – Post Graduate Diploma In Management',
   subtitle: 'Navigating Today’s Business World with Tomorrow’s Leaders',
 };

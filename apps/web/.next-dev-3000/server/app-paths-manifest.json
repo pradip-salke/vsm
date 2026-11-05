@@ -1,5 +1,6 @@
 {
   "/icon.png/route": "app/icon.png/route.js",
   "/our-academics/aicte-pgdm-courses-in-mumbai/page": "app/our-academics/aicte-pgdm-courses-in-mumbai/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/our-academics/aima-pgdm/page": "app/our-academics/aima-pgdm/page.js"
 }

@@ -171,6 +171,10 @@
   margin: var(--space-6) calc(-1 * var(--edge)) 0 calc(-1 * var(--column-inset));
 }
 
+.main :global(#admission-procedure) .steps {
+  margin-top: calc(var(--space-6) - 13px);
+}
+
 .steps > li {
   padding-inline: var(--column-inset) var(--edge);
 }

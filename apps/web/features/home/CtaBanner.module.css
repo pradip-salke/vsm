@@ -21,7 +21,7 @@
   justify-content: center;
   align-items: flex-start;
   /* Figma spaces the cap-trimmed title 70px from the edge and the button; Urbanist's line box adds 0.25em above and below */
-  gap: calc(var(--section-spacing) - var(--font-size-h1) * 0.25);
+  gap: calc(var(--section-spacing) - var(--font-size-h1) * 0.25 - 20px);
   padding-block: calc(var(--section-spacing) - var(--font-size-h1) * 0.25) var(--section-spacing);
 }
 

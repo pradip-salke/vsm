@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
@@ -30,7 +30,7 @@ function FaqColumn({ items }: { items: FaqItem[] }) {
 export function FaqList({ items }: { items: FaqItem[] }) {
   const half = Math.ceil(items.length / 2);
   return (
-    <div className={styles.grid}>
+    <div className={styles.grid} style={{ '--faq-rows': half } as CSSProperties}>
       <FaqColumn items={items.slice(0, half)} />
       <FaqColumn items={items.slice(half)} />
     </div>

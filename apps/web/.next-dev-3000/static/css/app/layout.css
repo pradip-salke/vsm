@@ -43,6 +43,19 @@
   .BackToTop_button__nyoGn { transition: none; }
 }
 
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./components/ui/Icon.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+.Icon_icon__P_nzZ {
+  display: inline-block;
+  flex: none;
+  width: var(--icon-size, 1.5rem);
+  height: var(--icon-size, 1.5rem);
+  background-color: currentColor;
+  -webkit-mask: var(--icon-src) center / contain no-repeat;
+  mask: var(--icon-src) center / contain no-repeat;
+}
+
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./components/layout/SiteFooter.module.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************/
@@ -87,68 +100,53 @@
   font-weight: var(--font-weight-extrabold);
 }
 
-.SiteFooter_aboutSummary__W_DgO {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0.65rem 0.75rem;
-  border: 0;
-  border-top: var(--border-width) solid rgb(255 255 255 / 35%);
-  border-radius: 0;
-  color: var(--color-text-inverse);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  list-style: none;
-  cursor: pointer;
-}
-
-.SiteFooter_aboutSummary__W_DgO::-webkit-details-marker {
-  display: none;
-}
-
-.SiteFooter_aboutSummary__W_DgO::marker {
-  content: '';
-}
-
-.SiteFooter_aboutChevron__lHCOF {
-  display: grid;
-  place-items: center;
-  flex: none;
-  margin-left: 0.75rem;
-  transition: transform var(--transition-fast);
-}
-
-.SiteFooter_aboutChevron__lHCOF span {
-  --icon-size: 1rem;
-}
-
-.SiteFooter_aboutMenu__W5TL2[open] .SiteFooter_aboutChevron__lHCOF {
-  transform: rotate(180deg);
-}
-
 .SiteFooter_aboutLinks__jEadf {
-  max-height: 11rem;
-  margin-top: var(--space-3);
-  padding-right: 0.5rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-color: rgb(255 255 255 / 55%) rgb(255 255 255 / 12%);
-  scrollbar-width: thin;
+  margin: 0;
 }
 
-.SiteFooter_aboutLinks__jEadf::-webkit-scrollbar {
-  width: 0.375rem;
+.SiteFooter_moreLinks__TxrCt {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows var(--transition-base), opacity var(--transition-base);
 }
 
-.SiteFooter_aboutLinks__jEadf::-webkit-scrollbar-track {
-  border-radius: 999px;
-  background: rgb(255 255 255 / 12%);
+.SiteFooter_moreLinksExpanded__ClltK {
+  grid-template-rows: 1fr;
+  opacity: 1;
 }
 
-.SiteFooter_aboutLinks__jEadf::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background: rgb(255 255 255 / 55%);
+.SiteFooter_moreLinks__TxrCt > ul {
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 0;
+  transition: padding-top var(--transition-base);
+}
+
+.SiteFooter_moreLinksExpanded__ClltK > ul {
+  padding-top: var(--space-3);
+}
+
+.SiteFooter_aboutToggle__N_cqA {
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: var(--space-5);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  transition: color var(--transition-fast), -webkit-text-decoration-color var(--transition-fast);
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast), -webkit-text-decoration-color var(--transition-fast);
+}
+
+.SiteFooter_aboutToggle__N_cqA:hover {
+  color: var(--color-primary);
 }
 
 .SiteFooter_careerLinks__LChCa {
@@ -271,305 +269,6 @@
   .SiteFooter_grid__PNLyT {
     grid-template-columns: 1fr;
   }
-}
-
-/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./styles/tokens.css ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************/
-/*
- * VS Medu design tokens, taken from the Figma style guides (Color 1:754,
- * Typography 1:18, Buttons 1:5) and the 1920px Home / Academics frames.
- * Fluid sizes interpolate between 375px and 1920px viewports.
- */
-:root {
-  /* Brand colours */
-  --color-primary: #008bb1;
-  --color-primary-dark: #00779a;
-  --color-secondary: #272e6d;
-  --color-secondary-deep: #252a67;
-  --color-dark: #0a192f;
-  --color-cream: #f4f0e8;
-  --color-page: #faf9f6;
-  --color-surface: #ffffff;
-  --color-sky: #ddf8ff;
-  --color-success: #00ba00;
-  --color-error: #c62828;
-
-  /* Text */
-  --color-heading: #111111;
-  --color-text: #212121;
-  --color-text-strong: #1e1e1e;
-  --color-text-body: #4f4d4d;
-  --color-text-muted: #737373;
-  --color-text-subtle: #848484;
-  --color-text-label: #616161;
-  --color-placeholder: rgb(0 0 0 / 50%);  /* form placeholders */
-  --color-text-answer: #505050;
-  --color-text-inverse: #ffffff;
-  --color-text-inverse-muted: rgb(255 255 255 / 74%);
-  --color-icon: #1c1b1f;         /* Material icon fill (captcha refresh, FAQ toggles) */
-  --color-text-faq: #464646;
-  --color-nav-dropdown: #272727;
-  --color-navy-icon: #182364;    /* glyphs inside white social circles */
-  --color-navy-label: #333e7d;
-
-  /* Accents */
-  --color-dot: #d9d9d9;          /* separator dots */
-  --color-divider-dark: #8b8b8b; /* header logo divider */
-  --color-marquee-dot: #484848;
-  --color-faculty-bg: #f8f4e7;
-  --carousel-dot-size: clamp(0.75rem, 0.9375vw, 1.125rem); /* 18px at 1920px, responsive with a 12px floor */
-
-  /* Lines */
-  --color-border: #c9c9c9;
-  --color-border-strong: #a2a2a2;
-  --color-border-input: #808080;
-  --color-border-soft: rgb(0 0 0 / 31%);
-  --color-rule: #686868;
-  --color-border-inverse: rgb(255 255 255 / 18%);
-
-  /* Overlays */
-  --overlay-media: rgb(0 0 0 / 40%);
-  --overlay-modal: rgb(10 25 47 / 84%);
-  --surface-glass: rgb(255 255 255 / 11%);
-
-  /* Typography */
-  --font-heading: var(--font-urbanist), 'Urbanist', system-ui, sans-serif;
-  --font-body: var(--font-heading);
-
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-bold: 700;
-  --font-weight-extrabold: 800;
-
-  /* Type scales in proportion to the 1920 frame (px / 1920 × 100vw) until it reaches a readable floor */
-  --font-size-display: clamp(3rem, 5.729vw, 6.875rem);      /* 110px */
-  --font-size-h1: clamp(2rem, 3.125vw, 3.75rem);            /* 60px */
-  --font-size-stat: clamp(1.875rem, 2.604vw, 3.125rem);     /* 50px */
-  --font-size-h2: clamp(1.75rem, 2.083vw, 2.5rem);          /* 40px */
-  --font-size-h3: clamp(1.375rem, 1.771vw, 2.125rem);       /* 34px */
-  --font-size-h4: clamp(1.125rem, 1.354vw, 1.625rem);       /* 26px */
-  --font-size-lead: var(--font-size-h4);                    /* 26px */
-  --font-size-paragraph: clamp(1rem, 1.146vw, 1.375rem);   /* 22px at 1920px; 16px minimum for mobile */
-  --font-size-academic-table: clamp(0.8125rem, 0.833vw, 1rem); /* 16px at 1920px; 13px minimum */
-  --font-size-body: var(--font-size-paragraph);
-  --font-size-input: clamp(0.9375rem, 0.938vw, 1.125rem);   /* 18px */
-  --font-size-small: clamp(0.8125rem, 0.885vw, 1.0625rem);  /* 17px */
-  --font-size-table: var(--font-size-academic-table);
-
-  --line-height-tight: 1.2;
-  --line-height-heading: 1.3;
-  --line-height-body: 1.777;
-  --line-height-eyebrow: 1.75;
-  --letter-spacing-eyebrow: 0.09em;
-  --letter-spacing-button: 0.17em;
-
-  /* Layout */
-  --container-width: 105rem;                         /* 1680px content */
-  --page-gutter: clamp(1.25rem, 6.25vw, 7.5rem);     /* 120px at 1920 */
-  --container-max: calc(var(--container-width) + var(--page-gutter) * 2);
-  --section-spacing: clamp(2.5rem, 3.646vw, 4.375rem); /* 40px mobile, 70px at 1920px */
-  --section-rule-gap: 1.8229167vw; /* 35px at 1920px, proportional at every viewport */
-  --heading-copy-gap: 0.78125vw; /* 15px at 1920px, proportional at every viewport */
-  --header-height: clamp(4.5rem, 6.354vw, 7.625rem);   /* 72px minimum, 122px at 1920px */
-  --topbar-height: clamp(2.375rem, 2.969vw, 3.5625rem); /* 38px minimum, 57px at 1920px */
-
-  /* Spacing scale */
-  --space-1: clamp(0.1875rem, 0.208vw, 0.25rem);          /* 3px–4px */
-  --space-2: clamp(0.375rem, 0.417vw, 0.5rem);            /* 6px–8px */
-  --space-3: clamp(0.5625rem, 0.625vw, 0.75rem);          /* 9px–12px */
-  --space-4: clamp(0.75rem, 0.833vw, 1rem);               /* 12px–16px */
-  --space-5: clamp(1.125rem, 1.25vw, 1.5rem);             /* 18px–24px */
-  --space-6: clamp(1.25rem, 2.083vw, 2.5rem);             /* 20px–40px */
-  --space-7: clamp(1.75rem, 2.917vw, 3.5rem);             /* 28px–56px */
-  --space-8: clamp(2.5rem, 4.167vw, 5rem);                /* 40px–80px */
-
-  /* Radius */
-  --radius-xs: 4px;
-  --radius-sm: 10px;
-  --radius-md: 12px;
-  --radius-lg: clamp(14px, 1.1vw, 21px);
-  --radius-xl: clamp(18px, 1.6vw, 30px);
-  --radius-modal: clamp(20px, 2.1vw, 40px);
-  --radius-pill: 999px;
-
-  /* Borders, shadows */
-  --border-width: 1px;
-  --shadow-card: 0 10px 30px rgb(10 25 47 / 8%);
-  --shadow-modal: 0 24px 60px rgb(0 0 0 / 30%);
-  --focus-ring: 0 0 0 3px var(--color-surface), 0 0 0 5px var(--color-primary);
-
-  /* Motion */
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 450ms cubic-bezier(0.22, 1, 0.36, 1);
-
-  /* Carousel defaults (overridden per section) */
-  --slide-gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
-  --dots-offset: clamp(1.5rem, 1rem + 2vw, 3rem);
-
-  /* Breakpoints (reference only; CSS media queries cannot read variables) */
-  --breakpoint-sm: 430px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
-
-  --z-header: 50;
-  --z-drawer: 80;
-  --z-modal: 100;
-}
-
-/*!*********************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/globals.css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************/
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
-  scroll-padding-top: var(--space-5);
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  overflow-x: clip;
-  background: var(--color-page);
-  color: var(--color-text-body);
-  font-family: var(--font-body);
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-body);
-  -webkit-font-smoothing: antialiased;
-}
-
-h1,
-h2,
-h3,
-h4,
-p,
-ul,
-ol,
-figure,
-blockquote,
-dl,
-dd {
-  margin: 0;
-}
-
-h1,
-h2,
-h3 {
-  color: var(--color-heading);
-  font-family: var(--font-heading);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-heading);
-}
-
-:where(ul[role='list'], ol[role='list']) {
-  padding: 0;
-  list-style: none;
-}
-
-img,
-svg,
-video {
-  display: block;
-  max-width: 100%;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-  color: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
-.container {
-  width: 100%;
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: var(--page-gutter);
-}
-
-.section {
-  padding-block: var(--section-spacing);
-}
-
-.visually-hidden {
-  position: absolute !important;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-.skip-link {
-  position: absolute;
-  top: var(--space-2);
-  left: var(--space-2);
-  z-index: calc(var(--z-modal) + 1);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-sm);
-  background: var(--color-secondary);
-  color: var(--color-text-inverse);
-  transform: translateY(-200%);
-}
-
-.skip-link:focus {
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./components/ui/Icon.module.css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************/
-.Icon_icon__P_nzZ {
-  display: inline-block;
-  flex: none;
-  width: var(--icon-size, 1.5rem);
-  height: var(--icon-size, 1.5rem);
-  background-color: currentColor;
-  -webkit-mask: var(--icon-src) center / contain no-repeat;
-  mask: var(--icon-src) center / contain no-repeat;
 }
 
 /*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
@@ -1726,6 +1425,292 @@ a.EnquirySection_social__4mfnh:hover {
 
   .EnquirySection_social__4mfnh {
     width: 100%;
+  }
+}
+
+/*!***********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./styles/tokens.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************/
+/*
+ * VS Medu design tokens, taken from the Figma style guides (Color 1:754,
+ * Typography 1:18, Buttons 1:5) and the 1920px Home / Academics frames.
+ * Fluid sizes interpolate between 375px and 1920px viewports.
+ */
+:root {
+  /* Brand colours */
+  --color-primary: #008bb1;
+  --color-primary-dark: #00779a;
+  --color-secondary: #272e6d;
+  --color-secondary-deep: #252a67;
+  --color-dark: #0a192f;
+  --color-cream: #f4f0e8;
+  --color-page: #faf9f6;
+  --color-surface: #ffffff;
+  --color-sky: #ddf8ff;
+  --color-success: #00ba00;
+  --color-error: #c62828;
+
+  /* Text */
+  --color-heading: #111111;
+  --color-text: #212121;
+  --color-text-strong: #1e1e1e;
+  --color-text-body: #4f4d4d;
+  --color-text-muted: #737373;
+  --color-text-subtle: #848484;
+  --color-text-label: #616161;
+  --color-placeholder: rgb(0 0 0 / 50%);  /* form placeholders */
+  --color-text-answer: #505050;
+  --color-text-inverse: #ffffff;
+  --color-text-inverse-muted: rgb(255 255 255 / 74%);
+  --color-icon: #1c1b1f;         /* Material icon fill (captcha refresh, FAQ toggles) */
+  --color-text-faq: #464646;
+  --color-nav-dropdown: #272727;
+  --color-navy-icon: #182364;    /* glyphs inside white social circles */
+  --color-navy-label: #333e7d;
+
+  /* Accents */
+  --color-dot: #d9d9d9;          /* separator dots */
+  --color-divider-dark: #8b8b8b; /* header logo divider */
+  --color-marquee-dot: #484848;
+  --color-faculty-bg: #f8f4e7;
+  --carousel-dot-size: clamp(0.75rem, 0.9375vw, 1.125rem); /* 18px at 1920px, responsive with a 12px floor */
+
+  /* Lines */
+  --color-border: #c9c9c9;
+  --color-border-strong: #a2a2a2;
+  --color-border-input: #808080;
+  --color-border-soft: rgb(0 0 0 / 31%);
+  --color-rule: #686868;
+  --color-border-inverse: rgb(255 255 255 / 18%);
+
+  /* Overlays */
+  --overlay-media: rgb(0 0 0 / 40%);
+  --overlay-modal: rgb(10 25 47 / 84%);
+  --surface-glass: rgb(255 255 255 / 11%);
+
+  /* Typography */
+  --font-heading: var(--font-urbanist), 'Urbanist', system-ui, sans-serif;
+  --font-body: var(--font-heading);
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Type scales in proportion to the 1920 frame (px / 1920 × 100vw) until it reaches a readable floor */
+  --font-size-display: clamp(3rem, 5.729vw, 6.875rem);      /* 110px */
+  --font-size-h1: clamp(2rem, 3.125vw, 3.75rem);            /* 60px */
+  --font-size-stat: clamp(1.875rem, 2.604vw, 3.125rem);     /* 50px */
+  --font-size-h2: clamp(1.75rem, 2.083vw, 2.5rem);          /* 40px */
+  --font-size-h3: clamp(1.375rem, 1.771vw, 2.125rem);       /* 34px */
+  --font-size-h4: clamp(1.125rem, 1.354vw, 1.625rem);       /* 26px */
+  --font-size-lead: var(--font-size-h4);                    /* 26px */
+  --font-size-paragraph: clamp(1rem, 1.146vw, 1.375rem);   /* 22px at 1920px; 16px minimum for mobile */
+  --font-size-academic-table: clamp(0.8125rem, 0.833vw, 1rem); /* 16px at 1920px; 13px minimum */
+  --font-size-body: var(--font-size-paragraph);
+  --font-size-input: clamp(0.9375rem, 0.938vw, 1.125rem);   /* 18px */
+  --font-size-small: clamp(0.8125rem, 0.885vw, 1.0625rem);  /* 17px */
+  --font-size-table: var(--font-size-academic-table);
+
+  --line-height-tight: 1.2;
+  --line-height-heading: 1.3;
+  --line-height-body: 1.777;
+  --line-height-eyebrow: 1.75;
+  --letter-spacing-eyebrow: 0.09em;
+  --letter-spacing-button: 0.17em;
+
+  /* Layout */
+  --container-width: 105rem;                         /* 1680px content */
+  --page-gutter: clamp(1.25rem, 6.25vw, 7.5rem);     /* 120px at 1920 */
+  --container-max: calc(var(--container-width) + var(--page-gutter) * 2);
+  --section-spacing: clamp(2.5rem, 3.646vw, 4.375rem); /* 40px mobile, 70px at 1920px */
+  --section-rule-gap: 1.8229167vw; /* 35px at 1920px, proportional at every viewport */
+  --heading-copy-gap: 0.78125vw; /* 15px at 1920px, proportional at every viewport */
+  --header-height: clamp(4.5rem, 6.354vw, 7.625rem);   /* 72px minimum, 122px at 1920px */
+  --topbar-height: clamp(2.375rem, 2.969vw, 3.5625rem); /* 38px minimum, 57px at 1920px */
+
+  /* Spacing scale */
+  --space-1: clamp(0.1875rem, 0.208vw, 0.25rem);          /* 3px–4px */
+  --space-2: clamp(0.375rem, 0.417vw, 0.5rem);            /* 6px–8px */
+  --space-3: clamp(0.5625rem, 0.625vw, 0.75rem);          /* 9px–12px */
+  --space-4: clamp(0.75rem, 0.833vw, 1rem);               /* 12px–16px */
+  --space-5: clamp(1.125rem, 1.25vw, 1.5rem);             /* 18px–24px */
+  --space-6: clamp(1.25rem, 2.083vw, 2.5rem);             /* 20px–40px */
+  --space-7: clamp(1.75rem, 2.917vw, 3.5rem);             /* 28px–56px */
+  --space-8: clamp(2.5rem, 4.167vw, 5rem);                /* 40px–80px */
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: clamp(14px, 1.1vw, 21px);
+  --radius-xl: clamp(18px, 1.6vw, 30px);
+  --radius-modal: clamp(20px, 2.1vw, 40px);
+  --radius-pill: 999px;
+
+  /* Borders, shadows */
+  --border-width: 1px;
+  --shadow-card: 0 10px 30px rgb(10 25 47 / 8%);
+  --shadow-modal: 0 24px 60px rgb(0 0 0 / 30%);
+  --focus-ring: 0 0 0 3px var(--color-surface), 0 0 0 5px var(--color-primary);
+
+  /* Motion */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 450ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Carousel defaults (overridden per section) */
+  --slide-gap: clamp(1rem, 0.7rem + 1.2vw, 1.5rem);
+  --dots-offset: clamp(1.5rem, 1rem + 2vw, 3rem);
+
+  /* Breakpoints (reference only; CSS media queries cannot read variables) */
+  --breakpoint-sm: 430px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  --z-header: 50;
+  --z-drawer: 80;
+  --z-modal: 100;
+}
+
+/*!*********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../../node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!../../node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./app/globals.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--space-5);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: clip;
+  background: var(--color-page);
+  color: var(--color-text-body);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--color-heading);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-heading);
+}
+
+:where(ul[role='list'], ol[role='list']) {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+
+.section {
+  padding-block: var(--section-spacing);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: calc(var(--z-modal) + 1);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-secondary);
+  color: var(--color-text-inverse);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

@@ -29,6 +29,12 @@
       "static/chunks/main-app.js",
       "static/css/app/our-academics/in-demand-specialisations/[slug]/page.css",
       "static/chunks/app/our-academics/in-demand-specialisations/[slug]/page.js"
+    ],
+    "/our-academics/aima-pgdm/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/our-academics/aima-pgdm/page.css",
+      "static/chunks/app/our-academics/aima-pgdm/page.js"
     ]
   }
 }

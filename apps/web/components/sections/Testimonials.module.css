@@ -5,7 +5,7 @@
 }
 
 .section.reducedBottom {
-  padding-bottom: calc(var(--section-spacing) + 1.041667vw + 16px);
+  padding-bottom: calc(var(--section-spacing) + 1.041667vw - 4px);
 }
 
 .section:not(.reducedBottom) {
@@ -15,8 +15,8 @@
 /* Centre slide is 1052px of a 1920px frame; neighbours peek in at either side */
 .carousel {
   --slide-width: min(54.8vw, 65.75rem);
-  --slide-gap: clamp(1rem, 0.6rem + 1.2vw, 1.75rem);
-  --dots-space-adjustment: 6px;
+  --slide-gap: calc(clamp(1rem, 0.6rem + 1.2vw, 1.75rem) + 10px);
+  --dots-space-adjustment: 8px;
   margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
   margin-bottom: 20px;
 }
@@ -25,7 +25,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: clamp(1.25rem, 0.8rem + 1.4vw, 2.1rem);
+  gap: clamp(0.625rem, calc(0.8rem + 1.4vw - 10px), 1.475rem);
 }
 
 .media {
@@ -67,7 +67,7 @@
 .quote {
   padding-bottom: clamp(1rem, 0.7rem + 1vw, 1.75rem);
   border-bottom: var(--border-width) solid rgb(0 0 0 / 25%);
-  color: rgb(255 255 255 / 70%);
+  color: #fff;
   line-height: 1.85;
 }
 

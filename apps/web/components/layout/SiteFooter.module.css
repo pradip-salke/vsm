@@ -38,68 +38,50 @@
   font-weight: var(--font-weight-extrabold);
 }
 
-.aboutSummary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 0.65rem 0.75rem;
-  border: 0;
-  border-top: var(--border-width) solid rgb(255 255 255 / 35%);
-  border-radius: 0;
-  color: var(--color-text-inverse);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  list-style: none;
-  cursor: pointer;
-}
-
-.aboutSummary::-webkit-details-marker {
-  display: none;
-}
-
-.aboutSummary::marker {
-  content: '';
-}
-
-.aboutChevron {
-  display: grid;
-  place-items: center;
-  flex: none;
-  margin-left: 0.75rem;
-  transition: transform var(--transition-fast);
-}
-
-.aboutChevron span {
-  --icon-size: 1rem;
-}
-
-.aboutMenu[open] .aboutChevron {
-  transform: rotate(180deg);
-}
-
 .aboutLinks {
-  max-height: 11rem;
-  margin-top: var(--space-3);
-  padding-right: 0.5rem;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-color: rgb(255 255 255 / 55%) rgb(255 255 255 / 12%);
-  scrollbar-width: thin;
+  margin: 0;
 }
 
-.aboutLinks::-webkit-scrollbar {
-  width: 0.375rem;
+.moreLinks {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows var(--transition-base), opacity var(--transition-base);
 }
 
-.aboutLinks::-webkit-scrollbar-track {
-  border-radius: 999px;
-  background: rgb(255 255 255 / 12%);
+.moreLinksExpanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
 }
 
-.aboutLinks::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background: rgb(255 255 255 / 55%);
+.moreLinks > ul {
+  min-height: 0;
+  overflow: hidden;
+  padding-top: 0;
+  transition: padding-top var(--transition-base);
+}
+
+.moreLinksExpanded > ul {
+  padding-top: var(--space-3);
+}
+
+.aboutToggle {
+  width: fit-content;
+  margin-top: var(--space-5);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+}
+
+.aboutToggle:hover {
+  color: var(--color-primary);
 }
 
 .careerLinks {

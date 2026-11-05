@@ -128,5 +128,5 @@ export const footer = {
     { label: 'Admin Login', href: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'http://localhost:5173' },
   ] satisfies NavLink[],
   copyright:
-    'Copyright © 2026 | Cosmopolitan Education Society’s Valia School of Management | Designed and developed by Innovins',
+    'Copyright © 2026 | Cosmopolitan Education Society’s Valia School of Management',
 };

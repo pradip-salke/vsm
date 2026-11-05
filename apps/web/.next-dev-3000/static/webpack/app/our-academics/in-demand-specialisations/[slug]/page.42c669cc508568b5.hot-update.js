@@ -1,0 +1,21 @@
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+self["webpackHotUpdate_N_E"]("app/our-academics/in-demand-specialisations/[slug]/page",{
+
+/***/ "(app-pages-browser)/./components/sections/Recruiters.module.css":
+/*!***************************************************!*\
+  !*** ./components/sections/Recruiters.module.css ***!
+  \***************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval(__webpack_require__.ts("// extracted by mini-css-extract-plugin\nmodule.exports = {\"section\":\"Recruiters_section__qlA74\",\"rows\":\"Recruiters_rows__a7qqF\",\"carousel\":\"Recruiters_carousel__IzV_4\",\"row\":\"Recruiters_row__Tq7hO\",\"logo-scroll-left\":\"Recruiters_logo-scroll-left__2A1J8\",\"offset\":\"Recruiters_offset__URFaj\",\"logo-scroll-right\":\"Recruiters_logo-scroll-right__3UclK\",\"group\":\"Recruiters_group__U6ygT\",\"cell\":\"Recruiters_cell__IEIyp\",\"controls\":\"Recruiters_controls__xRloZ\",\"control\":\"Recruiters_control__omG0M\",\"activeControl\":\"Recruiters_activeControl__ns55s\"};\n    if(true) {\n      // 1793857051390\n      var cssReload = __webpack_require__(/*! ../../node_modules/next/dist/compiled/mini-css-extract-plugin/hmr/hotModuleReplacement.js */ \"(app-pages-browser)/../../node_modules/next/dist/compiled/mini-css-extract-plugin/hmr/hotModuleReplacement.js\")(module.id, {\"publicPath\":\"/_next/\",\"esModule\":false,\"locals\":true});\n      module.hot.dispose(cssReload);\n      \n    }\n  \nmodule.exports.__checksum = \"d8f03721f414\"\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwcC1wYWdlcy1icm93c2VyKS8uL2NvbXBvbmVudHMvc2VjdGlvbnMvUmVjcnVpdGVycy5tb2R1bGUuY3NzIiwibWFwcGluZ3MiOiJBQUFBO0FBQ0Esa0JBQWtCO0FBQ2xCLE9BQU8sSUFBVTtBQUNqQjtBQUNBLHNCQUFzQixtQkFBTyxDQUFDLGdOQUEyRyxjQUFjLHNEQUFzRDtBQUM3TSxNQUFNLFVBQVU7QUFDaEI7QUFDQTtBQUNBO0FBQ0EseUJBQXlCIiwic291cmNlcyI6WyJEOlxcaW5ub3ZpbnNcXHJlYWN0XFx2c21cXGFwcHNcXHdlYlxcY29tcG9uZW50c1xcc2VjdGlvbnNcXFJlY3J1aXRlcnMubW9kdWxlLmNzcyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBleHRyYWN0ZWQgYnkgbWluaS1jc3MtZXh0cmFjdC1wbHVnaW5cbm1vZHVsZS5leHBvcnRzID0ge1wic2VjdGlvblwiOlwiUmVjcnVpdGVyc19zZWN0aW9uX19xbEE3NFwiLFwicm93c1wiOlwiUmVjcnVpdGVyc19yb3dzX19hN3FxRlwiLFwiY2Fyb3VzZWxcIjpcIlJlY3J1aXRlcnNfY2Fyb3VzZWxfX0l6Vl80XCIsXCJyb3dcIjpcIlJlY3J1aXRlcnNfcm93X19UcTdoT1wiLFwibG9nby1zY3JvbGwtbGVmdFwiOlwiUmVjcnVpdGVyc19sb2dvLXNjcm9sbC1sZWZ0X18yQTFKOFwiLFwib2Zmc2V0XCI6XCJSZWNydWl0ZXJzX29mZnNldF9fVVJGYWpcIixcImxvZ28tc2Nyb2xsLXJpZ2h0XCI6XCJSZWNydWl0ZXJzX2xvZ28tc2Nyb2xsLXJpZ2h0X18zVWNsS1wiLFwiZ3JvdXBcIjpcIlJlY3J1aXRlcnNfZ3JvdXBfX1U2eWdUXCIsXCJjZWxsXCI6XCJSZWNydWl0ZXJzX2NlbGxfX0lFSXlwXCIsXCJjb250cm9sc1wiOlwiUmVjcnVpdGVyc19jb250cm9sc19feFJsb1pcIixcImNvbnRyb2xcIjpcIlJlY3J1aXRlcnNfY29udHJvbF9fb21HME1cIixcImFjdGl2ZUNvbnRyb2xcIjpcIlJlY3J1aXRlcnNfYWN0aXZlQ29udHJvbF9fbnM1NXNcIn07XG4gICAgaWYobW9kdWxlLmhvdCkge1xuICAgICAgLy8gMTc5Mzg1NzA1MTM5MFxuICAgICAgdmFyIGNzc1JlbG9hZCA9IHJlcXVpcmUoXCJEOi9pbm5vdmlucy9yZWFjdC92c20vbm9kZV9tb2R1bGVzL25leHQvZGlzdC9jb21waWxlZC9taW5pLWNzcy1leHRyYWN0LXBsdWdpbi9obXIvaG90TW9kdWxlUmVwbGFjZW1lbnQuanNcIikobW9kdWxlLmlkLCB7XCJwdWJsaWNQYXRoXCI6XCIvX25leHQvXCIsXCJlc01vZHVsZVwiOmZhbHNlLFwibG9jYWxzXCI6dHJ1ZX0pO1xuICAgICAgbW9kdWxlLmhvdC5kaXNwb3NlKGNzc1JlbG9hZCk7XG4gICAgICBcbiAgICB9XG4gIFxubW9kdWxlLmV4cG9ydHMuX19jaGVja3N1bSA9IFwiZDhmMDM3MjFmNDE0XCJcbiJdLCJuYW1lcyI6W10sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///(app-pages-browser)/./components/sections/Recruiters.module.css\n"));
+
+/***/ })
+
+});

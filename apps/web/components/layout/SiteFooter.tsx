@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Image from 'next/image';
 import { Link } from '@/components/navigation/Link';
 import { aboutLinks, careerAndBlogLinks, contact, footer, specialisationLinks } from '@/content/site';
@@ -7,6 +10,10 @@ import { PhoneList } from '@/components/ui/PhoneList';
 import styles from './SiteFooter.module.css';
 
 export function SiteFooter() {
+  const [aboutExpanded, setAboutExpanded] = useState(false);
+  const visibleAboutLinks = aboutLinks.slice(0, 5);
+  const remainingAboutLinks = aboutLinks.slice(5);
+
   return (
     <footer id="site-footer" className={styles.footer}>
       <div className="container">
@@ -33,21 +40,34 @@ export function SiteFooter() {
 
           <nav aria-labelledby="footer-about">
             <h2 id="footer-about" className={styles.heading}>About Us</h2>
-            <details className={styles.aboutMenu}>
-              <summary className={styles.aboutSummary}>
-                Explore About Us
-                <span className={styles.aboutChevron} aria-hidden="true">
-                  <Icon src={icons.chevronDown} />
-                </span>
-              </summary>
-              <ul className={`${styles.links} ${styles.aboutLinks}`} role="list">
-                {aboutLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} target={link.href.endsWith('.pdf') ? '_blank' : undefined} rel={link.href.endsWith('.pdf') ? 'noopener noreferrer' : undefined}>{link.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </details>
+            <ul className={`${styles.links} ${styles.aboutLinks}`} role="list">
+              {visibleAboutLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} target={link.href.endsWith('.pdf') ? '_blank' : undefined} rel={link.href.endsWith('.pdf') ? 'noopener noreferrer' : undefined}>{link.label}</Link>
+                </li>
+              ))}
+            </ul>
+            {remainingAboutLinks.length > 0 && (
+              <>
+                <div className={`${styles.moreLinks} ${aboutExpanded ? styles.moreLinksExpanded : ''}`} aria-hidden={!aboutExpanded}>
+                  <ul className={`${styles.links} ${styles.aboutLinks}`} role="list">
+                    {remainingAboutLinks.map((link) => (
+                      <li key={link.href}>
+                        <Link href={link.href} tabIndex={aboutExpanded ? undefined : -1} target={link.href.endsWith('.pdf') ? '_blank' : undefined} rel={link.href.endsWith('.pdf') ? 'noopener noreferrer' : undefined}>{link.label}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <button
+                  type="button"
+                  className={styles.aboutToggle}
+                  aria-expanded={aboutExpanded}
+                  onClick={() => setAboutExpanded((expanded) => !expanded)}
+                >
+                  {aboutExpanded ? 'Show Less ↑' : 'Show More ↓'}
+                </button>
+              </>
+            )}
             <ul className={`${styles.links} ${styles.careerLinks}`} role="list">
               {careerAndBlogLinks.map((link) => (
                 <li key={link.href}>

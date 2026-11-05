@@ -35,13 +35,17 @@
   min-height: 0;
 }
 
+.home .image {
+  object-position: 70% center;
+}
+
 .image {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 70% center;
+  object-position: var(--hero-image-position, 70% 100%);
 }
 
 .content {
@@ -198,6 +202,7 @@
 
   .slide {
     min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto;
   }
 
@@ -206,12 +211,16 @@
     grid-row: 2;
     height: auto;
     aspect-ratio: 16 / 10;
-    object-position: 78% center;
+    object-position: var(--hero-image-position-mobile, 78% 50%);
   }
 
   .home .slide {
     height: auto;
     grid-template-rows: auto auto;
+  }
+
+  .home .image {
+    object-position: 78% center;
   }
 
   .content,
