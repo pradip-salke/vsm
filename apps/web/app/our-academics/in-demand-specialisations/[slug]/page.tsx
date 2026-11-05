@@ -68,10 +68,12 @@ export default async function SpecialisationPage({ params }: Props) {
           <AtAGlance facts={overviewFacts} showActions={false} />
         </aside>
         <main className={layout.main}>
-          <section id="overview" className={`${layout.block} ${styles.section}`}>
-            <SectionHeading eyebrow="PGDM Specialisation" title={`PGDM in ${page.title}`} />
-            {page.overview.map((paragraph) => <p className={styles.paragraph} key={paragraph}>{paragraph}</p>)}
-          </section>
+          <div id="about-program" className={layout.block}>
+            <section id="overview" className={styles.section}>
+              <SectionHeading eyebrow="About Program" title={`PGDM in ${page.title}`} />
+              {page.overview.map((paragraph) => <p className={styles.paragraph} key={paragraph}>{paragraph}</p>)}
+            </section>
+          </div>
           <section id="why-specialisation" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={`Why Choose PGDM in ${page.title}?`} />
             {renderIconList(page.reasons, 'Reasons to choose this specialisation')}

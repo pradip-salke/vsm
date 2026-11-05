@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function PlacementRecordsPage() {
   return (
     <PlacementPageShell title="Placement Records" active="Placement Records">
-      <PlacementSection title="Batch Wise Placement Records">
+      <PlacementSection title="Batch Wise Placement Records" className={styles.placementRecordsSection}>
         <h3 className={styles.sectionSubheading}>Summer Internship 2025–27</h3>
         <div className={styles.recordGrid}>
           {currentBatchInternshipAssets.map((asset) => <a className={styles.recordLink} href={asset.src} target="_blank" rel="noreferrer" key={asset.src}>

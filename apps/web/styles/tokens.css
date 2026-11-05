@@ -41,6 +41,7 @@
   --color-marquee-dot: #484848;
   --color-faculty-bg: #f8f4e7;
   --carousel-dot-size: clamp(0.75rem, 0.9375vw, 1.125rem); /* 18px at 1920px, responsive with a 12px floor */
+  --content-icon-badge-size: clamp(2rem, calc(4.21875vw - 4px), 4.8125rem); /* 50px at 1280px, 77px at 1920px */
 
   /* Lines */
   --color-border: #c9c9c9;
@@ -93,8 +94,8 @@
   --section-spacing: clamp(2.5rem, 3.646vw, 4.375rem); /* 40px mobile, 70px at 1920px */
   --section-rule-gap: 1.8229167vw; /* 35px at 1920px, proportional at every viewport */
   --heading-copy-gap: 0.78125vw; /* 15px at 1920px, proportional at every viewport */
-  --header-height: clamp(4.5rem, 6.354vw, 7.625rem);   /* 72px minimum, 122px at 1920px */
-  --topbar-height: clamp(2.375rem, 2.969vw, 3.5625rem); /* 38px minimum, 57px at 1920px */
+  --header-height: calc(clamp(4.5rem, 6.354vw, 7.625rem) - 20px); /* navigation min-height reduced by 20px */
+  --topbar-height: calc(clamp(2.375rem, 2.969vw, 3.5625rem) - 5px); /* 5px shorter across viewport sizes */
 
   /* Spacing scale */
   --space-1: clamp(0.1875rem, 0.208vw, 0.25rem);          /* 3px–4px */

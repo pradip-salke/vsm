@@ -23,8 +23,8 @@ export function AboutPageShell({ title, active, children, trusteeMessages = fals
   </>;
 }
 
-export function AboutSection({ title, children, intro }: { title?: string; children: ReactNode; intro?: string }) {
-  return <section className={styles.section}>
+export function AboutSection({ title, children, intro, className }: { title?: string; children: ReactNode; intro?: string; className?: string }) {
+  return <section className={`${styles.section}${className ? ` ${className}` : ''}`}>
     {title && <header className={styles.sectionHeading}><h2>{title}</h2>{intro && <p>{intro}</p>}</header>}
     {children}
   </section>;

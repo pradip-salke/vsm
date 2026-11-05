@@ -21,7 +21,7 @@ const faqs: FaqItem[] = [
 
 export default function ApplicationFormPage() {
   return <AdmissionsPageShell title="PGDM Application Form – 2026" subtitle="Begin Your Management Journey – Apply Now" active="Application Form">
-    <AdmissionSection title="PGDM Admission 2026–28 | Apply Now"><h3 className={styles.subheading}>Application Form</h3><AdmissionsApplicationForm /></AdmissionSection>
+    <AdmissionSection title="PGDM Admission 2026–28 | Apply Now" className={styles.applicationFormSection}><h3 className={styles.subheading}>Application Form</h3><AdmissionsApplicationForm /></AdmissionSection>
     <AdmissionSection title="FAQs" className={faqStyles.section} titleClassName={faqStyles.title}>
       <FaqList items={faqs} />
     </AdmissionSection>

@@ -28,7 +28,7 @@ export default function FacultyPage() {
         breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Academics', href: '/our-academics/aicte-pgdm-courses-in-mumbai/' }, { label: 'Teaching Faculty' }]}
         actions={<a className={styles.heroLink} href="#our-faculty">Meet Our Faculty <span aria-hidden="true">↓</span></a>}
       />
-      <AcademicsTabs tabs={tabs} />
+      <AcademicsTabs tabs={tabs} className={styles.facultyTabs} />
       <div className={`${layout.layout} ${styles.layout}`}>
         <aside className={`${layout.sidebar} ${styles.sidebar}`} aria-label="Faculty overview">
           <div className={styles.summary}>
@@ -39,7 +39,7 @@ export default function FacultyPage() {
           </div>
         </aside>
         <main className={layout.main}>
-          <section id="our-faculty" className={`${layout.block} ${styles.section}`}>
+          <section id="our-faculty" className={`${layout.block} ${styles.section} ${styles.firstSection}`}>
             <SectionHeading className={styles.facultyHeading} eyebrow="Masters of Their Craft, Mentors for the Future" title="Meet Our Industry-Oriented PGDM Faculty">
               <p>At Valia School of Management, our faculty brings academic knowledge and practical experience to the classroom. Their industry backgrounds and teaching experience help students connect management concepts with real business situations.</p>
             </SectionHeading>

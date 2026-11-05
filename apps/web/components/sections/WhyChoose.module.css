@@ -33,7 +33,7 @@
 /* Figma: 77px badges on a 107px pitch, first badge 25px below the image top */
 .page .list {
   --band-end: calc(-100% * 86 / 828);
-  --badge: clamp(3.25rem, 4.01vw, 4.8125rem);
+  --badge: var(--content-icon-badge-size);
   width: 100%;
   gap: clamp(0.5rem, 1.5625vw, 1.875rem);
   padding-top: calc(100% * 25 / 828);
@@ -72,7 +72,7 @@
 
 .column .list {
   --band-bleed: var(--column-inset, var(--page-gutter));
-  --badge: clamp(3.25rem, 4.01vw, 4.8125rem);
+  --badge: var(--content-icon-badge-size);
   gap: clamp(0.5rem, 1.5625vw, 1.875rem);
   padding-top: 11px;
 }

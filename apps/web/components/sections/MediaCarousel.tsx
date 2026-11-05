@@ -19,6 +19,7 @@ type MediaCarouselProps = {
   /** Decorative play badge on video stills. */
   play?: boolean;
   background?: 'page' | 'cream';
+  homeEventSpacing?: boolean;
 };
 
 export function MediaCarousel({
@@ -30,6 +31,7 @@ export function MediaCarousel({
   uppercase = false,
   play = false,
   background = 'page',
+  homeEventSpacing = false,
 }: MediaCarouselProps) {
   const headingId = `${id}-title`;
   const slides = items.map((item, index) => {
@@ -66,7 +68,7 @@ export function MediaCarousel({
   return (
     <section
       id={id}
-      className={[styles[variant], styles[layout], styles[`bg-${background}`]].filter(Boolean).join(' ')}
+      className={[styles[variant], styles[layout], styles[`bg-${background}`], homeEventSpacing ? styles.homeEventSpacing : ''].filter(Boolean).join(' ')}
       aria-labelledby={headingId}
     >
       <div className={variant === 'page' ? 'container' : undefined}>

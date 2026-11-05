@@ -1,6 +1,9 @@
 .section {
   padding-top: var(--section-spacing);
   padding-bottom: calc(var(--section-spacing) + 5px);
+  --slide-gap: clamp(0.5rem, 0.833vw, 1rem);
+  --carousel-space: min(calc(100vw - 2 * var(--page-gutter)), var(--container-width));
+  --slide-width: calc((var(--carousel-space) - 2 * var(--slide-gap)) / 3);
 }
 
 .academic {
@@ -13,13 +16,32 @@
 }
 
 .carousel {
-  /* Figma Home: three 549px cards with 16px gutters in the 1680px content area. */
-  --slide-gap: clamp(0.5rem, 0.833vw, 1rem);
-  --slide-width: calc((100% - var(--slide-gap) * 2) / 3);
   margin-top: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - clamp(2px, 0.520833vw, 10px) - 10px);
 }
 
+.viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: internship-scroll 18s linear infinite;
+}
+
+.group {
+  display: flex;
+  flex: none;
+  gap: var(--slide-gap);
+  margin: 0;
+  padding: 0 var(--slide-gap) 0 0;
+  list-style: none;
+}
+
 .card {
+  flex: 0 0 var(--slide-width);
+  width: var(--slide-width);
   overflow: hidden;
   border-radius: var(--radius-sm);
   background: var(--color-surface);
@@ -30,14 +52,34 @@
   height: auto;
 }
 
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-top: calc(clamp(2rem, 1.5rem + 1.5vw, 3.6875rem) - 0.78125vw - 10px + 1.041667vw);
+}
+
+.controls > :global([role='group']) {
+  margin-top: 0;
+}
+
+@keyframes internship-scroll {
+  to { transform: translateX(-33.333333%); }
+}
+
 @media (max-width: 1023px) {
-  .carousel {
-    --slide-width: calc((100% - var(--slide-gap)) / 1.6);
+  .section {
+    --slide-width: calc((var(--carousel-space) - var(--slide-gap) * 0.6) / 1.6);
   }
 }
 
 @media (max-width: 599px) {
-  .carousel {
-    --slide-width: 86%;
+  .section {
+    --slide-width: min(86vw, var(--carousel-space));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
   }
 }

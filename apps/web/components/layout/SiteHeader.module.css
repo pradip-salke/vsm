@@ -327,7 +327,7 @@
 
 @media (max-width: 767px) {
   .header {
-    --topbar-height: 2.5rem;
+    --topbar-height: calc(2.5rem - 5px);
   }
 
   .years,

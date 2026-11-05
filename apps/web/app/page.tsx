@@ -45,11 +45,11 @@ export default function HomePage() {
       <FacultySection />
       <WhyChoose image={whyChooseImage} />
       <Specialisations />
-      <Recruiters />
+      <Recruiters home />
       <Internships />
       <Testimonials reduceBottomPadding />
       <Marquee />
-      <MediaCarousel id="events" title="Upcoming Events" items={homeEvents} layout="events" />
+      <MediaCarousel id="events" title="Upcoming Events" items={homeEvents} layout="events" homeEventSpacing />
       <MediaCarousel id="life-at-vsm" title="Life @ VSM" items={homeLife} layout="life" background="cream" />
       <FaqSection />
       <CtaBanner />

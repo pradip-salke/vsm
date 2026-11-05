@@ -25,7 +25,7 @@ export default function RefundPolicyPage() {
   return <AdmissionsPageShell title="Refund Policy" subtitle="Cancellation of Admission, Refund of Fees and Return of Documents by Institute" active="Refund Policy">
     <AdmissionSection title="Cancellation of Admission, Refund of Fees and Return of Documents by Institute">
       <ol className={styles.list}>{policy.map((item, index) => <li key={index}><span className={styles.marker} aria-hidden>{index + 1}</span><p>{item}</p></li>)}</ol>
-      <p className={styles.lead}>Notwithstanding the clause above, the student shall not be entitled to any refund of his/her fee, if the cancellation of admission request is made by the Student after the Course Commences.</p>
+      <p className={`${styles.lead} ${styles.refundAfterList}`}>Notwithstanding the clause above, the student shall not be entitled to any refund of his/her fee, if the cancellation of admission request is made by the Student after the Course Commences.</p>
     </AdmissionSection>
     <AdmissionSection title="Refund Policy: As prescribed by AICTE">
       <div className={styles.tableScroll} tabIndex={0}><table className={styles.table}><caption className="visually-hidden">Refund policy prescribed by AICTE</caption>

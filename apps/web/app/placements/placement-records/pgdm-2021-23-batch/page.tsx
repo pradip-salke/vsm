@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { PlacementPageShell, PlacementSection } from '../../PlacementPageShell';
 import styles from '../../PlacementPage.module.css';
 import { batch2021Highlights, salaryPlacementRows, specializationPlacementRows } from '@/content/placements';
+import { CountUpValue } from '@/components/ui/CountUpValue';
 
 export const metadata: Metadata = {
   title: 'PGDM 2021–23 Placement Records',
@@ -17,7 +18,7 @@ export default function PlacementBatch2021Page() {
         <p>Placements is not a one-day process. We provide every student a platform with learning, industry interaction and internships with hands-on experience, helping them understand expectations, become industry ready and build confidence for success.</p>
       </>}>
         <h3 className={styles.sectionSubheading}>Key Highlights</h3>
-        <div className={styles.stats}>{batch2021Highlights.map(([value, label]) => <div key={label} className={styles.stat}><strong>{value}</strong><span>{label}</span></div>)}</div>
+        <div className={styles.stats}>{batch2021Highlights.map(([value, label]) => <div key={label} className={styles.stat}><strong><CountUpValue value={value} /></strong><span>{label}</span></div>)}</div>
         <h3 className={styles.sectionSubheading}>Specialization-wise Placement Record</h3>
         <div className={styles.tableWrap}><table className={styles.table}><thead><tr><th scope="col">Specialization</th><th scope="col">Placed Students %</th><th scope="col">No. of Students</th></tr></thead>
           <tbody>{specializationPlacementRows.map(([name, percentage, count]) => <tr key={name}><td>{name}</td><td>{percentage}</td><td>{count}</td></tr>)}</tbody></table></div>

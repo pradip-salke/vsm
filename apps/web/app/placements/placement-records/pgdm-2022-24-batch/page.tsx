@@ -4,6 +4,7 @@ import { Carousel } from '@/components/ui/Carousel';
 import { PlacementPageShell, PlacementSection } from '../../PlacementPageShell';
 import styles from '../../PlacementPage.module.css';
 import { batch2022Highlights, batch2022InternshipAssets, batch2022PlacementAssets } from '@/content/placements';
+import { CountUpValue } from '@/components/ui/CountUpValue';
 
 export const metadata: Metadata = {
   title: 'PGDM 2022–24 Placement Records',
@@ -19,7 +20,7 @@ export default function PlacementBatch2022Page() {
         <p>Placements is not a one-day process. We provide every student a platform with learning, industry interaction and internships with hands-on experience, helping them understand expectations, become industry ready and build confidence for success.</p>
       </>}>
         <h3 className={styles.sectionSubheading}>Key Highlights · Final Placement: In Progress</h3>
-        <div className={styles.stats}>{batch2022Highlights.map(([value, label]) => <div key={label} className={styles.stat}><strong>{value}</strong><span>{label}</span></div>)}</div>
+        <div className={styles.stats}>{batch2022Highlights.map(([value, label]) => <div key={label} className={styles.stat}><strong><CountUpValue value={value} /></strong><span>{label}</span></div>)}</div>
         <h3 className={styles.sectionSubheading}>Placements Records</h3>
         <Carousel
           label="Placement records for PGDM 2022–24 batch"

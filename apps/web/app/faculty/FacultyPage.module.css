@@ -4,25 +4,40 @@
   align-items: center;
   gap: 1rem;
   padding: .8rem 1.5rem;
-  border: 1px solid rgb(255 255 255 / 65%);
+  border: 1px solid var(--color-primary);
   border-radius: var(--radius-sm);
+  background: var(--color-primary);
   color: var(--color-text-inverse);
   font-weight: var(--font-weight-bold);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 18%);
 }
 
 .layout { width: 100%; }
 
-.heroLink:hover { background: rgb(255 255 255 / 12%); }
+.facultyTabs ul {
+  justify-content: center;
+}
+
+.heroLink:hover { background: var(--color-primary-dark, var(--color-primary)); }
 .sidebar { min-width: 0; }
-.summary { display: flex; flex-direction: column; align-items: flex-start; position: sticky; top: clamp(3.75rem, 3rem + 2.3vw, 6.4375rem); width: min(100%, 364px); padding: clamp(3rem, 5.208vw, 6.25rem) var(--space-5) 2.125rem 0; }
+.summary { --sidebar-gap-reduction: clamp(3px, 0.520833vw, 10px); display: flex; flex-direction: column; align-items: flex-start; position: sticky; top: clamp(3.75rem, 3rem + 2.3vw, 6.4375rem); width: min(100%, clamp(17rem, 17.708vw, 21.25rem)); padding: clamp(3rem, 5.208vw, 6.25rem) 0 2.125rem; }
 .eyebrow { color: var(--color-primary); font-size: var(--font-size-input); font-weight: var(--font-weight-extrabold); text-transform: uppercase; }
-.summary h2 { margin-top: .7rem; font-size: var(--font-size-h2); font-weight: var(--font-weight-medium); line-height: var(--line-height-heading); }
+.summary h2 { margin-top: .7rem; font-size: var(--font-size-h2); font-weight: var(--font-weight-medium); line-height: 1; }
 .summary > p:not(.eyebrow) { margin-top: 1rem; color: var(--color-text-body); line-height: 1.7; }
-.summary dl { display: flex; flex-direction: column; gap: clamp(2rem, 3.906vw, 4.6875rem); margin-top: clamp(3rem, 3.28vw, 3.9375rem); }
-.summary dl > div { display: flex; flex-direction: column; gap: 1rem; }
-.summary dt { color: var(--color-text-label); font-size: var(--font-size-body); font-weight: var(--font-weight-extrabold); line-height: 36px; }
-.summary dd { margin: 0; color: var(--color-heading); font-size: clamp(1.5rem, 1.77vw, 2.125rem); font-weight: var(--font-weight-extrabold); line-height: 36px; }
+.summary dl { display: flex; flex-direction: column; gap: calc(clamp(2.5rem, 3.906vw, 4.6875rem) - var(--sidebar-gap-reduction) - 25px); margin-top: calc(clamp(3.9375rem, 3.28vw, 3.9375rem) - var(--sidebar-gap-reduction) - 30px); }
+.summary dl > div { display: flex; flex-direction: column; gap: calc(clamp(1.25rem, 1.198vw, 1.4375rem) - var(--sidebar-gap-reduction)); }
+.summary dt { color: var(--color-text-label); font-size: var(--font-size-body); font-weight: var(--font-weight-extrabold); line-height: 1.636; }
+.summary dd { margin: 0; color: var(--color-heading); font-size: clamp(1.5rem, 1.77vw, 2.125rem); font-weight: var(--font-weight-extrabold); line-height: 1.06; }
 .section { min-height: 18rem; }
+.section.firstSection {
+  padding-top: clamp(4.375rem, 5.208vw, 6.25rem);
+  padding-bottom: 25px;
+}
+.layout > :global(main) > :global(#faculty-experience) {
+  min-height: 0;
+  padding-top: 25px;
+  padding-bottom: 45px;
+}
 .facultyHeading + .facultyGrid { margin-top: 20px; }
 .facultyGrid.facultyGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; }
 .closing { max-width: 68ch; margin-top: 1.5rem; color: var(--color-text-body); line-height: 1.75; }
@@ -31,8 +46,8 @@
   .facultyGrid.facultyGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sidebar { padding: var(--section-spacing) var(--page-gutter); }
   .summary { position: static; width: min(100%, 500px); padding: 0; }
-  .summary dl { flex-direction: row; flex-wrap: wrap; gap: 1.5rem 2rem; margin-top: var(--space-5); }
-  .summary dl > div { min-width: 8rem; }
+  .summary dl { flex-direction: column; gap: calc(2.5rem - var(--sidebar-gap-reduction) - 25px); margin-top: calc(3rem - var(--sidebar-gap-reduction) - 30px); }
+  .summary dl > div { min-width: 0; gap: calc(1rem - var(--sidebar-gap-reduction)); }
   .summary dt, .summary dd { line-height: 1.5; }
 }
 

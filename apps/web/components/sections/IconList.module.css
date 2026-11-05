@@ -1,7 +1,7 @@
 .list {
   /* Distance the highlight band extends past the list's left edge */
   --band-bleed: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
-  --badge: clamp(3.25rem, 2.6rem + 1.75vw, 4.8125rem); /* 77px */
+  --badge: var(--content-icon-badge-size);
   display: flex;
   flex-direction: column;
   gap: var(--list-gap, clamp(0.5rem, 0.2rem + 0.8vw, 1.875rem));
@@ -130,6 +130,10 @@
 
 .divided .item::after {
   bottom: 0;
+}
+
+.divided .item:last-child::after {
+  content: none;
 }
 
 .divided .item::before {

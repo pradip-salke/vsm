@@ -8,10 +8,8 @@ import { placementBatches } from '@/content/placements';
 import styles from './PlacementPage.module.css';
 
 export const placementPages = [
-  { label: 'Placements', href: '/placements/' },
   { label: 'Our Recruiters', href: '/placements/our-recruiters/' },
   { label: 'Placement Records', href: '/placements/placement-records/' },
-  { label: 'Alumni', href: '/placements/alumni/' },
   { label: 'Connect With Us', href: '/connect-with-us/' },
 ];
 
@@ -51,9 +49,9 @@ export function PlacementPageShell({ title, active, children }: { title: string;
   );
 }
 
-export function PlacementSection({ title, children, intro }: { title: string; children: ReactNode; intro?: ReactNode }) {
+export function PlacementSection({ title, children, intro, className }: { title: string; children: ReactNode; intro?: ReactNode; className?: string }) {
   return (
-    <section className={`container ${styles.section}`}>
+    <section className={`container ${styles.section} ${className ?? ''}`}>
       <header className={styles.sectionHeader}>
         <p className={styles.eyebrow}>Placement</p>
         <h2>{title}</h2>

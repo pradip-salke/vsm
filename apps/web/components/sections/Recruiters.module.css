@@ -8,6 +8,10 @@
   overflow: hidden;
 }
 
+.homeSection {
+  padding-bottom: calc(var(--section-spacing) + 5px - 35px);
+}
+
 .rows {
   margin-top: clamp(0.8125rem, calc(1rem + 1.6vw - 11px), 1.9125rem);
   border-top: var(--border-width) solid var(--color-border-strong);

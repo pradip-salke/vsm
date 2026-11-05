@@ -7,7 +7,7 @@ import styles from './AcademicsTabs.module.css';
 /** In-page section navigation; the active tab follows the section in view. */
 export type AcademicTab = { label: string; id: string };
 
-export function AcademicsTabs({ tabs = academicsTabs }: { tabs?: AcademicTab[] }) {
+export function AcademicsTabs({ tabs = academicsTabs, className }: { tabs?: AcademicTab[]; className?: string }) {
   const [active, setActive] = useState(tabs[0]?.id ?? '');
   const listRef = useRef<HTMLUListElement>(null);
 
@@ -35,7 +35,7 @@ export function AcademicsTabs({ tabs = academicsTabs }: { tabs?: AcademicTab[] }
   }, [active]);
 
   return (
-    <nav className={styles.tabs} aria-label="On this page">
+    <nav className={`${styles.tabs} ${className ?? ''}`} aria-label="On this page">
       <ul ref={listRef} className={`container ${styles.list}`} role="list">
         {tabs.map((tab) => (
           <li key={tab.id}>

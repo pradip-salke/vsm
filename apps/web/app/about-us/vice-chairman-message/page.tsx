@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: 'Vice Chairman Message', description:
 
 export default function ViceChairmanMessagePage() {
   return <AboutPageShell title="Vice Chairman Message" active="Vice Chairman Message" viewportContent>
-    <AboutSection title="Message From Vice Chairman">
+    <AboutSection title="Message From Vice Chairman" className={styles.messagePageSection}>
       <div className={styles.message}>
         <Image src="/images/about/vice-bryan.jpeg" alt="Bryan Dsouza, Vice Chairman" width={600} height={900} sizes="(max-width: 650px) min(100vw, 18rem), 15rem" />
         <div className={styles.copy}>

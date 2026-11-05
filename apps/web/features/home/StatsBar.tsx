@@ -1,4 +1,5 @@
 import { stats } from '@/content/home';
+import { CountUpValue } from '@/components/ui/CountUpValue';
 import styles from './StatsBar.module.css';
 
 export function StatsBar() {
@@ -11,7 +12,7 @@ export function StatsBar() {
               <img className={styles.divider} src="/images/figma/stats-divider.svg" alt="" aria-hidden="true" />
             )}
             <dt className={styles.label}>{stat.label}</dt>
-            <dd className={styles.value}>{stat.value}</dd>
+            <dd className={styles.value}><CountUpValue value={stat.value} /></dd>
             <dd className={styles.description}>{stat.description}</dd>
           </div>
         ))}

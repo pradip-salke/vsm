@@ -22,7 +22,7 @@ export function EventsShell({ title, active, children }: { title: string; active
       <Button variant="arrow" href="mailto:admissions@vsmedu.in">Enquire now</Button>
     </>} breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Events', href: '/events/' }, ...(title === 'Events' ? [] : [{ label: title }])]} />
     <nav className={styles.nav} aria-label="Event pages"><ul role="list" className={`container ${styles.navList}`}>
-      {eventPages.map((page) => <li key={page.href}><Link href={page.href} aria-current={active === page.label ? 'page' : undefined}>{page.label}</Link></li>)}
+      {eventPages.filter((page) => !(active === 'Photo Gallery' && page.label === 'Events')).map((page) => <li key={page.href}><Link href={page.href} aria-current={active === page.label ? 'page' : undefined}>{page.label}</Link></li>)}
     </ul></nav>
     <main id="main" className={styles.main}>{children}</main>
   </>;

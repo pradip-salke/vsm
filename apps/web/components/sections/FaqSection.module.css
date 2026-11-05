@@ -52,7 +52,7 @@
   grid-template-rows: repeat(var(--faq-rows), auto);
   column-gap: clamp(1rem, 2.5vw, 3rem);
   row-gap: clamp(1rem, 2.552vw, 3.0625rem);
-  margin-top: clamp(1.5rem, 2.604vw, 3.125rem);
+  margin-top: calc(clamp(1.5rem, 2.604vw, 3.125rem) + 20px);
   margin-left: clamp(0.5rem, 0.417vw, 0.5rem);
 }
 

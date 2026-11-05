@@ -1,5 +1,6 @@
 .sectionLead { max-width: 62rem; }
 .sectionLead p + p { margin-top: var(--space-4); }
+.sectionLead .iconList + p { margin-top: 20px; }
 .iconList {
   --band-bleed: var(--column-inset, var(--page-gutter));
   --band-end: calc(-1 * (var(--edge, var(--page-gutter)) + 0.365vw));
@@ -15,7 +16,6 @@
   padding-inline: var(--band-start) calc(var(--band-extension) - var(--scrollbar-inset));
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: #777777 #d6d6d6;

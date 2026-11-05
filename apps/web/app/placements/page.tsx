@@ -3,6 +3,7 @@ import { Link } from '@/components/navigation/Link';
 import { PlacementPageShell, PlacementSection } from './PlacementPageShell';
 import styles from './PlacementPage.module.css';
 import { batch2022Highlights, placementIntro } from '@/content/placements';
+import { CountUpValue } from '@/components/ui/CountUpValue';
 
 export const metadata: Metadata = {
   title: 'PGDM Placements',
@@ -31,7 +32,7 @@ export default function PlacementsPage() {
         </div>
       </PlacementSection>
       <PlacementSection title="PGDM 2022–24 Batch · Internship Highlights">
-        <div className={styles.stats}>{batch2022Highlights.map(([value, label]) => <div key={label} className={styles.stat}><strong>{value}</strong><span>{label}</span></div>)}</div>
+        <div className={styles.stats}>{batch2022Highlights.map(([value, label]) => <div key={label} className={styles.stat}><strong><CountUpValue value={value} /></strong><span>{label}</span></div>)}</div>
         <div className={styles.batchNav}><Link href="/placements/placement-records/">View placement records →</Link></div>
       </PlacementSection>
     </PlacementPageShell>

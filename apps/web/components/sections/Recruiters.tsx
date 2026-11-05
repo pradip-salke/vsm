@@ -26,7 +26,7 @@ const LogoRow = memo(function LogoRow({ offset = false, rowRef }: { offset?: boo
   );
 });
 
-export function Recruiters() {
+export function Recruiters({ home = false }: { home?: boolean }) {
   const leftRowRef = useRef<HTMLDivElement>(null);
   const rightRowRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -49,7 +49,7 @@ export function Recruiters() {
   };
 
   return (
-    <section className={styles.section} aria-labelledby="recruiters-title">
+    <section className={`${styles.section} ${home ? styles.homeSection : ''}`} aria-labelledby="recruiters-title">
       <div className="container">
         <SectionHeading id="recruiters-title" title="Companies Hiring Our PGDM Students" align="center" />
       </div>

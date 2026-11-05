@@ -59,8 +59,9 @@ export default function AimaPgdmPage() {
         </aside>
 
         <div className={layout.main}>
-          <section id="about-vsm" className={`${layout.block} ${styles.sectionLead}`}>
-            <SectionHeading title="About Valia School of Management" />
+          <div id="about-program" className={layout.block}>
+          <section id="about-vsm" className={styles.sectionLead}>
+            <SectionHeading eyebrow="About Program" title="About Valia School of Management" />
             <div className={blocks.prose}>
               <p>The Cosmopolitan Education Society, established in 1961, through VSM offers a transformative 2-year PGDM program as an AIMA – Centre for Management Education. This AICTE-approved program is designed to go beyond academic theory, providing a hands-on journey toward industry excellence.</p>
               <IconList items={aimaSpecialisationItems} divided className={styles.iconList} />
@@ -68,6 +69,7 @@ export default function AimaPgdmPage() {
               <p>Join us to experience one of the top AIMA-PGDM programs and launch your journey to success.</p>
             </div>
           </section>
+          </div>
 
           <section id="about-aima" className={layout.block}>
             <SectionHeading title="About AIMA" />
