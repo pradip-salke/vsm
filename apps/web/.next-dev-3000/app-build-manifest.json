@@ -12,17 +12,23 @@
       "static/css/app/not-found.css",
       "static/chunks/app/not-found.js"
     ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/page.css",
-      "static/chunks/app/page.js"
-    ],
     "/our-academics/aicte-pgdm-courses-in-mumbai/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/our-academics/aicte-pgdm-courses-in-mumbai/page.js",
-      "static/css/app/our-academics/aicte-pgdm-courses-in-mumbai/page.css"
+      "static/css/app/our-academics/aicte-pgdm-courses-in-mumbai/page.css",
+      "static/chunks/app/our-academics/aicte-pgdm-courses-in-mumbai/page.js"
+    ],
+    "/our-academics/aima-pgdm/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/our-academics/aima-pgdm/page.css",
+      "static/chunks/app/our-academics/aima-pgdm/page.js"
+    ],
+    "/our-academics/in-demand-specialisations/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/our-academics/in-demand-specialisations/[slug]/page.css",
+      "static/chunks/app/our-academics/in-demand-specialisations/[slug]/page.js"
     ]
   }
 }

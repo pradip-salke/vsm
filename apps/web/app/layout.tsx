@@ -4,6 +4,7 @@ import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { EnquirySection } from '@/components/sections/EnquirySection';
 import { BackToTop } from '@/components/layout/BackToTop';
+import { WheelScrollHandoff } from '@/components/layout/WheelScrollHandoff';
 import './globals.css';
 
 const urbanist = Urbanist({ subsets: ['latin'], weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], variable: '--font-urbanist', display: 'swap' });
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         </main>
         <SiteFooter />
         <BackToTop />
+        <WheelScrollHandoff />
       </body>
     </html>
   );

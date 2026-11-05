@@ -1,4 +1,5 @@
 .sectionLead { max-width: 62rem; }
+.aboutProgram:global(#about-program) { padding-bottom: max(0px, calc(var(--academic-section-bottom) - 20px)); }
 .sectionLead p + p { margin-top: var(--space-4); }
 .sectionLead .iconList + p { margin-top: 20px; }
 .iconList {
@@ -16,6 +17,7 @@
   padding-inline: var(--band-start) calc(var(--band-extension) - var(--scrollbar-inset));
   overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior-y: auto;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: #777777 #d6d6d6;

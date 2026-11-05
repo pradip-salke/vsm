@@ -1,8 +1,8 @@
-// File: D:\innovins\react\vsm\apps\web\app\page.tsx
-import * as entry from '../../../app/page.js'
+// File: D:\innovins\react\vsm\apps\web\app\our-academics\in-demand-specialisations\[slug]\page.tsx
+import * as entry from '../../../../../../app/our-academics/in-demand-specialisations/[slug]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../app/page.js')
+type TEntry = typeof import('../../../../../../app/our-academics/in-demand-specialisations/[slug]/page.js')
 
 type SegmentParams<T extends Object = any> = T extends Record<string, any>
   ? { [K in keyof T]: T[K] extends string ? string | string[] | undefined : never }

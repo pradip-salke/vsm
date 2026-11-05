@@ -1,11 +1,1 @@
-{
-  "version": 4,
-  "routes": {},
-  "dynamicRoutes": {},
-  "notFoundRoutes": [],
-  "preview": {
-    "previewModeId": "987bbc32f335dad11b9831f1ed29752a",
-    "previewModeSigningKey": "9cd378c53d541aa1bff5aaa099cdfc765fdc7a0fded8ba557aacafaf0533ca84",
-    "previewModeEncryptionKey": "4a33c4ffc8898338499d0c2f835b321d498acc04fce0d08806463c1eda5146fd"
-  }
-}
+{"version":4,"routes":{"/our-academics/in-demand-specialisations/financial-management-specialisation":{},"/our-academics/in-demand-specialisations/mba-pgdm-in-human-resources-mumbai":{},"/our-academics/in-demand-specialisations/mba-in-marketing-mumbai":{},"/our-academics/in-demand-specialisations/pgdm-in-business-analytics-mumbai":{},"/our-academics/in-demand-specialisations/operations-and-supply-chain-management-specialisation":{}},"dynamicRoutes":{"/our-academics/in-demand-specialisations/[slug]":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/our-academics/in-demand-specialisations/[slug]","routeRegex":"^\\/our\\-academics\\/in\\-demand\\-specialisations\\/([^/]+?)(?:\\/)?$","allowHeader":[]}},"notFoundRoutes":[],"preview":{"previewModeId":"33946386439787bec925bddef6cb9c19","previewModeSigningKey":"4730326175537b9e86728b3d7529bc6c0a89d3a51ae2370986f3730c1d33ddad","previewModeEncryptionKey":"0686d287d741fa3c2aa8c442bc29211e876e31dc8df3d0848aa2cb6790e5ad26"}}

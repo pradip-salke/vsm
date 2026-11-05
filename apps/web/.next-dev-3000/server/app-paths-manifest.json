@@ -1,5 +1,5 @@
 {
-  "/icon.png/route": "app/icon.png/route.js",
-  "/page": "app/page.js",
-  "/our-academics/aicte-pgdm-courses-in-mumbai/page": "app/our-academics/aicte-pgdm-courses-in-mumbai/page.js"
+  "/our-academics/aicte-pgdm-courses-in-mumbai/page": "app/our-academics/aicte-pgdm-courses-in-mumbai/page.js",
+  "/our-academics/aima-pgdm/page": "app/our-academics/aima-pgdm/page.js",
+  "/our-academics/in-demand-specialisations/[slug]/page": "app/our-academics/in-demand-specialisations/[slug]/page.js"
 }

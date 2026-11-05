@@ -59,7 +59,7 @@ export default function AimaPgdmPage() {
         </aside>
 
         <div className={layout.main}>
-          <div id="about-program" className={layout.block}>
+          <div id="about-program" className={`${layout.block} ${styles.aboutProgram}`}>
           <section id="about-vsm" className={styles.sectionLead}>
             <SectionHeading eyebrow="About Program" title="About Valia School of Management" />
             <div className={blocks.prose}>

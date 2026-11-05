@@ -1258,6 +1258,7 @@
   flex: 1 0 auto;
   height: var(--testimonial-card-height, auto);
   overflow-y: auto;
+  overscroll-behavior-y: auto;
   padding: clamp(1.25rem, 0.8rem + 1.6vw, 2.5rem);
   border-radius: 20px;
   background: transparent;
