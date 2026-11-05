@@ -1,1 +1,11 @@
-{"version":4,"routes":{"/gallery/out-bound-2026-28":{},"/gallery/testimonial-batch-2025-27":{},"/gallery/inaugration-2026":{},"/gallery/test":{},"/gallery/induction-week-2026":{},"/gallery/inauguration-ceremony-2026":{},"/gallery/mr-ramesh-sir-seminar":{},"/gallery/board-meeting":{},"/gallery/film-city-visit-wheel-of-fortune":{},"/gallery/nism-visit":{},"/gallery/makar-sankranti-2026":{},"/gallery/induction-day-2025":{},"/gallery/silvassa-industrial-visit":{},"/gallery/outbound-activity":{},"/gallery/infra":{},"/gallery/inauguration-2025":{},"/gallery/gyf":{},"/gallery/garba-night-2025":{},"/gallery/christmas":{},"/gallery/celebrity":{},"/gallery/diwali-2025":{},"/gallery/mba-junction":{}},"dynamicRoutes":{"/gallery/[slug]":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/gallery/[slug]","routeRegex":"^\\/gallery\\/([^/]+?)(?:\\/)?$","allowHeader":[]}},"notFoundRoutes":[],"preview":{"previewModeId":"dafe2a0c1664970b5a206ff55c628f08","previewModeSigningKey":"2e787f7ee782598cd0d4e37ceb94f80ae407860601c7eb743e6a892044949742","previewModeEncryptionKey":"0fc88053d14ad08d97d3f308c6df12b23751e81e00787830066f87fc71f0fc7e"}}
+{
+  "version": 4,
+  "routes": {},
+  "dynamicRoutes": {},
+  "notFoundRoutes": [],
+  "preview": {
+    "previewModeId": "987bbc32f335dad11b9831f1ed29752a",
+    "previewModeSigningKey": "9cd378c53d541aa1bff5aaa099cdfc765fdc7a0fded8ba557aacafaf0533ca84",
+    "previewModeEncryptionKey": "4a33c4ffc8898338499d0c2f835b321d498acc04fce0d08806463c1eda5146fd"
+  }
+}

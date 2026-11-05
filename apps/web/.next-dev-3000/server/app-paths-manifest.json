@@ -1,8 +1,5 @@
 {
   "/icon.png/route": "app/icon.png/route.js",
-  "/placements/placement-records/page": "app/placements/placement-records/page.js",
-  "/placements/our-recruiters/page": "app/placements/our-recruiters/page.js",
-  "/about-us/academic-advisory-board/page": "app/about-us/academic-advisory-board/page.js",
-  "/about-us/trustee-message/page": "app/about-us/trustee-message/page.js",
-  "/about-us/vice-chairman-message/page": "app/about-us/vice-chairman-message/page.js"
+  "/page": "app/page.js",
+  "/our-academics/aicte-pgdm-courses-in-mumbai/page": "app/our-academics/aicte-pgdm-courses-in-mumbai/page.js"
 }

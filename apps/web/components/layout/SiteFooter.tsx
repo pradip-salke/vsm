@@ -106,7 +106,13 @@ export function SiteFooter() {
           <ul role="list">
             {footer.bottomLinks.map((link) => (
               <li key={link.label}>
-                <Link href={link.href}>{link.label}</Link>
+                <Link
+                  href={link.href}
+                  target={link.href === 'https://fees.easebuzz.in/cf/vsmedu-online' ? '_blank' : undefined}
+                  rel={link.href === 'https://fees.easebuzz.in/cf/vsmedu-online' ? 'noopener noreferrer' : undefined}
+                >
+                  {link.label}
+                </Link>
               </li>
             ))}
           </ul>

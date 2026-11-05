@@ -92,10 +92,7 @@ export const mainNav: NavItem[] = [
 ];
 
 /** Secondary links shown only in the mobile / hamburger drawer. */
-export const drawerNav: NavLink[] = [
-  { label: 'Committee', href: '/committee/' },
-  { label: 'Anti-Ragging Policy', href: '/anti-ragging-policy/' },
-];
+export const drawerNav: NavLink[] = [];
 
 export const aboutLinks: NavLink[] = [
   { label: 'About VSM', href: '/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/' },
@@ -122,7 +119,7 @@ export const footer = {
     { label: 'PGDM', href: ACADEMICS_PGDM_PATH },
     { label: 'Admissions Process', href: '/admissions/mba-pgdm-admissions-process/' },
     { label: 'Application Form', href: APPLY_PATH },
-    { label: 'Pay Online', href: '/pay-online/' },
+    { label: 'Pay Online', href: 'https://fees.easebuzz.in/cf/vsmedu-online' },
     { label: 'Students Residence', href: '/about-us/student-residence/' },
     { label: 'Testimonials', href: '/#testimonials' },
     { label: 'Admin Login', href: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'http://localhost:5173' },

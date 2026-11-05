@@ -57,6 +57,7 @@ export function Testimonials({ reduceBottomPadding = false }: { reduceBottomPadd
         label="Student testimonials"
         slides={slides}
         align="center"
+        infiniteLoop
         dotsTone="light"
         cardHeightFromFirst
         className={styles.carousel}

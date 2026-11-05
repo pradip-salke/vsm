@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';
-import { APPLY_PATH } from '@/content/site';
 import { CareerApplicationForm } from './CareerApplicationForm';
+import { CtaBanner } from '@/features/home/CtaBanner';
 import styles from './CareerPage.module.css';
 
 export const metadata: Metadata = {
@@ -20,6 +20,7 @@ export default function CareerPage() {
     <>
       <PageHero
         size="inner"
+        className="careerHero"
         slides={[slide]}
         actions={<Button href="#career-application">Apply for a position</Button>}
         breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Career' }]}
@@ -49,15 +50,7 @@ export default function CareerPage() {
           </div>
         </section>
 
-        <section className={styles.enquiry}>
-          <div className={`container ${styles.enquiryInner}`}>
-            <div>
-              <span className={styles.eyebrow}>Your next step</span>
-              <h2>Nothing Beats Good Education For The Betterment Of A Student’s Future</h2>
-            </div>
-            <Button variant="arrow" href={APPLY_PATH}>Enquire now</Button>
-          </div>
-        </section>
+        <CtaBanner />
       </main>
     </>
   );

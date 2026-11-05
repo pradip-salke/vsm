@@ -15,11 +15,12 @@ type PageHeroProps = {
   slides: HeroSlide[];
   actions: ReactNode;
   breadcrumb?: Crumb[];
+  className?: string;
   /** `home` = 820px slider, `inner` = 559px page banner. */
   size?: 'home' | 'inner';
 };
 
-export function PageHero({ slides, actions, breadcrumb, size = 'home' }: PageHeroProps) {
+export function PageHero({ slides, actions, breadcrumb, size = 'home', className }: PageHeroProps) {
   // Inner pages have one copy block, but the banner still needs to behave as
   // the same three-image carousel shown in the shared hero design.
   const bannerSlides = size === 'inner' && slides.length === 1
@@ -77,7 +78,7 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home' }: PageHer
   });
 
   return (
-    <section className={`${styles.hero} ${styles[size]}`} aria-label="Introduction">
+    <section className={`${styles.hero} ${styles[size]}${className ? ` ${className}` : ''}`} aria-label="Introduction">
       {rendered.length > 1 ? (
         <Carousel label="Highlights" slides={rendered} dotsPlacement="overlay" dotsTone={size === 'home' ? 'dark' : 'light'} autoplayMs={6000} className={styles.carousel} />
       ) : (

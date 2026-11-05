@@ -12,71 +12,17 @@
       "static/css/app/not-found.css",
       "static/chunks/app/not-found.js"
     ],
-    "/placements/placement-records/page": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/placements/placement-records/page.css",
-      "static/chunks/app/placements/placement-records/page.js"
+      "static/css/app/page.css",
+      "static/chunks/app/page.js"
     ],
-    "/admissions/application-form/page": [
+    "/our-academics/aicte-pgdm-courses-in-mumbai/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/admissions/application-form/page.css",
-      "static/chunks/app/admissions/application-form/page.js"
-    ],
-    "/events/gallery/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/events/gallery/page.css",
-      "static/chunks/app/events/gallery/page.js"
-    ],
-    "/placements/our-recruiters/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/placements/our-recruiters/page.css",
-      "static/chunks/app/placements/our-recruiters/page.js"
-    ],
-    "/events/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/events/page.css",
-      "static/chunks/app/events/page.js"
-    ],
-    "/gallery/[slug]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/gallery/[slug]/page.css",
-      "static/chunks/app/gallery/[slug]/page.js"
-    ],
-    "/about-us/our-philosophy/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/our-philosophy/page.css",
-      "static/chunks/app/about-us/our-philosophy/page.js"
-    ],
-    "/faculty/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/faculty/page.css",
-      "static/chunks/app/faculty/page.js"
-    ],
-    "/about-us/academic-advisory-board/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/academic-advisory-board/page.css",
-      "static/chunks/app/about-us/academic-advisory-board/page.js"
-    ],
-    "/about-us/trustee-message/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/trustee-message/page.css",
-      "static/chunks/app/about-us/trustee-message/page.js"
-    ],
-    "/about-us/vice-chairman-message/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about-us/vice-chairman-message/page.css",
-      "static/chunks/app/about-us/vice-chairman-message/page.js"
+      "static/chunks/app/our-academics/aicte-pgdm-courses-in-mumbai/page.js",
+      "static/css/app/our-academics/aicte-pgdm-courses-in-mumbai/page.css"
     ]
   }
 }
