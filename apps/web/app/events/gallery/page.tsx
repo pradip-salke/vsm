@@ -4,8 +4,13 @@ import { EventsShell } from '../EventsShell';
 import { GalleryImages } from '../GalleryImages';
 import { galleryEvents } from '@/content/events';
 import styles from '../events.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Photo Gallery | Valia School of Management', description: 'Browse events and student experiences at Valia School of Management.', alternates: { canonical: '/events/gallery/' } };
+const metadata: Metadata = { title: 'Photo Gallery | Valia School of Management', description: 'Browse events and student experiences at Valia School of Management.', alternates: { canonical: '/events/gallery/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/events/gallery/', metadata);
+}
 
 export default function EventGalleryPage() {
   return <EventsShell title="Gallery" active="Photo Gallery"><section className={`container ${styles.section}`}>

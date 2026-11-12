@@ -3,8 +3,9 @@ import { Button } from '@/components/ui/Button';
 import { AdmissionsPageShell, AdmissionSection } from '../AdmissionsPageShell';
 import { APPLY_PATH } from '@/content/site';
 import styles from '../Admissions.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'PGDM Admissions 2026 at VSM',
   description: 'Eligibility criteria and application steps for the PGDM admissions process at Valia School of Management.',
   alternates: { canonical: '/admissions/mba-pgdm-admissions-process/' },
@@ -23,6 +24,10 @@ const steps = [
   ['Interview Round', 'Shortlisted candidates will be invited for a personal interview.'],
   ['Admission Offer', 'Successful candidates will receive an admission offer letter.'],
 ];
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/admissions/mba-pgdm-admissions-process/', metadata);
+}
 
 export default function AdmissionsProcessPage() {
   return <AdmissionsPageShell title="PGDM Admissions 2026 at VSM" subtitle="Embark on a Journey of Excellence" active="Admissions Process">

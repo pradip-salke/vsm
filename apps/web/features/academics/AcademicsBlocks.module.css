@@ -4,17 +4,23 @@
   margin-top: var(--heading-copy-gap);
 }
 
-.aboutProgramHeading {
-  gap: calc(var(--space-2) * 0.45);
+.aboutBody :global(p) + :global(p),
+.aboutBody :global(p) + :global(ul),
+.aboutBody :global(ul) + :global(p) {
+  margin-top: 1em;
 }
 
-.inlineLink {
+.aboutBody :global(a) {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
-.inlineLink:hover {
+.aboutBody :global(a:hover) {
   color: var(--color-primary);
+}
+
+.aboutProgramHeading {
+  gap: calc(var(--space-2) * 0.45);
 }
 
 /* Year 1+ / Year 2+ switch */
@@ -175,6 +181,13 @@
 .graduate {
   --icon-size: clamp(2.5rem, 2rem + 1.4vw, 4.25rem);
   color: var(--color-text-inverse);
+}
+
+.eligibilityRaster {
+  flex: none;
+  width: clamp(2.5rem, 2rem + 1.4vw, 4.25rem);
+  height: auto;
+  object-fit: contain;
 }
 
 @media (max-width: 767px) {

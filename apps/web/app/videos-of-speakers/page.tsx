@@ -1,14 +1,20 @@
 import type { Metadata } from 'next';
 import { EventsShell } from '../events/EventsShell';
-import { speakerVideos } from '@/content/events';
+import { getSpeakerVideoContent } from '@/lib/video-content';
 import { SpeakerVideos } from './SpeakerVideos';
 import styles from '../events/events.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Videos of Speakers | Valia School of Management', description: 'Watch speaker sessions and campus-corporate conversations at Valia School of Management.', alternates: { canonical: '/videos-of-speakers/' } };
+const metadata: Metadata = { title: 'Videos of Speakers | Valia School of Management', description: 'Watch speaker sessions and campus-corporate conversations at Valia School of Management.', alternates: { canonical: '/videos-of-speakers/' } };
 
-export default function SpeakerVideosPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/videos-of-speakers/', metadata);
+}
+
+export default async function SpeakerVideosPage() {
+  const content = await getSpeakerVideoContent();
   return <EventsShell title="Campus-Corporate Connect" active="Videos of Speakers"><section className={`container ${styles.section}`}>
-    <header className={styles.heading}><h2>Campus-Corporate Connect</h2><p>Business leaders and practitioners bring their experience to the classroom through VSM&apos;s corporate connect sessions.</p></header>
-    <SpeakerVideos videos={speakerVideos} />
+    <header className={styles.heading}><h2>{content.title}</h2><p>{content.description}</p></header>
+    <SpeakerVideos videos={content.videos} />
   </section></EventsShell>;
 }

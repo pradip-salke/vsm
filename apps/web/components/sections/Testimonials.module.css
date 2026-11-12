@@ -33,6 +33,34 @@
   aspect-ratio: 1052 / 562;
 }
 
+.playButton {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(3rem, 4vw, 4.5rem);
+  aspect-ratio: 1;
+  padding: 1rem;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.playButton:hover,
+.playButton:focus-visible {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: var(--color-primary-dark, var(--color-secondary));
+}
+
+.playButton:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
 .media img {
   position: absolute;
   inset: 0;

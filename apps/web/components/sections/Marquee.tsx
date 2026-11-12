@@ -8,8 +8,8 @@ const WORDS: { text: string; highlight?: boolean }[] = [
   { text: 'Grow' },
 ];
 
-function WordRow({ hidden = false }: { hidden?: boolean }) {
-  const words = [...WORDS, { ...WORDS[0] }];
+function WordRow({ hidden = false, items = WORDS }: { hidden?: boolean; items?: typeof WORDS }) {
+  const words = items.length ? [...items, { ...items[0] }] : [];
 
   return (
     <ul className={styles.row} role="list" aria-hidden={hidden || undefined}>
@@ -22,13 +22,13 @@ function WordRow({ hidden = false }: { hidden?: boolean }) {
   );
 }
 
-export function Marquee() {
+export function Marquee({ items = WORDS }: { items?: typeof WORDS }) {
   return (
     <div className={styles.marquee}>
-      <p className="visually-hidden">Discover, learn, lead, innovate, grow.</p>
+      <p className="visually-hidden">{items.map(item => item.text).join(', ')}</p>
       <div className={styles.track} aria-hidden>
-        <WordRow hidden />
-        <WordRow hidden />
+        <WordRow hidden items={items} />
+        <WordRow hidden items={items} />
       </div>
     </div>
   );

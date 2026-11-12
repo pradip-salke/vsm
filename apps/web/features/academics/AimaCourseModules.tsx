@@ -3,13 +3,13 @@
 import { useId, useState, type KeyboardEvent } from 'react';
 import { IconList } from '@/components/sections/IconList';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { aimaYearOne, aimaYearTwo, aimaModuleFourItems } from '@/content/aima-pgdm';
+import type { AimaContent } from '@vsmedu/contracts/academics-aima';
 import blocks from './AcademicsBlocks.module.css';
 import styles from './AimaCourseModules.module.css';
 
 const years = ['Year 1', 'Year 2'] as const;
 
-export function AimaCourseModules() {
+export function AimaCourseModules({ content }: { content: AimaContent['course-modules'] }) {
   const [selected, setSelected] = useState(0);
   const baseId = useId();
 
@@ -51,12 +51,12 @@ export function AimaCourseModules() {
         className={styles.panel}
         tabIndex={0}
       >
-        <p className={styles.intro}>Module 1 – Common for all Specialisations (Exit – Certificate in Management). Module 2 – Common for all Specialisations (Exit – Advance Certificate in Management).</p>
+        <p className={styles.intro}>{content.year1Intro}</p>
         <div className={blocks.tableScroll} tabIndex={0}>
           <table className={`${blocks.table} ${blocks.curriculumTable}`}>
             <caption className="visually-hidden">AIMA PGDM Year 1 course modules</caption>
             <thead><tr><th scope="col">Module 1</th><th scope="col">Module 2</th></tr></thead>
-            <tbody>{aimaYearOne.map(([first, second]) => <tr key={first}><td>{first}</td><td>{second}</td></tr>)}</tbody>
+            <tbody>{content.year1Rows.map(({ left, right }) => <tr key={left}><td>{left}</td><td>{right}</td></tr>)}</tbody>
           </table>
         </div>
       </div>
@@ -69,16 +69,16 @@ export function AimaCourseModules() {
         className={styles.panel}
         tabIndex={0}
       >
-        <p className={styles.intro}>Module 3 Specialisation-wise (Exit – Professional Certificate in Management PGDM).</p>
+        <p className={styles.intro}>{content.year2Intro}</p>
         <div className={blocks.tableScroll} tabIndex={0}>
           <table className={`${blocks.table} ${blocks.curriculumTable} ${styles.specialisationTable}`}>
             <caption className="visually-hidden">AIMA PGDM Year 2 specialisation papers</caption>
             <thead><tr><th scope="col">Specialisation</th><th scope="col">Paper 1</th><th scope="col">Paper 2</th><th scope="col">Paper 3</th><th scope="col">Paper 4</th><th scope="col">Paper 5</th></tr></thead>
-            <tbody>{aimaYearTwo.map(([name, ...papers]) => <tr key={name}><th scope="row">{name}</th>{papers.map((paper, index) => <td key={`${name}-${index}`}>{paper}</td>)}</tr>)}</tbody>
+            <tbody>{content.year2Rows.map(({ label, paper1, paper2, paper3, paper4, paper5 }) => <tr key={label}><th scope="row">{label}</th>{[paper1, paper2, paper3, paper4, paper5].map((paper, index) => <td key={`${label}-${index}`}>{paper}</td>)}</tr>)}</tbody>
           </table>
         </div>
-        <h3 className={styles.moduleFourTitle}>Module 4 – Common for all Specialisations (Post Graduate Diploma in Management PGDM)</h3>
-        <IconList items={aimaModuleFourItems} divided className={styles.iconList} />
+        <h3 className={styles.moduleFourTitle}>{content.moduleFourTitle}</h3>
+        <IconList items={content.moduleFourItems} divided className={styles.iconList} />
       </div>
     </section>
   );

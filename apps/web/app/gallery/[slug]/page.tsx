@@ -5,6 +5,7 @@ import { archiveEvents, eventDetails, galleryEvents } from '@/content/events';
 import { EventsShell } from '@/app/events/EventsShell';
 import styles from '@/app/events/events.module.css';
 import { GalleryImages } from '@/app/events/GalleryImages';
+import { withSeo } from '@/lib/seo';
 
 export function generateStaticParams() {
   const slugs = [
@@ -18,7 +19,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const event = eventDetails[slug] ?? galleryEvents.find(({ href }) => href.endsWith(`/${slug}/`)) ?? archiveEvents.find(({ href }) => href.endsWith(`/${slug}/`));
-  return { title: event ? `${event.title} | Valia School of Management` : 'Event Gallery | Valia School of Management', description: event?.title ? `Photos and highlights from ${event.title} at Valia School of Management.` : undefined };
+  return withSeo(`/gallery/${slug}/`, { title: event ? `${event.title} | Valia School of Management` : 'Event Gallery | Valia School of Management', description: event?.title ? `Photos and highlights from ${event.title} at Valia School of Management.` : undefined });
 }
 
 export default async function GalleryDetailPage({ params }: { params: Promise<{ slug: string }> }) {

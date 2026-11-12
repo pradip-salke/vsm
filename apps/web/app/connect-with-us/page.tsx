@@ -1,11 +1,16 @@
 import type { Metadata } from 'next';
 import { PlacementPageShell, PlacementSection } from '../placements/PlacementPageShell';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Connect With Us',
   description: 'Contact Valia School of Management with your questions, suggestions and feedback.',
   alternates: { canonical: '/connect-with-us/' },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/connect-with-us/', metadata);
+}
 
 export default function ConnectWithUsPage() {
   return (

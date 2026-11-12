@@ -1,1 +1,31 @@
-{"name":"@vsmedu/contracts","version":"0.1.0","private":true,"type":"module","exports":"./dist/index.js","types":"./dist/index.d.ts","scripts":{"build":"tsc -p tsconfig.json"},"dependencies":{"zod":"^4.1.12"}}
+{
+    "name":  "@vsmedu/contracts",
+    "version":  "0.1.0",
+    "private":  true,
+    "type":  "module",
+    "exports":  {
+                    ".":  "./dist/index.js",
+                    "./home":  "./dist/home.js",
+                    "./footer":  "./dist/footer.js",
+                    "./academics":  "./dist/academics.js",
+                    "./academics-aima": "./dist/academics-aima.js",
+                    "./academics-specialisations": "./dist/academics-specialisations.js",
+                    "./academics-faculty": "./dist/academics-faculty.js",
+                    "./admissions": "./dist/admissions.js",
+                    "./placements": "./dist/placements.js",
+                    "./events": "./dist/events.js",
+                    "./site-pages": "./dist/site-pages.js",
+                    "./about-pages": "./dist/about-pages.js",
+                    "./career-page": "./dist/career-page.js",
+                    "./blogs": "./dist/blogs.js",
+                    "./seo": "./dist/seo.js"
+                },
+    "types":  "./dist/index.d.ts",
+    "typesVersions": { "*": { "home": ["dist/home.d.ts"], "footer": ["dist/footer.d.ts"], "academics": ["dist/academics.d.ts"], "academics-aima": ["dist/academics-aima.d.ts"], "academics-specialisations": ["dist/academics-specialisations.d.ts"], "academics-faculty": ["dist/academics-faculty.d.ts"], "admissions": ["dist/admissions.d.ts"], "placements": ["dist/placements.d.ts"], "events": ["dist/events.d.ts"], "site-pages": ["dist/site-pages.d.ts"], "about-pages": ["dist/about-pages.d.ts"], "career-page": ["dist/career-page.d.ts"], "blogs": ["dist/blogs.d.ts"], "seo": ["dist/seo.d.ts"] } },
+    "scripts":  {
+                    "build":  "tsc -p tsconfig.json"
+                },
+    "dependencies":  {
+                         "zod":  "^4.1.12"
+                     }
+}

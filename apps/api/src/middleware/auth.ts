@@ -1,13 +1,12 @@
 import type { RequestHandler } from 'express';
-import { env } from '../config/env.js';
+import { env, trustedOrigins } from '../config/env.js';
 import { HttpError } from './errors.js';
 import { authRepository } from '../modules/auth/auth.repository.js';
 
-const safeOrigins = new Set([env.WEB_ORIGIN, env.ADMIN_ORIGIN]);
 export const requireTrustedOrigin: RequestHandler = (req, _res, next) => {
   if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') { next(); return; }
   const origin = req.get('origin');
-  if (!origin || !safeOrigins.has(origin)) { next(new HttpError(403, 'CSRF_REJECTED', 'Request origin is not allowed')); return; }
+  if (!origin || !trustedOrigins.has(origin)) { next(new HttpError(403, 'CSRF_REJECTED', 'Request origin is not allowed')); return; }
   next();
 };
 
@@ -22,14 +21,14 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
     }
     const roles = session.user.userRoles.map(({ role }) => role.code);
     const permissions = [...new Set(session.user.userRoles.flatMap(({ role }) => role.rolePermissions.map(({ permission }) => permission.code)))];
-    req.auth = { userId: session.user.id, email: session.user.email, roles, permissions };
+    req.auth = { userId: session.user.id, email: session.user.email, name: session.user.name, roles, permissions };
     next();
   } catch (error) { next(error); }
 };
 
-export function requirePermission(permission: string): RequestHandler {
+export function requirePermission(...permissions: string[]): RequestHandler {
   return (req, _res, next) => {
-    if (!req.auth?.permissions.includes(permission) && !req.auth?.roles.includes('super_admin')) {
+    if (!req.auth?.roles.includes('super_admin') && !permissions.some((p) => req.auth?.permissions.includes(p))) {
       next(new HttpError(403, 'FORBIDDEN', 'You do not have permission to perform this action'));
       return;
     }

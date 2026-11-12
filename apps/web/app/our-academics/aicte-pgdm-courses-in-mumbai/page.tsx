@@ -10,10 +10,7 @@ import { WhyChoose } from '@/components/sections/WhyChoose';
 import {
   academicsBreadcrumb,
   academicsAdvantages,
-  academicsEvents,
-  academicsGallery,
   academicsHero,
-  academicsVideos,
   academicsWhyImage,
   admissionSteps,
 } from '@/content/academics';
@@ -25,15 +22,24 @@ import { Curriculum } from '@/features/academics/Curriculum';
 import { Eligibility } from '@/features/academics/Eligibility';
 import { Fees } from '@/features/academics/Fees';
 import layout from '@/features/academics/AcademicsLayout.module.css';
+import { getAcademicsContent } from '@/lib/academics-content';
+import { withSeo } from '@/lib/seo';
+import { getProgramVideoContent } from '@/lib/video-content';
+import { eventGalleryAlbums } from '@/content/events';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: { absolute: 'PGDM Courses in Mumbai | AICTE Approved PGDM College | VSM' },
   description:
     'AICTE-approved 2-year PGDM in Mumbai at Valia School of Management: curriculum, eligibility, fees, faculty and admission procedure.',
   alternates: { canonical: '/our-academics/aicte-pgdm-courses-in-mumbai/' },
 };
 
-export default function AictePgdmPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/our-academics/aicte-pgdm-courses-in-mumbai/', metadata);
+}
+
+export default async function AictePgdmPage() {
+  const [{ sections: academics, masters }, programVideos] = await Promise.all([getAcademicsContent(), getProgramVideoContent()]);
   return (
     <div className={layout.page}>
       <PageHero
@@ -58,19 +64,19 @@ export default function AictePgdmPage() {
 
         <div className={layout.main}>
           <div id="about-program" className={layout.block}>
-            <AboutProgram />
+            <AboutProgram about={academics.about} />
           </div>
           <div id="program-videos" className={`${layout.block} ${layout.bleed}`}>
-            <MediaCarousel id="program-videos-carousel" title="PGDM Program Video" items={academicsVideos} layout="video" variant="column" />
+            <MediaCarousel id="program-videos-carousel" title={programVideos.title} items={programVideos.items} layout="video" variant="column" play />
           </div>
           <div className={`${layout.block} ${layout.bleed} ${layout.why}`}>
             <WhyChoose id="why-vsm" image={academicsWhyImage} items={academicsAdvantages} variant="column" />
           </div>
           <div id="gallery" className={`${layout.block} ${layout.bleed} ${layout.lifeBlock}`}>
-            <MediaCarousel id="gallery-carousel" title="Life @ VSM" items={academicsGallery} layout="life" variant="column" />
+            <MediaCarousel id="gallery-carousel" title={academics.gallery.title} items={masters.gallery.items.filter((item) => item.enabled !== false)} layout="life" variant="column" galleryPopup galleryAlbums={eventGalleryAlbums} galleryFallbackSlug="infra" />
           </div>
           <div id="events" className={`${layout.block} ${layout.bleed}`}>
-            <MediaCarousel id="events-carousel" title="Upcoming Events" items={academicsEvents} layout="video" variant="column" uppercase play />
+            <MediaCarousel id="events-carousel" title={academics.events.title} items={masters.events.items.filter((item) => item.enabled !== false)} layout="events" variant="column" galleryPopup galleryAlbums={eventGalleryAlbums} />
           </div>
           <div id="curriculum" className={`${layout.block} ${layout.beforeFacultyBlock}`}>
             <Curriculum />
@@ -79,7 +85,7 @@ export default function AictePgdmPage() {
             <FacultySection id="faculties" variant="column" />
           </div>
           <div className={layout.block}>
-            <Eligibility />
+            <Eligibility eligibility={academics.eligibility} />
           </div>
           <div id="fees" className={layout.block}>
             <Fees />
@@ -91,7 +97,13 @@ export default function AictePgdmPage() {
         </div>
       </div>
 
-      <AcademicClosingSections />
+      <AcademicClosingSections
+        faq={academics.faq}
+        internships={masters.internships.items}
+        internshipTitle={academics.internships.title}
+        testimonials={masters.testimonials.items}
+        testimonialHeading={academics.testimonials}
+      />
     </div>
   );
 }

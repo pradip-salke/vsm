@@ -6,12 +6,15 @@ import { PageHero } from '@/components/sections/PageHero';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { IconList } from '@/components/sections/IconList';
 import { academicSpecialisations, specialisationHero, specialisationTabs } from '@/content/academic-specialisations';
+import { academicsSpecialisationDefaults } from '@vsmedu/contracts/academics-specialisations';
 import { admissionSteps } from '@/content/academics';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
 import { AtAGlance } from '@/features/academics/AtAGlance';
 import layout from '@/features/academics/AcademicsLayout.module.css';
 import styles from './SpecialisationPage.module.css';
+import { withSeo } from '@/lib/seo';
+import { getSpecialisationClosingContent } from '@/lib/academics-specialisations-content';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -22,17 +25,21 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = academicSpecialisations.find((item) => item.slug === slug);
-  return page ? {
+  return page ? withSeo(`/our-academics/in-demand-specialisations/${page.slug}/`, {
     title: { absolute: `${page.heroTitle} | Valia School of Management` },
     description: `Explore the ${page.title} PGDM specialisation at Valia School of Management, including its curriculum, career opportunities and admission information.`,
     alternates: { canonical: `/our-academics/in-demand-specialisations/${page.slug}/` },
-  } : { title: 'Academic Specialisation | Valia School of Management' };
+  }) : { title: 'Academic Specialisation | Valia School of Management' };
 }
 
 export default async function SpecialisationPage({ params }: Props) {
   const { slug } = await params;
   const page = academicSpecialisations.find((item) => item.slug === slug);
   if (!page) notFound();
+  const specPage =
+    academicsSpecialisationDefaults[slug as keyof typeof academicsSpecialisationDefaults];
+  if (!specPage) notFound();
+  const closingContent = await getSpecialisationClosingContent(slug);
 
   const breadcrumb = [
     { label: 'Home', href: '/' },
@@ -94,7 +101,13 @@ export default async function SpecialisationPage({ params }: Props) {
           </section>
         </main>
       </div>
-      <AcademicClosingSections />
+      <AcademicClosingSections
+        faq={specPage.faq}
+        internships={closingContent.internships.items}
+        internshipTitle={closingContent.internships.title}
+        testimonials={closingContent.testimonials.items}
+        testimonialHeading={closingContent.testimonials}
+      />
     </div>
   );
 }

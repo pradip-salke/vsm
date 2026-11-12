@@ -1,0 +1,26 @@
+.vsm-tour-layer{position:fixed;inset:0;z-index:1000;pointer-events:none;font-family:Manrope,Inter,Arial,sans-serif;color:#27304a}
+.vsm-tour-shade{position:fixed;z-index:0;background:rgba(18,24,47,.66);pointer-events:auto}
+.vsm-tour-full-shade{position:fixed;inset:0;z-index:0;width:100%;height:100%;border:0;border-radius:0;background:rgba(18,24,47,.66);pointer-events:auto}
+.vsm-tour-spotlight{position:fixed;z-index:1;border:2px solid #0793b8;border-radius:12px;box-shadow:0 0 0 3px rgba(255,255,255,.88),0 0 22px rgba(0,147,184,.34);pointer-events:none;transition:top .2s ease,left .2s ease,width .2s ease,height .2s ease}
+.vsm-tour-card{position:fixed;z-index:2;max-height:min(460px,calc(100dvh - 32px));overflow:auto;padding:21px 22px 17px;border:1px solid rgba(225,231,242,.95);border-radius:16px;background:#fff;box-shadow:0 22px 70px rgba(10,17,39,.3);pointer-events:auto;animation:vsm-tour-appear .2s ease-out}
+.vsm-tour-card.is-centered{border-top:3px solid #078eb2}
+.vsm-tour-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.vsm-tour-step-count{color:#0785a7;font-size:10px;font-weight:800;letter-spacing:.12em}
+.vsm-tour-close{width:30px;height:30px;display:grid;place-items:center;border:1px solid #e8ebf2;border-radius:8px;background:#fff;color:#788198;cursor:pointer}
+.vsm-tour-close:hover{border-color:#cbd7e4;color:#223153;background:#f7fafc}
+.vsm-tour-card h2{margin:14px 0 0;color:#202944;font-size:18px;font-weight:800;line-height:1.35;letter-spacing:-.025em}
+.vsm-tour-card>p{margin:8px 0 0;color:#6f778b;font-size:12px;line-height:1.7}
+.vsm-tour-progress{display:flex;align-items:center;gap:6px;margin:19px 0 16px}
+.vsm-tour-progress button{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:#dce2eb;cursor:pointer;transition:width .18s,background .18s}
+.vsm-tour-progress button.is-active{width:20px;border-radius:99px;background:#078eb2}
+.vsm-tour-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:13px;border-top:1px solid #edf0f4}
+.vsm-tour-footer>div{display:flex;align-items:center;gap:8px}
+.vsm-tour-skip,.vsm-tour-back,.vsm-tour-next{min-height:35px;padding:0 12px;border:1px solid transparent;border-radius:8px;background:transparent;color:#687187;font:600 11px Manrope,Inter,Arial,sans-serif;cursor:pointer}
+.vsm-tour-skip:hover,.vsm-tour-back:not(:disabled):hover{background:#f3f5f8;color:#27304a}
+.vsm-tour-back{border-color:#e3e7ef;background:#fff;color:#4f5870}
+.vsm-tour-back:disabled{opacity:.43;cursor:not-allowed}
+.vsm-tour-next{display:inline-flex;align-items:center;gap:7px;border-color:#0785a7;background:#078eb2;color:#fff;box-shadow:0 3px 8px rgba(0,125,159,.16)}
+.vsm-tour-next:hover{border-color:#057a9a;background:#057f9f}
+@keyframes vsm-tour-appear{from{opacity:0;transform:translateY(5px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:600px){.vsm-tour-card{padding:18px 17px 15px;border-radius:14px}.vsm-tour-card h2{font-size:16px}.vsm-tour-card>p{font-size:12px}.vsm-tour-footer{gap:4px}.vsm-tour-skip,.vsm-tour-back,.vsm-tour-next{min-height:36px;padding:0 9px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.vsm-tour-spotlight,.vsm-tour-progress button{transition:none}.vsm-tour-card{animation:none}}

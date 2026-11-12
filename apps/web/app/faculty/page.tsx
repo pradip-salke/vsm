@@ -1,53 +1,55 @@
 import type { Metadata } from 'next';
 import { PageHero } from '@/components/sections/PageHero';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { academicsHero } from '@/content/academics';
-import { facultyDirectory } from '@/content/faculty-directory';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
 import layout from '@/features/academics/AcademicsLayout.module.css';
 import { FacultyDirectoryCards } from './FacultyDirectoryCards';
 import styles from './FacultyPage.module.css';
+import { getFacultyContent } from '@/lib/faculty-content';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: { absolute: 'Teaching Faculty | Valia School of Management' },
   description: 'Meet the experienced academic and industry faculty at Valia School of Management.',
   alternates: { canonical: '/faculty/' },
 };
 
-const tabs = [
-  { label: 'Our Faculty', id: 'our-faculty' },
-  { label: 'Teaching & Industry Experience', id: 'faculty-experience' },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/faculty/', metadata);
+}
 
-export default function FacultyPage() {
+export default async function FacultyPage() {
+  const { sections, masters } = await getFacultyContent();
+  const profiles = masters.profiles.items;
+  const tabs = sections.tabs.links.map(({ label, anchor }) => ({ label, id: anchor }));
   return (
     <div className={layout.page}>
       <PageHero
         size="inner"
-        slides={[{ ...academicsHero, title: 'Teaching Faculty', subtitle: 'Mentors Crafting Tomorrow’s Leaders' }]}
-        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Academics', href: '/our-academics/aicte-pgdm-courses-in-mumbai/' }, { label: 'Teaching Faculty' }]}
-        actions={<a className={styles.heroLink} href="#our-faculty">Meet Our Faculty <span aria-hidden="true">↓</span></a>}
+        slides={[{ ...sections.hero, ...masters.hero.items[0] }]}
+        breadcrumb={sections.hero.breadcrumb}
+        actions={<a className={styles.heroLink} href={sections.hero.linkHref}>{sections.hero.linkText} <span aria-hidden="true">↓</span></a>}
       />
       <AcademicsTabs tabs={tabs} className={styles.facultyTabs} />
       <div className={`${layout.layout} ${styles.layout}`}>
         <aside className={`${layout.sidebar} ${styles.sidebar}`} aria-label="Faculty overview">
           <div className={styles.summary}>
-            <p className={styles.eyebrow}>Academic Excellence</p>
-            <h2>Faculty at a Glance</h2>
-            <p>Learn from educators and professionals with experience across management, finance, marketing, human resources, operations, and law.</p>
-            <dl><div><dt>Profiles</dt><dd>{facultyDirectory.length}</dd></div><div><dt>Experience</dt><dd>Academic + Industry</dd></div></dl>
+            <p className={styles.eyebrow}>{sections.glance.eyebrow}</p>
+            <h2>{sections.glance.title}</h2>
+            <p>{sections.glance.description}</p>
+            <dl><div><dt>{sections.glance.profilesLabel}</dt><dd>{profiles.length}</dd></div><div><dt>{sections.glance.experienceLabel}</dt><dd>{sections.glance.experienceValue}</dd></div></dl>
           </div>
         </aside>
         <main className={layout.main}>
-          <section id="our-faculty" className={`${layout.block} ${styles.section} ${styles.firstSection}`}>
-            <SectionHeading className={styles.facultyHeading} eyebrow="Masters of Their Craft, Mentors for the Future" title="Meet Our Industry-Oriented PGDM Faculty">
-              <p>At Valia School of Management, our faculty brings academic knowledge and practical experience to the classroom. Their industry backgrounds and teaching experience help students connect management concepts with real business situations.</p>
+          <section id={tabs[0]?.id ?? 'our-faculty'} className={`${layout.block} ${styles.section} ${styles.firstSection}`}>
+            <SectionHeading className={styles.facultyHeading} eyebrow={sections.intro.eyebrow} title={sections.intro.title}>
+              <p>{sections.intro.description}</p>
             </SectionHeading>
-            <FacultyDirectoryCards />
+            <FacultyDirectoryCards profiles={profiles} />
           </section>
-          <section id="faculty-experience" className={`${layout.block} ${styles.section}`}>
-            <SectionHeading title="Teaching Meets Industry Experience" />
-            <p className={styles.closing}>Our faculty brings perspectives from business, finance, marketing, human resources, operations, law, and higher education. This mix supports case-based teaching and helps students understand how management decisions work in practice.</p>
+          <section id={tabs[1]?.id ?? 'faculty-experience'} className={`${layout.block} ${styles.section}`}>
+            <SectionHeading title={sections.experience.title} />
+            <div className={styles.closing} dangerouslySetInnerHTML={{ __html: sections.experience.body }} />
           </section>
         </main>
       </div>

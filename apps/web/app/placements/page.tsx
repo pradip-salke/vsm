@@ -4,8 +4,9 @@ import { PlacementPageShell, PlacementSection } from './PlacementPageShell';
 import styles from './PlacementPage.module.css';
 import { batch2022Highlights, placementIntro } from '@/content/placements';
 import { CountUpValue } from '@/components/ui/CountUpValue';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'PGDM Placements',
   description: 'Explore PGDM placements, recruiters, placement records, alumni outcomes and corporate connections at Valia School of Management.',
   alternates: { canonical: '/placements/' },
@@ -16,6 +17,10 @@ const pages = [
   { title: 'Placement Records', text: 'Review recent internship records and batch-wise placement outcomes.', href: '/placements/placement-records/' },
   { title: 'Alumni', text: 'Read about distinguished alumni and the paths they have built after PGDM.', href: '/placements/alumni/' },
 ];
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/placements/', metadata);
+}
 
 export default function PlacementsPage() {
   return (

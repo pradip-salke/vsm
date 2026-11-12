@@ -3,12 +3,17 @@ import { PlacementPageShell, PlacementSection } from '../../PlacementPageShell';
 import styles from '../../PlacementPage.module.css';
 import { batch2021Highlights, salaryPlacementRows, specializationPlacementRows } from '@/content/placements';
 import { CountUpValue } from '@/components/ui/CountUpValue';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'PGDM 2021–23 Placement Records',
   description: 'Batch-wise PGDM 2021–23 placement results and salary ranges at Valia School of Management.',
   alternates: { canonical: '/placements/placement-records/pgdm-2021-23-batch/' },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/placements/placement-records/pgdm-2021-23-batch/', metadata);
+}
 
 export default function PlacementBatch2021Page() {
   return (

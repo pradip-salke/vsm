@@ -6,13 +6,13 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { recruiters } from '@/content/shared';
 import styles from './Recruiters.module.css';
 
-const LogoRow = memo(function LogoRow({ offset = false, rowRef }: { offset?: boolean; rowRef: RefObject<HTMLDivElement | null> }) {
+const LogoRow = memo(function LogoRow({ offset = false, rowRef, items }: { offset?: boolean; rowRef: RefObject<HTMLDivElement | null>; items: typeof recruiters }) {
   // Three identical sets keep the track wider than the viewport throughout its loop.
   return (
     <div ref={rowRef} className={`${styles.row} ${offset ? styles.offset : ''}`}>
       {[0, 1, 2].map((copy) => (
         <ul key={copy} className={styles.group} role="list" aria-hidden={copy > 0 || offset || undefined}>
-          {recruiters.map((logo, index) => {
+          {items.map((logo, index) => {
             const announced = copy === 0 && !offset;
             return (
               <li key={`${logo.src}-${index}`} className={styles.cell}>
@@ -26,7 +26,7 @@ const LogoRow = memo(function LogoRow({ offset = false, rowRef }: { offset?: boo
   );
 });
 
-export function Recruiters({ home = false }: { home?: boolean }) {
+export function Recruiters({ home = false, items = recruiters, title = 'Companies Hiring Our PGDM Students' }: { home?: boolean; items?: typeof recruiters; title?: string }) {
   const leftRowRef = useRef<HTMLDivElement>(null);
   const rightRowRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
@@ -51,11 +51,11 @@ export function Recruiters({ home = false }: { home?: boolean }) {
   return (
     <section className={`${styles.section} ${home ? styles.homeSection : ''}`} aria-labelledby="recruiters-title">
       <div className="container">
-        <SectionHeading id="recruiters-title" title="Companies Hiring Our PGDM Students" align="center" />
+        <SectionHeading id="recruiters-title" title={title} align="center" />
       </div>
       <div className={styles.rows}>
-        <LogoRow rowRef={leftRowRef} />
-        <LogoRow offset rowRef={rightRowRef} />
+        <LogoRow rowRef={leftRowRef} items={items} />
+        <LogoRow offset rowRef={rightRowRef} items={items} />
       </div>
       <div className={styles.controls} role="group" aria-label="Recruiter carousel controls">
         {[0, 1, 2].map((index) => (

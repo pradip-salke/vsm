@@ -2,8 +2,13 @@ import type { Metadata } from 'next';
 import { EventsShell } from '../events/EventsShell';
 import { speakers } from '@/content/events';
 import styles from '../events/events.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'List of Speakers | Valia School of Management', description: 'Meet corporate leaders and industry experts who have engaged with Valia School of Management students.', alternates: { canonical: '/list-of-speakers/' } };
+const metadata: Metadata = { title: 'List of Speakers | Valia School of Management', description: 'Meet corporate leaders and industry experts who have engaged with Valia School of Management students.', alternates: { canonical: '/list-of-speakers/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/list-of-speakers/', metadata);
+}
 
 export default function SpeakersPage() {
   return <EventsShell title="List of Speakers" active="List of Speakers"><section className={`container ${styles.section}`}>

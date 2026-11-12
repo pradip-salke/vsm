@@ -2,8 +2,13 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { EventsShell } from '../EventsShell';
 import styles from '../events.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Achievements | Valia School of Management', description: 'Achievements and recognition at Valia School of Management.', alternates: { canonical: '/events/achievements/' } };
+const metadata: Metadata = { title: 'Achievements | Valia School of Management', description: 'Achievements and recognition at Valia School of Management.', alternates: { canonical: '/events/achievements/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/events/achievements/', metadata);
+}
 
 export default function AchievementsPage() {
   return <EventsShell title="Achievements" active="Achievements"><section className={`container ${styles.section}`}>

@@ -14,6 +14,9 @@ export const notFound: RequestHandler = (_req, res) => {
 
 export const errorHandler: ErrorRequestHandler = (error: unknown, req, res, _next) => {
   const requestId = req.requestId;
+  if (error && typeof error === 'object' && 'type' in error && error.type === 'entity.too.large') {
+    res.status(413).json({ error: { code: 'UPLOAD_TOO_LARGE', message: 'The uploaded file or content exceeds the allowed size', requestId } }); return;
+  }
   if (error && typeof error === 'object' && 'type' in error && error.type === 'entity.parse.failed') {
     res.status(400).json({ error: { code: 'INVALID_JSON', message: 'Request body must contain valid JSON', requestId } });
     return;

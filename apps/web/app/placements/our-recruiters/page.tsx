@@ -3,12 +3,17 @@ import Image from 'next/image';
 import { PlacementPageShell, PlacementSection } from '../PlacementPageShell';
 import styles from '../PlacementPage.module.css';
 import { placementIntro, recruiterAssets } from '@/content/placements';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Our Recruiters',
   description: 'Explore the companies hiring PGDM students from Valia School of Management.',
   alternates: { canonical: '/placements/our-recruiters/' },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/placements/our-recruiters/', metadata);
+}
 
 export default function RecruitersPage() {
   return (

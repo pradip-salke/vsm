@@ -3,8 +3,13 @@ import { AboutPageShell, AboutSection } from '../AboutPageShell';
 import { ProfileGrid } from '../AboutComponents';
 import { boardMembers } from '@/content/about';
 import styles from '../about.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Academic Advisory Board', description: 'Meet the academic and industry leaders on the VSM Academic Advisory Board.', alternates: { canonical: '/about-us/academic-advisory-board/' } };
+const metadata: Metadata = { title: 'Academic Advisory Board', description: 'Meet the academic and industry leaders on the VSM Academic Advisory Board.', alternates: { canonical: '/about-us/academic-advisory-board/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/about-us/academic-advisory-board/', metadata);
+}
 
 export default function AcademicAdvisoryBoardPage() {
   return <AboutPageShell title="Academic Advisory Board" active="Academic Advisory Board">

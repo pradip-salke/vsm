@@ -3,8 +3,13 @@ import { AboutPageShell, AboutSection } from '../AboutPageShell';
 import { MessageBlock } from '../AboutComponents';
 import { trusteeMessages } from '@/content/about';
 import styles from '../about.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Message From Trustee', description: 'Messages from the President and Trustees of Cosmopolitan Education Society.', alternates: { canonical: '/about-us/trustee-message/' } };
+const metadata: Metadata = { title: 'Message From Trustee', description: 'Messages from the President and Trustees of Cosmopolitan Education Society.', alternates: { canonical: '/about-us/trustee-message/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/about-us/trustee-message/', metadata);
+}
 
 export default function TrusteeMessagePage() {
   return <AboutPageShell title="Message From Trustee" active="Trustee’s Message" trusteeMessages>

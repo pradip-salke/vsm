@@ -65,6 +65,18 @@
   gap: var(--space-5);
 }
 
+.videoTrigger,
+.imageTrigger {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
 .frame {
   position: relative;
   display: block;
@@ -92,7 +104,11 @@
 }
 
 a.item:hover .frame img,
-a.item:focus-visible .frame img {
+a.item:focus-visible .frame img,
+.videoTrigger:hover .frame img,
+.videoTrigger:focus-visible .frame img,
+.imageTrigger:hover .frame img,
+.imageTrigger:focus-visible .frame img {
   transform: scale(1.04);
 }
 

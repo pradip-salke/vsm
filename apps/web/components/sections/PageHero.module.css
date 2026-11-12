@@ -323,3 +323,5 @@
   }
 
 }
+.subtitle > :first-child { margin-top: 0; }
+.subtitle > :last-child { margin-bottom: 0; }

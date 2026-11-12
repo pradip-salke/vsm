@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { faqIntro, faqs } from '@/content/shared';
 import styles from './FaqSection.module.css';
+import { homeDefaults, type HomeContent } from '@vsmedu/contracts/home';
 
 export type FaqItem = { question: string; answer: ReactNode };
 
@@ -37,22 +37,22 @@ export function FaqList({ items }: { items: FaqItem[] }) {
   );
 }
 
-export function FaqSection() {
+export function FaqSection({ content = homeDefaults.faq }: { content?: HomeContent['faq'] }) {
   return (
     <section className={styles.section} aria-labelledby="faq-title">
       <div className="container">
         <SectionHeading
           id="faq-title"
-          eyebrow="Empowering Your Academic Journey: Your Questions Answered"
-          title="FAQ About PGDM Admissions"
+          eyebrow={content.eyebrow}
+          title={content.title}
           rule
           className={styles.heading}
         >
-          <p>{faqIntro}</p>
+          <p>{content.description}</p>
         </SectionHeading>
-        <FaqList items={faqs} />
-        <Button variant="arrow" href="/admissions/mba-pgdm-admissions-process/" className={styles.more}>
-          More FAQs
+        <FaqList items={content.items} />
+        <Button variant="arrow" href={content.buttonHref} className={styles.more}>
+          {content.buttonText}
         </Button>
       </div>
     </section>

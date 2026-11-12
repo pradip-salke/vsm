@@ -2,8 +2,13 @@ import type { Metadata } from 'next';
 import { Link } from '@/components/navigation/Link';
 import { AboutPageShell, AboutSection } from '../AboutPageShell';
 import styles from '../about.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Student Residence', description: 'Student accommodation information for Valia School of Management students.', alternates: { canonical: '/about-us/student-residence/' } };
+const metadata: Metadata = { title: 'Student Residence', description: 'Student accommodation information for Valia School of Management students.', alternates: { canonical: '/about-us/student-residence/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/about-us/student-residence/', metadata);
+}
 
 export default function StudentResidencePage() {
   return <AboutPageShell title="Student Residence" active="Student Residence">

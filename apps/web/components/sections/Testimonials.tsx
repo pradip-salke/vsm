@@ -1,8 +1,16 @@
+'use client';
+
 import Image from 'next/image';
+import { useState } from 'react';
 import { Carousel } from '@/components/ui/Carousel';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { Icon } from '@/components/ui/Icon';
+import { icons } from '@/components/ui/icons';
+import { VideoPopup } from '@/components/ui/VideoPopup';
+import { normalizeVideoUrl } from '@/lib/video-url';
 import { testimonialFallbackImage, testimonials } from '@/content/shared';
 import styles from './Testimonials.module.css';
+import type { HomeHeading } from '@vsmedu/contracts/home';
 
 const initials = (name: string) =>
   name
@@ -11,21 +19,34 @@ const initials = (name: string) =>
     .join('')
     .slice(0, 2);
 
-export function Testimonials({ reduceBottomPadding = false }: { reduceBottomPadding?: boolean }) {
-  const slides = testimonials.map((item) => {
+export function Testimonials({ reduceBottomPadding = false, items = testimonials, heading }: { reduceBottomPadding?: boolean; items?: typeof testimonials; heading?: HomeHeading }) {
+  const [activeVideo, setActiveVideo] = useState<{ title: string; videoUrl: string } | null>(null);
+  const slides = items.map((item) => {
     const media = item.image ?? testimonialFallbackImage;
+    const videoUrl = normalizeVideoUrl(item.videoLink);
     return (
       <figure key={item.name} className={styles.slide}>
         <div className={styles.media}>
           <Image src={media.src} alt={media.alt} width={media.width} height={media.height} sizes="(max-width: 767px) 88vw, 55vw" />
+          {videoUrl && (
+            <button
+              type="button"
+              className={styles.playButton}
+              aria-label={`Play ${item.name}'s testimonial`}
+              aria-haspopup="dialog"
+              onClick={() => setActiveVideo({ title: item.name, videoUrl })}
+            >
+              <Icon src={icons.playSmall} size="100%" />
+            </button>
+          )}
         </div>
         <div className={styles.card} data-info-card>
-          <div className={styles.cardContent} data-card-height-source={item === testimonials[0] ? '' : undefined}>
+          <div className={styles.cardContent} data-card-height-source={item === items[0] ? '' : undefined}>
           <blockquote className={styles.quote}>
             <p>“{item.quote}”</p>
           </blockquote>
           <figcaption className={styles.person}>
-            {item.avatar ? (
+            {item.avatar?.src ? (
               <Image className={styles.avatar} src={item.avatar.src} alt="" width={80} height={80} sizes="80px" />
             ) : (
               <span className={`${styles.avatar} ${styles.initials}`} aria-hidden>
@@ -46,9 +67,9 @@ export function Testimonials({ reduceBottomPadding = false }: { reduceBottomPadd
       <div className="container">
         <SectionHeading
           id="testimonials-title"
-          eyebrow="What students say about us?"
+          eyebrow={heading?.eyebrow ?? 'What students say about us?'}
           eyebrowTone="plain"
-          title="Hear from Our PGDM Students"
+          title={heading?.title ?? 'Hear from Our PGDM Students'}
           tone="light"
           align="center"
         />
@@ -62,6 +83,7 @@ export function Testimonials({ reduceBottomPadding = false }: { reduceBottomPadd
         cardHeightFromFirst
         className={styles.carousel}
       />
+      {activeVideo && <VideoPopup title={activeVideo.title} videoUrl={activeVideo.videoUrl} onClose={() => setActiveVideo(null)} />}
     </section>
   );
 }

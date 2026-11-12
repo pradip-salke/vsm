@@ -5,12 +5,17 @@ import { PlacementPageShell, PlacementSection } from '../../PlacementPageShell';
 import styles from '../../PlacementPage.module.css';
 import { batch2022Highlights, batch2022InternshipAssets, batch2022PlacementAssets } from '@/content/placements';
 import { CountUpValue } from '@/components/ui/CountUpValue';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'PGDM 2022–24 Placement Records',
   description: 'Internship and placement records for the PGDM 2022–24 batch at Valia School of Management.',
   alternates: { canonical: '/placements/placement-records/pgdm-2022-24-batch/' },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/placements/placement-records/pgdm-2022-24-batch/', metadata);
+}
 
 export default function PlacementBatch2022Page() {
   return (

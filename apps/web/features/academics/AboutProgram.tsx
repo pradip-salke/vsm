@@ -1,35 +1,23 @@
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { aboutProgram } from '@/content/academics';
+import type { AcademicsContent } from '@vsmedu/contracts/academics';
 import styles from './AcademicsBlocks.module.css';
 
-export function AboutProgram() {
-  const { link } = aboutProgram;
+type About = AcademicsContent['about'];
+
+export function AboutProgram({ about = aboutProgram }: { about?: About }) {
   return (
     <section aria-labelledby="about-program-title">
       <SectionHeading
         id="about-program-title"
-        eyebrow="About Program"
-        title={aboutProgram.title}
+        eyebrow={about.eyebrow}
+        title={about.title}
         className={styles.aboutProgramHeading}
       />
-      <div className={styles.prose}>
-        {aboutProgram.paragraphs.map((paragraph) => {
-          const [before, after] = paragraph.split('{link}');
-          return (
-            <p key={paragraph.slice(0, 32)}>
-              {before}
-              {after !== undefined && (
-                <>
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" className={styles.inlineLink}>
-                    {link.label}
-                  </a>
-                  {after}
-                </>
-              )}
-            </p>
-          );
-        })}
-      </div>
+      <div
+        className={`${styles.prose} ${styles.aboutBody}`}
+        dangerouslySetInnerHTML={{ __html: about.body }}
+      />
     </section>
   );
 }

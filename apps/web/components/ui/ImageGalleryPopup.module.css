@@ -1,0 +1,12 @@
+.lightbox { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: clamp(1rem, 4vw, 3rem); background: #000; }
+.lightboxDialog { position: relative; display: grid; width: min(100%, 76rem); height: min(100%, 54rem); grid-template-rows: minmax(0, 1fr) auto auto; justify-items: center; align-items: center; padding: clamp(2.75rem, 5vw, 4rem) clamp(3.5rem, 8vw, 7rem) 1rem; background: #000; }
+.lightboxClose { position: absolute; top: .25rem; right: .25rem; z-index: 1; display: grid; width: 2.75rem; height: 2.75rem; place-items: center; border: 1px solid rgb(255 255 255 / 70%); border-radius: 50%; background: var(--color-primary-dark); color: #fff; font-size: 2rem; line-height: 1; cursor: pointer; }
+.lightboxClose:hover { background: var(--color-primary); }
+.lightboxImage { display: block; width: auto; max-width: 100%; height: auto; max-height: calc(100vh - 10rem); object-fit: contain; border-radius: var(--radius-sm); }
+.lightboxArrow { position: absolute; top: 50%; z-index: 1; display: grid; width: clamp(2.75rem, 5vw, 3.75rem); height: clamp(2.75rem, 5vw, 3.75rem); place-items: center; transform: translateY(-50%); border: 1px solid rgb(255 255 255 / 72%); border-radius: 50%; background: rgb(0 0 0 / 58%); color: #fff; font-size: clamp(2rem, 4vw, 2.75rem); line-height: 1; cursor: pointer; }
+.lightboxArrow:hover { background: var(--color-primary); border-color: var(--color-primary); }
+.lightboxPrevious { left: .25rem; }
+.lightboxNext { right: .25rem; }
+.lightboxCaption { color: #fff; font-weight: var(--font-weight-bold); text-align: center; }
+.lightboxCount { color: rgb(255 255 255 / 72%); font-size: var(--font-size-small); text-align: center; }
+@media (max-width: 599px) { .lightbox { padding: .5rem; } .lightboxDialog { width: 100%; height: 100%; padding: 3.5rem 2.75rem 1rem; } .lightboxImage { max-height: calc(100vh - 9rem); } .lightboxPrevious { left: 0; } .lightboxNext { right: 0; } .lightboxClose { top: .25rem; right: .25rem; } }

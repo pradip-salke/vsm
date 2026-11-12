@@ -4,8 +4,13 @@ import { AboutPageShell, AboutSection } from '../AboutPageShell';
 import { Signature } from '../AboutComponents';
 import { viceChairmanMessage as message } from '@/content/about';
 import styles from '../about.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Vice Chairman Message', description: 'A message to VSM students and families from the Vice Chairman.', alternates: { canonical: '/about-us/vice-chairman-message/' } };
+const metadata: Metadata = { title: 'Vice Chairman Message', description: 'A message to VSM students and families from the Vice Chairman.', alternates: { canonical: '/about-us/vice-chairman-message/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/about-us/vice-chairman-message/', metadata);
+}
 
 export default function ViceChairmanMessagePage() {
   return <AboutPageShell title="Vice Chairman Message" active="Vice Chairman Message" viewportContent>

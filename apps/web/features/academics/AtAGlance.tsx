@@ -8,16 +8,23 @@ import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import styles from './AtAGlance.module.css';
 
 type AtAGlanceProps = {
+  title?: string;
   facts?: { label: string; value: string }[];
+  applyText?: string;
+  applyHref?: string;
+  brochureText?: string;
+  brochureHref?: string;
+  contactText?: string;
+  contactHref?: string;
   showActions?: boolean;
 };
 
-export function AtAGlance({ facts = atAGlance, showActions = true }: AtAGlanceProps) {
+export function AtAGlance({ title = 'At a Glance', facts = atAGlance, applyText = 'Apply Now', applyHref = APPLY_PATH, brochureText = 'Download Brochure', brochureHref = ENQUIRY_ANCHOR, contactText = 'Contact Us', contactHref = '/contact-us/', showActions = true }: AtAGlanceProps) {
   return (
     <div className={styles.sticky}>
       <section className={styles.glance} aria-labelledby="glance-title">
         <h2 id="glance-title" className={styles.title}>
-          At a Glance
+          {title}
         </h2>
         <dl className={styles.facts}>
           {facts.map((fact) => (
@@ -27,21 +34,21 @@ export function AtAGlance({ facts = atAGlance, showActions = true }: AtAGlancePr
             </div>
           ))}
         </dl>
-        <Button href={APPLY_PATH} className={styles.apply}>
-          Apply Now
+        <Button href={applyHref} className={styles.apply}>
+          {applyText}
         </Button>
       </section>
       {showActions && (
         <ul className={styles.actions} role="list">
           <li>
-            <a href={ENQUIRY_ANCHOR} className={`${styles.action} ${styles.brochure}`}>
-              Download Brochure
+            <a href={brochureHref} className={`${styles.action} ${styles.brochure}`}>
+              {brochureText}
               <Icon src={icons.download} />
             </a>
           </li>
           <li>
-            <Link href="/contact-us/" className={styles.action}>
-              Contact Us
+            <Link href={contactHref} className={styles.action}>
+              {contactText}
               <MailIcon variant="dark" className={styles.mail} />
             </Link>
           </li>

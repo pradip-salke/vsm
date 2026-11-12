@@ -8,6 +8,7 @@ import { Carousel } from '@/components/ui/Carousel';
 import type { HeroSlide } from '@/content/types';
 import { heroSlides } from '@/content/home';
 import styles from './PageHero.module.css';
+import { Button } from '@/components/ui/Button';
 
 type Crumb = { label: string; href?: string };
 
@@ -21,65 +22,78 @@ type PageHeroProps = {
 };
 
 export function PageHero({ slides, actions, breadcrumb, size = 'home', className }: PageHeroProps) {
+  // Guard against missing slides prop
+  const safeSlides = Array.isArray(slides) ? slides : [];
+
   // Inner pages have one copy block, but the banner still needs to behave as
   // the same three-image carousel shown in the shared hero design.
-  const bannerSlides = size === 'inner' && slides.length === 1
-    ? [slides[0], ...heroSlides.slice(1).map(({ image, imagePosition, mobileImagePosition }) => ({ ...slides[0], image, imagePosition, mobileImagePosition }))]
-    : slides;
+  const bannerSlides = size === 'inner' && safeSlides.length === 1
+    ? [safeSlides[0], ...heroSlides.slice(1).map(({ image, imagePosition, mobileImagePosition }) => ({ ...safeSlides[0], image, imagePosition, mobileImagePosition }))]
+    : safeSlides;
 
-  const rendered = bannerSlides.map((slide, index) => {
-    const Heading = index === 0 ? 'h1' : 'p';
-    return (
-      <div
-        key={slide.title + index}
-        className={styles.slide}
-        style={{
-          '--hero-image-position': slide.imagePosition ?? '70% 100%',
-          '--hero-image-position-mobile': slide.mobileImagePosition ?? '78% 50%',
-        } as CSSProperties}
-      >
-        <Image
-          className={styles.image}
-          src={slide.image.src}
-          alt={slide.image.alt}
-          width={slide.image.width}
-          height={slide.image.height}
-          sizes="100vw"
-          priority={index === 0}
-          loading={index === 0 ? undefined : 'lazy'}
-        />
-        <div className={`container ${styles.content}`}>
-          {breadcrumb && (
-            <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
-              <ol role="list">
-                {breadcrumb.map((crumb, index) => (
-                  <Fragment key={`${crumb.label}-${index}`}>
-                    {index > 0 && (
-                      <li className={styles.separator} aria-hidden="true">
-                        <Icon src={icons.chevronDown} className={styles.chevron} />
+  const rendered = bannerSlides
+    .filter((slide): slide is HeroSlide => Boolean(slide && slide.image))
+    .map((slide, index) => {
+      const Heading = index === 0 ? 'h1' : 'p';
+      return (
+        <div
+          key={`slide-${index}`}
+          className={styles.slide}
+          style={{
+            '--hero-image-position': slide.imagePosition ?? '70% 100%',
+            '--hero-image-position-mobile': slide.mobileImagePosition ?? '78% 50%',
+          } as CSSProperties}
+        >
+          <Image
+            className={styles.image}
+            src={slide.image.src}
+            alt={slide.image.alt}
+            width={slide.image.width}
+            height={slide.image.height}
+            sizes="100vw"
+            priority={index === 0}
+            loading={index === 0 ? undefined : 'lazy'}
+          />
+          <div className={`container ${styles.content}`}>
+            {breadcrumb && (
+              <nav aria-label="Breadcrumb" className={styles.breadcrumb}>
+                <ol role="list">
+                  {breadcrumb.map((crumb, index) => (
+                    <Fragment key={`${crumb.label}-${index}`}>
+                      {index > 0 && (
+                        <li className={styles.separator} aria-hidden="true">
+                          <Icon src={icons.chevronDown} className={styles.chevron} />
+                        </li>
+                      )}
+                      <li>
+                        {crumb.href ? <Link href={crumb.href}>{crumb.label}</Link> : <span aria-current="page">{crumb.label}</span>}
                       </li>
-                    )}
-                    <li>
-                      {crumb.href ? <Link href={crumb.href}>{crumb.label}</Link> : <span aria-current="page">{crumb.label}</span>}
-                    </li>
-                  </Fragment>
-                ))}
-              </ol>
-            </nav>
-          )}
-          <div className={styles.copy}>
-            <Heading className={styles.title}>{slide.title}</Heading>
-            <p className={styles.subtitle}>{slide.subtitle}</p>
-            <div className={styles.actions}>{actions}</div>
+                    </Fragment>
+                  ))}
+                </ol>
+              </nav>
+            )}
+            <div className={styles.copy}>
+              <Heading className={styles.title}>{slide.title}</Heading>
+              {size === 'home' && 'primaryText' in slide ? <>
+                <div className={styles.subtitle} dangerouslySetInnerHTML={{ __html: slide.subtitle }} />
+                <div className={styles.actions}>
+                  {slide.primaryText && slide.primaryHref && <Button href={slide.primaryHref}>{slide.primaryText}</Button>}
+                  {slide.secondaryText && slide.secondaryHref && <Button variant="arrow" href={slide.secondaryHref}>{slide.secondaryText}</Button>}
+                </div>
+              </> : <>
+                <p className={styles.subtitle}>{slide.subtitle}</p>
+                <div className={styles.actions}>{actions}</div>
+              </>}
+            </div>
           </div>
         </div>
-      </div>
-    );
-  });
+      );
+    });
 
   return (
     <section className={`${styles.hero} ${styles[size]}${className ? ` ${className}` : ''}`} aria-label="Introduction">
-      {rendered.length > 1 ? (
+      {rendered.length === 0 ? null : rendered.length > 1 ? (
         <Carousel label="Highlights" slides={rendered} dotsPlacement="overlay" dotsTone={size === 'home' ? 'dark' : 'light'} autoplayMs={6000} className={styles.carousel} />
       ) : (
         <>

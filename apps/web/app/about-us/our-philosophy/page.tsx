@@ -3,8 +3,13 @@ import Image from 'next/image';
 import { AboutPageShell, AboutSection } from '../AboutPageShell';
 import { philosophyValues } from '@/content/about';
 import styles from '../about.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Our Philosophy', description: 'The values that shape the learning community at Valia School of Management.', alternates: { canonical: '/about-us/our-philosophy/' } };
+const metadata: Metadata = { title: 'Our Philosophy', description: 'The values that shape the learning community at Valia School of Management.', alternates: { canonical: '/about-us/our-philosophy/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/about-us/our-philosophy/', metadata);
+}
 
 export default function PhilosophyPage() {
   return <AboutPageShell title="Our Philosophy" active="Our Philosophy">

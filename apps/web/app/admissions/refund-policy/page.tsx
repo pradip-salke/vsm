@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { AdmissionsPageShell, AdmissionSection } from '../AdmissionsPageShell';
 import styles from '../Admissions.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'PGDM Admission Refund Policy',
   description: 'Admission cancellation, fee refund and return of documents policy at Valia School of Management.',
   alternates: { canonical: '/admissions/refund-policy/' },
@@ -20,6 +21,10 @@ const refundRows = [
   ['Before Commencement of Course (as per the date notified by AICTE)', 'Rs. 1,000/-', '100% less Rs. 1,000/-'],
   ['After Commencement of Course (as per the date notified by AICTE)', '100%', 'No Refund'],
 ];
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/admissions/refund-policy/', metadata);
+}
 
 export default function RefundPolicyPage() {
   return <AdmissionsPageShell title="Refund Policy" subtitle="Cancellation of Admission, Refund of Fees and Return of Documents by Institute" active="Refund Policy">

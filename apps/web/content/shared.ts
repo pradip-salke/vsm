@@ -174,7 +174,7 @@ export const internships: ImageAsset[] = [1, 2, 3].map((n) => ({
   height: 620,
 }));
 
-export type Testimonial = { name: string; batch: string; quote: string; image?: ImageAsset; avatar?: ImageAsset };
+export type Testimonial = { name: string; batch: string; quote: string; videoLink?: string; image?: ImageAsset; avatar?: ImageAsset };
 
 const aaravImage: ImageAsset = {
   src: `${FIG}/testimonial-aarav.webp`,

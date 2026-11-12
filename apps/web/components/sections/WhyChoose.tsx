@@ -3,6 +3,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { whyChooseIntro, whyChooseItems, type IconListItem, type ImageAsset } from '@/content/shared';
 import { IconList } from './IconList';
 import styles from './WhyChoose.module.css';
+import type { HomeHeading } from '@vsmedu/contracts/home';
 
 type WhyChooseProps = {
   id?: string;
@@ -10,16 +11,17 @@ type WhyChooseProps = {
   items?: IconListItem[];
   /** `page` = full-width Home section; `column` = inside the Academics content column. */
   variant?: 'page' | 'column';
+  heading?: HomeHeading;
 };
 
-export function WhyChoose({ id = 'why-vsm', image, items = whyChooseItems, variant = 'page' }: WhyChooseProps) {
+export function WhyChoose({ id = 'why-vsm', image, items = whyChooseItems, variant = 'page', heading }: WhyChooseProps) {
   const headingId = `${id}-title`;
   return (
     <section id={id} className={styles[variant]} aria-labelledby={headingId}>
       <div className={variant === 'page' ? 'container' : undefined}>
         {variant === 'page' ? (
-          <SectionHeading id={headingId} eyebrow="Elevating Your Professional Aspirations" title="Why Choose VSM Among PGDM Colleges in Mumbai?" rule>
-            <p>{whyChooseIntro}</p>
+          <SectionHeading id={headingId} eyebrow={heading?.eyebrow ?? 'Elevating Your Professional Aspirations'} title={heading?.title ?? 'Why Choose VSM Among PGDM Colleges in Mumbai?'} rule>
+            <p>{heading?.description ?? whyChooseIntro}</p>
           </SectionHeading>
         ) : (
           <SectionHeading id={headingId} title="Why Choose VSM" />

@@ -4,8 +4,13 @@ import { AboutPageShell, AboutSection } from '../AboutPageShell';
 import { aboutVsm } from '@/content/about';
 import { AboutCopy } from '../AboutComponents';
 import styles from '../about.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'About VSM', description: 'Learn about Valia School of Management, its vision and mission.', alternates: { canonical: '/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/' } };
+const metadata: Metadata = { title: 'About VSM', description: 'Learn about Valia School of Management, its vision and mission.', alternates: { canonical: '/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/', metadata);
+}
 
 export default function AboutVsmPage() {
   return <AboutPageShell title="About VSM" active="About VSM">

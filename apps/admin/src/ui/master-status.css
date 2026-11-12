@@ -1,0 +1,19 @@
+.cms-status {
+  appearance: none;
+  font-family: inherit;
+  cursor: pointer;
+  transition: filter 180ms ease, box-shadow 180ms ease;
+}
+
+.cms-status:not(:disabled):hover {
+  filter: brightness(0.96);
+}
+
+.cms-status:not(:disabled):focus-visible {
+  outline: 2px solid #078eb2;
+  outline-offset: 2px;
+}
+
+.cms-status:disabled {
+  cursor: not-allowed;
+}

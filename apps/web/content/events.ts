@@ -37,6 +37,9 @@ const eventDetailsContent: Record<string, { title: string; paragraphs: string[];
   'film-city-visit-wheel-of-fortune': { title: 'Batch Inauguration – 2023–25', image: image('event-outbound', 'PGDM batch inauguration and induction event'), paragraphs: ['The Batch Inauguration for 2023-25 at Valia School of Management marked the beginning of an exciting journey for the new batch of PGDM students. Held from August 19th to 26th, 2023, the Induction and Orientation Week was a flurry of activities, energy, and learning.'] },
 };
 
+/** Complete image albums used by the Events > Gallery pages and linked from media sliders. */
+export const eventGalleryAlbums = [...galleryEvents, ...archiveEvents];
+
 export const eventDetails: Record<string, { title: string; paragraphs: string[]; image: ImageAsset; images: ImageAsset[] }> = Object.fromEntries(
   Object.entries(eventDetailsContent).map(([slug, item]) => {
     const images = galleryImages(slug, item.title);
@@ -56,15 +59,3 @@ export const speakers = [
   ['Dr. Arloph John Vieira', 'Sr. Vice President, Bajaj Healthcare Limited'],
 ];
 
-export const speakerVideos = [
-  { title: 'Dr. Neil Sequeira â€“ Session 1', role: 'COO, Thane Cancer Hospital', src: 'https://vsmedu.com/wp-content/uploads/2025/09/IMG_9591.mp4' },
-  { title: 'Dr. Neil Sequeira â€“ Session 2', role: 'COO, Thane Cancer Hospital', src: 'https://vsmedu.com/wp-content/uploads/2025/09/IMG_9619.mp4' },
-  { title: 'Mr. G.A. Sastry', role: 'Asst. Sr. Vice President â€“ Marketing, Mahindra Finance', src: 'https://vsmedu.com/wp-content/uploads/2025/09/WhatsApp-Video-2025-08-20-at-11.09.09-AM.mp4' },
-  { title: 'Dr. Shishir Vahia', role: 'Vice President, SageIT', src: 'https://vsmedu.com/wp-content/uploads/2025/09/WhatsApp-Video-2025-08-20-at-11.11.40-AM.mp4' },
-  { title: 'Mr. Purv Shah', role: 'Consultant & Trainer and News Provider for Channels on Financial Markets', src: 'https://vsmedu.com/wp-content/uploads/2025/09/WhatsApp-Video-2025-08-07-at-3.31.41-PM.mp4' },
-  { title: 'Mr. Pranay Shah', role: 'Vice President, UBS', src: 'https://vsmedu.com/wp-content/uploads/2025/09/WhatsApp-Video-2025-08-07-at-3.31.00-PM.mp4' },
-  { title: 'Mr. Gaurav Ghelani', role: 'Regional Head, TCS Talent Acquisition Group', src: 'https://vsmedu.com/wp-content/uploads/2025/09/WhatsApp-Video-2025-08-07-at-3.29.34-PM.mp4' },
-  { title: 'Ms. Pratibha Dewett', role: 'Chief Sustainability & Marketing Officer, Lucro Plastecycle Pvt. Ltd', src: 'https://vsmedu.com/wp-content/uploads/2025/09/WhatsApp-Video-2025-08-07-at-2.20.39-PM.mp4' },
-  { title: 'Mr. Rajesh Devasia', role: 'Founder & CEO, Clevermind Technologies', src: 'https://vsmedu.com/wp-content/uploads/2025/09/WhatsApp-Video-2025-08-08-at-1.42.58-PM.mp4' },
-  { title: 'Dr. Arloph John Vieira', role: 'Sr. Vice President, Bajaj Healthcare Limited', src: 'https://vsmedu.com/wp-content/uploads/2025/09/WhatsApp-Video-2025-08-18-at-11.40.35-AM.mp4' },
-];

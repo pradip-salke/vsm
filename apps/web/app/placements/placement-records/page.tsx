@@ -3,12 +3,17 @@ import Image from 'next/image';
 import { PlacementPageShell, PlacementSection } from '../PlacementPageShell';
 import styles from '../PlacementPage.module.css';
 import { currentBatchInternshipAssets } from '@/content/placements';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'PGDM Placement Records',
   description: 'Browse internship and placement records and outcomes by PGDM batch at Valia School of Management.',
   alternates: { canonical: '/placements/placement-records/' },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/placements/placement-records/', metadata);
+}
 
 export default function PlacementRecordsPage() {
   return (

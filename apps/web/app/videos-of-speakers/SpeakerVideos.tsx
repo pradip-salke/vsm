@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { speakerVideos } from '@/content/events';
+import type { EventsVideoItem } from '@vsmedu/contracts/events';
+import { videoThumbnailUrl } from '@/lib/video-url';
+import { VideoPopup } from '@/components/ui/VideoPopup';
 import styles from '../events/events.module.css';
 
-type SpeakerVideoItem = (typeof speakerVideos)[number];
-
-export function SpeakerVideos({ videos }: { videos: SpeakerVideoItem[] }) {
-  const [activeVideo, setActiveVideo] = useState<SpeakerVideoItem | null>(null);
-  const dialogRef = useRef<HTMLDialogElement>(null);
+export function SpeakerVideos({ videos }: { videos: EventsVideoItem[] }) {
+  const [activeVideo, setActiveVideo] = useState<EventsVideoItem | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,55 +38,34 @@ export function SpeakerVideos({ videos }: { videos: SpeakerVideoItem[] }) {
     return () => observer.disconnect();
   }, [videos]);
 
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (activeVideo && !dialog.open) dialog.showModal();
-    if (!activeVideo && dialog.open) dialog.close();
-  }, [activeVideo]);
-
   return (
     <>
       <div ref={gridRef} className={styles.speakerGrid}>
-        {videos.map((video) => (
-          <article className={`${styles.speaker} ${styles.videoCard}`} key={video.src}>
-            <button
-              className={styles.speakerThumbnail}
-              type="button"
-              onClick={() => setActiveVideo(video)}
-              aria-haspopup="dialog"
-              aria-label={`Play ${video.title}`}
-            >
-              <video className={styles.thumbnailVideo} data-src={video.src} muted playsInline preload="none" aria-hidden="true" />
-              <span className={styles.speakerPlay} aria-hidden="true">▶</span>
-            </button>
-            <h3 className={styles.speakerTitle}>{video.title}</h3>
-            <p className={styles.speakerRole}>{video.role}</p>
-          </article>
-        ))}
+        {videos.map((video) => {
+          const thumbnail = videoThumbnailUrl(video.videoUrl);
+          return (
+            <article className={`${styles.speaker} ${styles.videoCard}`} key={video.videoUrl}>
+              <button
+                className={styles.speakerThumbnail}
+                type="button"
+                onClick={() => setActiveVideo(video)}
+                aria-haspopup="dialog"
+                aria-label={`Play ${video.title}`}
+              >
+                {thumbnail ? (
+                  <img className={styles.thumbnailVideo} src={thumbnail} alt="" loading="lazy" />
+                ) : (
+                  <video className={styles.thumbnailVideo} data-src={video.videoUrl} muted playsInline preload="none" aria-hidden="true" />
+                )}
+                <span className={styles.speakerPlay} aria-hidden="true">▶</span>
+              </button>
+              <h3 className={styles.speakerTitle}>{video.title}</h3>
+              <p className={styles.speakerRole}>{video.role}</p>
+            </article>
+          );
+        })}
       </div>
-
-      <dialog
-        ref={dialogRef}
-        className={styles.videoDialog}
-        aria-labelledby="speaker-video-title"
-        onClose={() => setActiveVideo(null)}
-        onClick={(event) => {
-          if (event.target === event.currentTarget) setActiveVideo(null);
-        }}
-      >
-        {activeVideo && (
-          <div className={styles.videoDialogContent}>
-            <button type="button" className={styles.lightboxClose} onClick={() => setActiveVideo(null)} aria-label="Close video">
-              <span aria-hidden="true">×</span>
-            </button>
-            <h2 id="speaker-video-title" className={styles.videoTitle}>{activeVideo.title}</h2>
-            <video className={styles.speakerPlayer} src={activeVideo.src} controls autoPlay playsInline preload="metadata">
-              Your browser does not support video playback.
-            </video>
-          </div>
-        )}
-      </dialog>
+      {activeVideo && <VideoPopup title={activeVideo.title} videoUrl={activeVideo.videoUrl} onClose={() => setActiveVideo(null)} />}
     </>
   );
 }

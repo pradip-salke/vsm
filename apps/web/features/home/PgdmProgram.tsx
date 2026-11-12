@@ -3,11 +3,11 @@ import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { pgdmProgram } from '@/content/home';
-import { ACADEMICS_PGDM_PATH } from '@/content/site';
 import styles from './PgdmProgram.module.css';
+import { homeDefaults, type HomeContent } from '@vsmedu/contracts/home';
 
-export function PgdmProgram() {
+export function PgdmProgram({ content = homeDefaults.program }: { content?: HomeContent['program'] }) {
+  const pgdmProgram = content;
   const { poster } = pgdmProgram;
   return (
     <section className={styles.section} aria-labelledby="pgdm-title">
@@ -18,7 +18,7 @@ export function PgdmProgram() {
         </span>
       </div>
       <div className={styles.content}>
-        <SectionHeading id="pgdm-title" eyebrow="Empower Your Future with Industry-Focused Education" title="Our PGDM Program" />
+        <SectionHeading id="pgdm-title" eyebrow={content.eyebrow} title={content.title} />
         <h3 className={styles.subtitle}>{pgdmProgram.subtitle}</h3>
         <p className={styles.lead}>{pgdmProgram.lead}</p>
         <p>{pgdmProgram.body}</p>
@@ -30,8 +30,8 @@ export function PgdmProgram() {
             </li>
           ))}
         </ul>
-        <Button variant="arrow" href={ACADEMICS_PGDM_PATH} className={styles.link}>
-          choose your pgdm program
+        <Button variant="arrow" href={content.buttonHref} className={styles.link}>
+          {content.buttonText}
         </Button>
       </div>
     </section>

@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { AdmissionsPageShell, AdmissionSection } from '../AdmissionsPageShell';
 import styles from '../Admissions.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'PGDM Fees Structure 2026–28',
   description: 'PGDM program fee structure for 2026–28 at Valia School of Management.',
   alternates: { canonical: '/admissions/pgdm-fee-structure/' },
@@ -15,6 +16,10 @@ const fees = [
   ['2nd Year', 'INR 3,50,000/-'],
   ['TOTAL FEES', 'INR 7,00,000/-'],
 ];
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/admissions/pgdm-fee-structure/', metadata);
+}
 
 export default function FeesStructurePage() {
   return <AdmissionsPageShell title="PGDM Fees Structure: Batch 2026–28" subtitle="Your Investment in World-Class Education" active="Fees Structure">

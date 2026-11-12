@@ -14,6 +14,23 @@ export const authService = {
     await authRepository.createSession({ tokenHash: hashSessionToken(token), userId: user.id, expiresAt, userAgent: input.userAgent?.slice(0, 500), ipAddress: input.ipAddress, requestId: input.requestId });
     return { token, expiresAt, user: { id: user.id, name: user.name, email: user.email } };
   },
+  async updateProfile(userId: number, name: string, email: string, requestId?: string) {
+    const trimmed = name.trim();
+    if (!trimmed) throw new HttpError(400, 'INVALID_NAME', 'Name is required');
+    const normalizedEmail = email.trim().toLowerCase();
+    const existingUser = await authRepository.findUserByEmail(normalizedEmail);
+    if (existingUser && existingUser.id !== userId) {
+      throw new HttpError(409, 'USERNAME_IN_USE', 'That username is already in use');
+    }
+    try {
+      await authRepository.updateProfile(userId, trimmed, normalizedEmail, requestId);
+    } catch (error) {
+      if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
+        throw new HttpError(409, 'USERNAME_IN_USE', 'That username is already in use');
+      }
+      throw error;
+    }
+  },
   async changePassword(userId: number, currentPassword: string, newPassword: string, requestId?: string) {
     const user = await authRepository.findUserById(userId);
     if (!user || user.status !== 'ACTIVE' || !await argon2.verify(user.passwordHash, currentPassword).catch(() => false)) {

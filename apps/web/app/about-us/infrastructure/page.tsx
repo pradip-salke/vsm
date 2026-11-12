@@ -2,8 +2,13 @@ import type { Metadata } from 'next';
 import { AboutPageShell, AboutSection } from '../AboutPageShell';
 import { GalleryImages } from '@/app/events/GalleryImages';
 import { infrastructureImages } from '@/content/infrastructure';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: 'Infrastructure', description: 'Infrastructure at Valia School of Management.', alternates: { canonical: '/about-us/infrastructure/' } };
+const metadata: Metadata = { title: 'Infrastructure', description: 'Infrastructure at Valia School of Management.', alternates: { canonical: '/about-us/infrastructure/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/about-us/infrastructure/', metadata);
+}
 
 export default function InfrastructurePage() {
   return <AboutPageShell title="Infrastructure" active="Infrastructure">

@@ -3,18 +3,20 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { randomUUID } from 'node:crypto';
 import { rateLimit } from 'express-rate-limit';
-import { env } from './config/env.js';
+import { env, trustedOrigins } from './config/env.js';
 import { authRouter } from './routes/auth.js';
 import { publicRouter } from './routes/public.js';
 import { adminRouter } from './routes/admin.js';
 import { errorHandler, notFound } from './middleware/errors.js';
+import { homeMediaRoot } from './modules/content/home-media.js';
 
 export function createApp() {
   const app = express();
   app.disable('x-powered-by');
   if (env.TRUST_PROXY) app.set('trust proxy', 1);
   app.use(helmet());
-  app.use(cors({ origin: [env.WEB_ORIGIN, env.ADMIN_ORIGIN], credentials: true, methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'X-Request-Id', 'X-CSRF-Token'] }));
+  app.use(cors({ origin: [...trustedOrigins], credentials: true, methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'X-Request-Id', 'X-CSRF-Token', 'X-File-Name'] }));
+  app.use('/cms-media', (_req, res, next) => { res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin'); next(); }, express.static(homeMediaRoot, { immutable: true, maxAge: '1y', dotfiles: 'deny', index: false }));
   app.use(express.json({ limit: '256kb' }));
   app.use((req, res, next) => { req.requestId = req.get('x-request-id')?.slice(0, 100) || randomUUID(); res.setHeader('X-Request-Id', req.requestId); next(); });
   app.use('/api/v1/auth/login', rateLimit({ windowMs: 15 * 60 * 1000, limit: 10, standardHeaders: 'draft-8', legacyHeaders: false }));

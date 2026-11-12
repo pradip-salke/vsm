@@ -8,8 +8,11 @@ import { icons } from '@/components/ui/icons';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { faculty, facultyIntro, type FacultyMember } from '@/content/shared';
 import styles from './FacultySection.module.css';
+import type { HomeHeading } from '@vsmedu/contracts/home';
 
 type FacultySectionProps = {
+  items?: FacultyMember[];
+  heading?: HomeHeading;
   id?: string;
   /** `page` = dark Home section with intro; `column` = light Academics variant. */
   variant?: 'page' | 'column';
@@ -20,11 +23,13 @@ export function FacultyProfilePopup({
   onClose,
   returnFocusRef,
   headingId,
+  heading,
 }: {
   member: FacultyMember | null;
   onClose: () => void;
   returnFocusRef: { current: HTMLButtonElement | null };
   headingId: string;
+  heading?: HomeHeading;
 }) {
   const pageDialogRef = useRef<HTMLDialogElement>(null);
   const popupIntroRef = useRef<HTMLDivElement>(null);
@@ -63,7 +68,7 @@ export function FacultyProfilePopup({
       onClose={onClose}
     >
       <div ref={popupIntroRef} className={styles.popupIntro} tabIndex={-1}>
-        <FacultyIntroduction id={headingId} isPage popup />
+        <FacultyIntroduction id={headingId} isPage popup heading={heading} />
       </div>
       <div className={styles.modalCard}>
         <button type="button" className={styles.close} onClick={onClose} aria-label="Close profile">
@@ -85,7 +90,7 @@ export function FacultyProfilePopup({
           <dl className={styles.details}>
             {member.details.map((detail) => (
               <div key={detail.label}>
-                <dt>{detail.label}:</dt> <dd>{detail.value}</dd>
+                <dt>{detail.label}:</dt> <dd dangerouslySetInnerHTML={{ __html: detail.value }} />
               </div>
             ))}
           </dl>
@@ -95,22 +100,22 @@ export function FacultyProfilePopup({
   );
 }
 
-function FacultyIntroduction({ id, isPage, popup = false }: { id: string; isPage: boolean; popup?: boolean }) {
+function FacultyIntroduction({ id, isPage, popup = false, heading }: { id: string; isPage: boolean; popup?: boolean; heading?: HomeHeading }) {
   return (
     <SectionHeading
       id={id}
       className={popup ? styles.popupHeading : undefined}
-      eyebrow={isPage ? 'Masters of Their Craft, Mentors for the Future' : 'Our Faculties'}
+      eyebrow={isPage ? heading?.eyebrow ?? 'Masters of Their Craft, Mentors for the Future' : 'Our Faculties'}
       eyebrowTone="plain"
-      title="Meet Our Industry-Oriented PGDM Faculty"
+      title={heading?.title ?? 'Meet Our Industry-Oriented PGDM Faculty'}
       tone={isPage ? 'light' : 'dark'}
     >
-      {isPage && <p>{facultyIntro}</p>}
+      {isPage && <p>{heading?.description ?? facultyIntro}</p>}
     </SectionHeading>
   );
 }
 
-export function FacultySection({ id = 'faculties', variant = 'page' }: FacultySectionProps) {
+export function FacultySection({ id = 'faculties', variant = 'page', items = faculty, heading }: FacultySectionProps) {
   const [selected, setSelected] = useState<FacultyMember | null>(null);
   const returnFocusRef = useRef<HTMLButtonElement>(null);
   const closeProfile = useCallback(() => {
@@ -119,7 +124,7 @@ export function FacultySection({ id = 'faculties', variant = 'page' }: FacultySe
   const isPage = variant === 'page';
   const headingId = `${id}-title`;
 
-  const slides = faculty.map((member) => (
+  const slides = items.map((member) => (
     <button key={member.name} type="button" className={styles.card} onClick={(event) => {
       returnFocusRef.current = event.currentTarget;
       setSelected(member);
@@ -141,7 +146,7 @@ export function FacultySection({ id = 'faculties', variant = 'page' }: FacultySe
   return (
     <section id={id} className={styles[variant]} aria-labelledby={headingId}>
       <div className={isPage ? 'container' : undefined}>
-        {!selected && <FacultyIntroduction id={headingId} isPage={isPage} />}
+        {!selected && <FacultyIntroduction id={headingId} isPage={isPage} heading={heading} />}
         <Carousel
           label="Faculty"
           slides={slides}
@@ -150,7 +155,7 @@ export function FacultySection({ id = 'faculties', variant = 'page' }: FacultySe
           dotsAlign={isPage ? 'center' : 'start'}
         />
       </div>
-      <FacultyProfilePopup member={selected} onClose={closeProfile} returnFocusRef={returnFocusRef} headingId={headingId} />
+      <FacultyProfilePopup member={selected} onClose={closeProfile} returnFocusRef={returnFocusRef} headingId={headingId} heading={heading} />
     </section>
   );
 }

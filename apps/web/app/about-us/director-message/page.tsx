@@ -4,8 +4,13 @@ import { AboutPageShell, AboutSection } from '../AboutPageShell';
 import { Signature } from '../AboutComponents';
 import { directorMessage as message } from '@/content/about';
 import styles from '../about.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = { title: "Director's Message", description: 'A message from Dr. Sandeep Sawant, Director of Valia School of Management.', alternates: { canonical: '/about-us/director-message/' } };
+const metadata: Metadata = { title: "Director's Message", description: 'A message from Dr. Sandeep Sawant, Director of Valia School of Management.', alternates: { canonical: '/about-us/director-message/' } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/about-us/director-message/', metadata);
+}
 
 export default function DirectorMessagePage() {
   return <AboutPageShell title="Director's Message" active="Director Message" viewportContent>

@@ -2,12 +2,17 @@ import type { Metadata } from 'next';
 import { PlacementPageShell, PlacementSection } from '../PlacementPageShell';
 import styles from '../PlacementPage.module.css';
 import { alumniProfiles } from '@/content/placements';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'VSM Alumni Network',
   description: 'Meet distinguished alumni of Valia School of Management and explore their professional journeys.',
   alternates: { canonical: '/placements/alumni/' },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/placements/alumni/', metadata);
+}
 
 export default function AlumniPage() {
   return (

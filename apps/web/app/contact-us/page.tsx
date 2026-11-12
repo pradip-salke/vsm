@@ -4,14 +4,19 @@ import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';
 import { APPLY_PATH } from '@/content/site';
 import styles from './ContactPage.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Contact Us | Valia School of Management',
   description: 'Get in touch with Valia School of Management with your questions, suggestions, and feedback.',
   alternates: { canonical: '/contact-us/' },
 };
 
 const contactMapUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15077.700395413956!2d72.81570538587455!3d19.132860685866014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c90a5cf14ec3%3A0x43e2ef0e96af06f9!2sValia%20School%20of%20Management!5e0!3m2!1sen!2sin!4v1739169921810!5m2!1sen!2sin';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/contact-us/', metadata);
+}
 
 export default function ContactUsPage() {
   const slide = { ...academicsHero, title: 'Get in Touch with VSM', subtitle: "We're Here to Answer Your Queries" };

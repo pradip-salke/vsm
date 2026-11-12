@@ -34,3 +34,14 @@ export function parseEnv(input: NodeJS.ProcessEnv = process.env): AppEnv {
 }
 
 export const env = parseEnv();
+
+// Vite falls back from port 5173 when another local dev server already owns it.
+// Keep that known fallback trusted during development only; production stays
+// restricted to the explicitly configured origins.
+export const trustedOrigins = new Set([
+  env.WEB_ORIGIN,
+  env.ADMIN_ORIGIN,
+  ...(env.NODE_ENV === 'development'
+    ? ['http://localhost:5174', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174']
+    : []),
+]);

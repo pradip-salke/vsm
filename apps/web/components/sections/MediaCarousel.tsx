@@ -1,11 +1,49 @@
+'use client';
+
 import Image from 'next/image';
+import { useState } from 'react';
 import { Link } from '@/components/navigation/Link';
 import { Carousel } from '@/components/ui/Carousel';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import type { MediaItem } from '@/content/types';
+import type { ImageAsset } from '@/content/types';
 import styles from './MediaCarousel.module.css';
+import { VideoPopup } from '@/components/ui/VideoPopup';
+import { ImageGalleryPopup } from '@/components/ui/ImageGalleryPopup';
+
+type GalleryAlbum = { title: string; href: string; image: ImageAsset; images: ImageAsset[] };
+
+function gallerySlug(href?: string) {
+  const slug = href?.match(/\/gallery\/([^/?#]+)/i)?.[1]?.toLowerCase();
+  return slug?.replace(/^silvasa-/, 'silvassa-');
+}
+
+function findRelatedAlbum(item: MediaItem, albums: GalleryAlbum[]) {
+  const slug = gallerySlug(item.href);
+  if (slug) {
+    const linkedAlbum = albums.find((album) => gallerySlug(album.href) === slug);
+    if (linkedAlbum) return linkedAlbum;
+  }
+
+  const matchingImage = albums.find((album) => album.image.src === item.image.src);
+  if (matchingImage) return matchingImage;
+
+  const description = `${item.caption ?? ''} ${item.image.alt}`.toLowerCase();
+  const relatedSlug = description.includes('silvassa')
+    ? 'silvassa-industrial-visit'
+    : description.includes('outbound')
+      ? 'outbound-activity'
+      : description.includes('speaker') || description.includes('seminar')
+        ? 'mr-ramesh-sir-seminar'
+        : description.includes('classroom') || description.includes('inauguration')
+          ? 'inauguration-2025'
+          : description.includes('campus') || description.includes('life')
+            ? 'infra'
+            : undefined;
+  return relatedSlug ? albums.find((album) => gallerySlug(album.href) === relatedSlug) : undefined;
+}
 
 type MediaCarouselProps = {
   id: string;
@@ -20,6 +58,12 @@ type MediaCarouselProps = {
   play?: boolean;
   background?: 'page' | 'cream';
   homeEventSpacing?: boolean;
+  /** Open the section's images in the shared gallery lightbox when a slide is clicked. */
+  galleryPopup?: boolean;
+  /** Full Events > Gallery albums used to resolve slider covers to their image sets. */
+  galleryAlbums?: GalleryAlbum[];
+  /** Album slug for slider collections without a direct album URL. */
+  galleryFallbackSlug?: string;
 };
 
 export function MediaCarousel({
@@ -32,9 +76,19 @@ export function MediaCarousel({
   play = false,
   background = 'page',
   homeEventSpacing = false,
+  galleryPopup = false,
+  galleryAlbums = [],
+  galleryFallbackSlug,
 }: MediaCarouselProps) {
   const headingId = `${id}-title`;
+  const showCaption = layout !== 'events';
+  const [activeVideo, setActiveVideo] = useState<{ title: string; videoUrl: string } | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
   const slides = items.map((item, index) => {
+    const videoLink = item.videoLink?.trim() || '';
+    const showPlayBadge = play || Boolean(videoLink);
+    const linkHref = item.href?.trim() || '';
+    const isExternal = /^https?:\/\//i.test(linkHref);
     const media = (
       <>
         <span className={styles.frame}>
@@ -45,23 +99,67 @@ export function MediaCarousel({
             height={item.image.height}
             sizes={variant === 'page' ? '(max-width: 767px) 85vw, 36vw' : '(max-width: 767px) 85vw, 42vw'}
           />
-          {play && (
+          {showPlayBadge && (
             <span className={styles.play} aria-hidden>
               <Icon src={icons.playSmall} size="100%" />
             </span>
           )}
         </span>
-        {item.caption && <span className={styles.caption}>{item.caption}</span>}
+        {showCaption && item.caption && <span className={styles.caption}>{item.caption}</span>}
       </>
     );
-    return item.href ? (
-      <Link key={index} href={item.href} className={styles.item}>
+    if (galleryPopup) {
+      return (
+        <button
+          key={index}
+          type="button"
+          className={`${styles.item} ${styles.imageTrigger}`}
+          onClick={() => setActiveImageIndex(index)}
+          aria-haspopup="dialog"
+          aria-label={`View ${item.image.alt || title}`}
+        >
+          {media}
+        </button>
+      );
+    }
+    if (videoLink) {
+      return (
+        <button
+          key={index}
+          type="button"
+          className={`${styles.item} ${styles.videoTrigger}`}
+          onClick={() => setActiveVideo({ title: item.caption?.trim() || title, videoUrl: videoLink })}
+          aria-haspopup="dialog"
+          aria-label={`Play ${item.caption?.trim() || title}`}
+        >
+          {media}
+        </button>
+      );
+    }
+    if (!linkHref) {
+      return (
+        <div key={index} className={styles.item}>
+          {media}
+        </div>
+      );
+    }
+    if (isExternal) {
+      return (
+        <a
+          key={index}
+          href={linkHref}
+          className={styles.item}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {media}
+        </a>
+      );
+    }
+    return (
+      <Link key={index} href={linkHref} className={styles.item}>
         {media}
       </Link>
-    ) : (
-      <div key={index} className={styles.item}>
-        {media}
-      </div>
     );
   });
 
@@ -81,6 +179,15 @@ export function MediaCarousel({
           dotsAlign={variant === 'page' ? 'center' : 'start'}
         />
       </div>
+      {activeVideo && <VideoPopup title={activeVideo.title} videoUrl={activeVideo.videoUrl} onClose={() => setActiveVideo(null)} />}
+      {activeImageIndex !== null && (() => {
+        const activeItem = items[activeImageIndex];
+        const album = activeItem ? findRelatedAlbum(activeItem, galleryAlbums) : undefined;
+        const images = activeItem?.galleryImages?.length ? activeItem.galleryImages : album?.images
+          ?? galleryAlbums.find((candidate) => gallerySlug(candidate.href) === galleryFallbackSlug)?.images
+          ?? [];
+        return images.length ? <ImageGalleryPopup images={images} title={album?.title ?? title} initialIndex={0} onClose={() => setActiveImageIndex(null)} /> : null;
+      })()}
     </section>
   );
 }

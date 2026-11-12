@@ -6,12 +6,17 @@ import { academicsHero } from '@/content/academics';
 import { CareerApplicationForm } from './CareerApplicationForm';
 import { CtaBanner } from '@/features/home/CtaBanner';
 import styles from './CareerPage.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Career | Valia School of Management',
   description: 'Explore career opportunities at Valia School of Management and apply for a position.',
   alternates: { canonical: '/career/' },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/career/', metadata);
+}
 
 export default function CareerPage() {
   const slide = { ...academicsHero, title: 'Start your career with VSM', subtitle: 'VSM Career Opportunities' };

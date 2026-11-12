@@ -7,6 +7,7 @@ import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';
 import articles from '@/content/blogs.json';
 import styles from '../Blogs.module.css';
+import { withSeo } from '@/lib/seo';
 
 type Article = (typeof articles)[number];
 const allArticles = articles as Article[];
@@ -37,11 +38,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const article = findArticle(slug);
   if (!article) return { title: 'Blog not found | Valia School of Management' };
-  return {
+  return withSeo(`/blogs/${article.slug}/`, {
     title: `${article.title} | Valia School of Management`,
     description: plainText(article.excerpt).slice(0, 160),
     alternates: { canonical: `/blogs/${article.slug}/` },
-  };
+  });
 }
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {

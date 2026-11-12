@@ -1,5 +1,7 @@
 node_modules/
 .next/
+.next-dev-*/
+.cursor/
 dist/
 coverage/
 .env
@@ -7,3 +9,5 @@ coverage/
 !.env.example
 npm-debug.log*
 *.tsbuildinfo
+uploads/home/
+powershell.cmd

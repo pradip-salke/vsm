@@ -4,8 +4,9 @@ import { AdmissionsApplicationForm } from './AdmissionsApplicationForm';
 import { FaqList, type FaqItem } from '@/components/sections/FaqSection';
 import faqStyles from '@/components/sections/FaqSection.module.css';
 import styles from '../Admissions.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'PGDM Application Form 2026',
   description: 'Apply for the 2026–28 PGDM programme at Valia School of Management.',
   alternates: { canonical: '/admissions/application-form/' },
@@ -18,6 +19,10 @@ const faqs: FaqItem[] = [
   { question: 'What are the specializations being offered in PGDM at VSM?', answer: <>The specializations offered by VSM under PGDM are Marketing, Finance, HR, Business Analytics, Operations &amp; Supply Chain Management.</> },
   { question: 'Is PGDM a 2 year course?', answer: <>Yes, the PGDM programs at VSM are two-year full-time programs, comprising four semesters (2 semesters per year). Students complete classroom learning, internships, and industry projects during this period.</> },
 ];
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/admissions/application-form/', metadata);
+}
 
 export default function ApplicationFormPage() {
   return <AdmissionsPageShell title="PGDM Application Form – 2026" subtitle="Begin Your Management Journey – Apply Now" active="Application Form">

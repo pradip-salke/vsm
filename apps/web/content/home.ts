@@ -56,5 +56,5 @@ export const cta = {
   image: { src: '/images/figma/cta-banner.webp', alt: '', width: 1920, height: 744 } satisfies ImageAsset,
 };
 
-export const homeEvents: MediaItem[] = events.map((event) => ({ image: event.image, caption: event.title, href: event.href }));
+export const homeEvents: MediaItem[] = events.map((event) => ({ image: event.image, videoLink: '', href: event.href }));
 export const homeLife: MediaItem[] = lifeAtVsm.map((image) => ({ image }));

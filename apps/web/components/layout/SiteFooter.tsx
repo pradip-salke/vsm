@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { Link } from '@/components/navigation/Link';
 import { aboutLinks, careerAndBlogLinks, contact, footer, specialisationLinks } from '@/content/site';
 import { Icon } from '@/components/ui/Icon';
@@ -9,7 +8,7 @@ import { icons } from '@/components/ui/icons';
 import { PhoneList } from '@/components/ui/PhoneList';
 import styles from './SiteFooter.module.css';
 
-export function SiteFooter() {
+export function SiteFooter({ logoSrc }: { logoSrc: string }) {
   const [aboutExpanded, setAboutExpanded] = useState(false);
   const visibleAboutLinks = aboutLinks.slice(0, 5);
   const remainingAboutLinks = aboutLinks.slice(5);
@@ -20,7 +19,7 @@ export function SiteFooter() {
         <div className={styles.grid}>
           <div className={styles.about}>
             <Link href="/" className={styles.logo} aria-label="Valia School of Management home">
-              <Image src="/images/brand/vsm-logo.svg" alt="Valia School of Management" width={266} height={78} sizes="266px" />
+              <img src={logoSrc} alt="Valia School of Management" width={266} height={78} />
             </Link>
             <p>{footer.about}</p>
           </div>

@@ -34,11 +34,17 @@
     "**/*.tsx",
     ".next-academic-check/types/**/*.ts",
     ".next-dev-3000/types/**/*.ts",
+    ".next-dev-3001/types/**/*.ts",
     ".next-dev-3002/types/**/*.ts",
+    ".next-dev-3003/types/**/*.ts",
+    ".next-dev-3004/types/**/*.ts",
+    ".next-dev-3005/types/**/*.ts",
+    ".next-dev-3010/types/**/*.ts",
+    ".next-dev-3020/types/**/*.ts",
     ".next-dev/types/**/*.ts",
     ".next/types/**/*.ts",
     "next-env.d.ts",
-    ".next-dev-3001/types/**/*.ts"
+    ".next-dev-3030/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

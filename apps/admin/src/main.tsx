@@ -3,5 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './ui/App';
 import './ui/styles.css';
+import './ui/cms-forms.css';
+import './ui/tour-guide.css';
 
 createRoot(document.getElementById('root')!).render(<React.StrictMode><BrowserRouter><App /></BrowserRouter></React.StrictMode>);

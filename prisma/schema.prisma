@@ -326,9 +326,18 @@ model BlogPost {
   id          Int       @id @default(autoincrement())
   slug        String    @unique @db.VarChar(240)
   title       String    @db.VarChar(240)
-  excerpt     String?   @db.VarChar(1000)
+  excerpt     String?   @db.Text
   body        String?   @db.LongText
   authorName  String?   @db.VarChar(160)
+  authorRole  String?   @db.VarChar(160)
+  authorImageUrl String? @db.VarChar(2048)
+  authorBio   String?   @db.Text
+  coverImageUrl String? @db.VarChar(2048)
+  coverImageAlt String? @db.VarChar(500)
+  categories  Json?
+  tags        Json?
+  featured    Boolean   @default(false)
+  legacyId    Int?      @unique
   coverMediaId Int?
   status      ContentStatus @default(DRAFT)
   publishedAt DateTime? @db.DateTime(3)

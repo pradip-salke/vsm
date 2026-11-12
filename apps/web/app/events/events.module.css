@@ -50,6 +50,7 @@
 .videoDialog .lightboxClose { top: clamp(1rem, 2vw, 1.5rem); right: clamp(1rem, 2vw, 1.5rem); }
 .videoTitle { margin: 0 3.5rem var(--space-5) 0; color: var(--color-heading); font-size: var(--font-size-h3); }
 .speakerPlayer { display: block; width: 100%; max-height: min(70dvh, 50rem); aspect-ratio: 16 / 9; border-radius: var(--radius-sm); background: #000; object-fit: contain; }
+.speakerPlayerFrame { border: 0; }
 .detail { max-width: 55rem; color: var(--color-text-answer); line-height: var(--line-height-body); }
 .detail p + p { margin-top: var(--space-4); }
 .detailGallery { max-width: 54rem; margin-top: var(--space-6); }

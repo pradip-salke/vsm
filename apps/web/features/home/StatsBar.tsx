@@ -2,11 +2,11 @@ import { stats } from '@/content/home';
 import { CountUpValue } from '@/components/ui/CountUpValue';
 import styles from './StatsBar.module.css';
 
-export function StatsBar() {
+export function StatsBar({ items = stats }: { items?: typeof stats }) {
   return (
     <section className={styles.stats} aria-label="Programme at a glance">
       <dl className={`container ${styles.grid}`}>
-        {stats.map((stat, index) => (
+        {items.map((stat, index) => (
           <div key={stat.label} className={styles.item}>
             {index > 0 && (
               <img className={styles.divider} src="/images/figma/stats-divider.svg" alt="" aria-hidden="true" />

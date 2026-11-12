@@ -6,8 +6,9 @@ import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';
 import articles from '@/content/blogs.json';
 import styles from './Blogs.module.css';
+import { withSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Blogs | Valia School of Management',
   description: 'Insights, guides, and perspectives from Valia School of Management.',
   alternates: { canonical: '/blogs/' },
@@ -22,6 +23,10 @@ function formatDate(date: string) {
 
 function pageHref(page: number) {
   return page === 1 ? '/blogs/' : `/blogs/?page=${page}`;
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  return withSeo('/blogs/', metadata);
 }
 
 export default async function BlogsPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {

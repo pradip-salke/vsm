@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/Button';
+import { PUBLIC_API_BASE_URL } from '@/lib/api';
 import enquiryStyles from '@/components/sections/EnquiryForm.module.css';
 import styles from '../Admissions.module.css';
 
@@ -20,15 +21,96 @@ const referrals = ['Website', 'Social Media', 'Advertisement', 'Friend', 'Phone 
 
 export function AdmissionsApplicationForm() {
   const [status, setStatus] = useState('');
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     if (!form.reportValidity()) return;
-    const values = Array.from(new FormData(form).entries()).map(([name, value]) => `${name}: ${value}`).join('\n');
-    const subject = encodeURIComponent('PGDM Application 2026–28');
-    const body = encodeURIComponent(values);
-    window.location.href = `mailto:admissions@vsmedu.in?subject=${subject}&body=${body}`;
-    setStatus('Your email app should open with your application details. Send the email to complete your application.');
+
+    setSubmitting(true);
+    setStatus('');
+    setIsSuccess(false);
+
+    const formData = new FormData(form);
+    const get = (key: string) => String(formData.get(key) ?? '').trim();
+
+    const payload = {
+      firstName: get('first-name'),
+      middleName: get('middle-name') || undefined,
+      lastName: get('last-name'),
+      dateOfBirth: get('date-of-birth') || undefined,
+      nationality: get('nationality') || undefined,
+      gender: get('gender') || undefined,
+      email: get('email'),
+      phone: get('phone'),
+      parentPhone: get('parent-phone') || undefined,
+      familyAnnualIncome: get('family-annual-income') || undefined,
+      address: get('address') || undefined,
+      city: get('city') || undefined,
+      pinCode: get('pin-code') || undefined,
+      country: get('country') || 'India',
+      referral: get('referral') || undefined,
+      referralOther: get('referral-other') || undefined,
+      education: [
+        {
+          stage: '10th',
+          institution: get('10th-school'),
+          board: get('10th-board'),
+          stream: get('10th-stream'),
+          passingYear: Number(get('10th-year')) || undefined,
+          resultPercent: Number(get('10th-percentage')) || undefined,
+        },
+        {
+          stage: '12th',
+          institution: get('12th-school'),
+          board: get('12th-board'),
+          stream: get('12th-stream'),
+          passingYear: Number(get('12th-year')) || undefined,
+          resultPercent: Number(get('12th-percentage')) || undefined,
+        },
+        {
+          stage: 'Graduation',
+          institution: get('graduation-university'),
+          stream: get('graduation-stream'),
+          passingYear: Number(get('graduation-year')) || undefined,
+          resultPercent: Number(get('graduation-percentage')) || undefined,
+        },
+      ].filter((e) => e.institution || e.stream || e.passingYear),
+      examScores: [
+        ...exams
+          .map((exam) => {
+            const val = get(`entrance-${exam.toLowerCase()}`);
+            return val ? { examCode: exam, score: Number(val) || undefined } : null;
+          })
+          .filter(Boolean),
+        ...(get('other-exam') ? [{ examCode: 'Other', score: Number(get('other-exam')) || undefined }] : []),
+      ],
+    };
+
+    try {
+      const response = await fetch(`${PUBLIC_API_BASE_URL}/api/v1/public/applications`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        throw new Error(result?.error?.message ?? 'Could not submit your application. Please check all fields.');
+      }
+
+      setIsSuccess(true);
+      setStatus(`✓ Thank you! Your PGDM admission application has been submitted successfully (Reference #${result.data.id}). Our admissions team will review your application and contact you soon.`);
+      form.reset();
+    } catch (cause) {
+      setIsSuccess(false);
+      setStatus(cause instanceof Error ? cause.message : 'Could not submit your application. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   return <form className={styles.form} onSubmit={onSubmit}>
@@ -59,7 +141,18 @@ export function AdmissionsApplicationForm() {
         <label className={`${styles.consent} ${enquiryStyles.consent} ${styles.wide}`}><input className={enquiryStyles.checkbox} type="checkbox" name="terms-consent" value="Agreed" required /><span>I agree to VSM <a href="https://vsmedu.com/terms-and-conditions/" target="_blank" rel="noreferrer">Terms &amp; Conditions</a> and <a href="https://vsmedu.com/privacy-policy/" target="_blank" rel="noreferrer">Privacy Policy</a>. *</span></label>
       </div>
     </fieldset>
-    <Button type="submit">Submit Application</Button>
-    <p className={styles.status} role="status" aria-live="polite">{status}</p>
+    <Button type="submit" disabled={submitting}>
+      {submitting ? 'Submitting Application…' : 'Submit Application'}
+    </Button>
+    {status && (
+      <p
+        className={styles.status}
+        role="status"
+        aria-live="polite"
+        style={{ color: isSuccess ? '#15803d' : '#b91c1c', fontWeight: 600, marginTop: '16px' }}
+      >
+        {status}
+      </p>
+    )}
   </form>;
 }

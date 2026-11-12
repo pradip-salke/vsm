@@ -35,4 +35,10 @@ export const authRepository = {
       prisma.auditLog.create({ data: { actorId: userId, action: 'auth.password_change', entityType: 'admin_user', entityId: String(userId), requestId } }),
     ]);
   },
+  updateProfile(userId: number, name: string, email: string, requestId?: string) {
+    return prisma.$transaction([
+      prisma.adminUser.update({ where: { id: userId }, data: { name, email } }),
+      prisma.auditLog.create({ data: { actorId: userId, action: 'auth.profile_update', entityType: 'admin_user', entityId: String(userId), requestId } }),
+    ]);
+  },
 };
