@@ -34,6 +34,14 @@ npm run build
 npm run db:validate
 ```
 
+### Production API build prerequisites
+
+Install the complete dependency set from the lockfile in a prepared release directory, including development dependencies needed for TypeScript compilation (`npm ci --include=dev`). Do not run `npm ci` against a live installation until its deployment procedure and rollback have been verified.
+
+From the repository root, `npm run build --workspace=@vsmedu/api` now generates the Prisma client and builds the shared contracts before compiling the API. Prisma generation reads the configured `DATABASE_URL` but does not apply migrations or change database records. The production environment must already be configured. If an active Windows process has locked the Prisma engine, stop that process before regenerating the client.
+
+Run database migrations separately only after identifying the correct database, reviewing pending migrations and verifying a backup. Do not run seed scripts against existing production data.
+
 The API currently provides session login/logout/current-user/password change, RBAC-protected dashboard and starter page CRUD/list, published page/programme reads, enquiry submission, and liveness/readiness endpoints. Modules such as uploads, application submission/review, full editorial workflows, export and redirect administration remain follow-up implementation work.
 
 ## Configuration notes

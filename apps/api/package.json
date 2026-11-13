@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "prebuild": "npm run db:generate --prefix ../.. && npm run build --workspace=@vsmedu/contracts --prefix ../..",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "test": "tsx --test src/app.test.ts src/security/session.test.ts src/config/env.test.ts"
