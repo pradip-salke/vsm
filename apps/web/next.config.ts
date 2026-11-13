@@ -1,4 +1,10 @@
 import type { NextConfig } from 'next';
+import { config as loadEnv } from 'dotenv';
+import { resolve } from 'node:path';
+
+// The web workspace runs from apps/web; share the root environment file used
+// by the API and admin while preserving variables supplied by the process.
+loadEnv({ path: resolve(process.cwd(), '../../.env') });
 
 // Next's dev runtime needs eval (source maps) and a websocket for HMR; production stays strict.
 const isDev = process.env.NODE_ENV !== 'production';

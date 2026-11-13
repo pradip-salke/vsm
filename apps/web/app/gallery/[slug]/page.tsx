@@ -7,6 +7,8 @@ import styles from '@/app/events/events.module.css';
 import { GalleryImages } from '@/app/events/GalleryImages';
 import { withSeo } from '@/lib/seo';
 
+export const dynamic = 'force-dynamic';
+
 export function generateStaticParams() {
   const slugs = [
     ...galleryEvents.map(({ href }) => href.split('/').filter(Boolean).at(-1)!),

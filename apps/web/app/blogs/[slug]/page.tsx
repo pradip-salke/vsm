@@ -12,6 +12,8 @@ import { withSeo } from '@/lib/seo';
 type Article = (typeof articles)[number];
 const allArticles = articles as Article[];
 
+export const dynamic = 'force-dynamic';
+
 function findArticle(slug: string) {
   return allArticles.find((article) => article.slug === slug);
 }

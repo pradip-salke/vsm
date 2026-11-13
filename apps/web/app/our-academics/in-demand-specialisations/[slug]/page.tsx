@@ -18,6 +18,8 @@ import { getSpecialisationClosingContent } from '@/lib/academics-specialisations
 
 type Props = { params: Promise<{ slug: string }> };
 
+export const dynamic = 'force-dynamic';
+
 export function generateStaticParams() {
   return academicSpecialisations.map(({ slug }) => ({ slug }));
 }
