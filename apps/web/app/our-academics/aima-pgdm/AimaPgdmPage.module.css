@@ -7,6 +7,9 @@
   --band-end: calc(-1 * (var(--edge, var(--page-gutter)) + 0.365vw));
   margin-top: var(--space-5);
 }
+.programStructureList.programStructureList {
+  --band-bleed: var(--column-inset, var(--page-gutter));
+}
 .otherDetailsViewport {
   --divided-row-height: clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem);
   --band-start: var(--column-inset, var(--page-gutter));

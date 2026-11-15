@@ -74,7 +74,7 @@ export default async function AimaPgdmPage() {
           <section id={sectionAnchor(3, 'program-structure')} className={layout.block}>
             <SectionHeading title={sections['program-structure'].title} />
             <p className={styles.moduleNote}>{sections['program-structure'].note}</p>
-            <IconList items={sections['program-structure'].items} divided className={styles.iconList} />
+            <IconList items={sections['program-structure'].items} divided className={`${styles.iconList} ${styles.programStructureList}`} />
           </section>
 
           <section id={sectionAnchor(4, 'specialisations')} className={layout.block}>
