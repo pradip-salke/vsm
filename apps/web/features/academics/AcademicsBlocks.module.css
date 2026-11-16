@@ -161,6 +161,19 @@
   font-weight: var(--font-weight-extrabold);
 }
 
+.curriculumNote {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  line-height: 1.6;
+}
+
+.curriculumNote strong,
+.curriculumNote b {
+  font-weight: var(--font-weight-bold);
+}
+
+.curriculumNote p { margin: 0; }
+
 /* Eligibility: dark box, two columns with the graduate cap icon */
 .eligibility {
   display: grid;

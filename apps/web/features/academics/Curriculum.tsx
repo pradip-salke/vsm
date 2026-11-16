@@ -94,7 +94,7 @@ export function Curriculum({ notes }: { notes?: AcademicsContent['curriculum']['
               </tr>
             </tbody>
           </table>
-          {(notes?.[index]?.note ?? table.note) ? <div className={styles.note} dangerouslySetInnerHTML={{ __html: notes?.[index]?.note ?? table.note ?? '' }} /> : null}
+          {(notes?.[index]?.note ?? table.note) ? <div className={`${styles.note} ${styles.curriculumNote}`} dangerouslySetInnerHTML={{ __html: notes?.[index]?.note ?? table.note ?? '' }} /> : null}
         </div>
       ))}
     </section>
