@@ -224,6 +224,11 @@ export function AcademicsPageEditor({
                         richAnswers={config.faq?.richAnswers}
                         onChange={(next) => change(key, next as Value)}
                       />
+                    ) : key === 'advantage' && doc.content && typeof doc.content === 'object' && !Array.isArray(doc.content) ? (
+                      <>
+                        <Field name="title" value={doc.content.title} template={doc.content.title} readOnly={readOnly} onUpload={upload} onChange={title => change(key, { ...(doc.content as Record<string, Value>), title })} />
+                        <Field name="advantageSteps" value={doc.content.steps} template={(config.defaults[key] as Record<string, Value>).steps} readOnly={readOnly} onUpload={upload} onChange={steps => change(key, { ...(doc.content as Record<string, Value>), steps })} />
+                      </>
                     ) : (
                       <Field
                         name=""

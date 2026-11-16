@@ -44,11 +44,6 @@ export default async function AictePgdmPage() {
   const [visibility, common] = await Promise.all([getSliderVisibility('aicte'), getHomeContent()]);
   const selected = await getCommonSlides('aicte');
   const advantage = academics.advantage ?? academicsDefaults.advantage;
-  const advantageBody = advantage.body.replace(
-    /<(ul|ol)(\b[^>]*)>([\s\S]*?)<\/\1>/gi,
-    (_match, tag: string, attributes: string, items: string) =>
-      `<div class="${layout.advantageListViewport}"><${tag}${attributes}>${items}</${tag}></div>`,
-  );
   return (
     <div className={layout.page}>
       <PageHero
@@ -105,7 +100,7 @@ export default async function AictePgdmPage() {
           </section>
           <section id="vsm-advantage" className={layout.block} aria-labelledby="advantage-title">
             <SectionHeading id="advantage-title" as="h3" size="h2" title={advantage.title} />
-            <div className={layout.advantageContent} dangerouslySetInnerHTML={{ __html: advantageBody }} />
+            <div className={layout.advantageListViewport}><IconList items={advantage.steps} divided className={layout.steps} /></div>
           </section>
         </div>
       </div>

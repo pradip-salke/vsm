@@ -228,6 +228,15 @@ export const academicsDefaults = {
   },
   advantage: {
     title: 'VSM Advantage',
+    steps: [
+      'In Education since 1961', 'Centrally located connected to Western & Central Suburbs via Mumbai Metro',
+      'International Immersion to Dubai', 'State-of-the-art infrastructure campus in Western Mumbai Suburb',
+      'Industry Recognized curriculum', 'Eminent Faculty and experienced Corporate Mentors from Academia & Industry',
+      'Case Study based learning that involves the students actively in the learning process', 'Students led corporate connect',
+      'Study from Harvard Business Publishing Reference Materials', 'Work on Live Real-World, Real-Time International Projects',
+      'Educational Tour', '100% Internships and Placement Assistance', 'Tie-up with leading banks for Education Loan',
+      'Affordable Fees – Installment available', 'Scholarships for Valia Degree College',
+    ].map(text => ({ icon: '/images/figma/icon-neutral.svg', iconSize: 32, text })),
     body: '<ul><li>In Education since 1961</li><li>Centrally located connected to Western &amp; Central Suburbs via Mumbai Metro</li><li>International Immersion to Dubai</li><li>State-of-the-art infrastructure campus in Western Mumbai Suburb</li><li>Industry Recognized curriculum</li><li>Eminent Faculty and experienced Corporate Mentors from Academia &amp; Industry</li><li>Case Study based learning that involves the students actively in the learning process</li><li>Students led corporate connect</li><li>Study from Harvard Business Publishing Reference Materials</li><li>Work on Live Real-World, Real-Time International Projects</li><li>Educational Tour</li><li>100% Internships and Placement Assistance</li><li>Tie-up with leading banks for Education Loan</li><li>Affordable Fees – Installment available</li><li>Scholarships for Valia Degree College</li></ul>',
   },
   /** FAQ at the bottom of this page (`academics.faq` in DB) — independent of Home FAQ. */

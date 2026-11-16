@@ -14,6 +14,18 @@ import { normalizeVideoLink } from './video-link.js';
 
 type Client = Prisma.TransactionClient | typeof prisma;
 
+/** Keep legacy rich-text list content while exposing independently editable icons. */
+function normalizeAdvantage(value: unknown) {
+  const old = value && typeof value === 'object' ? value as Record<string, unknown> : {};
+  const body = typeof old.body === 'string' ? old.body : academicsDefaults.advantage.body;
+  const decode = (text: string) => text.replace(/&#(x[0-9a-f]+|\d+);|&(amp|lt|gt|quot|apos|nbsp);/gi, (match, number: string | undefined, name: string | undefined) => {
+    if (number) { const code = number[0]?.toLowerCase() === 'x' ? parseInt(number.slice(1), 16) : parseInt(number, 10); return code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : match; }
+    return ({ amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' } as Record<string, string>)[name?.toLowerCase() ?? ''] ?? match;
+  });
+  const steps = Array.isArray(old.steps) ? old.steps : Array.from(body.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi), match => ({ icon: '/images/figma/icon-neutral.svg', iconSize: 32, text: decode(match[1]!.replace(/<[^>]*>/g, '').trim()) }));
+  return { title: typeof old.title === 'string' ? old.title : academicsDefaults.advantage.title, body, steps };
+}
+
 export const academicsDocuments: Record<string, unknown> = {
   ...Object.fromEntries(Object.entries(academicsDefaults).map(([key, value]) => [key, value])),
   ...Object.fromEntries(
@@ -295,6 +307,7 @@ export async function readAcademicsDocument(key: string) {
   const base = row?.value ?? academicsDocuments[key];
   let content: unknown = base;
   if (key === 'about') content = normalizeAboutSection(base);
+  else if (key === 'advantage') content = normalizeAdvantage(base);
   else if (key === 'eligibility') content = normalizeEligibilitySection(base);
   else if (key === 'master-program-videos') content = normalizeAcademicsProgramVideosMaster(base);
   else if (key === 'master-gallery') content = normalizeAcademicsGalleryMaster(base);
@@ -325,6 +338,7 @@ export async function readAcademics() {
   );
   sections.about = normalizeAboutSection(sections.about) as (typeof academicsDefaults)['about'];
   sections.eligibility = normalizeEligibilitySection(sections.eligibility) as (typeof academicsDefaults)['eligibility'];
+  sections.advantage = normalizeAdvantage(sections.advantage);
   return { sections: sections as typeof academicsDefaults, masters };
 }
 
@@ -348,6 +362,7 @@ export async function readAcademicsAllAdmin() {
     const raw = row?.value ?? defaultValue;
     let content: unknown = raw;
     if (key === 'about') content = normalizeAboutSection(raw);
+    else if (key === 'advantage') content = normalizeAdvantage(raw);
     else if (key === 'eligibility') content = normalizeEligibilitySection(raw);
     else if (key === 'master-program-videos') content = normalizeAcademicsProgramVideosMaster(raw);
     else if (key === 'master-gallery') content = normalizeAcademicsGalleryMaster(raw);
@@ -415,6 +430,7 @@ export async function updateAcademicsDocument(
     .parse(input);
   let toValidate: unknown = content;
   if (key === 'about') toValidate = normalizeAboutSection(content);
+  else if (key === 'advantage') toValidate = normalizeAdvantage(content);
   else if (key === 'eligibility') toValidate = normalizeEligibilitySection(content);
   else if (key === 'master-program-videos') toValidate = normalizeAcademicsProgramVideosMaster(content);
   else if (key === 'master-events') toValidate = normalizeAcademicsEventsMaster(content);
@@ -438,6 +454,7 @@ export async function updateAcademicsBulk(input: unknown, actorId: number, reque
     assertKnown(key);
     let toValidate: unknown = item.content;
     if (key === 'about') toValidate = normalizeAboutSection(item.content);
+    else if (key === 'advantage') toValidate = normalizeAdvantage(item.content);
     else if (key === 'eligibility') toValidate = normalizeEligibilitySection(item.content);
     else if (key === 'master-program-videos') toValidate = normalizeAcademicsProgramVideosMaster(item.content);
     else if (key === 'master-events') toValidate = normalizeAcademicsEventsMaster(item.content);

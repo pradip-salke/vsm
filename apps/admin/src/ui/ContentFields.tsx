@@ -102,6 +102,7 @@ const labels: Record<string, string> = {
   amount: 'Fee Amount',
   criteria: 'Eligibility Criteria',
   steps: 'Admission Steps',
+  advantageSteps: 'VSM Advantage Items',
   slug: 'URL slug (do not change without developer)',
   navTitle: 'Short label (admin menu)',
   pageTitle: 'SEO / browser title segment',
