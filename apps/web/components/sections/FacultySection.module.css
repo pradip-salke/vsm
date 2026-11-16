@@ -256,10 +256,9 @@
   display: inline;
 }
 
-.details .specialisationLabel {
-  color: var(--color-heading);
-  font-weight: var(--font-weight-extrabold);
-}
+.details { font-weight: 400; }
+.details strong, .details b { font-weight: 700; }
+.details p { margin: 0; }
 
 @media (max-width: 1279px) {
   .carousel {

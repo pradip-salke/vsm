@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { homeDefaults, homeMasterDefaults, type HomeMasterKey } from '@vsmedu/contracts/home';
+import { facultyProfileHtml, homeDefaults, homeMasterDefaults, type HomeMasterKey } from '@vsmedu/contracts/home';
 import { academicsDefaults, academicsMasterDefaults, type AcademicsMasterKey } from '@vsmedu/contracts/academics';
 import { aimaDefaults, aimaMasterDefaults, aimaMasterLabels } from '@vsmedu/contracts/academics-aima';
 import {
@@ -92,34 +92,12 @@ function facultyDetails(item: Item): FacultyDetail[] {
 
 type FacultyImage = { src?: string; alt?: string; width?: number; height?: number };
 
-function serializeDetails(details: FacultyDetail[]): string {
-  return details.map(d => `${d.label}: ${d.value}`).join('\n\n');
-}
-
-function parseDetails(html: string): FacultyDetail[] {
-  const text = String(html)
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-  if (!text) return [];
-  return text.split(/\n\s*\n/)
-    .map(block => {
-      block = block.trim();
-      if (!block) return null;
-      const colon = block.indexOf(':');
-      if (colon === -1) return { label: '', value: block };
-      return { label: block.slice(0, colon).trim(), value: block.slice(colon + 1).trim() };
-    })
-    .filter(Boolean) as FacultyDetail[];
-}
-
 function FacultyDetailsEditor({ item, readOnly, onChange, upload }: { item: Item; readOnly: boolean; onChange: (item: Item) => void; upload: (file: File) => Promise<{ src: string; alt: string; width: number; height: number }> }) {
   const update = (key: string, val: Value) => onChange({ ...item, [key]: val });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imgError, setImgError] = useState('');
   const asset = (item.image && typeof item.image === 'object' && !Array.isArray(item.image) ? item.image : {}) as FacultyImage;
   const details = facultyDetails(item);
-  const combined = serializeDetails(details);
   async function replaceImage(file: File) {
     setImgError('');
     try {
@@ -177,9 +155,9 @@ function FacultyDetailsEditor({ item, readOnly, onChange, upload }: { item: Item
     <label className="cms-field"><span>Name</span><input value={String(item.name ?? '')} disabled={readOnly} onChange={event => update('name', event.target.value)} /></label>
     <label className="cms-field"><span>Designation</span><input value={String(item.role ?? '')} disabled={readOnly} onChange={event => update('role', event.target.value)} /></label>
     <label className="cms-field"><span>Short designation</span><input value={String(item.shortRole ?? '')} disabled={readOnly} onChange={event => update('shortRole', event.target.value)} /></label>
-    <label className="cms-field"><span>Profile details</span>
-      <RichSubtitle value={combined} disabled={readOnly} onChange={html => onChange({ ...item, details: parseDetails(html) })} />
-    </label>
+    <div className="cms-field"><span>Profile details</span>
+      <RichSubtitle value={typeof item.profileHtml === 'string' ? item.profileHtml : facultyProfileHtml(details)} disabled={readOnly} onChange={html => update('profileHtml', html)} />
+    </div>
     <label className="cms-field cms-checkbox"><span>Show on website</span><input type="checkbox" disabled={readOnly} checked={item.enabled !== false} onChange={event => update('enabled', event.target.checked)} /></label>
   </>;
 }

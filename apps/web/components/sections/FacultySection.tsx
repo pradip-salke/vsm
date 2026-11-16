@@ -8,7 +8,7 @@ import { icons } from '@/components/ui/icons';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { faculty, facultyIntro, type FacultyMember } from '@/content/shared';
 import styles from './FacultySection.module.css';
-import type { HomeHeading } from '@vsmedu/contracts/home';
+import { facultyProfileHtml, type HomeHeading } from '@vsmedu/contracts/home';
 
 type FacultySectionProps = {
   items?: FacultyMember[];
@@ -87,13 +87,7 @@ export function FacultyProfilePopup({
             {member.name}
           </h3>
           <p className={styles.modalRole}>{member.role}</p>
-          <dl className={styles.details}>
-            {member.details.map((detail) => (
-              <div key={detail.label}>
-                <dt className={/^speciali[sz]ation$/i.test(detail.label.trim()) ? styles.specialisationLabel : undefined}>{detail.label}:</dt> <dd dangerouslySetInnerHTML={{ __html: detail.value }} />
-              </div>
-            ))}
-          </dl>
+          <div className={styles.details} dangerouslySetInnerHTML={{ __html: member.profileHtml ?? facultyProfileHtml(member.details) }} />
         </div>
       </div>
     </dialog>

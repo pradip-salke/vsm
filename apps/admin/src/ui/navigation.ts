@@ -158,7 +158,6 @@ export const adminMenu: AdminMenuGroup[] = [
             children: [
               { label: 'Page Banner', path: '/website/academics/faculty/hero', description: 'Banner slides for the Teaching Faculty page.' },
               { label: 'Teaching Faculty CMS', path: '/website/academics/faculty', description: 'All in-page sections of the Teaching Faculty page.' },
-              { label: 'Faculty Profiles', path: '/website/academics/faculty/profiles', description: 'Faculty directory cards: photo, designation, expertise and experience.' },
             ],
           },
         ],

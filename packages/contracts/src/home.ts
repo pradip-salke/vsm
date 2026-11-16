@@ -767,6 +767,12 @@ export const homeLabels = {
 };
 export type HomeContent = typeof homeDefaults;
 export type HomeMasters = typeof homeMasterDefaults;
+
+/** Display existing labelled details as editable rich text without changing the stored legacy fields. */
+export function facultyProfileHtml(details: { label: string; value: string }[]): string {
+  const escapeLabel = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return details.map(detail => `<div>${detail.label ? `${escapeLabel(detail.label)}: ` : ''}${detail.value}</div>`).join('');
+}
 export type HomeKey = keyof HomeContent;
 export type HomeMasterKey = keyof HomeMasters;
 export type HomeHeading = { title: string; eyebrow: string; description?: string };

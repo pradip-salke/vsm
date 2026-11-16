@@ -131,3 +131,5 @@
   gap: 0.75rem;
   margin-bottom: 1.25rem;
 }
+.cms-rich-content { font-weight: 400; }
+.cms-rich-content strong, .cms-rich-content b { font-weight: 700; }

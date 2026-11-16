@@ -19,6 +19,7 @@ export type FacultyMember = {
   shortRole?: string;
   image: ImageAsset;
   details: { label: string; value: string }[];
+  profileHtml?: string;
 };
 
 export const faculty: FacultyMember[] = [

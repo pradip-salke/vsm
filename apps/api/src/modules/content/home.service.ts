@@ -16,6 +16,13 @@ export function cleanSubtitle(value: string) {
   return sanitizeHtml(value, { allowedTags: ['p', 'div', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'ul', 'ol', 'li', 'a'], allowedAttributes: { a: ['href', 'title', 'rel'], p: ['style'], div: ['style'] }, allowedStyles: { '*': { 'text-align': [/^(left|center|right|justify)$/] } }, allowedSchemes: ['http', 'https', 'mailto', 'tel'], allowProtocolRelative: false });
 }
 
+function sanitizeFacultyDetails(content: unknown) {
+  for (const member of (content as { items: { profileHtml?: string; details: { value: string }[] }[] }).items) {
+    for (const detail of member.details) detail.value = cleanSubtitle(detail.value);
+    if (typeof member.profileHtml === 'string') member.profileHtml = cleanSubtitle(member.profileHtml);
+  }
+}
+
 /** Upcoming Events slides: `caption` removed; migrate legacy DB rows (drop caption; optional http(s) caption → videoLink). */
 function normalizeHomeEventsMaster(content: unknown): unknown {
   if (!content || typeof content !== 'object' || Array.isArray(content)) return content;
@@ -61,7 +68,7 @@ function contentSchema(value: unknown, key = '', parent = ''): z.ZodType {
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key)).max(100);
   if (typeof value === 'boolean') return z.boolean();
   if (typeof value === 'number') return z.number().finite().min(0).max(20000);
-  if (value && typeof value === 'object') return z.object({ ...Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key)])), ...(parent === 'items' ? { pages: z.array(z.string().max(200)).max(8).optional() } : {}) }).strict();
+  if (value && typeof value === 'object') return z.object({ ...Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key)])), ...(parent === 'items' ? { pages: z.array(z.string().max(200)).max(8).optional(), profileHtml: z.string().max(30000).optional() } : {}) }).strict();
   let result: z.ZodType = z.string().max(30000);
   if (key === 'videoLink' || (/href|src|icon$/i.test(key) && key !== 'videoLink')) {
     result = z.string().max(2048).refine(v => !v || /^(\/(?!\/)|#|https:\/\/|http:\/\/|tel:\+?[\d -]+$)/.test(v) && !/[\\\u0000-\u001f]/.test(v), 'Use a site path, HTTP(S) URL or telephone link');
@@ -81,6 +88,7 @@ export async function readHomeDocument(key: string) {
     const actions = await prisma.websiteSetting.findUnique({ where: { key: 'home.hero' } });
     content = normalizeHero(content, (actions?.value ?? homeDefaults.hero) as typeof homeDefaults.hero);
   }
+  if (key === 'master-faculty') sanitizeFacultyDetails(content);
   if (key === 'master-events') {
     content = normalizeHomeEventsMaster(content);
   }
@@ -102,6 +110,7 @@ export async function readHome() {
     } else if (key in sections) Object.assign(sections, { [key]: key === 'program' ? { ...homeDefaults.program, ...(row.value as object) } : row.value });
   }
   masters.hero = normalizeHero(masters.hero, sections.hero) as typeof masters.hero;
+  sanitizeFacultyDetails(masters.faculty);
   return { sections, masters };
 }
 
@@ -124,6 +133,7 @@ export async function updateHomeDocument(key: string, input: unknown, actorId: n
       if (slide.primaryText.trim() && !slide.primaryHref.trim() || slide.secondaryText.trim() && !slide.secondaryHref.trim()) throw new HttpError(400, 'BUTTON_LINK_REQUIRED', 'Enter a link for each button, or clear its text to hide it');
     }
   }
+  if (key === 'master-faculty') sanitizeFacultyDetails(content);
   if (key === 'master-hero' && !(content as { items: { enabled: boolean }[] }).items.some(item => item.enabled)) throw new HttpError(400, 'HERO_REQUIRED', 'Keep at least one enabled hero slide');
   return prisma.$transaction(async tx => {
     const old = await tx.websiteSetting.findUnique({ where: { key: `home.${key}` } });
@@ -176,6 +186,7 @@ export async function updateHomeBulk(input: unknown, actorId: number, requestId?
       ? normalizeHomeEventsMaster(item.content)
       : key === 'master-testimonials' ? normalizeTestimonialsMaster(item.content) : item.content;
     const validatedContent = contentSchema(homeDocuments[key]).parse(toParse);
+    if (key === 'master-faculty') sanitizeFacultyDetails(validatedContent);
     validated.push({ key, content: validatedContent, updatedAt: item.updatedAt });
   }
 
