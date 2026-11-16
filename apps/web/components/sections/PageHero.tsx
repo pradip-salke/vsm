@@ -6,7 +6,6 @@ import { icons } from '@/components/ui/icons';
 import type { CSSProperties, ReactNode } from 'react';
 import { Carousel } from '@/components/ui/Carousel';
 import type { HeroSlide } from '@/content/types';
-import { heroSlides } from '@/content/home';
 import styles from './PageHero.module.css';
 import { Button } from '@/components/ui/Button';
 
@@ -25,13 +24,7 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home', className
   // Guard against missing slides prop
   const safeSlides = Array.isArray(slides) ? slides : [];
 
-  // Inner pages have one copy block, but the banner still needs to behave as
-  // the same three-image carousel shown in the shared hero design.
-  const bannerSlides = size === 'inner' && safeSlides.length === 1
-    ? [safeSlides[0], ...heroSlides.slice(1).map(({ image, imagePosition, mobileImagePosition }) => ({ ...safeSlides[0], image, imagePosition, mobileImagePosition }))]
-    : safeSlides;
-
-  const rendered = bannerSlides
+  const rendered = safeSlides
     .filter((slide): slide is HeroSlide => Boolean(slide && slide.image))
     .map((slide, index) => {
       const Heading = index === 0 ? 'h1' : 'p';
@@ -98,7 +91,6 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home', className
       ) : (
         <>
           {rendered[0]}
-          {size === 'inner' && <div className={styles.singleDots} aria-hidden="true"><span data-active /><span /><span /></div>}
         </>
       )}
     </section>

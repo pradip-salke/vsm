@@ -1,4 +1,6 @@
 import { Router, raw } from 'express';
+import { readSliderVisibility, saveSliderVisibility } from '../modules/content/slider-visibility.service.js';
+import { readTestimonialMaster, saveTestimonialMaster } from '../modules/content/testimonial-masters.service.js';
 import { uploadHomeImage, uploadProgramVideo } from '../modules/content/home-media.js';
 import { requireAuth, requirePermission, requireTrustedOrigin } from '../middleware/auth.js';
 import { dashboard, createPage, listPages } from '../modules/admin/admin.controller.js';
@@ -107,6 +109,15 @@ export const adminRouter = Router();
 adminRouter.use(requireTrustedOrigin, requireAuth);
 
 adminRouter.get('/dashboard', requirePermission('dashboard.read'), dashboard);
+adminRouter.get('/slider-visibility/:master', requirePermission('pages.read'), async (req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json({ data: await readSliderVisibility(String(req.params.master)) }); });
+adminRouter.patch('/slider-visibility/:master', requirePermission('pages.write'), async (req, res) => { res.json({ data: await saveSliderVisibility(String(req.params.master), req.body, req.auth!.userId, req.requestId) }); });
+adminRouter.get('/testimonials/:scope/:kind', requirePermission('pages.read'), async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  res.json({ data: await readTestimonialMaster(String(req.params.scope), String(req.params.kind)) });
+});
+adminRouter.patch('/testimonials/:scope/:kind', requirePermission('pages.write'), async (req, res) => {
+  res.json({ data: await saveTestimonialMaster(String(req.params.scope), String(req.params.kind), req.body, req.auth!.userId, req.requestId) });
+});
 
 // Enquiries Management endpoints
 adminRouter.get('/enquiries/career', requirePermission('enquiries.read', 'pages.read'), getCareerEnquiries);

@@ -76,7 +76,7 @@ function contentSchema(value: unknown, key = '', parent = '', documentKey = ''):
   if (typeof value === 'number') return z.number().finite().min(0).max(20000);
   if (value && typeof value === 'object') {
     return z
-      .object(Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key, documentKey)])))
+      .object({ ...Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key, documentKey)])), ...(parent === 'items' && documentKey === 'master-internships' ? { pages: z.array(z.string().max(200)).max(8).optional(), videoLink: z.string().max(2048).default('') } : {}) })
       .strict();
   }
   let result: z.ZodType = z.string().max(30000);

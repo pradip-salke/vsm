@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { normalizeVideoUrl, youtubeEmbedUrl } from '@/lib/video-url';
 import styles from '@/app/events/events.module.css';
 
-export function VideoPopup({ title, videoUrl, onClose }: { title: string; videoUrl: string; onClose: () => void }) {
+export function VideoPopup({ title, videoUrl, onClose, hideTitle = false }: { title: string; videoUrl: string; onClose: () => void; hideTitle?: boolean }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [playerReady, setPlayerReady] = useState(false);
   const normalizedUrl = normalizeVideoUrl(videoUrl);
@@ -26,11 +26,11 @@ export function VideoPopup({ title, videoUrl, onClose }: { title: string; videoU
       onClose={onClose}
       onClick={(event) => { if (event.target === event.currentTarget) event.currentTarget.close(); }}
     >
-      <div className={styles.videoDialogContent}>
+      <div className={`${styles.videoDialogContent} ${hideTitle ? styles.videoDialogNoTitle : ''}`}>
         <button type="button" className={styles.lightboxClose} onClick={() => dialogRef.current?.close()} aria-label="Close video">
           <span aria-hidden="true">×</span>
         </button>
-        <h2 id="video-popup-title" className={styles.videoTitle}>{title}</h2>
+        <h2 id="video-popup-title" className={hideTitle ? 'visually-hidden' : styles.videoTitle}>{title}</h2>
         {!normalizedUrl ? (
           <p role="status">This video is currently unavailable.</p>
         ) : !playerReady ? null : embedUrl ? (

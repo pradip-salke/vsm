@@ -119,26 +119,44 @@ export function Sidebar({ collapsed, mobileOpen, onToggleCollapse, onCloseMobile
   useEffect(() => {
     const active = findAdminPage(pathname);
     if (!active) return;
-    setOpenGroups((g) => ({ ...g, [active.group.id]: true }));
-    if (active.openSectionKeys?.length) {
-      setOpenSections((s) => ({ ...s, ...Object.fromEntries(active.openSectionKeys.map((k) => [k, true])) }));
-    }
+    setOpenGroups({ [active.group.id]: true });
+    setOpenSections(Object.fromEntries((active.openSectionKeys ?? []).map((key) => [key, true])));
   }, [pathname]);
 
   function toggleGroup(groupId: string) {
     if (isCollapsed) {
       // Parent menus opened from icon-only mode should use the regular expanded
       // sidebar layout, so submenu labels and nesting remain fully readable.
-      setOpenGroups((current) => ({ ...current, [groupId]: true }));
+      setOpenGroups((current) => current[groupId] ? {} : { [groupId]: true });
+      setOpenSections({});
       setFlyoutGroup(null);
       onToggleCollapse();
       return;
     }
-    setOpenGroups((current) => ({ ...current, [groupId]: !current[groupId] }));
+    const isOpen = Boolean(openGroups[groupId]);
+    setOpenGroups(isOpen ? {} : { [groupId]: true });
+    setOpenSections({});
   }
 
   function toggleSection(id: string) {
-    setOpenSections((current) => ({ ...current, [id]: !current[id] }));
+    setOpenSections((current) => {
+      const isOpen = Boolean(current[id]);
+      if (isOpen) {
+        return Object.fromEntries(Object.entries(current).filter(([key]) => key !== id && !key.startsWith(`${id}:`)));
+      }
+
+      const separator = id.lastIndexOf(':');
+      const parentKey = separator < 0 ? '' : id.slice(0, separator);
+      const siblingPrefix = `${parentKey}:`;
+      return Object.fromEntries([
+        ...Object.entries(current).filter(([key]) => {
+          if (key === id || key.startsWith(`${id}:`)) return false;
+          if (!key.startsWith(siblingPrefix)) return true;
+          return key.slice(siblingPrefix.length).includes(':');
+        }),
+        [id, true],
+      ]);
+    });
   }
 
   function handleNavigate() {
@@ -165,7 +183,7 @@ export function Sidebar({ collapsed, mobileOpen, onToggleCollapse, onCloseMobile
         return <RouteLink key={child.path} item={child} pathname={pathname} activeMenuPath={activeMenuPath} nested={trail.length > 0} nestDepth={trail.length} onNavigate={handleNavigate} />;
       }
       const sectionId = branchSectionKey(groupId, trail, child.label);
-      const sectionOpen = normalized ? true : Boolean(openSections[sectionId]);
+      const sectionOpen = Boolean(openSections[sectionId]);
       const childIsActive = branchHasActiveLink(child.children, activeMenuPath);
       return (
         <div className={isFlyout ? 'sidebar-flyout-subgroup' : 'sidebar-subgroup'} key={sectionId}>
@@ -204,7 +222,7 @@ export function Sidebar({ collapsed, mobileOpen, onToggleCollapse, onCloseMobile
         <nav className="sidebar-navigation" aria-label="Admin navigation">
           {groups.map((group) => {
             const expandable = Boolean(group.children?.length && !group.path && !(group.id === 'dashboard' && group.children.length === 1));
-            const open = normalized ? true : Boolean(openGroups[group.id]);
+            const open = Boolean(openGroups[group.id]);
             const active = findAdminPage(pathname)?.group.id === group.id;
             const iconName = group.icon as IconName;
             return (

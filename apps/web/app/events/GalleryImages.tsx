@@ -16,10 +16,12 @@ export function GalleryImages({ items, slideshowImages, hideCaptions = false }: 
     <div className={styles.cards}>
       {items.map((item, index) => (
         <article className={styles.card} key={`${item.title}-${index}`}>
-          <button className={styles.imageButton} type="button" onClick={() => setActiveGallery(item)} aria-label={`View image: ${item.title}`}>
-            <Image className={styles.image} src={item.image.src} alt={item.image.alt} width={item.image.width} height={item.image.height} sizes="(max-width: 599px) 90vw, (max-width: 1023px) 45vw, 30vw" />
+          <button className={styles.galleryCardButton} type="button" onClick={() => setActiveGallery(item)} aria-label={`View image: ${item.title}`}>
+            <span className={styles.imageButton} aria-hidden="true">
+              <Image className={`${styles.image} ${styles.galleryImage}`} src={item.image.src} alt="" width={item.image.width} height={item.image.height} sizes="(max-width: 599px) 90vw, (max-width: 1023px) 45vw, 30vw" />
+            </span>
+            {!hideCaptions && <span className={styles.cardBody}><h3 className={styles.galleryTitle}>{item.title}</h3></span>}
           </button>
-          {!hideCaptions && <div className={styles.cardBody}><h3>{item.title}</h3></div>}
         </article>
       ))}
     </div>

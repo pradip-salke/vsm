@@ -35,12 +35,12 @@ export default async function AimaPgdmPage() {
     <div className={layout.page}>
       <PageHero
         size="inner"
-        slides={[{ ...banner, ...hero }]}
+        slides={masters.hero.items.filter(item => item.enabled !== false).map(item => ({ ...hero, ...item }))}
         breadcrumb={hero.breadcrumb}
         actions={
           <>
-            {banner.primaryText && banner.primaryHref && <Button href={banner.primaryHref}>{banner.primaryText}</Button>}
-            {banner.secondaryText && banner.secondaryHref && <Button variant="arrow" href={banner.secondaryHref}>{banner.secondaryText}</Button>}
+            {banner?.primaryText && banner.primaryHref && <Button href={banner.primaryHref}>{banner.primaryText}</Button>}
+            {banner?.secondaryText && banner.secondaryHref && <Button variant="arrow" href={banner.secondaryHref}>{banner.secondaryText}</Button>}
           </>
         }
       />
@@ -125,6 +125,7 @@ export default async function AimaPgdmPage() {
         </div>
       </div>
       <AcademicClosingSections
+        scope="aima"
         faq={sections.faq}
         internships={masters.internships.items}
         internshipTitle={sections.internships.title}

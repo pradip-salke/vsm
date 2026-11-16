@@ -3,6 +3,7 @@ import { Urbanist } from 'next/font/google';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { BackToTop } from '@/components/layout/BackToTop';
+import { EnquirySection } from '@/components/sections/EnquirySection';
 import { SeoBodyEnd, SeoBodyStart, SeoHeadTags } from '@/components/seo/SeoTags';
 import { globalSeoMetadata } from '@/lib/seo';
 import { getWebsiteLogo } from '@/lib/site-brand';
@@ -36,6 +37,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <SiteHeader logoSrc={websiteLogo} />
         <main id="main">
           {children}
+          <EnquirySection />
         </main>
         <SiteFooter logoSrc={websiteLogo} />
         <BackToTop />

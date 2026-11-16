@@ -9,8 +9,8 @@ import styles from './Recruiters.module.css';
 const LogoRow = memo(function LogoRow({ offset = false, rowRef, items }: { offset?: boolean; rowRef: RefObject<HTMLDivElement | null>; items: typeof recruiters }) {
   // Three identical sets keep the track wider than the viewport throughout its loop.
   return (
-    <div ref={rowRef} className={`${styles.row} ${offset ? styles.offset : ''}`}>
-      {[0, 1, 2].map((copy) => (
+    <div ref={rowRef} className={`${styles.row} ${offset ? styles.offset : ''}`} style={items.length <= 1 ? { animation: 'none' } : undefined}>
+      {(items.length > 1 ? [0, 1, 2] : [0]).map((copy) => (
         <ul key={copy} className={styles.group} role="list" aria-hidden={copy > 0 || offset || undefined}>
           {items.map((logo, index) => {
             const announced = copy === 0 && !offset;
@@ -55,9 +55,9 @@ export function Recruiters({ home = false, items = recruiters, title = 'Companie
       </div>
       <div className={styles.rows}>
         <LogoRow rowRef={leftRowRef} items={items} />
-        <LogoRow offset rowRef={rightRowRef} items={items} />
+        {items.length > 1 && <LogoRow offset rowRef={rightRowRef} items={items} />}
       </div>
-      <div className={styles.controls} role="group" aria-label="Recruiter carousel controls">
+      {items.length > 1 && <div className={styles.controls} role="group" aria-label="Recruiter carousel controls">
         {[0, 1, 2].map((index) => (
           <button
             key={index}
@@ -68,7 +68,7 @@ export function Recruiters({ home = false, items = recruiters, title = 'Companie
             onClick={() => selectGroup(index)}
           />
         ))}
-      </div>
+      </div>}
     </section>
   );
 }

@@ -65,7 +65,7 @@ export default async function SpecialisationPage({ params }: Props) {
     <div className={layout.page}>
       <PageHero
         size="inner"
-        slides={[specialisationHero(page.heroTitle)]}
+        slides={[closingContent.hero]}
         breadcrumb={breadcrumb}
         actions={<><Button href={APPLY_PATH}>Apply Now</Button><Button variant="arrow" href={ENQUIRY_ANCHOR}>Enquire now</Button></>}
       />
@@ -102,6 +102,7 @@ export default async function SpecialisationPage({ params }: Props) {
         </main>
       </div>
       <AcademicClosingSections
+        scope={slug}
         faq={specPage.faq}
         internships={closingContent.internships.items}
         internshipTitle={closingContent.internships.title}

@@ -1,4 +1,7 @@
 import { Router } from 'express';
+import { readSliderVisibility } from '../modules/content/slider-visibility.service.js';
+import { readCommonSlides } from '../modules/content/common-slides.service.js';
+import { readTestimonialMaster } from '../modules/content/testimonial-masters.service.js';
 import { getPage, getProgrammes } from '../modules/content/content.controller.js';
 import { publicHome, publicGlobalSettings } from '../modules/content/home.controller.js';
 import { getPublicFooter } from '../modules/content/footer.controller.js';
@@ -20,6 +23,12 @@ import {
 } from '../modules/enquiries/enquiries.controller.js';
 
 export const publicRouter = Router();
+publicRouter.get('/common-slides/:scope', async (req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json({ data: await readCommonSlides(String(req.params.scope)) }); });
+publicRouter.get('/slider-visibility/:master', async (req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json({ data: await readSliderVisibility(String(req.params.master)) }); });
+publicRouter.get('/testimonials/:scope/:kind', async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  res.json({ data: await readTestimonialMaster(String(req.params.scope), String(req.params.kind)) });
+});
 publicRouter.get('/home', publicHome);
 publicRouter.get('/settings/global', publicGlobalSettings);
 publicRouter.get('/footer', getPublicFooter);

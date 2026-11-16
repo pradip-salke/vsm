@@ -12,6 +12,7 @@ import type { ImageAsset } from '@/content/types';
 import styles from './MediaCarousel.module.css';
 import { VideoPopup } from '@/components/ui/VideoPopup';
 import { ImageGalleryPopup } from '@/components/ui/ImageGalleryPopup';
+import { Button } from '@/components/ui/Button';
 
 type GalleryAlbum = { title: string; href: string; image: ImageAsset; images: ImageAsset[] };
 
@@ -64,6 +65,8 @@ type MediaCarouselProps = {
   galleryAlbums?: GalleryAlbum[];
   /** Album slug for slider collections without a direct album URL. */
   galleryFallbackSlug?: string;
+  /** Optional link shown beneath the carousel, e.g. Home Events → full gallery. */
+  moreLink?: { href: string; label: string };
 };
 
 export function MediaCarousel({
@@ -79,6 +82,7 @@ export function MediaCarousel({
   galleryPopup = false,
   galleryAlbums = [],
   galleryFallbackSlug,
+  moreLink,
 }: MediaCarouselProps) {
   const headingId = `${id}-title`;
   const showCaption = layout !== 'events';
@@ -178,6 +182,11 @@ export function MediaCarousel({
           bleed={layout !== 'life' || variant === 'column'}
           dotsAlign={variant === 'page' ? 'center' : 'start'}
         />
+        {moreLink && (
+          <div className={styles.moreLink}>
+            <Button variant="arrow" href={moreLink.href}>{moreLink.label}</Button>
+          </div>
+        )}
       </div>
       {activeVideo && <VideoPopup title={activeVideo.title} videoUrl={activeVideo.videoUrl} onClose={() => setActiveVideo(null)} />}
       {activeImageIndex !== null && (() => {

@@ -58,10 +58,10 @@ export const homeDocuments: Record<string, unknown> = {
 
 // Validate against the imported content structure; unknown fields cannot be persisted.
 function contentSchema(value: unknown, key = '', parent = ''): z.ZodType {
-  if (Array.isArray(value)) return z.array(contentSchema(value[0])).max(100);
+  if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key)).max(100);
   if (typeof value === 'boolean') return z.boolean();
   if (typeof value === 'number') return z.number().finite().min(0).max(20000);
-  if (value && typeof value === 'object') return z.object(Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key)]))).strict();
+  if (value && typeof value === 'object') return z.object({ ...Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key)])), ...(parent === 'items' ? { pages: z.array(z.string().max(200)).max(8).optional() } : {}) }).strict();
   let result: z.ZodType = z.string().max(30000);
   if (key === 'videoLink' || (/href|src|icon$/i.test(key) && key !== 'videoLink')) {
     result = z.string().max(2048).refine(v => !v || /^(\/(?!\/)|#|https:\/\/|http:\/\/|tel:\+?[\d -]+$)/.test(v) && !/[\\\u0000-\u001f]/.test(v), 'Use a site path, HTTP(S) URL or telephone link');
@@ -108,7 +108,9 @@ export async function readHome() {
 export async function updateHomeDocument(key: string, input: unknown, actorId: number, requestId?: string) {
   if (!(key in homeDocuments)) throw new HttpError(404, 'HOME_SECTION_NOT_FOUND', 'Unknown homepage section');
   const parsed = z.object({ content: z.unknown(), updatedAt: z.string().datetime().nullable() }).strict().parse(input);
-  const normalized = key === 'master-events'
+  const normalized = key === 'master-internships' && parsed.content && typeof parsed.content === 'object' && Array.isArray((parsed.content as { items?: unknown }).items)
+    ? { items: (parsed.content as { items: Record<string, unknown>[] }).items.map(item => ({ videoLink: '', ...item })) }
+    : key === 'master-events'
     ? normalizeHomeEventsMaster(parsed.content)
     : key === 'master-testimonials' ? normalizeTestimonialsMaster(parsed.content) : parsed.content;
   const { content, updatedAt } = z

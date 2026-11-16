@@ -100,32 +100,17 @@ export const admissionsPages = {
           '<p>Discover the value of a transformative education at Valia School of Management. Our PGDM fee structure is designed to be clear and inclusive, ensuring that students from diverse backgrounds can plan their educational journey with confidence. At VSM, we believe in transparency and affordability, providing you with a detailed breakdown of costs for our PGDM and PGDM Dual Specialization programs.</p>' +
           '<p>Explore our detailed PGDM fee structure below, tailored for both Indian Nationals and International Students:</p>',
       },
-      fees: {
-        title: 'PGDM Program Fees 2026–28',
-        columnLabel: 'Fee Structure',
-        columnValue: 'Indian Nationals Students',
-        rows: [
-          { label: 'Application Form Fees (One Time)', amount: 'INR 2,000/- (One Time)' },
-          { label: 'Admission Fees', amount: 'INR 50,000/-' },
-          { label: '1st Year', amount: 'INR 3,00,000/-' },
-          { label: '2nd Year', amount: 'INR 3,50,000/-' },
-          { label: 'TOTAL FEES', amount: 'INR 7,00,000/-' },
-        ],
-        note: '* INR 50,000 Scholarship for Valia College Students',
-      },
     },
     masters: { hero: { items: [bannerSlide('PGDM Fees Structure: Batch 2026–28', 'Your Investment in World-Class Education')] } },
     labels: {
       hero: 'Page Banner Breadcrumb',
       'page-nav': 'Admissions Page Links',
       intro: 'Course Fees Introduction',
-      fees: 'Program Fees Table',
     },
     subtitles: {
       hero: 'Breadcrumb trail for the banner. Heading, image and buttons are edited in Page Banner (slider).',
       'page-nav': 'Links bar below the banner that switches between Admissions pages.',
       intro: 'Section heading and introductory paragraphs.',
-      fees: 'Fee table heading, column headings, fee rows and footnote.',
     },
   },
   'application-form': {

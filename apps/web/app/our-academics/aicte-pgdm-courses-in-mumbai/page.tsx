@@ -23,6 +23,10 @@ import { getAcademicsContent } from '@/lib/academics-content';
 import { withSeo } from '@/lib/seo';
 import { getProgramVideoContent } from '@/lib/video-content';
 import { eventGalleryAlbums } from '@/content/events';
+import { academicsDefaults } from '@vsmedu/contracts/academics';
+import { getSliderVisibility } from '@/lib/slider-visibility';
+import { getCommonSlides } from '@/lib/common-slides';
+import { getHomeContent } from '@/lib/home-content';
 
 const metadata: Metadata = {
   title: { absolute: 'PGDM Courses in Mumbai | AICTE Approved PGDM College | VSM' },
@@ -37,11 +41,19 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AictePgdmPage() {
   const [{ sections: academics, masters }, programVideos] = await Promise.all([getAcademicsContent(), getProgramVideoContent()]);
+  const [visibility, common] = await Promise.all([getSliderVisibility('aicte'), getHomeContent()]);
+  const selected = await getCommonSlides('aicte');
+  const advantage = academics.advantage ?? academicsDefaults.advantage;
+  const advantageBody = advantage.body.replace(
+    /<(ul|ol)(\b[^>]*)>([\s\S]*?)<\/\1>/gi,
+    (_match, tag: string, attributes: string, items: string) =>
+      `<div class="${layout.advantageListViewport}"><${tag}${attributes}>${items}</${tag}></div>`,
+  );
   return (
     <div className={layout.page}>
       <PageHero
         size="inner"
-        slides={[academicsHero]}
+        slides={masters.hero.items.filter(item => item.enabled !== false).map(item => ({ ...academicsHero, ...item }))}
         breadcrumb={academicsBreadcrumb}
         actions={
           <>
@@ -76,11 +88,11 @@ export default async function AictePgdmPage() {
             <MediaCarousel id="events-carousel" title={academics.events.title} items={masters.events.items.filter((item) => item.enabled !== false)} layout="events" variant="column" galleryPopup galleryAlbums={eventGalleryAlbums} />
           </div>
           <div id="curriculum" className={`${layout.block} ${layout.beforeFacultyBlock}`}>
-            <Curriculum />
+            <Curriculum notes={academics.curriculum.years} />
           </div>
-          <div className={`${layout.block} ${layout.bleed}`}>
-            <FacultySection id="faculties" variant="column" />
-          </div>
+          {(visibility.faculty || Boolean(selected?.faculty.length)) && <div className={`${layout.block} ${layout.bleed}`}>
+            <FacultySection id="faculties" variant="column" items={selected?.faculty ?? common.masters.faculty.items.filter(item => item.enabled)} />
+          </div>}
           <div className={layout.block}>
             <Eligibility eligibility={academics.eligibility} />
           </div>
@@ -91,10 +103,15 @@ export default async function AictePgdmPage() {
             <SectionHeading id="admission-title" title={academics.admission.title} />
             <IconList items={academics.admission.steps} ordered divided className={layout.steps} />
           </section>
+          <section id="vsm-advantage" className={layout.block} aria-labelledby="advantage-title">
+            <SectionHeading id="advantage-title" as="h3" size="h2" title={advantage.title} />
+            <div className={layout.advantageContent} dangerouslySetInnerHTML={{ __html: advantageBody }} />
+          </section>
         </div>
       </div>
 
       <AcademicClosingSections
+        scope="aicte"
         faq={academics.faq}
         internships={masters.internships.items}
         internshipTitle={academics.internships.title}

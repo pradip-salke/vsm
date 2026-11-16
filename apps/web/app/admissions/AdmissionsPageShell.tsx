@@ -5,6 +5,8 @@ import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';
 import { APPLY_PATH } from '@/content/site';
 import styles from './Admissions.module.css';
+import type { CmsPageData } from '@/lib/cms-content';
+import type { HeroSlide } from '@/content/types';
 
 export const admissionPages = [
   { label: 'Admissions Process', href: '/admissions/mba-pgdm-admissions-process/' },
@@ -13,10 +15,11 @@ export const admissionPages = [
   { label: 'Refund Policy', href: '/admissions/refund-policy/' },
 ];
 
-export function AdmissionsPageShell({ title, subtitle, active, children }: {
-  title: string; subtitle: string; active: string; children: ReactNode;
+export function AdmissionsPageShell({ title, subtitle, active, children, content }: {
+  title: string; subtitle: string; active: string; children: ReactNode; content?: CmsPageData | null;
 }) {
-  const slide = { ...academicsHero, title, subtitle };
+  const cmsHero = content?.sections.hero;
+  const slide = { ...academicsHero, ...(cmsHero ?? {}), title: typeof cmsHero?.title === 'string' ? cmsHero.title : title, subtitle: typeof cmsHero?.subtitle === 'string' ? cmsHero.subtitle : subtitle } as HeroSlide;
   return <>
     <PageHero size="inner" slides={[slide]} breadcrumb={[
       { label: 'Home', href: '/' }, { label: 'Admissions', href: admissionPages[0].href }, { label: active },

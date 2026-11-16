@@ -21,6 +21,10 @@
   margin-bottom: 20px;
 }
 
+.videoCarousel {
+  --dots-space-adjustment: -12px;
+}
+
 .slide {
   display: flex;
   flex-direction: column;
@@ -73,19 +77,24 @@
 
 .card {
   box-sizing: border-box;
-  flex: 1 0 auto;
-  height: var(--testimonial-card-height, auto);
-  overflow-y: auto;
-  overscroll-behavior-y: auto;
+  flex: 0 0 auto;
+  height: clamp(17.5rem, 23vw, 22rem);
+  overflow: hidden;
   padding: clamp(1.25rem, 0.8rem + 1.6vw, 2.5rem);
   border-radius: 20px;
   background: transparent;
 }
 
+.quote::-webkit-scrollbar { width: 6px; }
+.quote::-webkit-scrollbar-track { background: transparent; }
+.quote::-webkit-scrollbar-thumb { background: rgb(255 255 255 / 45%); border-radius: 999px; }
+.quote::-webkit-scrollbar-thumb:hover { background: rgb(255 255 255 / 70%); }
+
 .cardContent {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 0;
 }
 
 .carousel [data-active] .card {
@@ -93,6 +102,12 @@
 }
 
 .quote {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 45%) transparent;
   padding-bottom: clamp(1rem, 0.7rem + 1vw, 1.75rem);
   border-bottom: var(--border-width) solid rgb(0 0 0 / 25%);
   color: #fff;
@@ -102,6 +117,7 @@
 
 .person {
   display: flex;
+  flex: 0 0 auto;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);

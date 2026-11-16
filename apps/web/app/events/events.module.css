@@ -14,13 +14,17 @@
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 1.5vw, 1.75rem); }
 .card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid var(--color-border-soft); border-radius: var(--radius-sm); background: var(--color-surface); transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
 .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
+.galleryCardButton { display: flex; width: 100%; height: 100%; flex-direction: column; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; cursor: zoom-in; }
+.galleryCardButton:focus-visible { outline: 3px solid var(--color-primary); outline-offset: -3px; }
 .image { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--color-cream); }
 .achievementImage { display: block; width: 100%; height: auto; object-fit: contain; background: var(--color-cream); }
 .imageButton { display: block; width: 100%; aspect-ratio: 16 / 9; padding: 0; overflow: hidden; border: 0; background: transparent; cursor: zoom-in; }
 .imageButton:focus-visible { outline: 3px solid var(--color-primary); outline-offset: -3px; }
 .image { height: 100%; aspect-ratio: auto; }
+.galleryImage { object-fit: contain; }
 .cardBody { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: clamp(1rem, 1rem + .5vw, 1.5rem); }
 .cardBody h3 { color: var(--color-heading); font-size: var(--font-size-h4); }
+.galleryTitle { margin: 0; }
 .cardBody p { margin-top: .5rem; color: var(--color-text-answer); }
 .cardBody a { display: inline-flex; gap: .45rem; margin-top: auto; padding-top: var(--space-4); color: var(--color-primary-dark); font-weight: var(--font-weight-extrabold); }
 .subnav { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: var(--space-6); }
@@ -47,6 +51,7 @@
 .videoDialog { width: min(100% - 2 * var(--page-gutter), 79.25rem); max-width: none; max-height: calc(100dvh - 2rem); padding: 0; overflow: auto; border: 0; border-radius: var(--radius-modal); background: var(--color-surface); box-shadow: var(--shadow-modal); }
 .videoDialog::backdrop { background: var(--overlay-modal); backdrop-filter: blur(3px); }
 .videoDialogContent { position: relative; padding: clamp(1.5rem, 3vw, 2.5rem); }
+.videoDialogNoTitle { padding-top: calc(clamp(1rem, 2vw, 1.5rem) + 3.25rem); }
 .videoDialog .lightboxClose { top: clamp(1rem, 2vw, 1.5rem); right: clamp(1rem, 2vw, 1.5rem); }
 .videoTitle { margin: 0 3.5rem var(--space-5) 0; color: var(--color-heading); font-size: var(--font-size-h3); }
 .speakerPlayer { display: block; width: 100%; max-height: min(70dvh, 50rem); aspect-ratio: 16 / 9; border-radius: var(--radius-sm); background: #000; object-fit: contain; }

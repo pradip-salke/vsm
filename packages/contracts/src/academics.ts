@@ -226,6 +226,10 @@ export const academicsDefaults = {
       { icon: `${FIG}/step-icon-4.svg`, iconSize: 34, text: 'Step 4: Acceptance of Admission Offer by Candidate and Payment of Admission Fees' },
     ],
   },
+  advantage: {
+    title: 'VSM Advantage',
+    body: '<ul><li>In Education since 1961</li><li>Centrally located connected to Western &amp; Central Suburbs via Mumbai Metro</li><li>International Immersion to Dubai</li><li>State-of-the-art infrastructure campus in Western Mumbai Suburb</li><li>Industry Recognized curriculum</li><li>Eminent Faculty and experienced Corporate Mentors from Academia &amp; Industry</li><li>Case Study based learning that involves the students actively in the learning process</li><li>Students led corporate connect</li><li>Study from Harvard Business Publishing Reference Materials</li><li>Work on Live Real-World, Real-Time International Projects</li><li>Educational Tour</li><li>100% Internships and Placement Assistance</li><li>Tie-up with leading banks for Education Loan</li><li>Affordable Fees – Installment available</li><li>Scholarships for Valia Degree College</li></ul>',
+  },
   /** FAQ at the bottom of this page (`academics.faq` in DB) — independent of Home FAQ. */
   faq: structuredClone(academicPageFaqDefault),
 };
@@ -303,6 +307,7 @@ export const academicsLabels = {
   eligibility: 'Course Eligibility',
   fees: 'Program Fees',
   admission: 'Admission Procedure',
+  advantage: 'VSM Advantage',
   faq: 'FAQ (AICTE Page)',
 };
 

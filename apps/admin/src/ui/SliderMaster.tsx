@@ -29,7 +29,7 @@ const SPEC_PAGES_BASE = '/our-academics/in-demand-specialisations/';
 
 type PlacementsMasterKey = 'hero' | 'recruiters' | 'records' | 'placements' | 'internships' | 'alumni';
 type EventsMasterKey = 'hero' | 'albums' | 'photos' | 'speakers' | 'videos';
-export type SupportedMasterKey = HomeMasterKey | AcademicsMasterKey | FacultyMasterKey | PlacementsMasterKey | EventsMasterKey;
+export type SupportedMasterKey = HomeMasterKey | AcademicsMasterKey | FacultyMasterKey | PlacementsMasterKey | EventsMasterKey | 'video-testimonials' | 'written-testimonials';
 export type MasterScope = 'home' | 'academics' | 'aima' | 'spec' | 'faculty' | 'admissions' | 'placements' | 'events' | 'site';
 /** Page groups (Placements, Events, About Us, Career, Blogs) whose pages each define their own sections and masters. */
 export type PageGroupMeta = {
@@ -187,8 +187,8 @@ function FacultyDetailsEditor({ item, readOnly, onChange, upload }: { item: Item
 export function SliderMaster({
   master,
   canEdit,
-  scope = 'home',
-  specSlug,
+  scope: routeScope = 'home',
+  specSlug: routeSpecSlug,
   admissionsPage,
   placementsPage,
   eventsPage,
@@ -210,6 +210,11 @@ export function SliderMaster({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const centralMaster = routeScope === 'home' && (master === 'internships' || master === 'testimonials');
+  const pageParam = new URLSearchParams(location.search).get('page') ?? 'home';
+  const validPage = ['home', 'aicte', 'aima', ...academicsSpecialisationIndex.map(item => item.slug)].includes(pageParam) ? pageParam : 'home';
+  const scope: MasterScope = centralMaster ? validPage === 'aicte' ? 'academics' : validPage === 'aima' ? 'aima' : validPage === 'home' ? 'home' : 'spec' : routeScope;
+  const specSlug = centralMaster && scope === 'spec' ? validPage : routeSpecSlug;
   const { slidePos: slidePosParam } = useParams<{ slidePos?: string }>();
   /** Listing URL: strip /:n/edit then /new suffix from current path */
   const listPath = location.pathname.replace(/\/\d+\/edit$/, '').replace(/\/new$/, '');
@@ -220,6 +225,11 @@ export function SliderMaster({
   const isAcademics = scope === 'academics';
   const isAima = scope === 'aima';
   const isSpec = scope === 'spec';
+  const testimonialKind = master === 'testimonials' ? (new URLSearchParams(location.search).get('tab') === 'written' ? 'written' : 'video') : master === 'video-testimonials' ? 'video' : master === 'written-testimonials' ? 'written' : null;
+  const currentQuery = new URLSearchParams();
+  if (centralMaster && validPage !== 'home') currentQuery.set('page', validPage);
+  if (master === 'testimonials') currentQuery.set('tab', testimonialKind ?? 'video');
+  const testimonialQuery = currentQuery.size ? `?${currentQuery}` : '';
   const specMeta =
     isSpec && specSlug ? academicsSpecialisationIndex.find((p) => p.slug === specSlug) : undefined;
   const isFaculty = scope === 'faculty';
@@ -237,7 +247,7 @@ export function SliderMaster({
   const groupSection = groupMeta?.masterSections[master];
   const anyAcademics = isAcademics || isAima || isSpec || isFaculty || isAdmissions || Boolean(groupMeta);
   const isFacultyProfiles = isFaculty && master === 'profiles';
-  const itemNoun = isFacultyProfiles ? 'Profile' : master === 'testimonials' ? 'Testimonial' : (groupMeta && GROUP_ITEM_NOUNS[master]) || 'Slide';
+  const itemNoun = isFacultyProfiles ? 'Profile' : master === 'testimonials' || testimonialKind ? 'Testimonial' : (groupMeta && GROUP_ITEM_NOUNS[master]) || 'Slide';
   const livePageUrl = (() => {
     if (groupMeta) return groupMeta.path;
     if (isSpec && specSlug) return `${SPEC_PAGES_BASE}${specSlug}/`;
@@ -264,6 +274,7 @@ export function SliderMaster({
               : 'homepage';
 
   const title = (() => {
+    if (testimonialKind) return master === 'testimonials' ? 'Student Testimonials' : testimonialKind === 'video' ? 'Video Testimonials' : 'Written Testimonials';
     if (groupMeta) return `${groupMeta.navTitle} – ${groupMeta.masterLabels[master] ?? master}`;
     if (admissionsMeta) return `${admissionsMeta.navTitle} – Page Banner`;
     if (isFaculty) return facultyMasterLabels[master as FacultyMasterKey];
@@ -275,6 +286,7 @@ export function SliderMaster({
   })();
 
   const masterPath = (() => {
+    if (testimonialKind) return `/admin/testimonials/${isSpec ? encodeURIComponent(specSlug ?? '') : isAcademics ? 'aicte' : isAima ? 'aima' : 'home'}/${testimonialKind}`;
     if (admissionsMeta) return `/admin/admissions/${admissionsPage}/master-${master}`;
     if (pageGroup) return `${pageGroup.api}/master-${master}`;
     if (scope === 'home') return `/admin/home/master-${master}`;
@@ -302,10 +314,12 @@ export function SliderMaster({
     ? Boolean(groupSection)
     : isFaculty
       ? isFacultyProfiles
-      : master !== 'hero' && master !== 'faculty';
+      : (master === 'testimonials' || !testimonialKind) && master !== 'hero' && master !== 'faculty';
   const [document, setDocument] = useState<MasterDocument | null>(null);
   const [staticDocument, setStaticDocument] = useState<{ content: Value; updatedAt: string | null } | null>(null);
   const [staticDirty, setStaticDirty] = useState(false);
+  const visibilityMaster = ['faculty', 'recruiters', 'internships', 'testimonials'].includes(master) && (routeScope === 'home' || isAcademics || isAima || isSpec) ? master : null;
+  const [visibility, setVisibility] = useState<{ pages: string[]; updatedAt: string | null } | null>(null);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
@@ -319,6 +333,7 @@ export function SliderMaster({
   const deleteRef = useRef<HTMLDialogElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const template = (() => {
+    if (testimonialKind) return homeMasterDefaults.testimonials.items[0] as unknown as Item;
     if (admissionsMeta) return admissionsMeta.masters.hero.items[0] as unknown as Item;
     if (groupMeta) return (groupMeta.masters[master] ?? groupMeta.masters.hero).items[0] as Item;
     if (isFaculty) return facultyMasterDefaults[master as FacultyMasterKey].items[0] as unknown as Item;
@@ -361,8 +376,16 @@ export function SliderMaster({
     }
   }
   useEffect(() => {
+    setDocument(null);
+    setStaticDocument(null);
     void load();
   }, [masterPath, staticPath]);
+  useEffect(() => {
+    if (!visibilityMaster) return;
+    api<{ data: { pages: string[]; updatedAt: string | null } }>(`/admin/slider-visibility/${visibilityMaster}`)
+      .then(result => setVisibility(result.data))
+      .catch(cause => setError(cause instanceof Error ? cause.message : 'Could not load page visibility'));
+  }, [visibilityMaster]);
   useEffect(() => {
     if (deleting !== null && !deleteRef.current?.open) deleteRef.current?.showModal();
     else if (deleting === null) deleteRef.current?.close();
@@ -399,7 +422,7 @@ export function SliderMaster({
       const editKey = `${slidePosParam}|${document.updatedAt ?? ''}`;
       const pos = Number(slidePosParam);
       if (!Number.isFinite(pos) || pos < 1) {
-        navigate(listPath, { replace: true });
+        navigate(`${listPath}${testimonialQuery}`, { replace: true });
         return;
       }
       const index = pos - 1;
@@ -409,7 +432,7 @@ export function SliderMaster({
           setEditing({ index, item: structuredClone(slideItems[index]), position: pos });
         }
       } else {
-        navigate(listPath, { replace: true });
+        navigate(`${listPath}${testimonialQuery}`, { replace: true });
       }
     }
   }, [isFormRoute, isAddRoute, isEditRoute, slidePosParam, document, listPath, master, navigate, template]);
@@ -459,9 +482,12 @@ export function SliderMaster({
   async function save(event: FormEvent) {
     event.preventDefault();
     if (!editing || !document) return;
+    const pageManaged = ['faculty', 'recruiters', 'internships', 'testimonials'].includes(master) && (routeScope === 'home' || isAcademics || isAima || isSpec);
+    const selectedPages = Array.isArray(editing.item.pages) ? editing.item.pages : editing.index === null ? [] : master === 'faculty' || master === 'recruiters' ? visibility?.pages ?? [] : [isAcademics ? 'aicte' : isAima ? 'aima' : isSpec ? specSlug ?? '' : 'home'];
+    if (pageManaged && selectedPages.length === 0) { setError('Select at least one page for this item.'); return; }
     const next = items.filter((_, index) => index !== editing.index);
-    next.splice(Math.max(0, Math.min(next.length, editing.position - 1)), 0, editing.item);
-    if (await persist(next)) navigate(listPath);
+    next.splice(Math.max(0, Math.min(next.length, editing.position - 1)), 0, pageManaged ? { ...editing.item, pages: selectedPages } : editing.item);
+    if (await persist(next)) navigate(`${listPath}${testimonialQuery}`);
   }
   async function remove() {
     if (deleting === null) return;
@@ -469,7 +495,7 @@ export function SliderMaster({
     const ok = await persist(items.filter((_, index) => index !== deleting));
     if (ok) {
       setDeleting(null);
-      if (isEditRoute && slidePosParam && Number(slidePosParam) === deletedIndex + 1) navigate(listPath, { replace: true });
+      if (isEditRoute && slidePosParam && Number(slidePosParam) === deletedIndex + 1) navigate(`${listPath}${testimonialQuery}`, { replace: true });
     }
   }
   async function upload(file: File) {
@@ -577,13 +603,14 @@ export function SliderMaster({
         )}
       </div>
       {isFormRoute ? (
-        <button type="button" className="cms-secondary" disabled={busy || uploads > 0} onClick={() => { navigate(listPath); setError(''); }}>← Back to {title}</button>
+        <button type="button" className="cms-secondary" disabled={busy || uploads > 0} onClick={() => { navigate(`${listPath}${testimonialQuery}`); setError(''); }}>← Back to {title}</button>
       ) : (
-        <button type="button" data-tour="master-add" className="cms-primary" disabled={!canEdit || !document || items.length >= 100} onClick={() => { navigate(`${listPath}/new`); setMessage(''); setError(''); }}><span aria-hidden="true">＋</span> Add {itemNoun}</button>
+        <button type="button" data-tour="master-add" className="cms-primary" disabled={!canEdit || !document || items.length >= 100} onClick={() => { navigate(`${listPath}/new${testimonialQuery}`); setMessage(''); setError(''); }}><span aria-hidden="true">＋</span> Add {itemNoun}</button>
       )}
     </header>
     {error && <div className="cms-error" role="alert">{error} {!isFormRoute && <button type="button" onClick={() => void load()}>Reload</button>}</div>}
     <p className="cms-master-message" role="status">{message}</p>
+    {centralMaster && !isFormRoute && <label className="cms-field" style={{ marginBottom: 24 }}><span>Manage content for page</span><select value={validPage} disabled={readOnly} onChange={event => { const params = new URLSearchParams(currentQuery); if (event.target.value === 'home') params.delete('page'); else params.set('page', event.target.value); setPage(1); setMessage(''); setError(''); navigate(`${listPath}${params.size ? `?${params}` : ''}`); }}>{[{ slug: 'home', navTitle: 'Home' }, { slug: 'aicte', navTitle: 'AICTE PGDM' }, { slug: 'aima', navTitle: 'AIMA PGDM' }, ...academicsSpecialisationIndex].map(item => <option key={item.slug} value={item.slug}>{item.navTitle}</option>)}</select></label>}
     {hasStatic && staticDocument && !isFormRoute && (
       <section className="cms-section-card cms-master-section-settings" data-tour="master-section-settings" style={{ marginBottom: 24 }}>
         <div className="cms-section-card-header">
@@ -633,12 +660,14 @@ export function SliderMaster({
         </div>
       </section>
     )}
+    {master === 'testimonials' && !isFormRoute && <div className="cms-testimonial-tabs" role="tablist" aria-label="Testimonial type">{(['video', 'written'] as const).map(kind => <button key={kind} type="button" role="tab" aria-selected={testimonialKind === kind} className={testimonialKind === kind ? 'cms-primary' : 'cms-secondary'} onClick={() => { setDocument(null); setError(''); setMessage(''); setPage(1); const params = new URLSearchParams(currentQuery); params.set('tab', kind); navigate(`${listPath}?${params}`); }}>{kind === 'video' ? 'Video Testimonials' : 'Written Testimonials'}</button>)}</div>}
     {isFormRoute && editing ? <form className={`cms-slide-editor ${master === 'hero' ? 'cms-hero-editor' : ''}`} data-tour="master-form" onSubmit={save}>
+      {['faculty', 'recruiters', 'internships', 'testimonials'].includes(master) && (routeScope === 'home' || isAcademics || isAima || isSpec) && <fieldset className="cms-field"><legend>Show this item on</legend>{[{ slug: 'home', navTitle: 'Home' }, { slug: 'aicte', navTitle: 'AICTE PGDM' }, { slug: 'aima', navTitle: 'AIMA PGDM' }, ...academicsSpecialisationIndex].map(page => { const selected = Array.isArray(editing.item.pages) ? editing.item.pages as string[] : editing.index === null ? [] : master === 'faculty' || master === 'recruiters' ? visibility?.pages ?? [] : [isAcademics ? 'aicte' : isAima ? 'aima' : isSpec ? specSlug ?? '' : 'home']; return <label key={page.slug} style={{ display: 'block', marginTop: 8 }}><input type="checkbox" checked={selected.includes(page.slug)} disabled={readOnly} onChange={event => setEditing({ ...editing, item: { ...editing.item, pages: event.target.checked ? [...selected, page.slug] : selected.filter(value => value !== page.slug) } })} /> {page.navTitle}</label>; })}</fieldset>}
       {master === 'hero' ? <HeroSlideFields value={editing.item} onChange={item => setEditing({ ...editing, item })} disabled={readOnly} upload={upload} position={editing.position} maxPosition={items.length + (editing.index === null ? 1 : 0)} onPositionChange={position => setEditing({ ...editing, position })} /> : master === 'faculty' ? <FacultyDetailsEditor item={editing.item} readOnly={readOnly} onChange={item => setEditing({ ...editing, item })} upload={upload} /> : <>
         <label className="cms-field cms-slide-order"><span>Display order</span><input type="number" required min={1} max={items.length + (editing.index === null ? 1 : 0)} value={editing.position} disabled={readOnly} onChange={event => setEditing({ ...editing, position: Number(event.target.value) })} /></label>
-        <Field name={`${itemNoun} details`} value={editing.item} template={template} onChange={item => setEditing({ ...editing, item: item as Item })} readOnly={readOnly} onUpload={upload} />
+        <Field name={`${itemNoun} details`} value={Object.fromEntries(Object.entries(editing.item).filter(([key]) => key !== 'pages' && (!testimonialKind || (testimonialKind === 'video' ? ['batch', 'videoLink', 'image', 'enabled'] : ['name', 'batch', 'quote', 'avatar', 'enabled']).includes(key)))) as Item} template={template} onChange={item => setEditing({ ...editing, item: { ...editing.item, ...(item as Item) } })} readOnly={readOnly} onUpload={upload} />
       </>}
-      <div className="cms-save-bar"><button type="button" className="cms-secondary" disabled={busy || uploads > 0} onClick={() => { navigate(listPath); setError(''); }}>Cancel</button><button data-tour="master-save" className="cms-primary" type="submit" disabled={!canEdit || busy || uploads > 0}>{busy ? 'Saving…' : master === 'hero' ? `${editing.index === null ? 'Create' : '✓ Update'} ${anyAcademics ? 'Banner' : 'Home'} Slide` : itemNoun !== 'Slide' ? `${editing.index === null ? 'Create' : '✓ Update'} ${itemNoun}` : 'Save slide'}</button></div>
+      <div className="cms-save-bar"><button type="button" className="cms-secondary" disabled={busy || uploads > 0} onClick={() => { navigate(`${listPath}${testimonialQuery}`); setError(''); }}>Cancel</button><button data-tour="master-save" className="cms-primary" type="submit" disabled={!canEdit || busy || uploads > 0}>{busy ? 'Saving…' : master === 'hero' ? `${editing.index === null ? 'Create' : '✓ Update'} ${anyAcademics ? 'Banner' : 'Home'} Slide` : itemNoun !== 'Slide' ? `${editing.index === null ? 'Create' : '✓ Update'} ${itemNoun}` : 'Save slide'}</button></div>
     </form> : !isFormRoute ? <>
       <div className="cms-table-toolbar" data-tour="master-table-toolbar"><label>Show <select aria-label="Entries per page" value={size} onChange={event => { setSize(Number(event.target.value)); setPage(1); }}>{[10, 25, 50, 100].map(number => <option key={number}>{number}</option>)}</select> entries</label><label>Search: <input type="search" aria-label="Search slides" value={query} onChange={event => { setQuery(event.target.value); setPage(1); }} /></label></div>
       <div className="cms-table-card" data-tour="master-table"><div className="cms-table-overflow"><table className="cms-slides-table"><thead><tr>
@@ -652,7 +681,7 @@ export function SliderMaster({
           <td>{index + 1}</td><td>{image(item) ? <img className="cms-slide-thumbnail" src={preview(image(item))} alt={String(item.alt || item.name || item.title || 'Slide preview')} /> : <span className="cms-no-image">No image</span>}</td>
           <td><strong>{heading(item, index, master)}</strong>{(item.subtitle || item.role || item.batch) && <p>{String(item.subtitle || item.role || item.batch)}</p>}</td>
           <td><button type="button" className={`cms-status ${item.enabled !== false ? 'is-active' : 'is-inactive'}`} aria-pressed={item.enabled !== false} aria-label={`${item.enabled !== false ? 'Deactivate' : 'Activate'} ${itemNoun.toLowerCase()} ${index + 1}`} title={`Click to ${item.enabled !== false ? 'deactivate' : 'activate'}`} disabled={!canEdit || busy} onClick={() => void toggleActive(index)}><span aria-hidden="true" />{item.enabled !== false ? 'Active' : 'Inactive'}</button></td>
-          <td><div className="cms-row-actions"><button type="button" className="cms-edit-action" disabled={!canEdit || busy} aria-label={`Edit ${itemNoun.toLowerCase()} ${index + 1}`} title={`Edit ${itemNoun.toLowerCase()}`} onClick={() => { navigate(`${listPath}/${index + 1}/edit`); setError(''); setMessage(''); }}><Icon name="edit" size={18} /></button><button type="button" className="cms-delete-action" disabled={!canEdit || busy} aria-label={`Delete ${itemNoun.toLowerCase()} ${index + 1}`} title={`Delete ${itemNoun.toLowerCase()}`} onClick={() => setDeleting(index)}><Icon name="trash" size={18} /></button></div></td>
+          <td><div className="cms-row-actions"><button type="button" className="cms-edit-action" disabled={!canEdit || busy} aria-label={`Edit ${itemNoun.toLowerCase()} ${index + 1}`} title={`Edit ${itemNoun.toLowerCase()}`} onClick={() => { navigate(`${listPath}/${index + 1}/edit${testimonialQuery}`); setError(''); setMessage(''); }}><Icon name="edit" size={18} /></button><button type="button" className="cms-delete-action" disabled={!canEdit || busy} aria-label={`Delete ${itemNoun.toLowerCase()} ${index + 1}`} title={`Delete ${itemNoun.toLowerCase()}`} onClick={() => setDeleting(index)}><Icon name="trash" size={18} /></button></div></td>
         </tr>)}
       </tbody></table></div>
       <footer className="cms-table-footer"><span>Showing {filtered.length ? (currentPage - 1) * size + 1 : 0} to {Math.min(currentPage * size, filtered.length)} of {filtered.length} entries{query && ` (filtered from ${items.length} total entries)`}</span><nav aria-label="Slide pagination"><button type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>Previous</button>{Array.from({ length: pages }, (_, i) => i + 1).map(number => <button key={number} type="button" aria-label={`Page ${number}`} aria-current={currentPage === number ? 'page' : undefined} onClick={() => setPage(number)}>{number}</button>)}<button type="button" disabled={currentPage === pages} onClick={() => setPage(currentPage + 1)}>Next</button></nav></footer>

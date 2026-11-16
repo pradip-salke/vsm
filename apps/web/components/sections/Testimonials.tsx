@@ -19,30 +19,35 @@ const initials = (name: string) =>
     .join('')
     .slice(0, 2);
 
-export function Testimonials({ reduceBottomPadding = false, items = testimonials, heading }: { reduceBottomPadding?: boolean; items?: typeof testimonials; heading?: HomeHeading }) {
+export function Testimonials({ reduceBottomPadding = false, items = testimonials, videoItems = items, writtenItems = items, heading }: { reduceBottomPadding?: boolean; items?: typeof testimonials; videoItems?: typeof testimonials; writtenItems?: typeof testimonials; heading?: HomeHeading }) {
   const [activeVideo, setActiveVideo] = useState<{ title: string; videoUrl: string } | null>(null);
-  const slides = items.map((item) => {
+  const videoSlides = videoItems.filter(item => normalizeVideoUrl(item.videoLink)).map((item, index) => {
     const media = item.image ?? testimonialFallbackImage;
     const videoUrl = normalizeVideoUrl(item.videoLink);
     return (
-      <figure key={item.name} className={styles.slide}>
+      <figure key={`${item.name}-${index}`} className={styles.slide}>
         <div className={styles.media}>
           <Image src={media.src} alt={media.alt} width={media.width} height={media.height} sizes="(max-width: 767px) 88vw, 55vw" />
           {videoUrl && (
             <button
               type="button"
               className={styles.playButton}
-              aria-label={`Play ${item.name}'s testimonial`}
+              aria-label={item.name ? `Play ${item.name}'s testimonial` : 'Play video testimonial'}
               aria-haspopup="dialog"
-              onClick={() => setActiveVideo({ title: item.name, videoUrl })}
+              onClick={() => setActiveVideo({ title: item.name || 'Video testimonial', videoUrl })}
             >
               <Icon src={icons.playSmall} size="100%" />
             </button>
           )}
         </div>
+      </figure>
+    );
+  });
+  const writtenSlides = writtenItems.filter(item => item.quote?.trim()).map((item) => (
+      <figure key={item.name} className={styles.slide}>
         <div className={styles.card} data-info-card>
-          <div className={styles.cardContent} data-card-height-source={item === items[0] ? '' : undefined}>
-          <blockquote className={styles.quote}>
+          <div className={styles.cardContent}>
+          <blockquote className={styles.quote} tabIndex={0} role="region" aria-label={`${item.name}'s written testimonial`}>
             <p>“{item.quote}”</p>
           </blockquote>
           <figcaption className={styles.person}>
@@ -59,8 +64,7 @@ export function Testimonials({ reduceBottomPadding = false, items = testimonials
           </div>
         </div>
       </figure>
-    );
-  });
+  ));
 
   return (
     <section id="testimonials" className={`${styles.section} ${reduceBottomPadding ? styles.reducedBottom : ''}`} aria-labelledby="testimonials-title">
@@ -74,16 +78,23 @@ export function Testimonials({ reduceBottomPadding = false, items = testimonials
           align="center"
         />
       </div>
-      <Carousel
-        label="Student testimonials"
-        slides={slides}
+      {videoSlides.length > 0 && <Carousel
+        label="Video testimonials"
+        slides={videoSlides}
         align="center"
         infiniteLoop
         dotsTone="light"
-        cardHeightFromFirst
+        className={`${styles.carousel} ${styles.videoCarousel}`}
+      />}
+      {writtenSlides.length > 0 && <Carousel
+        label="Written testimonials"
+        slides={writtenSlides}
+        align="center"
+        infiniteLoop
+        dotsTone="light"
         className={styles.carousel}
-      />
-      {activeVideo && <VideoPopup title={activeVideo.title} videoUrl={activeVideo.videoUrl} onClose={() => setActiveVideo(null)} />}
+      />}
+      {activeVideo && <VideoPopup title={activeVideo.title} videoUrl={activeVideo.videoUrl} onClose={() => setActiveVideo(null)} hideTitle />}
     </section>
   );
 }

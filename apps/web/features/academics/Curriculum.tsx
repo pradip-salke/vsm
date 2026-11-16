@@ -4,6 +4,7 @@ import { useId, useState, type KeyboardEvent } from 'react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { curriculum, curriculumIntro, type CurriculumCell } from '@/content/academics';
 import styles from './AcademicsBlocks.module.css';
+import type { AcademicsContent } from '@vsmedu/contracts/academics';
 
 function Cell({ value }: { value: CurriculumCell }) {
   if (Array.isArray(value)) {
@@ -18,7 +19,7 @@ function Cell({ value }: { value: CurriculumCell }) {
   return <>{value}</>;
 }
 
-export function Curriculum() {
+export function Curriculum({ notes }: { notes?: AcademicsContent['curriculum']['years'] }) {
   const [selected, setSelected] = useState(0);
   const baseId = useId();
 
@@ -93,7 +94,7 @@ export function Curriculum() {
               </tr>
             </tbody>
           </table>
-          {table.note ? <p className={styles.note}>{table.note}</p> : null}
+          {(notes?.[index]?.note ?? table.note) ? <div className={styles.note} dangerouslySetInnerHTML={{ __html: notes?.[index]?.note ?? table.note ?? '' }} /> : null}
         </div>
       ))}
     </section>

@@ -100,7 +100,7 @@ export function BlogPostsPage({ canEdit }: { canEdit: boolean }) {
           <nav className="cms-breadcrumbs" aria-label="Breadcrumb">
             <span>Website Pages</span>
             <span className="cms-breadcrumb-sep">/</span>
-            <span>Blogs</span>
+            <span>Blog Management</span>
             <span className="cms-breadcrumb-sep">/</span>
             <span className="cms-breadcrumb-current">Blog Posts</span>
           </nav>
@@ -178,6 +178,9 @@ export function BlogPostsPage({ canEdit }: { canEdit: boolean }) {
                       <div className="cms-row-actions">
                         <button type="button" className="cms-secondary" disabled={!canEdit || busyId !== null} onClick={() => void toggleStatus(item)}>
                           {item.status === 'PUBLISHED' ? 'Unpublish' : 'Publish'}
+                        </button>
+                        <button type="button" className="cms-secondary" onClick={() => navigate(`${BLOG_POSTS_PATH}/${item.id}/edit?preview=1`)}>
+                          Preview
                         </button>
                         <button type="button" className="cms-edit-action" disabled={!canEdit} aria-label={`Edit ${item.title}`} title="Edit post" onClick={() => navigate(`${BLOG_POSTS_PATH}/${item.id}/edit`)}>
                           <Icon name="edit" size={18} />

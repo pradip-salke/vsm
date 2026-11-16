@@ -1,5 +1,5 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import type { BlogPostRecord, BlogPostStatus } from '@vsmedu/contracts/blogs';
 import { api } from '../lib/api';
 import { ArticleHtmlEditor } from './ArticleHtmlEditor';
@@ -144,6 +144,7 @@ function ImageField({ label, value, alt, onChange, onAltChange, upload, disabled
 
 export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams<{ id?: string }>();
   const isNew = !id;
   const [form, setForm] = useState<Form>(EMPTY);
@@ -156,6 +157,8 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [suggestions, setSuggestions] = useState<{ categories: string[]; tags: string[] }>({ categories: [], tags: [] });
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const previewRef = useRef<HTMLDialogElement>(null);
 
   async function load() {
     setError('');
@@ -179,6 +182,18 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
   useEffect(() => {
     void load();
   }, [id]);
+
+  useEffect(() => {
+    if (!loading && new URLSearchParams(location.search).has('preview')) {
+      setPreviewOpen(true);
+      navigate(location.pathname, { replace: true });
+    }
+  }, [loading, location.pathname, location.search, navigate]);
+
+  useEffect(() => {
+    if (previewOpen && !previewRef.current?.open) previewRef.current?.showModal();
+    else if (!previewOpen) previewRef.current?.close();
+  }, [previewOpen]);
 
   useEffect(() => {
     if (!dirty) return;
@@ -241,7 +256,7 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
           <nav className="cms-breadcrumbs" aria-label="Breadcrumb">
             <span>Website Pages</span>
             <span className="cms-breadcrumb-sep">/</span>
-            <span>Blogs</span>
+            <span>Blog Management</span>
             <span className="cms-breadcrumb-sep">/</span>
             <span>Blog Posts</span>
             <span className="cms-breadcrumb-sep">/</span>
@@ -252,6 +267,7 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
         </div>
         <div className="cms-heading-actions">
           <button type="button" className="cms-secondary" onClick={() => navigate(BLOG_POSTS_PATH)}>← Back to Blog Posts</button>
+          {!isNew && <button type="button" className="cms-secondary" onClick={() => setPreviewOpen(true)}>Preview</button>}
           {!isNew && form.status === 'PUBLISHED' && (
             <a className="cms-primary" href={publicUrl} target="_blank" rel="noopener noreferrer">View Live Post ↗</a>
           )}
@@ -331,6 +347,17 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
           </div>
         </form>
       )}
+      <dialog className="cms-delete-dialog" ref={previewRef} onCancel={() => setPreviewOpen(false)} aria-label="Blog post preview" style={{ width: 'min(900px, calc(100vw - 32px))', maxWidth: '900px', maxHeight: '90vh', overflowY: 'auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
+          <h2 style={{ margin: 0 }}>Post preview</h2>
+          <button type="button" className="cms-secondary" onClick={() => setPreviewOpen(false)}>Close</button>
+        </div>
+        {form.coverImageUrl && <img src={preview(form.coverImageUrl)} alt={form.coverImageAlt || ''} style={{ display: 'block', width: '100%', maxHeight: 360, objectFit: 'cover', borderRadius: 8, marginTop: 16 }} />}
+        <h1>{form.title || 'Untitled post'}</h1>
+        <p className="cms-muted-text">{form.categories.join(' · ')}{form.authorName ? ` · ${form.authorName}` : ''}{form.publishedAt ? ` · ${new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' }).format(new Date(form.publishedAt))}` : ''}</p>
+        <div className="cms-article-preview" dangerouslySetInnerHTML={{ __html: form.excerpt }} />
+        <div className="cms-article-preview" dangerouslySetInnerHTML={{ __html: form.body }} />
+      </dialog>
     </div>
   );
 }

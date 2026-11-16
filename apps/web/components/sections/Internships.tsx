@@ -43,8 +43,8 @@ export function Internships({ variant = 'default', items = internships, title = 
         <SectionHeading id="internship-title" title={title} align="center" />
         <div ref={carouselRef} className={styles.carousel} role="region" aria-roledescription="carousel" aria-label="Summer Internship 2025-27">
           <div className={styles.viewport}>
-            <div ref={trackRef} className={styles.track}>
-              {[0, 1, 2].map((copy) => (
+            <div ref={trackRef} className={styles.track} style={items.length <= 1 ? { animation: 'none' } : undefined}>
+              {(items.length > 1 ? [0, 1, 2] : [0]).map((copy) => (
                 <ul key={copy} className={styles.group} role="list" aria-hidden={copy > 0 || undefined}>
                   {items.map((card, index) => (
                     <li key={`${card.src}-${index}`} className={styles.card}>
@@ -55,9 +55,9 @@ export function Internships({ variant = 'default', items = internships, title = 
               ))}
             </div>
           </div>
-          <div className={styles.controls}>
+          {items.length > 1 && <div className={styles.controls}>
             <CarouselDots count={3} active={active} onSelect={selectGroup} tone="dark" label="Summer Internship 2025-27" />
-          </div>
+          </div>}
         </div>
       </div>
     </section>

@@ -20,7 +20,7 @@
 .readMore { display: inline-flex; align-items: center; gap: .45rem; margin-top: auto; padding-top: 1rem; color: var(--color-primary-dark); font-weight: var(--font-weight-extrabold); }
 .readMore span { font-size: 1.25em; transition: transform .2s ease; }
 .card:hover .readMore span { transform: translateX(3px); }
-.pagination { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .5rem; margin-top: clamp(2rem, 4vw, 3.5rem); }
+.pagination { display: flex; width: 100%; flex-wrap: wrap; justify-content: center; align-items: center; gap: .5rem; margin: clamp(2rem, 4vw, 3.5rem) auto 0; }
 .pageButton, .pageNumber { display: grid; min-width: 2.8rem; height: 2.8rem; place-items: center; border: 1px solid var(--color-border); border-radius: 50%; color: var(--color-heading); font-size: 1.1rem; font-weight: var(--font-weight-bold); text-decoration: none; transition: background .2s ease, color .2s ease, border-color .2s ease; }
 .pageButton:hover, .pageNumber:hover, .current { border-color: var(--color-primary); background: var(--color-primary); color: var(--color-text-inverse); }
 .disabled { pointer-events: none; opacity: .4; }
@@ -33,6 +33,11 @@
 .detailHeader .meta { justify-content: center; }
 .lead { color: var(--color-text-answer); font-size: var(--font-size-lead); line-height: var(--line-height-body); }
 .lead p { margin: 0; }
+.author { display: flex; align-items: center; justify-content: center; gap: .75rem; margin-top: 1rem; color: var(--color-heading); text-align: left; }
+.author img { width: 2.75rem; height: 2.75rem; border-radius: 50%; object-fit: cover; }
+.author span { display: grid; gap: .15rem; }
+.author small, .authorBio { color: var(--color-text-subtle); font-size: var(--font-size-small); }
+.authorBio { max-width: 52rem; margin: 1.5rem auto 0; line-height: var(--line-height-body); }
 .detailImage { overflow: hidden; max-height: 38rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); border-radius: var(--radius-md); background: var(--color-cream); }
 .detailImage img { display: block; width: 100%; max-height: 38rem; object-fit: cover; }
 .articleContent { max-width: 52rem; margin-inline: auto; color: var(--color-text-answer); font-size: var(--font-size-body); line-height: 1.85; overflow-wrap: anywhere; }

@@ -56,6 +56,7 @@ const AICTE_SECTIONS: AcademicsKey[] = [
   'eligibility',
   'fees',
   'admission',
+  'advantage',
   'faq',
 ];
 
@@ -75,6 +76,7 @@ const AICTE_SUBTITLES: Record<AcademicsKey, string> = {
   eligibility: 'Section heading and eligibility criteria (text + icon per row).',
   fees: 'Fee table heading, column headings, fee rows and footnote.',
   admission: 'Numbered admission steps with icons.',
+  advantage: 'Edit the VSM Advantage heading and list.',
   faq: 'FAQ for this page only. Same editor layout as Home → FAQ: title, intro, button, Q&A; add and edit items, then save below.',
 };
 
@@ -94,6 +96,7 @@ const AICTE_ANCHORS: Record<AcademicsKey, string> = {
   eligibility: 'eligibility',
   fees: 'fees',
   admission: 'admission-procedure',
+  advantage: 'vsm-advantage',
   faq: 'faq',
 };
 

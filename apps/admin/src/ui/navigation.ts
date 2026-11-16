@@ -57,16 +57,6 @@ const specialisationPageMenus: AdminMenuNode[] = academicsSpecialisationIndex.ma
       path: `/website/academics/specialisations/page/${encodeURIComponent(slug)}`,
       description: `All in-page sections for ${navTitle}.`,
     },
-    {
-      label: 'Summer Internships',
-      path: `/website/academics/specialisations/page/${encodeURIComponent(slug)}/internships`,
-      description: `${navTitle} summer internship slides.`,
-    },
-    {
-      label: 'Student Testimonials',
-      path: `/website/academics/specialisations/page/${encodeURIComponent(slug)}/testimonials`,
-      description: `Independent student testimonials for ${navTitle}.`,
-    },
   ],
 }));
 
@@ -134,9 +124,6 @@ export const adminMenu: AdminMenuGroup[] = [
         children: [
           { label: 'Home Slider', path: '/masters/hero', description: 'Manage homepage banner slides.' },
           { label: 'Home CMS', path: '/website/home-sections', description: 'Homepage content sections.' },
-          { label: 'Recruiter Logos', path: '/masters/recruiters', description: 'Recruiter logo carousel on homepage.' },
-          { label: 'Summer Internships', path: '/masters/internships', description: 'Summer internship cards on homepage.' },
-          { label: 'Student Testimonials', path: '/masters/testimonials', description: 'Student testimonial carousel on homepage.' },
           { label: 'Upcoming Events', path: '/masters/events', description: 'Upcoming events carousel on homepage.' },
           { label: 'Life at VSM', path: '/masters/life', description: 'Life at VSM media section on homepage.' },
         ],
@@ -154,8 +141,6 @@ export const adminMenu: AdminMenuGroup[] = [
               { label: 'Program Videos', path: '/website/academics/aicte-pgdm/program-videos', description: 'Program video carousel master.' },
               { label: 'Gallery', path: '/website/academics/aicte-pgdm/gallery', description: 'Life @ VSM gallery master.' },
               { label: 'Events', path: '/website/academics/aicte-pgdm/events', description: 'Upcoming events carousel master.' },
-              { label: 'Summer Internships', path: '/website/academics/aicte-pgdm/internships', description: 'Academic internship cards, independent from Home.' },
-              { label: 'Student Testimonials', path: '/website/academics/aicte-pgdm/testimonials', description: 'Academic student testimonials, independent from Home.' },
             ],
           },
           {
@@ -164,8 +149,6 @@ export const adminMenu: AdminMenuGroup[] = [
             children: [
               { label: 'Page Banner', path: '/website/academics/aima-pgdm/hero', description: 'Banner slides for the AIMA PGDM page.' },
               { label: 'AIMA PGDM CMS', path: '/website/academics/aima-pgdm', description: 'All in-page sections of the AIMA PGDM page.' },
-              { label: 'Summer Internships', path: '/website/academics/aima-pgdm/internships', description: 'AIMA PGDM summer internship slides.' },
-              { label: 'Student Testimonials', path: '/website/academics/aima-pgdm/testimonials', description: 'Independent AIMA PGDM testimonial cards and videos.' },
             ],
           },
           ...specialisationPageMenus,
@@ -212,31 +195,36 @@ export const adminMenu: AdminMenuGroup[] = [
         ],
       },
       {
-        label: 'Blogs',
+        label: 'Blog Management',
         icon: 'pages',
         children: [
-          { label: 'Blog Posts', path: '/website/blogs/posts', description: 'Blog articles: content, featured image, categories, tags, author, SEO and publishing.' },
+          { label: 'All Posts', path: '/website/blogs/posts', description: 'Add, edit, preview, publish and manage blog articles.' },
           {
-            label: 'Blog Listing Page',
+            label: 'Listing Page',
             icon: 'pages',
             children: [
               { label: 'Page Banner', path: '/website/blogs/listing/hero', description: 'Banner slides for the blog listing page.' },
-              { label: 'Blog Listing CMS', path: '/website/blogs/listing', description: 'Heading, listing settings and SEO of /blogs/.' },
+              { label: 'Listing Settings', path: '/website/blogs/listing', description: 'Heading, listing settings and SEO of /blogs/.' },
             ],
           },
           {
-            label: 'Blog Detail Template',
+            label: 'Detail Template',
             icon: 'pages',
             children: [
               { label: 'Page Banner', path: '/website/blogs/detail/hero', description: 'Banner shown on every blog detail page.' },
-              { label: 'Blog Detail CMS', path: '/website/blogs/detail', description: 'Links and SEO settings shared by blog detail pages.' },
+              { label: 'Detail Settings', path: '/website/blogs/detail', description: 'Links and SEO settings shared by blog detail pages.' },
             ],
           },
         ],
       },
     ],
   },
-  { id: 'masters', label: 'Slider Masters', icon: 'package', children: [{ label: 'Faculty Slider', path: '/masters/faculty', description: 'Faculty slider on homepage.' }] },
+  { id: 'masters', label: 'Slider Masters', icon: 'package', children: [
+    { label: 'Faculty Slider', path: '/masters/faculty', description: 'Faculty profiles.' },
+    { label: 'Companies Hiring Our PGDM Students', path: '/masters/recruiters' },
+    { label: 'Summer Internship', path: '/masters/internships' },
+    { label: 'Student Testimonials', path: '/masters/testimonials' },
+  ] },
   {
     id: 'seo',
     label: 'SEO Studio',

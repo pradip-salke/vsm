@@ -26,7 +26,7 @@ export default async function FacultyPage() {
     <div className={layout.page}>
       <PageHero
         size="inner"
-        slides={[{ ...sections.hero, ...masters.hero.items[0] }]}
+        slides={masters.hero.items.filter(item => item.enabled !== false).map(item => ({ ...sections.hero, ...item }))}
         breadcrumb={sections.hero.breadcrumb}
         actions={<a className={styles.heroLink} href={sections.hero.linkHref}>{sections.hero.linkText} <span aria-hidden="true">↓</span></a>}
       />

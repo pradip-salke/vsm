@@ -5,10 +5,13 @@ import {
   type AcademicsSpecialisationSlug,
 } from '@vsmedu/contracts/academics-specialisations';
 import type { ImageAsset } from '@/content/types';
+import type { HeroSlide } from '@/content/types';
+import { specialisationHero } from '@/content/academic-specialisations';
 import { homeDefaults, homeMasterDefaults, type HomeMasters } from '@vsmedu/contracts/home';
 
 type InternshipContent = { title: string; items: (ImageAsset & { enabled?: boolean })[] };
 type SpecialisationClosingContent = {
+  hero: HeroSlide;
   why: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['why'];
   admission: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['admission'];
   careers: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['careers'];
@@ -21,6 +24,7 @@ export async function getSpecialisationClosingContent(slug: string): Promise<Spe
   const page = academicsSpecialisationDefaults[slug as AcademicsSpecialisationSlug];
   const specMasters = academicsSpecialisationMasterDefaults[slug as AcademicsSpecialisationSlug];
   const fallback: SpecialisationClosingContent = {
+    hero: specialisationHero(page?.meta.heroTitle ?? 'PGDM Specialisation'),
     why: page.why,
     admission: page.admission,
     careers: page.careers,
@@ -43,6 +47,7 @@ export async function getSpecialisationClosingContent(slug: string): Promise<Spe
     if (!response.ok) throw new Error(`Specialisation API returned ${response.status}`);
     const json: { data?: Partial<SpecialisationClosingContent> } = await response.json();
     return {
+      hero: json.data?.hero ?? fallback.hero,
       why: json.data?.why ?? fallback.why,
       admission: json.data?.admission ?? fallback.admission,
       careers: json.data?.careers ? { ...json.data.careers, roles: json.data.careers.roles.map(item => typeof item === 'string' ? { text: item, icon: '/images/figma/icon-neutral.svg', iconSize: 32 } : item) } : fallback.careers,

@@ -5,7 +5,7 @@ import { Link } from '@/components/navigation/Link';
 import { aboutPageList } from '@/content/about';
 import styles from './about.module.css';
 
-export function AboutPageNavigation({ active }: { active: string }) {
+export function AboutPageNavigation({ active, links = aboutPageList, title = 'About' }: { active: string; title?: string; links?: readonly { label: string; href: string }[] }) {
   const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -21,10 +21,10 @@ export function AboutPageNavigation({ active }: { active: string }) {
 
   return (
     <aside className={styles.sidebar} aria-label="About pages">
-      <h2>About</h2>
+      <h2>{title}</h2>
       <nav aria-label="About pages">
         <ul ref={listRef} className="container" role="list">
-          {aboutPageList.map((page) => (
+          {links.map((page) => (
             <li key={page.href}>
               <Link
                 href={page.href}

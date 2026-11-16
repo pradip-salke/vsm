@@ -156,6 +156,7 @@
 
 .note {
   margin-top: var(--space-5);
+  white-space: pre-line;
   color: var(--color-text-body);
   font-weight: var(--font-weight-extrabold);
 }

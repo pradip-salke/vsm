@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Link } from '@/components/navigation/Link';
 import { PageHero } from '@/components/sections/PageHero';
 import { academicsHero } from '@/content/academics';
-import articles from '@/content/blogs.json';
+import { getPublicBlogPage } from '@/lib/blog-content';
 import styles from './Blogs.module.css';
 import { withSeo } from '@/lib/seo';
 
@@ -13,9 +13,6 @@ const metadata: Metadata = {
   description: 'Insights, guides, and perspectives from Valia School of Management.',
   alternates: { canonical: '/blogs/' },
 };
-
-const pageSize = 8;
-type Article = (typeof articles)[number];
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(date));
@@ -31,10 +28,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function BlogsPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const params = await searchParams;
-  const pageCount = Math.ceil(articles.length / pageSize);
   const requestedPage = Number(params.page ?? 1);
-  const currentPage = Number.isInteger(requestedPage) ? Math.min(Math.max(requestedPage, 1), pageCount) : 1;
-  const visibleArticles = (articles as Article[]).slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  const currentPage = Number.isInteger(requestedPage) && requestedPage > 0 ? requestedPage : 1;
+  const blogPage = await getPublicBlogPage(currentPage);
+  const pageCount = blogPage.pageCount;
   const slide = { ...academicsHero, title: 'Blogs', subtitle: 'Stories, insights, and perspectives from VSM' };
 
   return (
@@ -48,12 +45,12 @@ export default async function BlogsPage({ searchParams }: { searchParams: Promis
         </header>
 
         <section className={styles.grid} id="blog-articles" aria-label="Blog articles">
-          {visibleArticles.map((article) => (
+          {blogPage.items.map((article) => (
             <article className={styles.card} key={article.id}>
               <Link className={styles.cardLink} href={`/blogs/${article.slug}/`} aria-label={`Read ${article.title}`}>
                 <div className={styles.imageWrap}>
                   {article.image ? (
-                    <Image src={article.image} alt={article.title} width={900} height={600} sizes="(max-width: 640px) 100vw, (max-width: 980px) 50vw, 33vw" />
+                    <Image src={article.image.startsWith('/') || /^https?:\/\//i.test(article.image) ? article.image : `/${article.image}`} alt={article.imageAlt || article.title} width={900} height={600} sizes="(max-width: 640px) 100vw, (max-width: 980px) 50vw, 33vw" unoptimized={/^https?:\/\//i.test(article.image)} />
                   ) : <div className={styles.imageFallback} aria-hidden="true">VSM</div>}
                 </div>
                 <div className={styles.cardBody}>

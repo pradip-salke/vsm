@@ -365,6 +365,10 @@ function CurriculumYearsField({ value: years, readOnly, onChange }: CurriculumYe
               ＋ Add row
             </button>
           </div>
+          <div className="cms-field cms-field--standard">
+            <span className="cms-field-label">Table footnote (optional)</span>
+            <RichSubtitle value={String(active.note ?? '')} disabled={readOnly} onChange={(value) => updateYears(years.map((year, index) => ({ ...year, note: index === tab ? value : year.note ?? '' })))} />
+          </div>
         </div>
       )}
     </div>

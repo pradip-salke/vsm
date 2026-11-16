@@ -1,9 +1,14 @@
 import Image from 'next/image';
 import type { AboutProfile } from '@/content/about';
+import type { CmsImage } from '@/lib/cms-content';
 import styles from './about.module.css';
 
 export function AboutCopy({ paragraphs }: { paragraphs: string[] }) {
   return <div className={styles.copy}>{paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>;
+}
+
+export function CmsHtml({ html, className = styles.copy }: { html: string; className?: string }) {
+  return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 export function ProfileGrid({ profiles, compact = false, advisory = false, uniformImage = false, facultyStyle = false, className = '' }: { profiles: AboutProfile[]; compact?: boolean; advisory?: boolean; uniformImage?: boolean; facultyStyle?: boolean; className?: string }) {
@@ -19,13 +24,15 @@ export function ProfileGrid({ profiles, compact = false, advisory = false, unifo
   </div>;
 }
 
-export function MessageBlock({ name, role, image, paragraphs }: { name?: string; role?: string; image: string; paragraphs?: string[] }) {
+export function MessageBlock({ name, role, image, paragraphs, body }: { name?: string; role?: string; image: string | CmsImage; paragraphs?: string[]; body?: string }) {
+  const src = typeof image === 'string' ? image : image.src;
+  const alt = typeof image === 'string' ? name ?? '' : image.alt ?? name ?? '';
   return <article className={styles.message}>
-    <Image src={`/images/about/${image}`} alt={name ?? ''} width={600} height={750} sizes="(max-width: 650px) min(100vw, 18rem), 15rem" />
+    <Image src={src.startsWith('https://') || src.startsWith('/') ? src : `/images/about/${src}`} alt={alt} width={600} height={750} sizes="(max-width: 650px) min(100vw, 18rem), 15rem" />
     <div>
       {name && <h3>{name}</h3>}
       {role && <p className={styles.messageRole}>{role}</p>}
-      {paragraphs && paragraphs.length > 0 && <div className={styles.messageCopy}>{paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>}
+      {body ? <CmsHtml html={body} className={styles.messageCopy} /> : paragraphs && paragraphs.length > 0 && <div className={styles.messageCopy}>{paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>}
     </div>
   </article>;
 }

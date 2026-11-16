@@ -5,6 +5,8 @@ import styles from './PlacementPage.module.css';
 import { batch2022Highlights, placementIntro } from '@/content/placements';
 import { CountUpValue } from '@/components/ui/CountUpValue';
 import { withSeo } from '@/lib/seo';
+import { getPlacementsPageContent, cmsString } from '@/lib/cms-content';
+import { CmsHtml } from '@/components/ui/CmsHtml';
 
 const metadata: Metadata = {
   title: 'PGDM Placements',
@@ -22,13 +24,20 @@ export async function generateMetadata(): Promise<Metadata> {
   return withSeo('/placements/', metadata);
 }
 
-export default function PlacementsPage() {
+export default async function PlacementsPage() {
+  const cms = await getPlacementsPageContent('placements');
+  const intro = cms?.sections.intro;
+  const cardSection = cms?.sections.cards;
+  const highlights = cms?.sections.highlights;
+  const cards = Array.isArray(cardSection?.items) ? cardSection.items as { title: string; text: string; linkText: string; href: string }[] : pages.map((page) => ({ ...page, linkText: `Explore ${page.title}` }));
+  const stats = Array.isArray(highlights?.items) ? highlights.items as { value: string; label: string }[] : batch2022Highlights.map(([value, label]) => ({ value, label }));
+  const introBody = cmsString(intro?.body, placementIntro.map((paragraph) => `<p>${paragraph}</p>`).join(''));
   return (
-    <PlacementPageShell title="Placements" active="Placements">
-      <PlacementSection title="Achieve Your Career Goals with VSM’s PGDM Placements" intro={placementIntro.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}>
+    <PlacementPageShell title="Placements" active="Placements" pageSlug="placements">
+      <PlacementSection title={cmsString(intro?.title, 'Achieve Your Career Goals with VSM’s PGDM Placements')} intro={<CmsHtml html={introBody} />}>
         <div className={styles.cards}>
-          {pages.map((page) => <article className={styles.card} key={page.href}>
-            <h3>{page.title}</h3><p>{page.text}</p><Link href={page.href}>Explore {page.title}<span aria-hidden>→</span></Link>
+          {cards.map((page) => <article className={styles.card} key={page.href}>
+            <h3>{page.title}</h3><p>{page.text}</p><Link href={page.href}>{page.linkText}<span aria-hidden>→</span></Link>
           </article>)}
           <article className={styles.card}>
             <h3>Connect With Us</h3><p>Contact our team to discuss student engagement, internships and recruitment opportunities.</p>
@@ -36,9 +45,9 @@ export default function PlacementsPage() {
           </article>
         </div>
       </PlacementSection>
-      <PlacementSection title="PGDM 2022–24 Batch · Internship Highlights">
-        <div className={styles.stats}>{batch2022Highlights.map(([value, label]) => <div key={label} className={styles.stat}><strong><CountUpValue value={value} /></strong><span>{label}</span></div>)}</div>
-        <div className={styles.batchNav}><Link href="/placements/placement-records/">View placement records →</Link></div>
+      <PlacementSection title={cmsString(highlights?.title, 'PGDM 2022–24 Batch · Internship Highlights')}>
+        <div className={styles.stats}>{stats.map(({ value, label }) => <div key={label} className={styles.stat}><strong><CountUpValue value={value} /></strong><span>{label}</span></div>)}</div>
+        <div className={styles.batchNav}><Link href={cmsString(highlights?.linkHref, '/placements/placement-records/')}>{cmsString(highlights?.linkText, 'View placement records →')}</Link></div>
       </PlacementSection>
     </PlacementPageShell>
   );

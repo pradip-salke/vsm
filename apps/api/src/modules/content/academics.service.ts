@@ -220,7 +220,7 @@ function contentSchema(value: unknown, key = '', parent = '', documentKey = ''):
   if (typeof value === 'number') return z.number().finite().min(0).max(20000);
   if (value && typeof value === 'object') {
     return z
-      .object(Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key, documentKey)])))
+      .object({ ...Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key, documentKey)])), ...(parent === 'items' && documentKey === 'master-internships' ? { pages: z.array(z.string().max(200)).max(8).optional(), videoLink: z.string().max(2048).default('') } : {}) })
       .strict();
   }
   let result: z.ZodType = z.string().max(30000);
@@ -259,7 +259,7 @@ function contentSchema(value: unknown, key = '', parent = '', documentKey = ''):
     result = result.refine((v) => typeof v === 'string' && v.trim().length > 0, 'This field is required');
   }
   if (key === 'width' || key === 'height') result = z.number().int().min(1).max(20000);
-  if (RICH_TEXT_KEYS.has(key)) result = result.transform((v) => cleanSubtitle(String(v)));
+  if (RICH_TEXT_KEYS.has(key) || (documentKey === 'curriculum' && key === 'note')) result = result.transform((v) => cleanSubtitle(String(v)));
   return result;
 }
 

@@ -10,6 +10,12 @@
   margin-top: clamp(1.5rem, 1rem + 1.6vw, 2.6rem);
 }
 
+.moreLink {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(1.25rem, 1rem + 0.8vw, 2rem);
+}
+
 .page.events .carousel {
   --slide-gap: calc(clamp(1rem, 0.7rem + 1.2vw, 1.5rem) + 5px);
   margin-top: clamp(0.5625rem, calc(1rem + 1.6vw - 15px), 1.6625rem);

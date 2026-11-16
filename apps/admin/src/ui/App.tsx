@@ -104,6 +104,19 @@ export function App() {
         <Routes>
           <Route path="/" element={<DashboardPage name={user.name} />} />
           <Route path="/website/home-sections" element={<HomeEditor canEdit={canEdit} />} />
+          {(['video-testimonials', 'written-testimonials'] as const).flatMap(master => {
+            const targets = [
+              { base: '/masters', scope: 'home' as const },
+              { base: ACADEMICS_CMS_PATH, scope: 'academics' as const },
+              { base: AIMA_CMS_PATH, scope: 'aima' as const },
+              ...academicsSpecialisationIndex.map(({ slug }) => ({ base: `${SPECIALISATIONS_HUB_PATH}/page/${encodeURIComponent(slug)}`, scope: 'spec' as const, slug })),
+            ];
+            return targets.flatMap(target => {
+              const base = `${target.base}/${master}`;
+              const element = <SliderMaster master={master} scope={target.scope} specSlug={'slug' in target ? target.slug : undefined} canEdit={canEdit} />;
+              return [<Route key={base} path={base} element={element} />, <Route key={`${base}/new`} path={`${base}/new`} element={element} />, <Route key={`${base}/edit`} path={`${base}/:slidePos/edit`} element={element} />];
+            });
+          })}
           {(Object.keys(homeMasterDefaults) as (keyof typeof homeMasterDefaults)[]).flatMap((key) => {
             const k = key;
             const el = <HomeEditor master={k} canEdit={canEdit} />;
