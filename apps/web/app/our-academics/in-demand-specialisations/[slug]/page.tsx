@@ -7,7 +7,6 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { IconList } from '@/components/sections/IconList';
 import { academicSpecialisations, specialisationHero, specialisationTabs } from '@/content/academic-specialisations';
 import { academicsSpecialisationDefaults } from '@vsmedu/contracts/academics-specialisations';
-import { admissionSteps } from '@/content/academics';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
 import { AtAGlance } from '@/features/academics/AtAGlance';
@@ -53,9 +52,8 @@ export default async function SpecialisationPage({ params }: Props) {
     { label: 'Study Mode', value: 'Full Time' },
     { label: 'Location', value: 'Andheri, Mumbai' },
   ];
-  const listItems = (items: string[]) => items.map((text) => ({ icon: '/images/figma/icon-neutral.svg', iconSize: 32, text }));
-  const renderIconList = (items: string[], label: string) => {
-    const list = <IconList items={listItems(items)} divided className={styles.list} />;
+  const renderIconList = (items: { icon: string; iconSize: number; text: string }[], label: string) => {
+    const list = <IconList items={items} divided className={styles.list} />;
     return items.length > 5 ? (
       <div className={styles.listViewport} role="region" aria-label={`${label} list`} tabIndex={0}>
         {list}
@@ -84,22 +82,22 @@ export default async function SpecialisationPage({ params }: Props) {
             </section>
           </div>
           <section id="why-specialisation" className={`${layout.block} ${styles.section}`}>
-            <SectionHeading title={`Why Choose PGDM in ${page.title}?`} />
-            {renderIconList(page.reasons, 'Reasons to choose this specialisation')}
+            <SectionHeading title={closingContent.why.title} />
+            <IconList items={closingContent.why.items} divided className={styles.list} />
           </section>
           <section id="career-opportunities" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={`Careers in ${page.title}`} />
             <p className={styles.paragraph}>The PGDM specialisation combines management fundamentals with applied learning to prepare students for opportunities across industries.</p>
-            {renderIconList(page.roles, 'Career opportunities')}
+            {renderIconList(closingContent.careers.roles, 'Career opportunities')}
           </section>
           <section id="specialisation-curriculum" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={`${page.title} Curriculum`} />
             <p className={styles.paragraph}>Alongside the common PGDM foundation, students study specialisation-focused subjects and apply their learning through projects and industry exposure.</p>
-            {renderIconList(page.subjects, 'Curriculum subjects')}
+            {renderIconList(closingContent.curriculum.subjects, 'Curriculum subjects')}
           </section>
           <section id="admission-procedure" className={`${layout.block} ${styles.section}`}>
-            <SectionHeading title="PGDM Admission Procedure" />
-            <IconList items={admissionSteps} ordered divided className={layout.steps} />
+            <SectionHeading title={closingContent.admission.title} />
+            <IconList items={closingContent.admission.steps} ordered divided className={layout.steps} />
           </section>
         </main>
       </div>

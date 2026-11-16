@@ -44,7 +44,7 @@ export function IconList({ items, divided = false, ordered = false, className }:
                 ))}
               </span>
             ) : (
-              <span className={styles.glyph} style={{ '--glyph': pct(item.iconSize) } as CSSProperties}>
+              <span className={styles.glyph} style={{ '--glyph': pct(item.icon.startsWith('/cms-media/') ? 50 : item.iconSize) } as CSSProperties}>
                 <Icon src={item.icon} size="100%" />
               </span>
             )}

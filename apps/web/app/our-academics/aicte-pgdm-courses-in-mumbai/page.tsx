@@ -9,10 +9,7 @@ import { PageHero } from '@/components/sections/PageHero';
 import { WhyChoose } from '@/components/sections/WhyChoose';
 import {
   academicsBreadcrumb,
-  academicsAdvantages,
   academicsHero,
-  academicsWhyImage,
-  admissionSteps,
 } from '@/content/academics';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import { AboutProgram } from '@/features/academics/AboutProgram';
@@ -70,7 +67,7 @@ export default async function AictePgdmPage() {
             <MediaCarousel id="program-videos-carousel" title={programVideos.title} items={programVideos.items} layout="video" variant="column" play />
           </div>
           <div className={`${layout.block} ${layout.bleed} ${layout.why}`}>
-            <WhyChoose id="why-vsm" image={academicsWhyImage} items={academicsAdvantages} variant="column" />
+            <WhyChoose id="why-vsm" image={academics.why.image} items={academics.why.items} variant="column" />
           </div>
           <div id="gallery" className={`${layout.block} ${layout.bleed} ${layout.lifeBlock}`}>
             <MediaCarousel id="gallery-carousel" title={academics.gallery.title} items={masters.gallery.items.filter((item) => item.enabled !== false)} layout="life" variant="column" galleryPopup galleryAlbums={eventGalleryAlbums} galleryFallbackSlug="infra" />
@@ -91,8 +88,8 @@ export default async function AictePgdmPage() {
             <Fees />
           </div>
           <section id="admission-procedure" className={layout.block} aria-labelledby="admission-title">
-            <SectionHeading id="admission-title" title="PGDM Admission Procedure" />
-            <IconList items={admissionSteps} ordered divided className={layout.steps} />
+            <SectionHeading id="admission-title" title={academics.admission.title} />
+            <IconList items={academics.admission.steps} ordered divided className={layout.steps} />
           </section>
         </div>
       </div>

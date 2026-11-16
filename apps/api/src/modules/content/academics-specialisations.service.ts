@@ -51,6 +51,11 @@ export const specDocuments: Record<string, unknown> = (() => {
 const RICH_TEXT_KEYS = new Set(['subtitle', 'body', 'intro', 'description', 'answer']);
 
 function normalizeDocument(key: string, content: unknown): unknown {
+  if ((key.endsWith('.careers') || key.endsWith('.curriculum')) && content && typeof content === 'object' && !Array.isArray(content)) {
+    const doc = content as Record<string, unknown>;
+    const field = key.endsWith('.careers') ? 'roles' : 'subjects';
+    if (Array.isArray(doc[field])) return { ...doc, [field]: doc[field].map((item: unknown) => typeof item === 'string' ? { text: item, icon: '/images/figma/icon-neutral.svg', iconSize: 32 } : item) };
+  }
   if (!key.endsWith('.testimonials')) return content;
   if (!content || typeof content !== 'object' || Array.isArray(content)) return content;
   const doc = content as { items?: unknown[] };
@@ -223,8 +228,8 @@ export async function readSpecialisationPage(slug: string) {
     glance: pick('glance'),
     overview: pick('overview'),
     why: pick('why'),
-    careers: pick('careers'),
-    curriculum: pick('curriculum'),
+    careers: normalizeDocument(`${slug}.careers`, pick('careers')),
+    curriculum: normalizeDocument(`${slug}.curriculum`, pick('curriculum')),
     admission: pick('admission'),
     faq: pick('faq'),
     internships: {
