@@ -114,7 +114,8 @@ export async function readFacultyDocument(key: string) {
 
 /** Public payload: sections + masters; disabled profiles are filtered out. */
 export async function readFacultyPage() {
-  const rows = await loadRows(true);
+  const stored = await prisma.websiteSetting.findMany({ where: { key: { startsWith: DB_PREFIX, not: `${DB_PREFIX}master-profiles` }, isPublic: true } });
+  const rows = new Map(stored.map(row => [row.key.slice(DB_PREFIX.length), row]));
   const sections = structuredClone(facultyPageDefaults) as Record<string, unknown>;
   const masters = structuredClone(facultyMasterDefaults);
   for (const [key, row] of rows) {
@@ -125,8 +126,7 @@ export async function readFacultyPage() {
     }
   }
   sections.hero = mergeHeroForPublic(sections.hero as (typeof facultyPageDefaults)['hero'], masters.hero);
-  masters.profiles = { items: masters.profiles.items.filter((item) => item.enabled) };
-  return { sections: sections as typeof facultyPageDefaults, masters };
+  return { sections: sections as typeof facultyPageDefaults, masters: { hero: masters.hero } };
 }
 
 export async function readFacultyAllAdmin() {

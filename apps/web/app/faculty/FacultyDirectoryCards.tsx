@@ -8,19 +8,7 @@ import aboutStyles from '../about-us/about.module.css';
 import pageStyles from './FacultyPage.module.css';
 import styles from './FacultyDirectoryCards.module.css';
 
-type Profile = { name: string; expertise: string; image: { src: string; alt: string; width: number; height: number }; experience: string; role: string; previous: string; organisations: string; academic: string };
-
-export function FacultyDirectoryCards({ profiles }: { profiles: Profile[] }) {
-  const facultyMembers: FacultyMember[] = profiles.map((member) => ({
-    name: member.name, role: member.expertise, image: member.image,
-    details: [
-      { label: 'Total Industry / Teaching Experience', value: member.experience },
-      { label: 'Position Held', value: member.role },
-      ...(member.previous ? [{ label: 'Previous Company', value: member.previous }] : []),
-      ...(member.organisations ? [{ label: 'Other Companies worked with', value: member.organisations }] : []),
-      ...(member.academic ? [{ label: 'Academic Assignments', value: member.academic }] : []),
-    ],
-  }));
+export function FacultyDirectoryCards({ profiles: facultyMembers }: { profiles: FacultyMember[] }) {
   const [selected, setSelected] = useState<FacultyMember | null>(null);
   const returnFocusRef = useRef<HTMLButtonElement>(null);
   const closePopup = useCallback(() => setSelected(null), []);

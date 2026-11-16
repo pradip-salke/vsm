@@ -6,6 +6,7 @@ import layout from '@/features/academics/AcademicsLayout.module.css';
 import { FacultyDirectoryCards } from './FacultyDirectoryCards';
 import styles from './FacultyPage.module.css';
 import { getFacultyContent } from '@/lib/faculty-content';
+import { getHomeContent } from '@/lib/home-content';
 import { withSeo } from '@/lib/seo';
 
 const metadata: Metadata = {
@@ -19,8 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function FacultyPage() {
-  const { sections, masters } = await getFacultyContent();
-  const profiles = masters.profiles.items;
+  const [{ sections, masters }, common] = await Promise.all([getFacultyContent(), getHomeContent()]);
+  const profiles = common.masters.faculty.items.filter(item => item.enabled !== false);
   const tabs = sections.tabs.links.map(({ label, anchor }) => ({ label, id: anchor }));
   return (
     <div className={layout.page}>
