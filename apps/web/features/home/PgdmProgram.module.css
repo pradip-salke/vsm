@@ -38,6 +38,10 @@
   width: clamp(4rem, 3rem + 3vw, 7.75rem);
   aspect-ratio: 1;
   color: var(--color-text-inverse);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   transform: translate(-50%, -50%);
 }
 

@@ -640,7 +640,9 @@ export function HomeEditor({
                     <Field
                       name=""
                       hideLegend={true}
-                      value={doc.content}
+                      value={key === 'program' && doc.content && typeof doc.content === 'object' && !Array.isArray(doc.content)
+                        ? { ...homeDefaults.program, ...doc.content }
+                        : doc.content}
                       template={template}
                       readOnly={!canEdit || busy || uploads > 0}
                       onUpload={upload}

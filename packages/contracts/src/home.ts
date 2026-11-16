@@ -64,6 +64,7 @@ export const homeDefaults = {
   "program": {
     "title": "Our PGDM Program",
     "eyebrow": "Empower Your Future with Industry-Focused Education",
+    "videoLink": "https://www.youtube.com/watch?v=rMDQmWHYS6E",
     "poster": {
       "src": "/images/figma/pgdm-video-poster.webp",
       "alt": "Valia School of Management PGDM programme video",

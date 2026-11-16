@@ -76,6 +76,7 @@ export async function readHomeDocument(key: string) {
   if (!(key in homeDocuments)) throw new HttpError(404, 'HOME_SECTION_NOT_FOUND', 'Unknown homepage section');
   const row = await prisma.websiteSetting.findUnique({ where: { key: `home.${key}` } });
   let content = row?.value ?? homeDocuments[key];
+  if (key === 'program') content = { ...homeDefaults.program, ...(content as object) };
   if (key === 'master-hero') {
     const actions = await prisma.websiteSetting.findUnique({ where: { key: 'home.hero' } });
     content = normalizeHero(content, (actions?.value ?? homeDefaults.hero) as typeof homeDefaults.hero);
@@ -98,7 +99,7 @@ export async function readHome() {
       if (key === 'master-events') masterValue = normalizeHomeEventsMaster(masterValue) as typeof masters.events;
       if (key === 'master-testimonials') masterValue = normalizeTestimonialsMaster(masterValue) as typeof masters.testimonials;
       Object.assign(masters, { [key.slice(7)]: masterValue });
-    } else if (key in sections) Object.assign(sections, { [key]: row.value });
+    } else if (key in sections) Object.assign(sections, { [key]: key === 'program' ? { ...homeDefaults.program, ...(row.value as object) } : row.value });
   }
   masters.hero = normalizeHero(masters.hero, sections.hero) as typeof masters.hero;
   return { sections, masters };
@@ -144,7 +145,7 @@ export async function readHomeAllAdmin() {
   for (const [key, defaultValue] of Object.entries(homeDefaults)) {
     const row = rowMap.get(key);
     result[key] = {
-      content: row?.value ?? defaultValue,
+      content: key === 'program' ? { ...homeDefaults.program, ...((row?.value ?? {}) as object) } : row?.value ?? defaultValue,
       updatedAt: row?.updatedAt.toISOString() ?? null,
     };
   }

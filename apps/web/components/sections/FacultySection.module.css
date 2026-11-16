@@ -256,6 +256,11 @@
   display: inline;
 }
 
+.details .specialisationLabel {
+  color: var(--color-heading);
+  font-weight: var(--font-weight-extrabold);
+}
+
 @media (max-width: 1279px) {
   .carousel {
     --slide-width: calc((100% - var(--slide-gap) * 2) / 2.6);

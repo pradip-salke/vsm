@@ -90,7 +90,7 @@ export function FacultyProfilePopup({
           <dl className={styles.details}>
             {member.details.map((detail) => (
               <div key={detail.label}>
-                <dt>{detail.label}:</dt> <dd dangerouslySetInnerHTML={{ __html: detail.value }} />
+                <dt className={/^speciali[sz]ation$/i.test(detail.label.trim()) ? styles.specialisationLabel : undefined}>{detail.label}:</dt> <dd dangerouslySetInnerHTML={{ __html: detail.value }} />
               </div>
             ))}
           </dl>
