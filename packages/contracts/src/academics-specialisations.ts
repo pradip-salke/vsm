@@ -56,12 +56,12 @@ export type SpecPageDefaults = {
   careers: {
     title: string;
     intro: string;
-    roles: string[];
+    roles: { icon: string; iconSize: number; text: string }[];
   };
   curriculum: {
     title: string;
     intro: string;
-    subjects: string[];
+    subjects: { icon: string; iconSize: number; text: string }[];
   };
   admission: {
     title: string;
@@ -102,7 +102,7 @@ const defaultAdmissionSteps = [
   { icon: `${FIG}/step-icon-4.svg`, iconSize: 34, text: 'Step 4: Acceptance of Admission Offer by Candidate and Payment of Admission Fees' },
 ];
 
-const pages: Omit<SpecPageDefaults, 'internships' | 'testimonials'>[] = [
+const pages: (Omit<SpecPageDefaults, 'internships' | 'testimonials' | 'careers' | 'curriculum'> & { careers: Omit<SpecPageDefaults['careers'], 'roles'> & { roles: string[] }; curriculum: Omit<SpecPageDefaults['curriculum'], 'subjects'> & { subjects: string[] } })[] = [
   {
     meta: {
       slug: 'financial-management-specialisation',
@@ -466,6 +466,8 @@ const pages: Omit<SpecPageDefaults, 'internships' | 'testimonials'>[] = [
 function buildDocuments(): Record<string, SpecPageDefaults> {
   return Object.fromEntries(pages.map((p) => [p.meta.slug, {
     ...p,
+    careers: { ...p.careers, roles: p.careers.roles.map(text => iconItem(text)) },
+    curriculum: { ...p.curriculum, subjects: p.curriculum.subjects.map(text => iconItem(text)) },
     internships: { title: 'Summer Internship 2025-27' },
     testimonials: structuredClone(homeDefaults.testimonials),
   }]));
