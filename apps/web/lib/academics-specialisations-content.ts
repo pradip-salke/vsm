@@ -11,11 +11,16 @@ import { homeDefaults, homeMasterDefaults, type HomeMasters } from '@vsmedu/cont
 
 type InternshipContent = { title: string; items: (ImageAsset & { enabled?: boolean })[] };
 type SpecialisationClosingContent = {
+  tabs: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['tabs'];
+  glance: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['glance'];
+  overview: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['overview'];
+  breadcrumb: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['hero']['breadcrumb'];
   hero: HeroSlide;
   why: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['why'];
   admission: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['admission'];
   careers: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['careers'];
   curriculum: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['curriculum'];
+  faq: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['faq'];
   internships: InternshipContent;
   testimonials: typeof homeDefaults.testimonials & { items: HomeMasters['testimonials']['items'] };
 };
@@ -24,11 +29,16 @@ export async function getSpecialisationClosingContent(slug: string): Promise<Spe
   const page = academicsSpecialisationDefaults[slug as AcademicsSpecialisationSlug];
   const specMasters = academicsSpecialisationMasterDefaults[slug as AcademicsSpecialisationSlug];
   const fallback: SpecialisationClosingContent = {
+    tabs: page.tabs,
+    glance: page.glance,
+    overview: page.overview,
+    breadcrumb: page.hero.breadcrumb,
     hero: specialisationHero(page?.meta.heroTitle ?? 'PGDM Specialisation'),
     why: page.why,
     admission: page.admission,
     careers: page.careers,
     curriculum: page.curriculum,
+    faq: page.faq,
     internships: {
       title: page?.internships.title ?? 'Summer Internship 2025-27',
       items: specMasters?.internships.items ?? [],
@@ -47,11 +57,16 @@ export async function getSpecialisationClosingContent(slug: string): Promise<Spe
     if (!response.ok) throw new Error(`Specialisation API returned ${response.status}`);
     const json: { data?: Partial<SpecialisationClosingContent> } = await response.json();
     return {
+      tabs: json.data?.tabs ?? fallback.tabs,
+      glance: json.data?.glance ?? fallback.glance,
+      overview: json.data?.overview ?? fallback.overview,
+      breadcrumb: (json.data?.hero as { breadcrumb?: SpecialisationClosingContent['breadcrumb'] } | undefined)?.breadcrumb ?? fallback.breadcrumb,
       hero: json.data?.hero ?? fallback.hero,
       why: json.data?.why ?? fallback.why,
       admission: json.data?.admission ?? fallback.admission,
       careers: json.data?.careers ? { ...json.data.careers, roles: json.data.careers.roles.map(item => typeof item === 'string' ? { text: item, icon: '/images/figma/icon-neutral.svg', iconSize: 32 } : item) } : fallback.careers,
       curriculum: json.data?.curriculum ? { ...json.data.curriculum, subjects: json.data.curriculum.subjects.map(item => typeof item === 'string' ? { text: item, icon: '/images/figma/icon-neutral.svg', iconSize: 32 } : item) } : fallback.curriculum,
+      faq: json.data?.faq ?? fallback.faq,
       internships: json.data?.internships ?? fallback.internships,
       testimonials: json.data?.testimonials ?? fallback.testimonials,
     };

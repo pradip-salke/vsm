@@ -1,5 +1,8 @@
-/** Browser-facing API origin. Server components should keep using API_BASE_URL. */
-export const PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
+/**
+ * Browser-facing requests use the website origin. next.config.ts proxies the
+ * public API paths to API_BASE_URL, avoiding CORS/CSP differences between hosts.
+ */
+export const PUBLIC_API_BASE_URL = '';
 
 export type EnquiryPayload = {
   name: string;

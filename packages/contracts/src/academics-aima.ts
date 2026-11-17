@@ -131,8 +131,8 @@ export const aimaDefaults = {
     ],
   },
   'course-modules': {
-    year1Intro:
-      'Module 1 – Common for all Specialisations (Exit – Certificate in Management). Module 2 – Common for all Specialisations (Exit – Advance Certificate in Management).',
+    year1Module1Heading: 'Module 1 – Common for all Specialisations (Exit – Certificate in Management).',
+    year1Module2Heading: 'Module 2 – Common for all Specialisations (Exit – Advance Certificate in Management).',
     year1Rows: [
       { left: 'Management Functions & OB', right: 'Operations Management' },
       { left: 'Business Communication', right: 'Human Resource Management' },

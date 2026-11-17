@@ -14,7 +14,11 @@ const devPort = portArgIndex >= 0 ? process.argv[portArgIndex + 1] : process.env
 const trackingScriptHosts = 'https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms';
 const scriptSrc = `script-src 'self' 'unsafe-inline' ${trackingScriptHosts}${isDev ? " 'unsafe-eval'" : ''}`;
 const apiBase = process.env.API_BASE_URL ?? 'http://localhost:4000';
-const connectSrc = `connect-src 'self' http://localhost:4000 https:${isDev ? ' ws:' : ''}`;
+// Keep browser-side public API calls allowed in deployments where the API uses a
+// different host from the website. The old localhost-only source silently blocked
+// CMS-backed client requests behind CSP outside local development.
+const apiOrigins = [...new Set([apiBase, process.env.NEXT_PUBLIC_API_BASE_URL ?? apiBase].map((url) => new URL(url).origin))];
+const connectSrc = `connect-src 'self' ${apiOrigins.join(' ')} https:${isDev ? ' ws:' : ''}`;
 
 const config: NextConfig = {
   // Isolate each dev server by port so parallel local instances cannot delete each other's route output.
@@ -24,6 +28,7 @@ const config: NextConfig = {
   transpilePackages: ['@vsmedu/contracts'],
   async rewrites() {
     return [
+      { source: '/api/v1/public/:path*', destination: `${apiBase}/api/v1/public/:path*` },
       { source: '/cms-media/:path*', destination: `${apiBase}/cms-media/:path*` },
       { source: '/robots.txt', destination: `${apiBase}/api/v1/public/seo/robots.txt` },
       { source: '/sitemap.xml', destination: `${apiBase}/api/v1/public/seo/sitemap.xml` },

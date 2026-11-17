@@ -28,6 +28,20 @@ function mergeDocumentsWithDefaults(
       };
     }
   }
+  // Older API responses may still contain the combined Year 1 introduction.
+  // Place the two editable headings before the table rows even for those records.
+  const course = out['course-modules'];
+  if (config === aimaPageConfig && course && course.content && typeof course.content === 'object' && !Array.isArray(course.content)) {
+    const { year1Intro, year1Module1Heading, year1Module2Heading, ...remaining } = course.content;
+    const defaults = config.defaults['course-modules'] as Record<string, Value>;
+    const legacy = typeof year1Intro === 'string' ? year1Intro.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim() : '';
+    const split = legacy.search(/\bModule\s*2\b/i);
+    out['course-modules'] = { ...course, content: {
+      year1Module1Heading: year1Module1Heading ?? (split >= 0 ? legacy.slice(0, split).trim() : legacy || defaults.year1Module1Heading),
+      year1Module2Heading: year1Module2Heading ?? (split >= 0 ? legacy.slice(split).trim() : defaults.year1Module2Heading),
+      ...remaining,
+    } };
+  }
   return out;
 }
 

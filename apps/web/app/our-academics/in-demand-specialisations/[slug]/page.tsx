@@ -5,7 +5,7 @@ import { AcademicClosingSections } from '@/components/sections/AcademicClosingSe
 import { PageHero } from '@/components/sections/PageHero';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { IconList } from '@/components/sections/IconList';
-import { academicSpecialisations, specialisationHero, specialisationTabs } from '@/content/academic-specialisations';
+import { academicSpecialisations } from '@/content/academic-specialisations';
 import { academicsSpecialisationDefaults } from '@vsmedu/contracts/academics-specialisations';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
@@ -42,7 +42,7 @@ export default async function SpecialisationPage({ params }: Props) {
   if (!specPage) notFound();
   const closingContent = await getSpecialisationClosingContent(slug);
 
-  const breadcrumb = [
+  const defaultBreadcrumb = [
     { label: 'Home', href: '/' },
     { label: 'Academics', href: '/our-academics/aicte-pgdm-courses-in-mumbai/' },
     { label: page.title },
@@ -66,19 +66,29 @@ export default async function SpecialisationPage({ params }: Props) {
       <PageHero
         size="inner"
         slides={[closingContent.hero]}
-        breadcrumb={breadcrumb}
+        breadcrumb={closingContent.breadcrumb ?? defaultBreadcrumb}
         actions={<><Button href={APPLY_PATH}>Apply Now</Button><Button variant="arrow" href={ENQUIRY_ANCHOR}>Enquire now</Button></>}
       />
-      <AcademicsTabs tabs={specialisationTabs} />
+      <AcademicsTabs tabs={closingContent.tabs.links.map(({ label, anchor }) => ({ label, id: anchor }))} />
       <div className={`${layout.layout} ${styles.layout}`}>
         <aside className={`${layout.sidebar} ${styles.sidebar}`} aria-label={`${page.title} overview`}>
-          <AtAGlance facts={overviewFacts} showActions={false} />
+          <AtAGlance
+            title={closingContent.glance.title}
+            facts={closingContent.glance.facts.length ? closingContent.glance.facts : overviewFacts}
+            applyText={closingContent.glance.buttonText}
+            applyHref={closingContent.glance.buttonHref}
+            brochureText={closingContent.glance.brochureText}
+            brochureHref={closingContent.glance.brochureHref}
+            contactText={closingContent.glance.contactText}
+            contactHref={closingContent.glance.contactHref}
+            showActions={false}
+          />
         </aside>
         <main className={layout.main}>
           <div id="about-program" className={layout.block}>
             <section id="overview" className={styles.section}>
-              <SectionHeading eyebrow="About Program" title={`PGDM in ${page.title}`} />
-              {page.overview.map((paragraph) => <p className={styles.paragraph} key={paragraph}>{paragraph}</p>)}
+              <SectionHeading eyebrow={closingContent.overview.eyebrow} title={closingContent.overview.title} />
+              <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.overview.body }} />
             </section>
           </div>
           <section id="why-specialisation" className={`${layout.block} ${styles.section}`}>
@@ -86,13 +96,13 @@ export default async function SpecialisationPage({ params }: Props) {
             <IconList items={closingContent.why.items} divided className={styles.list} />
           </section>
           <section id="career-opportunities" className={`${layout.block} ${styles.section}`}>
-            <SectionHeading title={`Careers in ${page.title}`} />
-            <p className={styles.paragraph}>The PGDM specialisation combines management fundamentals with applied learning to prepare students for opportunities across industries.</p>
+            <SectionHeading title={closingContent.careers.title} />
+            <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.careers.intro }} />
             {renderIconList(closingContent.careers.roles, 'Career opportunities')}
           </section>
           <section id="specialisation-curriculum" className={`${layout.block} ${styles.section}`}>
-            <SectionHeading title={`${page.title} Curriculum`} />
-            <p className={styles.paragraph}>Alongside the common PGDM foundation, students study specialisation-focused subjects and apply their learning through projects and industry exposure.</p>
+            <SectionHeading title={closingContent.curriculum.title} />
+            <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.curriculum.intro }} />
             {renderIconList(closingContent.curriculum.subjects, 'Curriculum subjects')}
           </section>
           <section id="admission-procedure" className={`${layout.block} ${styles.section}`}>
@@ -103,7 +113,7 @@ export default async function SpecialisationPage({ params }: Props) {
       </div>
       <AcademicClosingSections
         scope={slug}
-        faq={specPage.faq}
+        faq={closingContent.faq}
         internships={closingContent.internships.items}
         internshipTitle={closingContent.internships.title}
         testimonials={closingContent.testimonials.items}

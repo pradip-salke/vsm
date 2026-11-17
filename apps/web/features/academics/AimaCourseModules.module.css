@@ -7,6 +7,14 @@
   color: var(--color-text-body);
 }
 
+.yearOneTable {
+  table-layout: fixed;
+}
+
+.yearOneTable th {
+  width: 50%;
+}
+
 .specialisationTable {
   min-width: 72rem;
 }

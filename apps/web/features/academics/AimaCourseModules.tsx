@@ -51,11 +51,10 @@ export function AimaCourseModules({ content }: { content: AimaContent['course-mo
         className={styles.panel}
         tabIndex={0}
       >
-        <p className={styles.intro}>{content.year1Intro}</p>
         <div className={blocks.tableScroll} tabIndex={0}>
-          <table className={`${blocks.table} ${blocks.curriculumTable}`}>
+          <table className={`${blocks.table} ${blocks.curriculumTable} ${styles.yearOneTable}`}>
             <caption className="visually-hidden">AIMA PGDM Year 1 course modules</caption>
-            <thead><tr><th scope="col">Module 1</th><th scope="col">Module 2</th></tr></thead>
+            <thead><tr><th scope="col">{content.year1Module1Heading}</th><th scope="col">{content.year1Module2Heading}</th></tr></thead>
             <tbody>{content.year1Rows.map(({ left, right }) => <tr key={left}><td>{left}</td><td>{right}</td></tr>)}</tbody>
           </table>
         </div>

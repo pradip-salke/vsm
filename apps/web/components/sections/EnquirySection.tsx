@@ -15,9 +15,7 @@ export function EnquirySection() {
 
   useEffect(() => {
     const controller = new AbortController();
-    const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:4000';
-
-    fetch(`${apiBase}/api/v1/public/settings/global`, { cache: 'no-store', signal: controller.signal })
+    fetch('/api/v1/public/settings/global', { cache: 'no-store', signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error('Global settings unavailable');
         return response.json();
@@ -29,7 +27,7 @@ export function EnquirySection() {
       })
       .catch(() => {
         // Fallback to home API or defaults
-        fetch(`${apiBase}/api/v1/public/home`, { cache: 'no-store', signal: controller.signal })
+        fetch('/api/v1/public/home', { cache: 'no-store', signal: controller.signal })
           .then((r) => (r.ok ? r.json() : null))
           .then((homeResult) => {
             if (homeResult?.data?.sections?.enquiry) {

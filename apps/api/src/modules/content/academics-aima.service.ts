@@ -30,6 +30,16 @@ function normalizeTestimonialsMaster(content: unknown): unknown {
 }
 
 function normalizeDocument(key: string, content: unknown): unknown {
+  if (key === 'course-modules' && content && typeof content === 'object' && !Array.isArray(content)) {
+    const { year1Intro, ...doc } = content as Record<string, unknown>;
+    const legacy = typeof year1Intro === 'string' ? year1Intro.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim() : '';
+    const split = legacy.search(/\bModule\s*2\b/i);
+    return {
+      ...doc,
+      year1Module1Heading: doc.year1Module1Heading ?? (split >= 0 ? legacy.slice(0, split).trim() : legacy || aimaDefaults['course-modules'].year1Module1Heading),
+      year1Module2Heading: doc.year1Module2Heading ?? (split >= 0 ? legacy.slice(split).trim() : aimaDefaults['course-modules'].year1Module2Heading),
+    };
+  }
   return key === 'master-testimonials' ? normalizeTestimonialsMaster(content) : content;
 }
 
@@ -157,7 +167,7 @@ export async function readAima() {
     if (key.startsWith('master-') && key.slice(7) in masters) {
       Object.assign(masters, { [key.slice(7) as AimaMasterKey]: normalizeDocument(key, row.value) });
     } else if (key in sections) {
-      Object.assign(sections, { [key as AimaKey]: row.value });
+      Object.assign(sections, { [key as AimaKey]: normalizeDocument(key, row.value) });
     }
   }
   sections.hero = mergeHeroForPublic(
