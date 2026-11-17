@@ -60,7 +60,9 @@ const specialisationPageMenus: AdminMenuNode[] = academicsSpecialisationIndex.ma
   ],
 }));
 
-const aboutPageMenus: AdminMenuNode[] = aboutPageSlugs.map((slug) => {
+const academicDisclosureSlugs = ['anti-ragging-policy', 'committee', 'eoa-report'] as const;
+
+const aboutPageMenus: AdminMenuNode[] = aboutPageSlugs.filter((slug) => !academicDisclosureSlugs.includes(slug as typeof academicDisclosureSlugs[number])).map((slug) => {
   const { navTitle } = aboutPages[slug];
   return {
     label: navTitle,
@@ -84,7 +86,7 @@ const admissionsPageMenus: AdminMenuNode[] = admissionsPageSlugs.map((slug) => {
   };
 });
 
-function pageGroupMenus(base: string, pages: Record<string, { navTitle: string; masterLabels: Record<string, string> }>): AdminMenuNode[] {
+function pageGroupMenus(base: string, pages: Record<string, { navTitle: string; masterLabels: Record<string, string> }>): AdminMenuBranch[] {
   return Object.entries(pages).map(([slug, { navTitle, masterLabels }]) => ({
     label: navTitle,
     icon: 'pages',
@@ -109,7 +111,7 @@ const placementsPageMenus = pageGroupMenus(
 const eventsPageMenus = pageGroupMenus(
   '/website/events',
   Object.fromEntries(eventsPageSlugs.map((slug) => [slug, eventsPages[slug]])) as Record<string, { navTitle: string; masterLabels: Record<string, string> }>
-);
+).map((page) => ({ ...page, children: page.children.filter((child) => isMenuLeaf(child) ? child.label !== 'Gallery Albums' : true) }));
 
 export const adminMenu: AdminMenuGroup[] = [
   { id: 'dashboard', label: 'Dashboard', icon: 'dashboard', children: [{ label: 'Overview', path: '/' }] },
@@ -125,8 +127,12 @@ export const adminMenu: AdminMenuGroup[] = [
           { label: 'Home Slider', path: '/masters/hero', description: 'Manage homepage banner slides.' },
           { label: 'Home CMS', path: '/website/home-sections', description: 'Homepage content sections.' },
           { label: 'Upcoming Events', path: '/masters/events', description: 'Upcoming events carousel on homepage.' },
-          { label: 'Life at VSM', path: '/masters/life', description: 'Life at VSM media section on homepage.' },
         ],
+      },
+      {
+        label: 'Gallery',
+        icon: 'pages',
+        children: [{ label: 'Gallery Management', path: '/masters/gallery', description: 'Manage Gallery Albums and Life @ VSM images in one place.' }],
       },
       {
         label: 'Our Academics',
@@ -139,7 +145,6 @@ export const adminMenu: AdminMenuGroup[] = [
               { label: 'Page Banner', path: '/website/academics/aicte-pgdm/hero', description: 'Banner slides for the AICTE PGDM page.' },
               { label: 'AICTE PGDM CMS', path: '/website/academics/aicte-pgdm', description: 'All in-page sections of the AICTE PGDM page.' },
               { label: 'Program Videos', path: '/website/academics/aicte-pgdm/program-videos', description: 'Program video carousel master.' },
-              { label: 'Gallery', path: '/website/academics/aicte-pgdm/gallery', description: 'Life @ VSM gallery master.' },
               { label: 'Events', path: '/website/academics/aicte-pgdm/events', description: 'Upcoming events carousel master.' },
             ],
           },
@@ -159,6 +164,21 @@ export const adminMenu: AdminMenuGroup[] = [
               { label: 'Page Banner', path: '/website/academics/faculty/hero', description: 'Banner slides for the Teaching Faculty page.' },
               { label: 'Teaching Faculty CMS', path: '/website/academics/faculty', description: 'All in-page sections of the Teaching Faculty page.' },
             ],
+          },
+          {
+            label: 'Mandatory Disclosure',
+            icon: 'pages',
+            children: academicDisclosureSlugs.map((slug) => {
+              const { navTitle } = aboutPages[slug];
+              return {
+                label: navTitle,
+                icon: 'pages',
+                children: [
+                  { label: 'Page Banner', path: `/website/about-us/${slug}/hero`, description: `Banner slides for the ${navTitle} page.` },
+                  { label: `${navTitle} CMS`, path: `/website/about-us/${slug}`, description: `Manage content for the ${navTitle} page.` },
+                ],
+              };
+            }),
           },
         ],
       },
@@ -180,10 +200,7 @@ export const adminMenu: AdminMenuGroup[] = [
       {
         label: 'About Us',
         icon: 'users',
-        children: [
-          ...aboutPageMenus,
-          { label: 'Approvals & Recognition', path: '/website/approvals', description: 'Accreditations and recognition.' },
-        ],
+        children: aboutPageMenus,
       },
       {
         label: 'Careers',
@@ -204,14 +221,6 @@ export const adminMenu: AdminMenuGroup[] = [
             children: [
               { label: 'Page Banner', path: '/website/blogs/listing/hero', description: 'Banner slides for the blog listing page.' },
               { label: 'Listing Settings', path: '/website/blogs/listing', description: 'Heading, listing settings and SEO of /blogs/.' },
-            ],
-          },
-          {
-            label: 'Detail Template',
-            icon: 'pages',
-            children: [
-              { label: 'Page Banner', path: '/website/blogs/detail/hero', description: 'Banner shown on every blog detail page.' },
-              { label: 'Detail Settings', path: '/website/blogs/detail', description: 'Links and SEO settings shared by blog detail pages.' },
             ],
           },
         ],

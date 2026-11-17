@@ -1,6 +1,9 @@
 import { prisma } from '../../lib/prisma.js';
+import { unlink } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { HttpError } from '../../middleware/errors.js';
-import type { EnquiryStatus, Prisma } from '@prisma/client';
+import { homeMediaRoot } from '../content/home-media.js';
+import { Prisma, type EnquiryStatus } from '@prisma/client';
 
 export type CareerEnquiryItem = {
   id: number;
@@ -143,15 +146,15 @@ export const enquiriesService = {
     phone: string;
     parentPhone?: string | null;
     dateOfBirth?: string | null;
-    address?: string | null;
-    city?: string | null;
-    pinCode?: string | null;
-    country?: string | null;
     nationality?: string | null;
     gender?: string | null;
     familyAnnualIncome?: string | null;
     referral?: string | null;
     referralOther?: string | null;
+    address?: string | null;
+    city?: string | null;
+    pinCode?: string | null;
+    country?: string | null;
     education?: Array<{
       stage: string;
       institution?: string | null;
@@ -166,18 +169,13 @@ export const enquiriesService = {
       rank?: number | null;
       session?: string | null;
     }>;
+    consent: boolean;
   }) {
     const dob = input.dateOfBirth ? new Date(input.dateOfBirth) : null;
-    const metaParts = [];
-    if (input.nationality) metaParts.push(`Nationality: ${input.nationality}`);
-    if (input.gender) metaParts.push(`Gender: ${input.gender}`);
-    if (input.familyAnnualIncome) metaParts.push(`Family Income: ${input.familyAnnualIncome}`);
-    if (input.referral) metaParts.push(`Referral: ${input.referral}${input.referralOther ? ` (${input.referralOther})` : ''}`);
 
-    const fullAddress = [input.address, metaParts.join(' | ')].filter(Boolean).join('\n---\n');
-
-    return prisma.application.create({
-      data: {
+    return prisma.$transaction(async (tx) => {
+      const application = await tx.application.create({
+        data: {
         firstName: input.firstName.trim(),
         middleName: input.middleName ? input.middleName.trim() : null,
         lastName: input.lastName.trim(),
@@ -185,11 +183,11 @@ export const enquiriesService = {
         phone: input.phone.trim(),
         parentPhone: input.parentPhone ? input.parentPhone.trim() : null,
         dateOfBirth: dob && !isNaN(dob.getTime()) ? dob : null,
-        address: fullAddress || null,
+        address: input.address?.trim() ?? null,
         city: input.city ? input.city.trim() : null,
         postalCode: input.pinCode ? input.pinCode.trim() : null,
         country: input.country ? input.country.trim() : 'India',
-        consent: true,
+        consent: input.consent,
         consentVersion: 'v1',
         consentedAt: new Date(),
         status: 'SUBMITTED',
@@ -215,11 +213,19 @@ export const enquiriesService = {
               })),
             }
           : undefined,
-      },
-      include: {
-        education: true,
-        examScores: true,
-      },
+        },
+        include: { education: true, examScores: true },
+      });
+      await tx.$executeRaw`
+        UPDATE applications SET
+          nationality = ${input.nationality?.trim() ?? null},
+          gender = ${input.gender?.trim() ?? null},
+          familyAnnualIncome = ${input.familyAnnualIncome?.trim() ?? null},
+          referral = ${input.referral?.trim() ?? null},
+          referralOther = ${input.referralOther?.trim() ?? null}
+        WHERE id = ${application.id}
+      `;
+      return tx.application.findUniqueOrThrow({ where: { id: application.id }, include: { education: true, examScores: true } });
     });
   },
 
@@ -397,7 +403,21 @@ export const enquiriesService = {
       prisma.application.count({ where: { status: 'SUBMITTED' } }),
     ]);
 
+    const demographics = rows.length
+      ? await prisma.$queryRaw<Array<{ id: number; nationality: string | null; gender: string | null; familyAnnualIncome: string | null; referral: string | null; referralOther: string | null }>>`
+          SELECT id, nationality, gender, familyAnnualIncome, referral, referralOther
+          FROM applications WHERE id IN (${Prisma.join(rows.map((row) => row.id))})
+        `
+      : [];
+    const demographicsById = new Map(demographics.map((item) => [item.id, item]));
+
     const items = rows.map((row) => {
+      const demographic = demographicsById.get(row.id);
+      const [addressText, legacyMeta] = row.address?.split('\n---\n') ?? [null, null];
+      const legacyFields = Object.fromEntries((legacyMeta ?? '').split(' | ').map((part) => {
+        const separator = part.indexOf(': ');
+        return separator > 0 ? [part.slice(0, separator), part.slice(separator + 2)] : ['', ''];
+      }).filter(([key]) => key));
       const fullName = [row.firstName, row.middleName, row.lastName].filter(Boolean).join(' ');
       const grad = row.education.find((e) => e.stage.toLowerCase().includes('grad'));
       const qualification = grad
@@ -421,10 +441,16 @@ export const enquiriesService = {
         phone: row.phone,
         parentPhone: row.parentPhone,
         dateOfBirth: row.dateOfBirth ? row.dateOfBirth.toISOString().split('T')[0] : null,
-        address: row.address,
+        address: legacyMeta ? addressText : row.address,
         city: row.city,
         postalCode: row.postalCode,
         country: row.country,
+        nationality: demographic?.nationality ?? legacyFields.Nationality ?? null,
+        gender: demographic?.gender ?? legacyFields.Gender ?? null,
+        familyAnnualIncome: demographic?.familyAnnualIncome ?? legacyFields['Family Income'] ?? null,
+        referral: demographic?.referral ?? legacyFields.Referral?.replace(/ \(.+\)$/, '') ?? null,
+        referralOther: demographic?.referralOther ?? legacyFields.Referral?.match(/\((.+)\)$/)?.[1] ?? null,
+        consent: row.consent,
         qualification,
         examSummary,
         education: row.education,
@@ -470,8 +496,19 @@ export const enquiriesService = {
   async deleteEnquiry(id: number) {
     const existing = await prisma.enquiry.findUnique({ where: { id } });
     if (!existing) throw new HttpError(404, 'NOT_FOUND', 'Enquiry not found');
-
-    return prisma.enquiry.delete({ where: { id } });
+    const removed = await prisma.enquiry.delete({ where: { id } });
+    if (existing.source === 'career' && existing.message) {
+      try {
+        const details = JSON.parse(existing.message) as { resumeUrl?: unknown };
+        const match = typeof details.resumeUrl === 'string'
+          ? /^\/cms-media\/(resume-[0-9a-f-]{36}-[A-Za-z0-9._-]+\.(?:pdf|docx?))$/i.exec(details.resumeUrl)
+          : null;
+        if (match?.[1]) await unlink(resolve(homeMediaRoot, match[1])).catch(() => undefined);
+      } catch {
+        // Preserve deletion even if a legacy career message is not valid JSON.
+      }
+    }
+    return removed;
   },
 
   async deleteApplication(id: number) {

@@ -38,6 +38,20 @@ function documents(slug: string): Record<string, unknown> {
 
 const prefix = (slug: string) => `placements.${slug}.`;
 
+function withoutAlumniCard(slug: string, key: string, content: unknown) {
+  if (slug !== 'placements' || key !== 'cards' || !content || typeof content !== 'object' || !('items' in content)) return content;
+  const cards = content as { items?: unknown[] };
+  if (!Array.isArray(cards.items)) return content;
+  return {
+    ...cards,
+    items: cards.items.filter((item) => {
+      if (!item || typeof item !== 'object') return true;
+      const card = item as { title?: unknown; href?: unknown };
+      return card.href !== '/placements/alumni/' && !(typeof card.title === 'string' && card.title.trim().toLowerCase() === 'alumni');
+    }),
+  };
+}
+
 function assertKnown(slug: string, key: string) {
   if (!(key in documents(slug))) throw new HttpError(404, 'PLACEMENTS_SECTION_NOT_FOUND', `Unknown section "${key}" on Placements page ${slug}`);
 }
@@ -68,9 +82,8 @@ function contentSchema(value: unknown, documentKey: string, key = '', parent = '
     );
   }
   const masterItem = documentKey.startsWith('master-') && parent === 'items';
-  const alumniRequired = documentKey === 'master-alumni' && parent === 'items' && key === 'name';
   const imageAltRequired = masterItem && documentKey !== 'master-hero' && key === 'alt';
-  if (REQUIRED_KEYS.has(key) || key === 'src' || alumniRequired || imageAltRequired) {
+  if (REQUIRED_KEYS.has(key) || key === 'src' || imageAltRequired) {
     result = result.refine((v) => typeof v === 'string' && v.trim().length > 0, 'This field is required');
   }
   if (key === 'width' || key === 'height') return z.number().int().min(1).max(20000);
@@ -95,7 +108,7 @@ export async function readPlacementsList(slug: string) {
   const result: Record<string, Doc> = {};
   for (const [key, value] of Object.entries(defaults)) {
     const row = rows.get(key);
-    result[key] = { content: row?.value ?? value, updatedAt: row?.updatedAt.toISOString() ?? null };
+    result[key] = { content: withoutAlumniCard(slug, key, row?.value ?? value), updatedAt: row?.updatedAt.toISOString() ?? null };
   }
   return result;
 }
@@ -103,7 +116,7 @@ export async function readPlacementsList(slug: string) {
 export async function readPlacementsDocument(slug: string, key: string): Promise<Doc> {
   assertKnown(slug, key);
   const row = await prisma.websiteSetting.findUnique({ where: { key: `${prefix(slug)}${key}` } });
-  return { content: row?.value ?? documents(slug)[key], updatedAt: row?.updatedAt.toISOString() ?? null };
+  return { content: withoutAlumniCard(slug, key, row?.value ?? documents(slug)[key]), updatedAt: row?.updatedAt.toISOString() ?? null };
 }
 
 /** Public payload: sections plus masters (enabled items only), with the first enabled banner slide merged into `hero`. */
@@ -146,7 +159,7 @@ const DocInput = z.object({ content: z.unknown(), updatedAt: z.string().datetime
 export async function updatePlacementsDocument(slug: string, key: string, input: unknown, actorId: number, requestId?: string) {
   assertKnown(slug, key);
   const { content, updatedAt } = DocInput.parse(input);
-  const validated = validate(slug, key, content);
+  const validated = validate(slug, key, withoutAlumniCard(slug, key, content));
   return prisma.$transaction((tx) => write(tx, slug, key, validated, updatedAt, 'placements.update', actorId, requestId));
 }
 
@@ -155,7 +168,7 @@ export async function updatePlacementsBulk(slug: string, input: unknown, actorId
   const { sections } = z.object({ sections: z.record(z.string(), DocInput) }).strict().parse(input);
   const validated = Object.entries(sections).map(([key, item]) => {
     assertKnown(slug, key);
-    return { key, content: validate(slug, key, item.content), updatedAt: item.updatedAt };
+    return { key, content: validate(slug, key, withoutAlumniCard(slug, key, item.content)), updatedAt: item.updatedAt };
   });
   return prisma.$transaction(async (tx) => {
     const updated: Record<string, { content: unknown; updatedAt: string }> = {};

@@ -2,6 +2,8 @@
 .section { padding-block: var(--section-spacing); }
 .intro,
 .closing { max-width: 75rem; color: var(--color-text-answer); line-height: var(--line-height-body); }
+.intro :global(p),
+.closing :global(p) { margin: 0; }
 .intro { margin-bottom: var(--space-7); }
 .closing { margin-top: var(--space-7); }
 

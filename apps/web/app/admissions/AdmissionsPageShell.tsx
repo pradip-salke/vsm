@@ -20,15 +20,23 @@ export function AdmissionsPageShell({ title, subtitle, active, children, content
 }) {
   const cmsHero = content?.sections.hero;
   const slide = { ...academicsHero, ...(cmsHero ?? {}), title: typeof cmsHero?.title === 'string' ? cmsHero.title : title, subtitle: typeof cmsHero?.subtitle === 'string' ? cmsHero.subtitle : subtitle } as HeroSlide;
+  const heroItems = Array.isArray(content?.masters.hero?.items) ? content.masters.hero.items as Record<string, unknown>[] : [];
+  const slides = heroItems.filter(item => item.enabled !== false).map(item => ({ ...slide, ...item }) as HeroSlide);
+  const nav = content?.sections['page-nav'];
+  const navLinks = Array.isArray(nav?.links) ? nav.links as { label: string; href: string }[] : admissionPages;
+  const primaryText = typeof cmsHero?.primaryText === 'string' ? cmsHero.primaryText : 'Apply Now';
+  const primaryHref = typeof cmsHero?.primaryHref === 'string' ? cmsHero.primaryHref : APPLY_PATH;
+  const secondaryText = typeof cmsHero?.secondaryText === 'string' ? cmsHero.secondaryText : 'Enquire now';
+  const secondaryHref = typeof cmsHero?.secondaryHref === 'string' ? cmsHero.secondaryHref : 'mailto:admissions@vsmedu.in';
   return <>
-    <PageHero size="inner" slides={[slide]} breadcrumb={[
+    <PageHero size="inner" slides={slides.length ? slides : [slide]} breadcrumb={[
       { label: 'Home', href: '/' }, { label: 'Admissions', href: admissionPages[0].href }, { label: active },
     ]} actions={<>
-      <Button href={APPLY_PATH}>Apply Now</Button>
-      <Button variant="arrow" href="mailto:admissions@vsmedu.in">Enquire now</Button>
+      {primaryText && <Button href={primaryHref}>{primaryText}</Button>}
+      {secondaryText && <Button variant="arrow" href={secondaryHref}>{secondaryText}</Button>}
     </>} />
-    <nav className={styles.nav} aria-label="Admissions pages"><ul className={`container ${styles.navList}`} role="list">
-      {admissionPages.map((page) => <li key={page.href}><Link href={page.href} aria-current={page.label === active ? 'page' : undefined}>{page.label}</Link></li>)}
+    <nav className={styles.nav} aria-label={typeof nav?.title === 'string' ? nav.title : 'Admissions pages'}><ul className={`container ${styles.navList}`} role="list">
+      {navLinks.map((page) => <li key={page.href}><Link href={page.href} aria-current={page.label === active ? 'page' : undefined}>{page.label}</Link></li>)}
     </ul></nav>
     <div className={styles.content}>{children}</div>
   </>;

@@ -597,9 +597,9 @@ export function HomeEditor({
                     <span className="cms-section-pill">{sectionPills[key]}</span>
                     {masterKey && (
                       <Link
-                        to={`/masters/${masterKey}`}
+                        to={masterKey === 'life' ? '/masters/gallery/life' : `/masters/${masterKey}`}
                         className="cms-master-link-btn"
-                        title={`Manage ${homeLabels[masterKey]} slider items`}
+                        title={masterKey === 'life' ? 'Manage Gallery images and page visibility' : `Manage ${homeLabels[masterKey]} slider items`}
                       >
                         Manage {homeLabels[masterKey]} Slider →
                       </Link>

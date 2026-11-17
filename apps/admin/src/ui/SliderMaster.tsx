@@ -26,11 +26,21 @@ import { ACADEMICS_PAGE_PATH, AIMA_PAGE_PATH, FACULTY_PAGE_PATH } from './cmsPat
 import './master-status.css';
 
 const SPEC_PAGES_BASE = '/our-academics/in-demand-specialisations/';
+const GALLERY_PAGE_OPTIONS = [
+  { slug: 'home', navTitle: 'Home' },
+  { slug: 'aicte', navTitle: 'AICTE PGDM' },
+  { slug: 'aima', navTitle: 'AIMA PGDM' },
+  ...academicsSpecialisationIndex,
+];
+const ALBUM_PAGE_OPTIONS = [
+  { slug: 'events-gallery', navTitle: 'Photo Gallery' },
+  { slug: 'events-gallery-2', navTitle: 'Photo Gallery (Page 2)' },
+];
 
-type PlacementsMasterKey = 'hero' | 'recruiters' | 'records' | 'placements' | 'internships' | 'alumni';
+type PlacementsMasterKey = 'hero' | 'recruiters' | 'records' | 'placements' | 'internships';
 type EventsMasterKey = 'hero' | 'albums' | 'photos' | 'speakers' | 'videos';
-export type SupportedMasterKey = HomeMasterKey | AcademicsMasterKey | FacultyMasterKey | PlacementsMasterKey | EventsMasterKey | 'video-testimonials' | 'written-testimonials';
-export type MasterScope = 'home' | 'academics' | 'aima' | 'spec' | 'faculty' | 'admissions' | 'placements' | 'events' | 'site';
+export type SupportedMasterKey = HomeMasterKey | AcademicsMasterKey | FacultyMasterKey | PlacementsMasterKey | EventsMasterKey | 'gallery-items' | 'gallery-albums' | 'video-testimonials' | 'written-testimonials';
+export type MasterScope = 'home' | 'academics' | 'aima' | 'spec' | 'faculty' | 'admissions' | 'placements' | 'events' | 'site' | 'gallery';
 /** Page groups (Placements, Events, About Us, Career, Blogs) whose pages each define their own sections and masters. */
 export type PageGroupMeta = {
   path: string;
@@ -45,7 +55,6 @@ const GROUP_ITEM_NOUNS: Partial<Record<string, string>> = {
   records: 'Image',
   placements: 'Image',
   internships: 'Image',
-  alumni: 'Profile',
   albums: 'Album',
   photos: 'Photo',
   speakers: 'Speaker',
@@ -225,7 +234,7 @@ export function SliderMaster({
   const groupSection = groupMeta?.masterSections[master];
   const anyAcademics = isAcademics || isAima || isSpec || isFaculty || isAdmissions || Boolean(groupMeta);
   const isFacultyProfiles = isFaculty && master === 'profiles';
-  const itemNoun = isFacultyProfiles ? 'Profile' : master === 'testimonials' || testimonialKind ? 'Testimonial' : (groupMeta && GROUP_ITEM_NOUNS[master]) || 'Slide';
+  const itemNoun = routeScope === 'gallery' ? master === 'gallery-albums' ? 'Album' : 'Gallery image' : isFacultyProfiles ? 'Profile' : master === 'testimonials' || testimonialKind ? 'Testimonial' : (groupMeta && GROUP_ITEM_NOUNS[master]) || 'Slide';
   const livePageUrl = (() => {
     if (groupMeta) return groupMeta.path;
     if (isSpec && specSlug) return `${SPEC_PAGES_BASE}${specSlug}/`;
@@ -252,6 +261,7 @@ export function SliderMaster({
               : 'homepage';
 
   const title = (() => {
+    if (routeScope === 'gallery') return master === 'gallery-albums' ? 'Gallery Albums' : 'Life @ VSM Gallery';
     if (testimonialKind) return master === 'testimonials' ? 'Student Testimonials' : testimonialKind === 'video' ? 'Video Testimonials' : 'Written Testimonials';
     if (groupMeta) return `${groupMeta.navTitle} – ${groupMeta.masterLabels[master] ?? master}`;
     if (admissionsMeta) return `${admissionsMeta.navTitle} – Page Banner`;
@@ -264,13 +274,14 @@ export function SliderMaster({
   })();
 
   const masterPath = (() => {
+    if (routeScope === 'gallery') return `/admin/gallery/${master === 'gallery-albums' ? 'albums' : 'life'}`;
     if (testimonialKind) return `/admin/testimonials/${isSpec ? encodeURIComponent(specSlug ?? '') : isAcademics ? 'aicte' : isAima ? 'aima' : 'home'}/${testimonialKind}`;
     if (admissionsMeta) return `/admin/admissions/${admissionsPage}/master-${master}`;
     if (pageGroup) return `${pageGroup.api}/master-${master}`;
     if (scope === 'home') return `/admin/home/master-${master}`;
     if (isAcademics) return `/admin/academics/master-${master}`;
     if (isAima) return `/admin/academics/aima/master-${master}`;
-    if (isFaculty) return `/admin/academics/faculty/master-${master}`;
+    if (isFaculty) return `/admin/academics/teaching-faculty/master-${master}`;
     if (isSpec && specSlug)
       return `/admin/academics/specialisations/page/${encodeURIComponent(specSlug)}/master-${master}`;
     return `/admin/home/master-${master}`;
@@ -282,13 +293,13 @@ export function SliderMaster({
     if (scope === 'home') return `/admin/home/${master}`;
     if (isAcademics) return `/admin/academics/${master}`;
     if (isAima) return `/admin/academics/aima/${master}`;
-    if (isFaculty) return '/admin/academics/faculty/intro';
+    if (isFaculty) return '/admin/academics/teaching-faculty/intro';
     if (isSpec && specSlug)
       return `/admin/academics/specialisations/page/${encodeURIComponent(specSlug)}/${master}`;
     return `/admin/home/${master}`;
   })();
   /** Home hero has no static block; AICTE page banner matches that (breadcrumbs live on Page Sections). */
-  const hasStatic = groupMeta
+  const hasStatic = routeScope === 'gallery' ? false : groupMeta
     ? Boolean(groupSection)
     : isFaculty
       ? isFacultyProfiles
@@ -311,6 +322,7 @@ export function SliderMaster({
   const deleteRef = useRef<HTMLDialogElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const template = (() => {
+    if (routeScope === 'gallery') return (master === 'gallery-albums' ? eventsPages.gallery.masters.albums.items[0] : homeMasterDefaults.life.items[0]) as unknown as Item;
     if (testimonialKind) return homeMasterDefaults.testimonials.items[0] as unknown as Item;
     if (admissionsMeta) return admissionsMeta.masters.hero.items[0] as unknown as Item;
     if (groupMeta) return (groupMeta.masters[master] ?? groupMeta.masters.hero).items[0] as Item;
@@ -324,6 +336,7 @@ export function SliderMaster({
   })();
 
   const staticTemplate = (() => {
+    if (routeScope === 'gallery') return {} as Value;
     if (groupMeta) return (groupSection ? groupMeta.sections[groupSection] : {}) as Value;
     if (isFaculty) return facultyPageDefaults.intro as unknown as Value;
     if (isSpec && specSlug && master in academicsSpecialisationDefaults[specSlug as keyof typeof academicsSpecialisationDefaults]) {
@@ -388,6 +401,7 @@ export function SliderMaster({
           index: null,
           item: {
             ...blank(template) as Item,
+            ...(routeScope === 'gallery' ? { pages: master === 'gallery-albums' ? ['events-gallery'] : ['home'] } : {}),
             ...(master === 'hero' ? { imagePosition: String(template.imagePosition ?? ''), mobileImagePosition: String(template.mobileImagePosition ?? '') } : {}),
             ...((isAdmissions || scope === 'site') && master === 'hero' ? { image: structuredClone(template.image) } : {}),
           },
@@ -428,7 +442,7 @@ export function SliderMaster({
     try {
       const result = await api<{ data: MasterDocument }>(masterPath, { method: 'PATCH', body: JSON.stringify({ content: { items: next }, updatedAt: document.updatedAt }) });
       setDocument(result.data);
-      setMessage(anyAcademics ? `Saved to the ${saveContextHint}.` : 'Saved. Changes are live on the homepage.');
+      setMessage(routeScope === 'gallery' ? 'Saved. Gallery changes are live on the selected pages.' : anyAcademics ? `Saved to the ${saveContextHint}.` : 'Saved. Changes are live on the homepage.');
       return true;
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'Could not save slides'); return false; }
     finally { setBusy(false); }
@@ -460,7 +474,7 @@ export function SliderMaster({
   async function save(event: FormEvent) {
     event.preventDefault();
     if (!editing || !document) return;
-    const pageManaged = ['faculty', 'recruiters', 'internships', 'testimonials'].includes(master) && (routeScope === 'home' || isAcademics || isAima || isSpec);
+    const pageManaged = routeScope === 'gallery' || (['faculty', 'recruiters', 'internships', 'testimonials'].includes(master) && (routeScope === 'home' || isAcademics || isAima || isSpec));
     const selectedPages = Array.isArray(editing.item.pages) ? editing.item.pages : editing.index === null ? [] : master === 'faculty' || master === 'recruiters' ? visibility?.pages ?? [] : [isAcademics ? 'aicte' : isAima ? 'aima' : isSpec ? specSlug ?? '' : 'home'];
     if (pageManaged && selectedPages.length === 0 && master !== 'faculty') { setError('Select at least one page for this item.'); return; }
     const next = items.filter((_, index) => index !== editing.index);
@@ -640,7 +654,7 @@ export function SliderMaster({
     )}
     {master === 'testimonials' && !isFormRoute && <div className="cms-testimonial-tabs" role="tablist" aria-label="Testimonial type">{(['video', 'written'] as const).map(kind => <button key={kind} type="button" role="tab" aria-selected={testimonialKind === kind} className={testimonialKind === kind ? 'cms-primary' : 'cms-secondary'} onClick={() => { setDocument(null); setError(''); setMessage(''); setPage(1); const params = new URLSearchParams(currentQuery); params.set('tab', kind); navigate(`${listPath}?${params}`); }}>{kind === 'video' ? 'Video Testimonials' : 'Written Testimonials'}</button>)}</div>}
     {isFormRoute && editing ? <form className={`cms-slide-editor ${master === 'hero' ? 'cms-hero-editor' : ''}`} data-tour="master-form" onSubmit={save}>
-      {['faculty', 'recruiters', 'internships', 'testimonials'].includes(master) && (routeScope === 'home' || isAcademics || isAima || isSpec) && <fieldset className="cms-field"><legend>Show this item on</legend>{master === 'faculty' && <p>All active profiles appear on the Faculty page. Select additional pages below.</p>}{[{ slug: 'home', navTitle: 'Home' }, { slug: 'aicte', navTitle: 'AICTE PGDM' }, { slug: 'aima', navTitle: 'AIMA PGDM' }, ...academicsSpecialisationIndex].map(page => { const selected = Array.isArray(editing.item.pages) ? editing.item.pages as string[] : editing.index === null ? [] : master === 'faculty' || master === 'recruiters' ? visibility?.pages ?? [] : [isAcademics ? 'aicte' : isAima ? 'aima' : isSpec ? specSlug ?? '' : 'home']; return <label key={page.slug} style={{ display: 'block', marginTop: 8 }}><input type="checkbox" checked={selected.includes(page.slug)} disabled={readOnly} onChange={event => setEditing({ ...editing, item: { ...editing.item, pages: event.target.checked ? [...selected, page.slug] : selected.filter(value => value !== page.slug) } })} /> {page.navTitle}</label>; })}</fieldset>}
+      {((routeScope === 'gallery' && (master === 'gallery-items' || master === 'gallery-albums')) || (['faculty', 'recruiters', 'internships', 'testimonials'].includes(master) && (routeScope === 'home' || isAcademics || isAima || isSpec))) && <fieldset className="cms-field"><legend>Show this item on</legend>{(routeScope === 'gallery' ? master === 'gallery-albums' ? ALBUM_PAGE_OPTIONS : GALLERY_PAGE_OPTIONS : GALLERY_PAGE_OPTIONS).map(page => { const selected = Array.isArray(editing.item.pages) ? editing.item.pages as string[] : editing.index === null ? [] : master === 'faculty' || master === 'recruiters' ? visibility?.pages ?? [] : [isAcademics ? 'aicte' : isAima ? 'aima' : isSpec ? specSlug ?? '' : 'home']; return <label key={page.slug} style={{ display: 'block', marginTop: 8 }}><input type="checkbox" checked={selected.includes(page.slug)} disabled={readOnly} onChange={event => setEditing({ ...editing, item: { ...editing.item, pages: event.target.checked ? [...selected, page.slug] : selected.filter(value => value !== page.slug) } })} /> {page.navTitle}</label>; })}</fieldset>}
       {master === 'hero' ? <HeroSlideFields value={editing.item} onChange={item => setEditing({ ...editing, item })} disabled={readOnly} upload={upload} position={editing.position} maxPosition={items.length + (editing.index === null ? 1 : 0)} onPositionChange={position => setEditing({ ...editing, position })} /> : master === 'faculty' ? <>
         <label className="cms-field cms-slide-order"><span>Display order</span><input type="number" required min={1} max={items.length + (editing.index === null ? 1 : 0)} value={editing.position} disabled={readOnly} onChange={event => setEditing({ ...editing, position: Number(event.target.value) })} /></label>
         <FacultyDetailsEditor item={editing.item} readOnly={readOnly} onChange={item => setEditing({ ...editing, item })} upload={upload} />

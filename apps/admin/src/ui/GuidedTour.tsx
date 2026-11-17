@@ -77,7 +77,7 @@ function getSteps(tourId: TourId, isFormPage: boolean, pageTitle: string, route:
         { target: '.seo-tabs', title: 'SEO Sections', description: 'Switch between the SEO tools from these tabs. Each tab manages a different part of the site’s search setup.', placement: 'bottom', padding: 8 },
         { target: '.seo-pane, .seo-overview-grid, .seo-two-col, .seo-editor-card, .seo-audit-card, .seo-card', title: 'Current SEO Workspace', description: 'Review the information and controls for the selected SEO section here.', placement: 'top', padding: 8 },
       );
-    } else if (normalizedRoute.startsWith('/website/') && normalizedRoute !== '/website/approvals' && !normalizedRoute.includes('/blogs/posts')) {
+    } else if (normalizedRoute.startsWith('/website/') && !normalizedRoute.includes('/blogs/posts')) {
       steps.push(
         { target: '.cms-sections-stream > .cms-section-card:first-child', title: 'Page Sections', description: 'Edit the page’s content section by section. Each card groups the fields that appear together on the live page.', placement: 'bottom', padding: 8 },
         { target: '.cms-sections-stream > .cms-section-card:nth-child(2), .cms-section-card[aria-labelledby="heading-shared"]', title: 'More Page Content', description: 'Continue through the page’s sections and shared content links. Each section saves as part of this page update.', placement: 'bottom', padding: 8 },
@@ -115,8 +115,11 @@ function getSteps(tourId: TourId, isFormPage: boolean, pageTitle: string, route:
         { target: '.cms-global-settings-editor .seo-card', title: 'Website Branding', description: 'Update the website logo used in the public header, mobile menu, and footer.', placement: 'bottom', padding: 8 },
         { target: '.cms-global-settings-editor .seo-sticky-bar', title: 'Save Global Settings', description: 'Apply logo changes with the save action in this bar.', placement: 'top', padding: 8 },
       );
-    } else if (normalizedRoute === '/website/approvals' || normalizedRoute === '/settings/contact') {
-      steps.push({ target: '.phase-card', title: 'Module Overview', description: 'This page explains the current workspace status and where its future management tools will appear.', placement: 'bottom', padding: 8 });
+    } else if (normalizedRoute === '/settings/contact') {
+      steps.push(
+        { target: '.cms-contact-details-editor .seo-card:first-of-type', title: 'Contact Page Content', description: 'Edit the public Contact page banner, buttons, paragraphs, and location map in these grouped sections.', placement: 'bottom', padding: 8 },
+        { target: '.cms-contact-details-editor .seo-sticky-bar', title: 'Publish Contact Page Changes', description: 'Save the Contact page updates here. The public page reads the saved settings after refresh.', placement: 'top', padding: 8 },
+      );
     } else if (normalizedRoute.startsWith('/settings/') && normalizedRoute !== '/settings/contact') {
       steps.push(
         { target: '.cms-section-card:first-of-type, .cms-settings-card:first-of-type, .seo-card:first-of-type', title: 'Settings and Content Fields', description: 'Related settings are grouped into clear sections. Update the fields here while keeping the website-wide context in mind.', placement: 'bottom', padding: 8 },

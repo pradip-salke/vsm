@@ -46,7 +46,7 @@ export default async function AdmissionsProcessPage() {
     </AdmissionSection>
     <AdmissionSection title={cmsString(cta?.title, 'Begin Your Management Journey – Apply Now')}>
       <p className={styles.lead} dangerouslySetInnerHTML={{ __html: cmsString(cta?.lead, '<p>Take the first step toward your management career. Complete the application form to get started.</p>') }} />
-      <div className={styles.actions}><Button href={APPLY_PATH}>Complete Application Form</Button><Button variant="arrow" href="/contact-us/">Contact Admissions</Button></div>
+      <div className={styles.actions}><Button href={cmsString(cta?.primaryHref, APPLY_PATH)}>{cmsString(cta?.primaryText, 'Complete Application Form')}</Button><Button variant="arrow" href={cmsString(cta?.secondaryHref, '/contact-us/')}>{cmsString(cta?.secondaryText, 'Contact Admissions')}</Button></div>
     </AdmissionSection>
   </AdmissionsPageShell>;
 }

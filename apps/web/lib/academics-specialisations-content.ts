@@ -11,6 +11,7 @@ import { homeDefaults, homeMasterDefaults, type HomeMasters } from '@vsmedu/cont
 
 type InternshipContent = { title: string; items: (ImageAsset & { enabled?: boolean })[] };
 type SpecialisationClosingContent = {
+  templateSections: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['templateSections'];
   tabs: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['tabs'];
   glance: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['glance'];
   overview: (typeof academicsSpecialisationDefaults)[AcademicsSpecialisationSlug]['overview'];
@@ -30,6 +31,7 @@ export async function getSpecialisationClosingContent(slug: string): Promise<Spe
   const specMasters = academicsSpecialisationMasterDefaults[slug as AcademicsSpecialisationSlug];
   const fallback: SpecialisationClosingContent = {
     tabs: page.tabs,
+    templateSections: page.templateSections,
     glance: page.glance,
     overview: page.overview,
     breadcrumb: page.hero.breadcrumb,
@@ -38,7 +40,7 @@ export async function getSpecialisationClosingContent(slug: string): Promise<Spe
     admission: page.admission,
     careers: page.careers,
     curriculum: page.curriculum,
-    faq: page.faq,
+    faq: { ...page.faq, items: [] },
     internships: {
       title: page?.internships.title ?? 'Summer Internship 2025-27',
       items: specMasters?.internships.items ?? [],
@@ -58,6 +60,7 @@ export async function getSpecialisationClosingContent(slug: string): Promise<Spe
     const json: { data?: Partial<SpecialisationClosingContent> } = await response.json();
     return {
       tabs: json.data?.tabs ?? fallback.tabs,
+      templateSections: json.data?.templateSections ?? fallback.templateSections,
       glance: json.data?.glance ?? fallback.glance,
       overview: json.data?.overview ?? fallback.overview,
       breadcrumb: (json.data?.hero as { breadcrumb?: SpecialisationClosingContent['breadcrumb'] } | undefined)?.breadcrumb ?? fallback.breadcrumb,

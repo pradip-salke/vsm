@@ -99,7 +99,7 @@ function FacultyIntroduction({ id, isPage, popup = false, heading }: { id: strin
     <SectionHeading
       id={id}
       className={popup ? styles.popupHeading : undefined}
-      eyebrow={isPage ? heading?.eyebrow ?? 'Masters of Their Craft, Mentors for the Future' : 'Our Faculties'}
+      eyebrow={heading?.eyebrow ?? (isPage ? 'Masters of Their Craft, Mentors for the Future' : 'Our Faculties')}
       eyebrowTone="plain"
       title={heading?.title ?? 'Meet Our Industry-Oriented PGDM Faculty'}
       tone={isPage ? 'light' : 'dark'}

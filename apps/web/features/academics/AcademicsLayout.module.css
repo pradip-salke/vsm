@@ -101,6 +101,24 @@
 .advantageListViewport::-webkit-scrollbar { width: 8px; }
 .advantageListViewport::-webkit-scrollbar-track { background: #d6d6d6; }
 .advantageListViewport::-webkit-scrollbar-thumb { background: #777777; border: 1px solid #d6d6d6; border-radius: 999px; }
+
+.customListViewport {
+  --custom-list-start: var(--column-inset, var(--page-gutter));
+  --custom-list-end: calc(var(--edge, var(--page-gutter)) + 0.365vw);
+  max-height: calc(clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem) * 5);
+  margin-inline: calc(-1 * var(--custom-list-start)) calc(-1 * var(--custom-list-end) + 16px);
+  padding-inline: var(--custom-list-start) max(0px, calc(var(--custom-list-end) - 16px));
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  overscroll-behavior-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+.customListViewport li > :last-child { min-width: 0; overflow-wrap: anywhere; }
+.customListViewport::-webkit-scrollbar { width: 8px; }
+.customListViewport::-webkit-scrollbar-track { background: transparent; }
+.customListViewport::-webkit-scrollbar-thumb { background: #888; border-radius: 999px; }
 .advantageContent li {
   position: relative;
   display: flex;

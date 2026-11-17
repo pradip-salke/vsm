@@ -92,6 +92,13 @@ export async function readAdmissionsDocument(slug: string, key: string): Promise
 /** Public payload: sections plus masters, with the first enabled banner slide merged into `hero`. */
 export async function readAdmissionsPublic(slug: string) {
   const list = await readAdmissionsList(slug);
+  if (list.faq) {
+    const faqRow = await prisma.websiteSetting.findUnique({ where: { key: `${prefix(slug)}faq` } });
+    if (!faqRow) {
+      const faq = list.faq.content as Record<string, unknown>;
+      list.faq = { ...list.faq, content: { ...faq, items: [] } };
+    }
+  }
   const sections: Record<string, unknown> = {};
   const masters: Record<string, unknown> = {};
   for (const [key, doc] of Object.entries(list)) {

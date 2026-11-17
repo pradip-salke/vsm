@@ -6,6 +6,7 @@ import { galleryEvents } from '@/content/events';
 import styles from '../events.module.css';
 import { withSeo } from '@/lib/seo';
 import { cmsString, getEventsPageContent } from '@/lib/cms-content';
+import { getGalleryAlbums } from '@/lib/gallery-content';
 
 const metadata: Metadata = { title: 'Photo Gallery | Valia School of Management', description: 'Browse events and student experiences at Valia School of Management.', alternates: { canonical: '/events/gallery/' } };
 
@@ -16,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function EventGalleryPage() {
   const cms = await getEventsPageContent('gallery');
   const intro = cms?.sections.intro;
-  const cmsAlbums = (cms?.masters.albums as { items?: ({ title: string; href: string; image: (typeof galleryEvents)[number]['image']; images: (typeof galleryEvents)[number]['images']; enabled?: boolean })[] } | undefined)?.items;
+  const cmsAlbums = await getGalleryAlbums('events-gallery');
   const albums = cmsAlbums ? cmsAlbums.filter((item) => item.enabled !== false) : galleryEvents;
   return <EventsShell title="Gallery" active="Photo Gallery" cms={cms}><section className={`container ${styles.section}`}>
     <header className={styles.heading}><h2>{cmsString(intro?.title, 'Event Gallery')}</h2><p>{cmsString(intro?.description, "Navigating Today's Business World with Tomorrow's Leaders")}</p></header>

@@ -31,6 +31,20 @@ export default async function AimaPgdmPage() {
   const tabs = sections.tabs.links.map(({ label, anchor }) => ({ label, id: anchor }));
   const glance = sections.glance;
   const sectionAnchor = (index: number, fallback: string) => sections.tabs.links[index]?.anchor ?? fallback;
+  // Display order is a position in the page's main content, starting before About VSM.
+  const customSections = (sections.templateSections?.sections ?? []).map((section, index) => ({ section, index })).sort((a, b) => a.section.displayOrder - b.section.displayOrder || a.index - b.index);
+  const sectionsAt = (position: number) => customSections.filter(({ section }) => Math.max(1, Math.min(10, section.displayOrder || 1)) === position).map(({ section, index }) => (
+    <section key={`custom-${index}`} className={layout.block}>
+      {section.title && <SectionHeading title={section.title} />}
+      <div className={blocks.prose}>
+        <div className={blocks.templateRichText} dangerouslySetInnerHTML={{ __html: section.body }} />
+        {section.subsectionTitle && <h3 className={styles.subheading}>{section.subsectionTitle}</h3>}
+        {section.items.length > 0 && <div className={section.items.length > 5 ? layout.customListViewport : undefined} role={section.items.length > 5 ? 'region' : undefined} aria-label={section.items.length > 5 ? `${section.title} list` : undefined} tabIndex={section.items.length > 5 ? 0 : undefined}>
+          <IconList items={section.items.slice().sort((a, b) => a.displayOrder - b.displayOrder)} divided className={styles.iconList} />
+        </div>}
+      </div>
+    </section>
+  ));
   return (
     <div className={layout.page}>
       <PageHero
@@ -52,6 +66,7 @@ export default async function AimaPgdmPage() {
         </aside>
 
         <div className={layout.main}>
+          {sectionsAt(1)}
           <div id="about-program" className={`${layout.block} ${styles.aboutProgram}`}>
           <section id={sectionAnchor(0, 'about-vsm')} className={styles.sectionLead}>
             <SectionHeading eyebrow={sections['about-vsm'].eyebrow} title={sections['about-vsm'].title} />
@@ -59,6 +74,7 @@ export default async function AimaPgdmPage() {
           </section>
           </div>
 
+          {sectionsAt(2)}
           <section id={sectionAnchor(1, 'about-aima')} className={layout.block}>
             <SectionHeading title={sections['about-aima'].title} />
             <div className={blocks.prose}><div dangerouslySetInnerHTML={{ __html: sections['about-aima'].body }} /><h3 className={styles.subheading}>{sections['about-aima'].subsectionTitle}</h3>
@@ -66,26 +82,31 @@ export default async function AimaPgdmPage() {
             </div>
           </section>
 
+          {sectionsAt(3)}
           <section id={sectionAnchor(2, 'about-pgdm')} className={layout.block}>
             <SectionHeading title={sections['about-pgdm'].title} />
             <div className={blocks.prose}><div dangerouslySetInnerHTML={{ __html: sections['about-pgdm'].body }} /></div>
           </section>
 
+          {sectionsAt(4)}
           <section id={sectionAnchor(3, 'program-structure')} className={layout.block}>
             <SectionHeading title={sections['program-structure'].title} />
             <p className={styles.moduleNote}>{sections['program-structure'].note}</p>
             <IconList items={sections['program-structure'].items} divided className={styles.iconList} />
           </section>
 
+          {sectionsAt(5)}
           <section id={sectionAnchor(4, 'specialisations')} className={layout.block}>
             <SectionHeading title={sections.specialisations.title} />
             <IconList items={sections.specialisations.items} divided className={styles.iconList} />
           </section>
 
+          {sectionsAt(6)}
           <div id={sectionAnchor(5, 'course-modules')} className={layout.block}>
             <AimaCourseModules content={sections['course-modules']} />
           </div>
 
+          {sectionsAt(7)}
           <section id={sectionAnchor(6, 'aima-fees')} className={layout.block}>
             <SectionHeading title={sections.fees.title} />
             <div className={blocks.tableScroll} tabIndex={0}>
@@ -97,6 +118,7 @@ export default async function AimaPgdmPage() {
             </div>
           </section>
 
+          {sectionsAt(8)}
           <section id={sectionAnchor(7, 'other-details')} className={layout.block}>
             <SectionHeading title={sections['other-details'].title} />
             <div className={styles.otherDetailsViewport}>
@@ -118,10 +140,12 @@ export default async function AimaPgdmPage() {
             </div>
           </section>
 
+          {sectionsAt(9)}
           <section id={sectionAnchor(8, 'admission-procedure')} className={layout.block} aria-labelledby="admission-title">
             <SectionHeading id="admission-title" title={sections.admission.title} />
             <IconList items={sections.admission.steps} ordered divided className={layout.steps} />
           </section>
+          {sectionsAt(10)}
         </div>
       </div>
       <AcademicClosingSections

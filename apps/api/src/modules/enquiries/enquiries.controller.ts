@@ -61,41 +61,52 @@ const careerSchema = z.object({
   designation: z.string().trim().min(1, 'Current designation is required').max(120),
 });
 
-const applicationSchema = z.object({
+const phoneSchema = z.string().trim().min(7, 'Enter a valid phone number').max(32).refine((value) => {
+  const digits = value.replace(/\D/g, '');
+  return /^[+\d][\d\s()-]*$/.test(value) && digits.length >= 7 && digits.length <= 15;
+}, 'Enter a valid phone number');
+
+export const applicationSchema = z.object({
   firstName: z.string().trim().min(1, 'First name is required').max(120),
   middleName: z.string().trim().max(120).optional().nullable(),
   lastName: z.string().trim().min(1, 'Last name is required').max(120),
   email: z.string().trim().email('Valid email is required').max(254),
-  phone: z.string().trim().min(7, 'Phone number is required').max(32),
-  parentPhone: z.string().trim().max(32).optional().nullable(),
-  dateOfBirth: z.string().optional().nullable(),
-  address: z.string().max(1000).optional().nullable(),
-  city: z.string().max(120).optional().nullable(),
-  pinCode: z.string().max(20).optional().nullable(),
-  country: z.string().max(100).optional().nullable(),
-  nationality: z.string().max(80).optional().nullable(),
-  gender: z.string().max(30).optional().nullable(),
-  familyAnnualIncome: z.string().max(80).optional().nullable(),
-  referral: z.string().max(100).optional().nullable(),
+  phone: phoneSchema,
+  parentPhone: phoneSchema,
+  dateOfBirth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Enter a valid date of birth').refine((value) => {
+    const date = new Date(`${value}T00:00:00.000Z`);
+    return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value && date <= new Date();
+  }, 'Enter a valid date of birth'),
+  address: z.string().trim().min(1, 'Address is required').max(1000),
+  city: z.string().trim().min(1, 'City is required').max(120),
+  pinCode: z.string().trim().regex(/^\d{6}$/, 'Enter a valid 6-digit PIN code'),
+  country: z.string().trim().min(1, 'Country is required').max(100),
+  nationality: z.string().trim().min(1, 'Nationality is required').max(80),
+  gender: z.enum(['Male', 'Female']),
+  familyAnnualIncome: z.string().trim().min(1, 'Family annual income is required').max(80),
+  referral: z.enum(['Website', 'Social Media', 'Advertisement', 'Friend', 'Phone / SMS / Email', 'Other']),
   referralOther: z.string().max(160).optional().nullable(),
-  education: z.array(
-    z.object({
-      stage: z.string().min(1).max(30),
-      institution: z.string().max(240).optional().nullable(),
-      board: z.string().max(240).optional().nullable(),
-      stream: z.string().max(160).optional().nullable(),
-      passingYear: z.coerce.number().int().optional().nullable(),
-      resultPercent: z.coerce.number().optional().nullable(),
-    })
-  ).optional(),
-  examScores: z.array(
-    z.object({
-      examCode: z.string().min(1).max(40),
-      score: z.coerce.number().optional().nullable(),
-      rank: z.coerce.number().int().optional().nullable(),
-      session: z.string().max(40).optional().nullable(),
-    })
-  ).optional(),
+  consent: z.boolean().refine((accepted) => accepted, 'You must accept the terms and privacy policy'),
+  education: z.array(z.object({
+    stage: z.enum(['10th', '12th', 'Graduation']),
+    institution: z.string().trim().min(1, 'Institution is required').max(240),
+    board: z.string().trim().max(240).optional().nullable(),
+    stream: z.string().trim().min(1, 'Stream is required').max(160),
+    passingYear: z.number().int().min(1950).max(new Date().getFullYear()),
+    resultPercent: z.number().min(0).max(100),
+  }).superRefine((entry, context) => {
+    if (entry.stage !== 'Graduation' && !entry.board?.trim()) context.addIssue({ code: 'custom', path: ['board'], message: 'Board is required' });
+  })).length(3, 'Enter 10th, 12th and Graduation details').refine((entries) => new Set(entries.map((entry) => entry.stage)).size === 3, 'Each education stage must be unique'),
+  examScores: z.array(z.object({
+    examCode: z.string().min(1).max(40),
+    score: z.number().optional().nullable(),
+    rank: z.number().int().optional().nullable(),
+    session: z.string().max(40).optional().nullable(),
+  })).optional(),
+}).strict().superRefine((application, context) => {
+  if (application.referral === 'Other' && !application.referralOther?.trim()) {
+    context.addIssue({ code: 'custom', path: ['referralOther'], message: 'Please specify how you heard about VSM' });
+  }
 });
 
 // --- Public Endpoints ---

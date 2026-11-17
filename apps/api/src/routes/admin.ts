@@ -1,6 +1,7 @@
 import { Router, raw } from 'express';
 import { readSliderVisibility, saveSliderVisibility } from '../modules/content/slider-visibility.service.js';
 import { readTestimonialMaster, saveTestimonialMaster } from '../modules/content/testimonial-masters.service.js';
+import { readGalleryCollection, saveGalleryCollection } from '../modules/content/gallery.service.js';
 import { uploadHomeImage, uploadProgramVideo } from '../modules/content/home-media.js';
 import { requireAuth, requirePermission, requireTrustedOrigin } from '../middleware/auth.js';
 import { dashboard, createPage, listPages } from '../modules/admin/admin.controller.js';
@@ -118,6 +119,13 @@ adminRouter.get('/testimonials/:scope/:kind', requirePermission('pages.read'), a
 adminRouter.patch('/testimonials/:scope/:kind', requirePermission('pages.write'), async (req, res) => {
   res.json({ data: await saveTestimonialMaster(String(req.params.scope), String(req.params.kind), req.body, req.auth!.userId, req.requestId) });
 });
+adminRouter.get('/gallery/:collection', requirePermission('pages.read'), async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  res.json({ data: await readGalleryCollection(String(req.params.collection)) });
+});
+adminRouter.patch('/gallery/:collection', requirePermission('pages.write'), async (req, res) => {
+  res.json({ data: await saveGalleryCollection(String(req.params.collection), req.body, req.auth!.userId, req.requestId) });
+});
 
 // Enquiries Management endpoints
 adminRouter.get('/enquiries/career', requirePermission('enquiries.read', 'pages.read'), getCareerEnquiries);
@@ -141,12 +149,12 @@ adminRouter.get('/academics', requirePermission('pages.read'), listAcademicsSect
 adminRouter.patch('/academics', requirePermission('pages.write'), saveAcademicsSections);
 
 // Teaching Faculty page (academics-faculty.* keys); master routes before /:key
-adminRouter.get('/academics/faculty', requirePermission('pages.read'), listFacultySections);
-adminRouter.patch('/academics/faculty', requirePermission('pages.write'), saveFacultySections);
-adminRouter.get('/academics/faculty/master-:masterKey', requirePermission('pages.read'), facultyMasterDocument);
-adminRouter.patch('/academics/faculty/master-:masterKey', requirePermission('pages.write'), saveFacultyMasterDocument);
-adminRouter.get('/academics/faculty/:key', requirePermission('pages.read'), facultyDocument);
-adminRouter.patch('/academics/faculty/:key', requirePermission('pages.write'), saveFacultyDocument);
+adminRouter.get('/academics/teaching-faculty', requirePermission('pages.read'), listFacultySections);
+adminRouter.patch('/academics/teaching-faculty', requirePermission('pages.write'), saveFacultySections);
+adminRouter.get('/academics/teaching-faculty/master-:masterKey', requirePermission('pages.read'), facultyMasterDocument);
+adminRouter.patch('/academics/teaching-faculty/master-:masterKey', requirePermission('pages.write'), saveFacultyMasterDocument);
+adminRouter.get('/academics/teaching-faculty/:key', requirePermission('pages.read'), facultyDocument);
+adminRouter.patch('/academics/teaching-faculty/:key', requirePermission('pages.write'), saveFacultyDocument);
 
 // AIMA PGDM page (academics-aima.* keys)
 adminRouter.get('/academics/aima', requirePermission('pages.read'), listAimaSections);

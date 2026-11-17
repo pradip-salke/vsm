@@ -1,5 +1,6 @@
 // Teaching Faculty page (/faculty/) — CMS defaults (mirrors the current static page content).
 import type { AcademicsHeroSlide, AcademicsImage } from './academics.js';
+import { academicTemplateSection } from './academics.js';
 
 const FIG = '/images/figma';
 const AICTE_PATH = '/our-academics/aicte-pgdm-courses-in-mumbai/';
@@ -17,6 +18,7 @@ export type FacultyProfileItem = {
 };
 
 export const facultyPageDefaults = {
+  templateSections: { sections: [] as (typeof academicTemplateSection)[] },
   hero: {
     breadcrumb: [
       { label: 'Home', href: '/' },
@@ -179,6 +181,7 @@ export const facultyMasterDefaults = {
 };
 
 export const facultyPageLabels: Record<keyof typeof facultyPageDefaults, string> = {
+  templateSections: 'Custom list sections',
   hero: 'Page Banner Breadcrumb & Link',
   tabs: 'Section Navigation Tabs',
   glance: 'Faculty at a Glance (sidebar)',

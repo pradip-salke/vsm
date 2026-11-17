@@ -44,6 +44,23 @@ export function createPageGroupService(options: PageGroupOptions) {
     };
   }
 
+  // Preserve saved values while exposing newly added default fields to older CMS records.
+  function withDefaults(defaultValue: unknown, savedValue: unknown): unknown {
+    if (
+      defaultValue && savedValue &&
+      typeof defaultValue === 'object' && !Array.isArray(defaultValue) &&
+      typeof savedValue === 'object' && !Array.isArray(savedValue)
+    ) {
+      const defaults = defaultValue as Record<string, unknown>;
+      const saved = savedValue as Record<string, unknown>;
+      return Object.fromEntries(Object.keys({ ...defaults, ...saved }).map((key) => [
+        key,
+        key in saved ? withDefaults(defaults[key], saved[key]) : defaults[key],
+      ]));
+    }
+    return savedValue;
+  }
+
   const prefix = (slug: string) => `${group}.${slug}.`;
 
   function assertKnown(slug: string, key: string) {
@@ -99,7 +116,7 @@ export function createPageGroupService(options: PageGroupOptions) {
     const result: Record<string, Doc> = {};
     for (const [key, value] of Object.entries(defaults)) {
       const row = byKey.get(key);
-      result[key] = { content: row?.value ?? value, updatedAt: row?.updatedAt.toISOString() ?? null };
+      result[key] = { content: row ? withDefaults(value, row.value) : value, updatedAt: row?.updatedAt.toISOString() ?? null };
     }
     return result;
   }
@@ -107,12 +124,20 @@ export function createPageGroupService(options: PageGroupOptions) {
   async function readDocument(slug: string, key: string): Promise<Doc> {
     assertKnown(slug, key);
     const row = await prisma.websiteSetting.findUnique({ where: { key: `${prefix(slug)}${key}` } });
-    return { content: row?.value ?? documents(slug)[key], updatedAt: row?.updatedAt.toISOString() ?? null };
+    const defaults = documents(slug)[key];
+    return { content: row ? withDefaults(defaults, row.value) : defaults, updatedAt: row?.updatedAt.toISOString() ?? null };
   }
 
   /** Public payload: sections plus masters (enabled items only), first enabled banner slide merged into `hero`. */
   async function readPublic(slug: string) {
     const list = await readList(slug);
+    if (list.faq) {
+      const faqRow = await prisma.websiteSetting.findUnique({ where: { key: `${prefix(slug)}faq` } });
+      if (!faqRow) {
+        const faq = list.faq.content as Record<string, unknown>;
+        list.faq = { ...list.faq, content: { ...faq, items: [] } };
+      }
+    }
     const sections: Record<string, unknown> = {};
     const masters: Record<string, { items: { enabled?: boolean }[] }> = {};
     for (const [key, doc] of Object.entries(list)) {

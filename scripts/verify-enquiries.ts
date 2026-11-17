@@ -1,5 +1,7 @@
 import 'dotenv/config';
 import assert from 'node:assert/strict';
+import { access } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import { PrismaClient } from '@prisma/client';
 import argon2 from 'argon2';
 
@@ -47,6 +49,7 @@ async function main() {
   const adminHeaders = { Cookie: cookie, Origin: origin, 'Content-Type': 'application/json' };
 
   let careerEnquiryId: number | null = null;
+  let careerResumePath: string | null = null;
   let generalEnquiryId: number | null = null;
   let applicationId: number | null = null;
 
@@ -102,38 +105,56 @@ async function main() {
     // TEST 3: Public PGDM Admission Application Form Submission
     // -------------------------------------------------------------
     console.info('\n3. Testing Admission Application Submission (POST /api/v1/public/applications)...');
+    const invalidAppRes = await fetch(`${base}/api/v1/public/applications`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstName: 'Invalid', lastName: 'Applicant', email: 'invalid@example.com', phone: 'letters', consent: false }),
+    });
+    assert.equal(invalidAppRes.status, 400, 'Invalid phone, required application fields and missing consent must be rejected');
     const appRes = await fetch(`${base}/api/v1/public/applications`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        fullName: 'Amitabh Verma',
         firstName: 'Amitabh',
+        middleName: 'Kumar',
         lastName: 'Verma',
         email: 'amitabh.verma.test@example.com',
         phone: '+91 98220 12345',
         parentPhone: '+91 98220 99999',
         dateOfBirth: '2001-08-15',
+        nationality: 'Indian',
+        gender: 'Male',
+        familyAnnualIncome: 'INR 8,00,000',
         address: '102 Green Acres, Juhu Road, Mumbai',
         city: 'Mumbai',
-        postalCode: '400049',
+        pinCode: '400049',
         country: 'India',
-        declarationAccepted: true,
+        referral: 'Other',
+        referralOther: 'Audit referral source',
+        consent: true,
         education: [
           {
             stage: 'Graduation',
             institution: 'St. Xaviers College',
-            board: 'Mumbai University',
             stream: 'B.Com Management',
             passingYear: 2023,
             resultPercent: 78.5,
           },
           {
-            stage: 'HSC / 12th',
+            stage: '12th',
             institution: 'Mithibai College',
             board: 'Maharashtra State Board',
             stream: 'Commerce',
             passingYear: 2020,
             resultPercent: 84.0,
+          },
+          {
+            stage: '10th',
+            institution: 'Audit Public School',
+            board: 'Central Board',
+            stream: 'General',
+            passingYear: 2018,
+            resultPercent: 89.5,
           },
         ],
         examScores: [
@@ -172,6 +193,8 @@ async function main() {
     assert.equal(foundCareer.position, 'Professor of Marketing');
     assert.equal(foundCareer.designation, 'Associate Professor');
     assert.ok(foundCareer.resumeUrl, 'Resume URL must be present');
+    careerResumePath = resolve(process.env.MEDIA_ROOT ?? 'uploads/home', foundCareer.resumeUrl.split('/').pop()!);
+    await access(careerResumePath);
     console.info(`✓ Career item found in admin listing. Resume URL: ${foundCareer.resumeUrl}`);
 
     // -------------------------------------------------------------
@@ -199,8 +222,14 @@ async function main() {
     assert.ok(appList.items.length >= 1, 'Should find at least 1 application with search Amitabh');
     const foundApp = appList.items.find((i: { id: number }) => i.id === applicationId);
     assert.ok(foundApp, `Application item #${applicationId} must be present`);
-    assert.equal(foundApp.fullName, 'Amitabh Verma');
-    assert.equal(foundApp.education.length, 2, 'Should have 2 education records');
+    assert.equal(foundApp.fullName, 'Amitabh Kumar Verma');
+    assert.equal(foundApp.middleName, 'Kumar');
+    assert.equal(foundApp.nationality, 'Indian');
+    assert.equal(foundApp.gender, 'Male');
+    assert.equal(foundApp.familyAnnualIncome, 'INR 8,00,000');
+    assert.equal(foundApp.referralOther, 'Audit referral source');
+    assert.equal(foundApp.consent, true);
+    assert.equal(foundApp.education.length, 3, 'Should have 10th, 12th and graduation records');
     assert.equal(foundApp.examScores.length, 2, 'Should have 2 exam score records');
     console.info(`✓ Admission application found. Qualification summary: "${foundApp.qualification}", Exam summary: "${foundApp.examSummary}"`);
 
@@ -251,6 +280,8 @@ async function main() {
       headers: adminHeaders,
     });
     assert.equal(delCareer.status, 204);
+    assert(careerResumePath);
+    await assert.rejects(access(careerResumePath), 'Deleting a career enquiry removes its uploaded test resume');
     console.info(`✓ Career #${careerEnquiryId} deleted`);
 
     // Delete general enquiry

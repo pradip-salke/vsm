@@ -1,8 +1,8 @@
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { fees } from '@/content/academics';
+import type { AcademicsContent } from '@vsmedu/contracts/academics';
 import styles from './AcademicsBlocks.module.css';
 
-export function Fees() {
+export function Fees({ fees }: { fees: AcademicsContent['fees'] }) {
   return (
     <section aria-labelledby="fees-title">
       <SectionHeading id="fees-title" title={fees.title} />
@@ -10,7 +10,7 @@ export function Fees() {
         <table className={`${styles.table} ${styles.feeTable}`}>
           <thead>
             <tr>
-              {fees.columns.map((column) => (
+              {[fees.columnLabel, fees.columnValue].map((column) => (
                 <th key={column} scope="col">
                   {column}
                 </th>
@@ -18,7 +18,7 @@ export function Fees() {
             </tr>
           </thead>
           <tbody>
-            {fees.rows.map(([label, value]) => (
+            {fees.rows.map(({ label, amount: value }) => (
               <tr key={label}>
                 <th scope="row">{label}</th>
                 <td>{value}</td>

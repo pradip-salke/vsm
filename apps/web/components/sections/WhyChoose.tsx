@@ -24,7 +24,7 @@ export function WhyChoose({ id = 'why-vsm', image, items = whyChooseItems, varia
             <p>{heading?.description ?? whyChooseIntro}</p>
           </SectionHeading>
         ) : (
-          <SectionHeading id={headingId} title="Why Choose VSM" />
+          <SectionHeading id={headingId} title={heading?.title ?? 'Why Choose VSM'} />
         )}
         <div className={styles.body}>
           <IconList items={items} className={styles.list} />

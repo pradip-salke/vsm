@@ -407,6 +407,11 @@ model Application {
   phone          String    @db.VarChar(32)
   parentPhone    String?   @db.VarChar(32)
   dateOfBirth    DateTime? @db.Date
+  nationality    String?   @db.VarChar(80)
+  gender         String?   @db.VarChar(30)
+  familyAnnualIncome String? @db.VarChar(80)
+  referral       String?   @db.VarChar(100)
+  referralOther  String?   @db.VarChar(160)
   address        String?   @db.VarChar(1000)
   city           String?   @db.VarChar(120)
   postalCode     String?   @db.VarChar(20)

@@ -38,7 +38,11 @@ const APPLY_PATH = '/admissions/application-form/';
 const ENQUIRY_ANCHOR = '#enquire-now';
 const PAGE_PATH = '/our-academics/aicte-pgdm-courses-in-mumbai/';
 
+export const academicTemplateItem = { icon: '/images/figma/icon-neutral.svg', iconSize: 32, text: '', displayOrder: 1 };
+export const academicTemplateSection = { title: '', body: '', subsectionTitle: '', displayOrder: 1, items: [academicTemplateItem], sectionType: '' };
+
 export const academicsDefaults = {
+  templateSections: { sections: [] as (typeof academicTemplateSection)[] },
   /** Breadcrumb trail only; banner imagery and CTAs are edited in Page Banner (slider master). */
   hero: {
     breadcrumb: [
@@ -301,6 +305,7 @@ export const academicsMasterDefaults = {
 
 /** Section and master names shown in the CMS, in the order they appear on the page. */
 export const academicsLabels = {
+  templateSections: 'Custom content sections',
   hero: 'Page Banner Breadcrumb',
   tabs: 'Section Navigation Tabs',
   glance: 'At a Glance',

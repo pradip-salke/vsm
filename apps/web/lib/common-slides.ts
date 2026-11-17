@@ -8,6 +8,7 @@ export type CommonSlides = {
   internships: (ImageAsset & { enabled?: boolean })[];
   video: HomeMasters['testimonials']['items'];
   written: HomeMasters['testimonials']['items'];
+  gallery: (HomeMasters['life']['items'][number] & { pages?: string[] })[];
 };
 
 export async function getCommonSlides(scope: string): Promise<CommonSlides | null> {

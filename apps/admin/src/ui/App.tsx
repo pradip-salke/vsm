@@ -11,6 +11,7 @@ import { Icon } from './Icon';
 import { HomeEditor } from './HomeEditor';
 import { SliderMaster, type SupportedMasterKey } from './SliderMaster';
 import { GlobalSettingsEditor } from './GlobalSettingsEditor';
+import { ContactDetailsEditor } from './ContactDetailsEditor';
 import { EnquireNowEditor } from './EnquireNowEditor';
 import { FooterEditor } from './FooterEditor';
 import { EnquiriesPage } from './EnquiriesPage';
@@ -35,6 +36,7 @@ import { EventsPageEditor } from './EventsPageEditor';
 import { ProfilePage } from './ProfilePage';
 import { SEO_STUDIO_PATH, SeoStudio, seoTabPath } from './seo/SeoStudio';
 import { GuidedTour, type TourId } from './GuidedTour';
+import { GalleryManagementPage } from './GalleryManagementPage';
 
 function allPages(): AdminMenuLink[] {
   return getAllAdminMenuLinks();
@@ -62,12 +64,8 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    if (!user || checking) return;
-    if (localStorage.getItem(`vsm-tour-${tourContext}-completed`) !== 'true') {
-      setActiveTour(tourContext);
-      setTourRun((run) => run + 1);
-    }
-  }, [location.pathname, user, checking, tourContext]);
+    setActiveTour(null);
+  }, [location.pathname]);
 
   function startTour() {
     setActiveTour(null);
@@ -117,7 +115,7 @@ export function App() {
               return [<Route key={base} path={base} element={element} />, <Route key={`${base}/new`} path={`${base}/new`} element={element} />, <Route key={`${base}/edit`} path={`${base}/:slidePos/edit`} element={element} />];
             });
           })}
-          {(Object.keys(homeMasterDefaults) as (keyof typeof homeMasterDefaults)[]).flatMap((key) => {
+          {(Object.keys(homeMasterDefaults).filter((key) => key !== 'life') as (keyof typeof homeMasterDefaults)[]).flatMap((key) => {
             const k = key;
             const el = <HomeEditor master={k} canEdit={canEdit} />;
             return [
@@ -127,7 +125,7 @@ export function App() {
             ];
           })}
           <Route path={ACADEMICS_CMS_PATH} element={<AictePgdmPageEditor canEdit={canEdit} />} />
-          {(Object.keys(academicsMasterDefaults) as AcademicsMasterKey[]).flatMap((key) => {
+          {(Object.keys(academicsMasterDefaults).filter((key) => key !== 'gallery') as AcademicsMasterKey[]).flatMap((key) => {
             const el = <SliderMaster key={key} master={key} scope="academics" canEdit={canEdit} />;
             return [
               <Route key={`academics-${key}-list`} path={`${ACADEMICS_CMS_PATH}/${key}`} element={el} />,
@@ -184,12 +182,12 @@ export function App() {
           })}
           <Route path={ADMISSIONS_CMS_PATH} element={<Navigate to={admissionsCmsPath('mba-pgdm-admissions-process')} replace />} />
           {(['about', 'career', 'blogs'] as const).flatMap((group) =>
-            sitePageSlugs(group).flatMap((slug) => {
+            sitePageSlugs(group).filter((slug) => !(group === 'blogs' && slug === 'detail')).flatMap((slug) => {
               const base = siteGroups[group].cms(slug);
               const sitePage = siteMasterPage(group, slug);
               return [
                 <Route key={`${group}-${slug}`} path={base} element={<SitePageEditor key={`${group}-${slug}`} group={group} slug={slug} canEdit={canEdit} />} />,
-                ...Object.keys(siteGroups[group].masters).flatMap((master) => {
+                ...Object.keys(siteGroups[group].masters).filter((master) => !(group === 'blogs' && slug === 'detail' && master === 'hero')).flatMap((master) => {
                   const el = <SliderMaster key={`${group}-${slug}-${master}`} master={master as SupportedMasterKey} scope="site" sitePage={sitePage} canEdit={canEdit} />;
                   return [
                     <Route key={`${group}-${slug}-${master}-list`} path={`${base}/${master}`} element={el} />,
@@ -202,6 +200,7 @@ export function App() {
           )}
           <Route path={ABOUT_CMS_PATH} element={<Navigate to={siteGroups.about.cms(sitePageSlugs('about')[0]!)} replace />} />
           <Route path={BLOGS_CMS_PATH} element={<Navigate to={BLOG_POSTS_PATH} replace />} />
+          <Route path={`${BLOGS_CMS_PATH}/detail`} element={<Navigate to={BLOG_POSTS_PATH} replace />} />
           <Route path={BLOG_POSTS_PATH} element={<BlogPostsPage canEdit={canEdit} />} />
           <Route path={`${BLOG_POSTS_PATH}/new`} element={<BlogPostEditor key="new" canEdit={canEdit} />} />
           <Route path={`${BLOG_POSTS_PATH}/:id/edit`} element={<BlogPostEditor canEdit={canEdit} />} />
@@ -232,7 +231,7 @@ export function App() {
             const base = eventsCmsPath(slug);
             return [
               <Route key={`events-${slug}`} path={base} element={<EventsPageEditor key={slug} page={slug} canEdit={canEdit} />} />,
-              ...eventsMasterKeys(slug).flatMap((master) => {
+              ...eventsMasterKeys(slug).filter((master) => master !== 'albums').flatMap((master) => {
                 const el = (
                   <SliderMaster
                     key={`events-${slug}-${master}`}
@@ -251,11 +250,17 @@ export function App() {
             ];
           })}
           <Route path={EVENTS_CMS_PATH} element={<Navigate to={eventsCmsPath('gallery')} replace />} />
+          <Route path="/masters/gallery/*" element={<GalleryManagementPage canEdit={canEdit} />} />
+          <Route path="/masters/life/*" element={<Navigate to="/masters/gallery/life" replace />} />
+          <Route path={`${ACADEMICS_CMS_PATH}/gallery/*`} element={<Navigate to="/masters/gallery/life" replace />} />
+          <Route path={`${eventsCmsPath('gallery')}/albums/*`} element={<Navigate to="/masters/gallery/albums" replace />} />
+          <Route path={`${eventsCmsPath('gallery-2')}/albums/*`} element={<Navigate to="/masters/gallery/albums" replace />} />
           <Route path="/masters/program-videos" element={<Navigate to={`${ACADEMICS_CMS_PATH}/program-videos`} replace />} />
           <Route path="/website/home-slider" element={<Navigate to="/masters/hero" replace />} />
           <Route path="/website/academics/program-videos" element={<Navigate to={`${ACADEMICS_CMS_PATH}/program-videos`} replace />} />
           <Route path="/settings/global" element={<GlobalSettingsEditor canEdit={canEdit} />} />
           <Route path="/settings/enquire-now" element={<EnquireNowEditor canEdit={canEdit} />} />
+          <Route path="/settings/contact" element={<ContactDetailsEditor canEdit={canEdit} />} />
           <Route path="/settings/footer" element={<FooterEditor canEdit={canEdit} />} />
           <Route path="/settings/profile" element={<ProfilePage user={user} onUserUpdate={setUser} onLogout={() => void logout()} />} />
           <Route path="/enquiries/career" element={<EnquiriesPage type="career" canEdit={canEdit} />} />

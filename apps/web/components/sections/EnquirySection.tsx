@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { homeDefaults, type HomeContent } from '@vsmedu/contracts/home';
-import { contactCardSocials } from '@/content/site';
+import type { FooterSocialLink } from '@vsmedu/contracts/footer';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
 import { PhoneList } from '@/components/ui/PhoneList';
@@ -10,7 +10,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 import { EnquiryForm } from './EnquiryForm';
 import styles from './EnquirySection.module.css';
 
-export function EnquirySection() {
+export function EnquirySection({ socials = [] }: { socials?: FooterSocialLink[] }) {
   const [content, setContent] = useState<HomeContent['enquiry']>(homeDefaults.enquiry);
 
   useEffect(() => {
@@ -88,17 +88,11 @@ export function EnquirySection() {
           <div>
             <h3 className={styles.label}>{content.socialLabel}</h3>
             <ul className={styles.socials} role="list">
-              {contactCardSocials.map((social) => (
+              {socials.filter((social) => social.href?.trim() && social.key in icons.social).map((social) => (
                 <li key={social.key}>
-                  {social.href ? (
-                    <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} className={styles.social}>
-                      <Icon src={icons.social[social.key]} />
-                    </a>
-                  ) : (
-                    <span role="img" aria-label={social.label} className={styles.social}>
-                      <Icon src={icons.social[social.key]} />
-                    </span>
-                  )}
+                  <a href={social.href!.trim()} target="_blank" rel="noopener noreferrer" aria-label={social.label} className={styles.social}>
+                    <Icon src={icons.social[social.key as keyof typeof icons.social]} />
+                  </a>
                 </li>
               ))}
             </ul>

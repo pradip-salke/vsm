@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { api } from '../lib/api';
+import { api, publicAssetUrl } from '../lib/api';
 import { Icon } from './Icon';
 import './enquiries.css';
 
@@ -40,6 +40,12 @@ type ApplicationItem = {
   phone: string;
   parentPhone: string | null;
   dateOfBirth: string | null;
+  nationality: string | null;
+  gender: string | null;
+  familyAnnualIncome: string | null;
+  referral: string | null;
+  referralOther: string | null;
+  consent: boolean;
   address: string | null;
   city: string | null;
   postalCode: string | null;
@@ -314,7 +320,7 @@ export function EnquiriesPage({
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
   return (
-    <div className="cms-editor cms-enquiries-view">
+    <div className={`cms-editor cms-enquiries-view cms-enquiries-view--${type}`}>
       {/* 1. Header with Title, Description, and Reference Rust Count Pill */}
       <header className="page-heading cms-enquiries-heading">
         <div>
@@ -458,12 +464,12 @@ export function EnquiriesPage({
           <table className="cms-slides-table cms-enquiries-table">
             <thead>
               <tr>
-                <th scope="col" style={{ width: '60px' }} aria-sort={ariaSort('id')}>
+                <th scope="col" aria-sort={ariaSort('id')}>
                   <button type="button" onClick={() => toggleSort('id')}>
                     # {sortIcon('id')}
                   </button>
                 </th>
-                <th scope="col" style={{ width: '180px' }} aria-sort={ariaSort('name')}>
+                <th scope="col" aria-sort={ariaSort('name')}>
                   <button type="button" onClick={() => toggleSort('name')}>
                     NAME {sortIcon('name')}
                   </button>
@@ -471,51 +477,51 @@ export function EnquiriesPage({
 
                 {type === 'career' ? (
                   <>
-                    <th scope="col" style={{ width: '180px' }}>POSITION</th>
-                    <th scope="col" style={{ width: '160px' }}>DESIGNATION</th>
+                    <th scope="col">POSITION</th>
+                    <th scope="col">DESIGNATION</th>
                   </>
                 ) : type === 'application' ? (
                   <>
-                    <th scope="col" style={{ width: '160px' }}>QUALIFICATION</th>
-                    <th scope="col" style={{ width: '140px' }}>ENTRANCE EXAM</th>
+                    <th scope="col">QUALIFICATION</th>
+                    <th scope="col">ENTRANCE EXAM</th>
                   </>
                 ) : (
                   <>
-                    <th scope="col" style={{ width: '140px' }}>CITY</th>
-                    <th scope="col" style={{ width: '220px' }}>MESSAGE</th>
+                    <th scope="col">CITY</th>
+                    <th scope="col">MESSAGE</th>
                   </>
                 )}
 
-                <th scope="col" style={{ width: '200px' }}>EMAIL</th>
-                <th scope="col" style={{ width: '140px' }}>PHONE</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">PHONE</th>
 
                 {type === 'career' && (
-                  <th scope="col" style={{ width: '110px' }}>RESUME</th>
+                  <th scope="col">RESUME</th>
                 )}
 
-                <th scope="col" style={{ width: '140px' }} aria-sort={ariaSort('date')}>
+                <th scope="col" aria-sort={ariaSort('date')}>
                   <button type="button" onClick={() => toggleSort('date')}>
                     DATE {sortIcon('date')}
                   </button>
                 </th>
-                <th scope="col" style={{ width: '110px' }} aria-sort={ariaSort('status')}>
+                <th scope="col" aria-sort={ariaSort('status')}>
                   <button type="button" onClick={() => toggleSort('status')}>
                     STATUS {sortIcon('status')}
                   </button>
                 </th>
-                <th scope="col" style={{ width: '100px' }}>ACTION</th>
+                <th scope="col">ACTION</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={10} className="cms-table-empty">
+                  <td colSpan={type === 'career' ? 10 : 9} className="cms-table-empty">
                     <span className="button-spinner" /> Loading submissions…
                   </td>
                 </tr>
               ) : sortedItems.length === 0 ? (
                 <tr>
-                  <td colSpan={10} className="cms-table-empty">
+                  <td colSpan={type === 'career' ? 10 : 9} className="cms-table-empty">
                     No submissions found.
                   </td>
                 </tr>
@@ -579,7 +585,7 @@ export function EnquiriesPage({
                         <td>
                           {career.resumeUrl ? (
                             <a
-                              href={career.resumeUrl}
+                              href={publicAssetUrl(career.resumeUrl)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="cms-resume-link"
@@ -764,7 +770,7 @@ export function EnquiriesPage({
                           <p>Uploaded candidate curriculum vitae</p>
                         </div>
                         <a
-                          href={selectedItem.resumeUrl}
+                          href={publicAssetUrl(selectedItem.resumeUrl)}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="cms-primary cms-btn-download-resume"
@@ -839,6 +845,18 @@ export function EnquiriesPage({
                         <label>Parent Phone</label>
                         <p>{selectedItem.parentPhone || '—'}</p>
                       </div>
+                      <div className="cms-detail-item">
+                        <label>Nationality</label>
+                        <p>{selectedItem.nationality || '—'}</p>
+                      </div>
+                      <div className="cms-detail-item">
+                        <label>Gender</label>
+                        <p>{selectedItem.gender || '—'}</p>
+                      </div>
+                      <div className="cms-detail-item">
+                        <label>Family Annual Income</label>
+                        <p>{selectedItem.familyAnnualIncome || '—'}</p>
+                      </div>
                     </div>
                   </section>
 
@@ -860,6 +878,14 @@ export function EnquiriesPage({
                       <div className="cms-detail-item">
                         <label>Country</label>
                         <p>{selectedItem.country || 'India'}</p>
+                      </div>
+                      <div className="cms-detail-item">
+                        <label>How They Heard About VSM</label>
+                        <p>{selectedItem.referral || '—'}{selectedItem.referralOther ? ` (${selectedItem.referralOther})` : ''}</p>
+                      </div>
+                      <div className="cms-detail-item">
+                        <label>Terms &amp; Privacy Consent</label>
+                        <p>{selectedItem.consent ? 'Accepted' : 'Not accepted'}</p>
                       </div>
                     </div>
                   </section>

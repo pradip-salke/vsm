@@ -32,20 +32,16 @@ export const blogPages = {
     navTitle: 'Blog Detail Template',
     sections: {
       links: {
-        bannerButtonText: 'Browse all blogs',
-        bannerButtonHref: '/blogs/',
+        breadcrumbParent: 'Blogs',
         backLinkText: '← All blogs',
         footerLinkText: '← Back to all blogs',
-        breadcrumbParent: 'Blogs',
       },
       seo: { titleSuffix: ' | Valia School of Management', notFoundTitle: 'Blog not found | Valia School of Management' },
     },
-    masters: {
-      hero: { items: [innerBannerSlide('VSM Blog', 'Ideas and perspectives for future-ready leaders', { text: 'Browse all blogs', href: '/blogs/' })] },
-    },
+    masters: { hero: { items: [] } },
     labels: { links: 'Detail Page Links', seo: 'Detail SEO Settings' },
     subtitles: {
-      links: 'Banner button, back links and breadcrumb label shared by every blog detail page. Article content is managed in Blog Posts.',
+      links: 'Back links shared by every blog detail page. Article content is managed in Blog Posts.',
       seo: 'Title suffix appended to each article title, and the title used when a post is not found.',
     },
   },

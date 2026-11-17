@@ -27,7 +27,7 @@
 .track {
   display: flex;
   width: max-content;
-  animation: internship-scroll 18s linear infinite;
+  animation: internship-scroll var(--internship-scroll-duration, 18s) linear infinite;
 }
 
 .group {

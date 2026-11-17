@@ -103,7 +103,7 @@ export const eventsPages = {
     subtitles: {
       hero: HERO_SUBTITLE_TEXT,
       'page-nav': NAV_SUBTITLE,
-      intro: 'Heading and sub-heading above the album grid. Albums (cover + photos) are managed in Gallery Albums.',
+      intro: 'Heading and sub-heading above the album grid. Albums are managed from Website Pages → Gallery.',
       pagination: PAGINATION_SUBTITLE,
     },
   },
@@ -132,7 +132,7 @@ export const eventsPages = {
     subtitles: {
       hero: HERO_SUBTITLE_TEXT,
       'page-nav': NAV_SUBTITLE,
-      intro: 'Heading and sub-heading above the album grid. Albums (cover + photos) are managed in Gallery Albums.',
+      intro: 'Heading and sub-heading above the album grid. Albums are managed from Website Pages → Gallery.',
       pagination: PAGINATION_SUBTITLE,
     },
   },

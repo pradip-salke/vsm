@@ -2,6 +2,7 @@
 import type { AcademicPageFaq } from './academic-faq.js';
 import { academicPageFaqDefault } from './academic-faq.js';
 import type { AcademicsHeroSlide, AcademicsImage } from './academics.js';
+import { academicTemplateSection } from './academics.js';
 import { homeDefaults, homeMasterDefaults } from './home.js';
 
 const FIG = '/images/figma';
@@ -26,6 +27,7 @@ export type SpecPageMeta = {
 };
 
 export type SpecPageDefaults = {
+  templateSections: { sections: (typeof academicTemplateSection)[] };
   meta: SpecPageMeta;
   hero: {
     /** Earlier segments link elsewhere; the current page segment is often label-only (no link). */
@@ -51,16 +53,22 @@ export type SpecPageDefaults = {
   };
   why: {
     title: string;
+    intro?: string;
+    itemsTitle?: string;
+    itemsIntro?: string;
+    outro?: string;
     items: { icon: string; iconSize: number; text: string }[];
   };
   careers: {
     title: string;
     intro: string;
     roles: { icon: string; iconSize: number; text: string }[];
+    employers?: string;
   };
   curriculum: {
     title: string;
     intro: string;
+    moduleTitle?: string;
     subjects: { icon: string; iconSize: number; text: string }[];
   };
   admission: {
@@ -102,7 +110,7 @@ const defaultAdmissionSteps = [
   { icon: `${FIG}/step-icon-4.svg`, iconSize: 34, text: 'Step 4: Acceptance of Admission Offer by Candidate and Payment of Admission Fees' },
 ];
 
-const pages: (Omit<SpecPageDefaults, 'internships' | 'testimonials' | 'careers' | 'curriculum'> & { careers: Omit<SpecPageDefaults['careers'], 'roles'> & { roles: string[] }; curriculum: Omit<SpecPageDefaults['curriculum'], 'subjects'> & { subjects: string[] } })[] = [
+const pages: (Omit<SpecPageDefaults, 'internships' | 'testimonials' | 'careers' | 'curriculum' | 'templateSections'> & { careers: Omit<SpecPageDefaults['careers'], 'roles'> & { roles: string[] }; curriculum: Omit<SpecPageDefaults['curriculum'], 'subjects'> & { subjects: string[] } })[] = [
   {
     meta: {
       slug: 'financial-management-specialisation',
@@ -324,7 +332,7 @@ const pages: (Omit<SpecPageDefaults, 'internships' | 'testimonials' | 'careers' 
       slug: 'pgdm-in-business-analytics-mumbai',
       navTitle: 'Business Analytics',
       pageTitle: 'PGDM in Business Analytics',
-      heroTitle: 'PGDM in Business Analytics',
+      heroTitle: 'PGDM In Business Analytics',
       cardIcon: { src: '/images/icons/spec-analytics.svg', alt: 'Business Analytics specialisation', width: 80, height: 80 },
     },
     hero: {
@@ -337,58 +345,81 @@ const pages: (Omit<SpecPageDefaults, 'internships' | 'testimonials' | 'careers' 
     tabs: { links: defaultTabs },
     glance: defaultGlance,
     overview: {
-      eyebrow: 'About Program',
-      title: 'PGDM in Business Analytics',
-      body:
-        '<p>Business Analytics combines management principles with data analysis. Students learn to interpret information, identify patterns, and turn findings into decisions that help organisations improve performance and plan strategically.</p>' +
-        '<p>The specialisation introduces data science, visualisation, and predictive methods alongside core business learning. These skills are relevant across sectors that increasingly rely on data-informed decisions.</p>',
+      eyebrow: '',
+      title: 'PG in Business Analytics',
+      body: `<h3>Overview</h3>
+<p>A PGDM in Business Analytics is a cutting-edge program that combines core management principles with data analysis techniques. Students learn to interpret data, uncover patterns, and make strategic decisions.</p>
+<p>Data analytics empowers organizations to leverage the vast amounts of data available to them, extract meaningful insights, and make informed decisions. It offers numerous benefits across various aspects of business operations, helping organizations drive success and achieve their goals in a data-centric world.</p>
+<p>The need to incorporate these data driven programs into management across all specialisations in imperative and the students who are going to embrace this will have a huge advantage over others.</p>`,
     },
     why: {
-      title: 'Why Choose PGDM in Business Analytics?',
+      title: 'Why PGDM in Business Analytics as a specialisation?',
+      intro: `<p>Today, the world is ruled by data. In your PGDM specialisation you should apply for Business Analytics, to the upcoming movie you can watch on Netflix; everything little thing is derived from data. And, yes, the masterminds behind decoding tons of data are individuals proficient in business analytics. These experts analyze and dissect the raw data to identify patterns and trends and draw insightful conclusions.</p>
+<p>In the past few years, the Global Data Analytics Market has witnessed continuous growth and is forecasted to continue this same path. In fact, The Global State of Enterprise Analytics, 2020 states that, close to 65 percent of global enterprises are planning to increase their expenditure on business analytics. And, 94 percent reported that “data and analytics” are critical to business growth. These statistics have opened doors to promising career prospects for business analysts.</p>
+<h3>Embracing the Power of Data</h3>
+<p>The allure of PGDM in Business Analytics lies in its ability to transform raw data into actionable insights. Through advanced analytics techniques, professionals in this field unravel complex patterns and trends hidden within vast datasets. By harnessing the power of predictive modeling and data visualization, they empower organizations to make informed decisions, drive innovation, and gain a competitive edge.</p>
+<h3>Navigating the Digital Age with Business Analytics Courses in Mumbai</h3>
+<p>Mumbai, renowned as the financial capital of India, stands as a beacon for aspiring business analysts. With a plethora of esteemed institutions offering specialized courses in business analytics, Mumbai provides a conducive environment for honing analytical skills and fostering industry connections.</p>
+<p>Whether it’s exploring machine learning algorithms or delving into data mining techniques, students embarking on a PGDM journey in Business Analytics in Mumbai are poised to thrive in the dynamic realm of data science.</p>
+<h3>Future-proofing Careers with Post Graduate Diploma in Business Analytics</h3>
+<p>The demand for skilled professionals proficient in business analytics transcends industry boundaries. From e-commerce giants optimizing customer experiences to healthcare providers revolutionizing patient care, every sector relies on data-driven insights to drive innovation and sustainable growth.</p>
+<p>Pursuing a Post Graduate Diploma in Business Analytics equips individuals with the specialized knowledge and practical skills needed to excel in diverse roles such as data scientist, business intelligence analyst, or analytics consultant.</p>`,
+      itemsTitle: 'Top reasons to choose PGDM in Business Analytics as a Specialization',
+      itemsIntro: 'Here are 7 reasons why you should consider pursuing a career in business analytics.',
       items: [
-        'Turn complex data into useful business insights',
-        'Build skills in data science and visualisation',
-        'Apply analytics to decisions across functional areas',
-        'Prepare for a wide variety of roles and industries',
-        'Learn tools used in modern analytics teams',
+        'Make a Difference – With the amount of data now available, businesses are relying on it more than ever to build their growth strategies. The insights from this raw data can help make a significant impact on the company and its future growth.',
+        'Pursue a High-Paying Career Path – Considering that skilled business analysts are in high demand, your earning potential can be quite substantial. According to Glassdoor.com, the average salary for a Business Analyst ₹7,00,000 in India and can be even more if you have the proper education combined with the required skill set.',
+        'Learn and grow on your job – Many jobs these days have a fixed set of responsibilities. You need to walk in at 9 am, complete your tasks and leave in the evening. This kind of routine becomes mundane after a point. Fortunately, you wouldn’t face this situation when it comes to you working as a Business Analyst.',
+        'Work across functional domains – By now, it is pretty evident that business and data analysts are not confined to one specific industry, but their contribution spans the entire industry verticals. Once you have the skills and expertise, you can choose to work in any domain you like. This includes finance, manufacturing, information technology, communications, logistics, retail, automobile, and others.',
+        'Don’t worry about job security – It is not easy to outsource the roles and responsibilities of a business analyst. Businesses always need someone on site who knows how each sector of the company operates. And, since you will be this expert for businesses, you won’t have to worry about becoming redundant or being replaced.',
+        'Know the Ins and Outs of Your Company – Primarily, your work will revolve around interpreting data and drawing meaningful insights. However, it won’t be limited to this, and you’ll get a chance to learn much more than that. You will work with different departments in the company and understand how each puzzle piece fits together. Whether it is how the marketing team makes strategies to retain clients or how the HR department attracts new talent, as a business analyst, you will learn the ins and outs of running a business. Equipped with this knowledge of all departments can help you even run your company someday!',
+        'Always Be in Demand – Looking at the statistics mentioned earlier, the demand for business analytics is nowhere close to dwindling. If anything, it is only going to magnify. Thanks to this, your skills will always be needed in every industry. By pursuing business analytics, you will stand the chance of being one of the most sought-after professionals in tech.',
       ].map((t) => iconItem(t)),
+      outro: 'Looking at the statistics mentioned earlier, the demand for business analytics is nowhere close to dwindling. If anything, it is only going to magnify. Thanks to this, your skills will always be needed in every industry. By pursuing business analytics, you will stand the chance of being one of the most sought-after professionals in tech.',
     },
     careers: {
-      title: 'Careers in Business Analytics',
-      intro:
-        '<p>The PGDM specialisation combines management fundamentals with applied learning to prepare students for opportunities across industries.</p>',
+      title: 'Careers / Jobs Roles in Banking and Financial Sector',
+      intro: '',
       roles: [
-        'Business Analyst',
-        'Data Analyst',
-        'Data Scientist',
-        'Business Intelligence Analyst',
-        'Analytics Consultant',
-        'Marketing Analytics Specialist',
-        'Risk Analyst',
-        'Supply Chain Analyst',
-        'Human Resource Analytics Specialist',
-        'Web Analytics Specialist',
+        'Marketing Analytics: Segmentation Analytics, Marketing Mix, Distribution Channel Analytics, Campaign Analytics, Sales Pipeline Reporting, Price Setting Analytics, New Product Launch Analytics',
+        'Risk Analytics: Loss Forecasting Analytics, Portfolio Stress Management, Risk Profiling Analytics, Recovery Management',
+        'Customer Analytics: Customer Lifetime value Analytics, Churn Analytics, Customer Segmentation, Loyalty Analytics',
+        'Supply Chain Analytics: Supply and Demand Analytics, Inventory Analytics, Quality Control Analytics',
+        'Human Resource Analytics: Talent Analytics, Workforce Analytics, Training Analytics, Retention Analytics, Recruitment Analytics',
+        'Web Analytics: Social Media Analytics, Sentiment Analytics, Online Traffic Analytics, Click Analytics, Customer Lifecycle Analytics',
       ],
+      employers: `<ul>
+<li><a href="https://www.tcs.com">TCS</a></li><li>Accenture</li><li>Infosys</li><li>Cognizant</li><li>Wipro</li><li>IBM</li><li><a href="https://www.capgemini.com">Capgemini</a></li><li>Oracle Corporation</li><li>IBM Corporation</li><li>SAP SE</li><li>Microsoft Corporation</li><li>SAS Institute Inc.</li>
+</ul>`,
     },
     curriculum: {
-      title: 'Business Analytics Curriculum',
-      intro:
-        '<p>Alongside the common PGDM foundation, students study specialisation-focused subjects and apply their learning through projects and industry exposure.</p>',
+      title: 'Growth of Business Analytics Sector in India | Facts & Figures',
+      intro: '<p>The Business Analytics Market was valued at USD 67.92 billion in 2020 and is expected to reach USD 103.65 billion by 2026 and work at a CAGR of 7.3% over the forecast period (2021-2026). Strategic decisions in many organizations were traditionally powered by business analytics that relied on big, centralized-managed data servers or data warehouses. However, things have been changing recently, and business analysts are pulling data from dozens of heterogeneous data sources.</p>',
+      moduleTitle: 'Module III Specialization | Business Analytics',
       subjects: [
-        'Data Science with Python',
-        'SQL for Data Analysis',
-        'Big Data Analytics',
-        'Power BI',
-        'Machine Learning',
-        'Data Science with R',
-        'Financial Analytics',
-        'Marketing Analytics',
-        'HR Analytics',
-        'Operations Analytics',
+        'INTERNATIONAL BUSINESS',
+        'DRIVING DIGITAL STRATEGY',
+        'POWER BI',
+        'DATA SCIENCE WITH PYTHON',
+        'SQL FOR DATA ANALYSIS',
+        'BIG DATA ANALYTICS',
+        'MACHINE LEARNING',
       ],
     },
     admission: { title: 'PGDM Admission Procedure', steps: defaultAdmissionSteps },
-    faq: structuredClone(academicPageFaqDefault),
+    faq: {
+      title: 'FAQ’s:',
+      eyebrow: '',
+      description: '',
+      items: [
+        { question: 'What is PGDM in Business Analytics?', answer: 'PGDM in Business Analytics is a specialized postgraduate program focused on developing expertise in analyzing and interpreting data to drive strategic business decisions.' },
+        { question: 'What are the career prospects after completing PGDM in Business Analytics?', answer: 'Graduates can pursue roles such as data analyst, business intelligence analyst, data scientist, analytics manager, and more across various industries.' },
+        { question: 'How does PGDM in Business Analytics differ from PGDM in Data Analytics?', answer: 'While both programs focus on data analysis, PGDM in Business Analytics often incorporates business strategy and decision-making aspects, whereas PGDM in Data Analytics may have a more technical focus.' },
+        { question: 'What support services are available to PGDM students during and after the program at VSM?', answer: 'Valia School of Management offers career counseling, job placement assistance, alumni networks, and continuous learning opportunities to support students’ professional growth and development.' },
+      ],
+      buttonText: '',
+      buttonHref: '',
+    },
   },
   {
     meta: {
@@ -466,6 +497,7 @@ const pages: (Omit<SpecPageDefaults, 'internships' | 'testimonials' | 'careers' 
 function buildDocuments(): Record<string, SpecPageDefaults> {
   return Object.fromEntries(pages.map((p) => [p.meta.slug, {
     ...p,
+    templateSections: { sections: [] },
     careers: { ...p.careers, roles: p.careers.roles.map(text => iconItem(text)) },
     curriculum: { ...p.curriculum, subjects: p.curriculum.subjects.map(text => iconItem(text)) },
     internships: { title: 'Summer Internship 2025-27' },
@@ -485,7 +517,9 @@ function buildMasters(): Record<string, {
     imagePosition: '70% 100%',
     mobileImagePosition: '78% 50%',
     title: heroTitle,
-    subtitle: 'Navigating Today’s Business World with Tomorrow’s Leaders',
+    subtitle: heroTitle === 'PGDM In Business Analytics'
+      ? "Navigating Today's Business World with Tomorrow's Leaders"
+      : 'Navigating Today’s Business World with Tomorrow’s Leaders',
     primaryText: 'Apply Now',
     primaryHref: APPLY_PATH,
     secondaryText: 'Enquire now',

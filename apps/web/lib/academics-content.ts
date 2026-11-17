@@ -18,6 +18,6 @@ export async function getAcademicsContent(): Promise<{ sections: AcademicsConten
       'Academics content API unavailable; using bundled defaults.',
       error instanceof Error ? error.message : 'Unknown error'
     );
-    return { sections: academicsDefaults, masters: academicsMasterDefaults };
+    return { sections: { ...academicsDefaults, faq: { ...academicsDefaults.faq, items: [] } }, masters: academicsMasterDefaults };
   }
 }

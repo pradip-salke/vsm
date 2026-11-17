@@ -8,6 +8,6 @@ export async function getHomeContent(): Promise<{ sections: HomeContent; masters
     return (await response.json()).data;
   } catch (error) {
     console.error('Homepage content API unavailable; retaining imported website content.', error instanceof Error ? error.message : 'Unknown error');
-    return { sections: homeDefaults, masters: homeMasterDefaults };
+    return { sections: { ...homeDefaults, faq: { ...homeDefaults.faq, items: [] } }, masters: homeMasterDefaults };
   }
 }

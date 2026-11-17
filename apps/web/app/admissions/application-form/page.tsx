@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { AdmissionsPageShell, AdmissionSection } from '../AdmissionsPageShell';
 import { AdmissionsApplicationForm } from './AdmissionsApplicationForm';
-import { FaqList, type FaqItem } from '@/components/sections/FaqSection';
+import { FaqList } from '@/components/sections/FaqSection';
 import faqStyles from '@/components/sections/FaqSection.module.css';
 import styles from '../Admissions.module.css';
 import { withSeo } from '@/lib/seo';
@@ -13,14 +13,6 @@ const metadata: Metadata = {
   alternates: { canonical: '/admissions/application-form/' },
 };
 
-const faqs: FaqItem[] = [
-  { question: 'What is the PGDM admission process at VSM?', answer: <>Beginning your PGDM journey at Valia School of Management is an organized and smooth process. Follow these simple steps to secure your place in our prestigious PGDM program:<ol><li><strong>Step 1: ONLINE APPLICATION:</strong> Complete the online application form on the VSM website.</li><li><strong>Step 2: SUBMIT DOCUMENTS:</strong> Upload necessary academic and entrance exam score documents.</li><li><strong>Step 3: APPLICATION REVIEW:</strong> The admissions team will review your application.</li><li><strong>Step 4: INTERVIEW ROUND:</strong> Shortlisted candidates will be invited for a personal interview.</li><li><strong>Step 5: ADMISSION OFFER:</strong> Successful candidates will receive an admission offer letter.</li></ol></> },
-  { question: 'What is PGDM eligibility at VSM?', answer: <>PGDM course eligibility requires a bachelor’s degree from a recognized university and a minimum of 50% valid score in a management entrance exam such as CAT, CMAT, MAT, XAT, ATMA, or MAH MBA CET.</> },
-  { question: 'Is the PGDM program officially recognized under AICTE?', answer: <>Yes, the PGDM program is approved by AICTE.</> },
-  { question: 'What are the specializations being offered in PGDM at VSM?', answer: <>The specializations offered by VSM under PGDM are Marketing, Finance, HR, Business Analytics, Operations &amp; Supply Chain Management.</> },
-  { question: 'Is PGDM a 2 year course?', answer: <>Yes, the PGDM programs at VSM are two-year full-time programs, comprising four semesters (2 semesters per year). Students complete classroom learning, internships, and industry projects during this period.</> },
-];
-
 export async function generateMetadata(): Promise<Metadata> {
   return withSeo('/admissions/application-form/', metadata);
 }
@@ -29,12 +21,12 @@ export default async function ApplicationFormPage() {
   const content = await getAdmissionsPageContent('application-form');
   const formSection = content?.sections['form-section'];
   const faqSection = content?.sections.faq;
-  const cmsFaqs = Array.isArray(faqSection?.items) ? faqSection.items as {question:string;answer:string}[] : null;
-  const renderedFaqs = cmsFaqs?.map((faq) => ({ question: faq.question, answer: <div dangerouslySetInnerHTML={{ __html: faq.answer }} /> })) ?? faqs;
+  const cmsFaqs = Array.isArray(faqSection?.items) ? faqSection.items as {question:string;answer:string}[] : [];
+  const renderedFaqs = cmsFaqs.map((faq) => ({ question: faq.question, answer: <div dangerouslySetInnerHTML={{ __html: faq.answer }} /> }));
   return <AdmissionsPageShell title="PGDM Application Form – 2026" subtitle="Begin Your Management Journey – Apply Now" active="Application Form" content={content}>
     <AdmissionSection title={cmsString(formSection?.title, 'PGDM Admission 2026–28 | Apply Now')} className={styles.applicationFormSection}><h3 className={styles.subheading}>{cmsString(formSection?.subheading, 'Application Form')}</h3><AdmissionsApplicationForm /></AdmissionSection>
-    <AdmissionSection title={cmsString(faqSection?.title, 'FAQs')} className={faqStyles.section} titleClassName={faqStyles.title}>
+    {renderedFaqs.length > 0 && <AdmissionSection title={cmsString(faqSection?.title, 'FAQs')} className={faqStyles.section} titleClassName={faqStyles.title}>
       <FaqList items={renderedFaqs} />
-    </AdmissionSection>
+    </AdmissionSection>}
   </AdmissionsPageShell>;
 }

@@ -63,9 +63,3 @@ export const salaryPlacementRows = [
   ['Business Analytics', '₹7.0 LPA', '₹15.0 LPA'],
 ];
 
-export const alumniProfiles = [
-  { name: 'Mr. Bhaskar Chatterjee', qualification: 'PGDM', bio: 'Member Secretary and Chief Executive Officer of the Indian Council of Social Science Research, New Delhi. He joined the Indian Administrative Service in July 1975 and has authored books on Japanese management and human resource management.' },
-  { name: 'Mr. P K Gupta', qualification: 'PGDITM & DBA (Pursuing) · President, Alumni Association', bio: 'Director – Strategic Development, Intercontinental at Legato Systems. He completed PGDITM in 2000 and is pursuing a Doctorate in Business Administration from AMU.' },
-  { name: 'Mr. K Ramalingam', qualification: 'PGDITM', bio: 'Member (Planning) at Airports Authority of India. He holds an M.Tech in Electrical Engineering from IIT Chennai and a Post Graduate Diploma in Management with a specialisation in Information Technology.' },
-  { name: 'Mr. P. Jayakumar', qualification: 'PGDM & DBA (Pursuing)', bio: 'Founder President of the Alumni Association and Advisor, Business Development at Tata BP Solar India Limited, Delhi. He has over a decade of experience in renewable energy and business management.' },
-];

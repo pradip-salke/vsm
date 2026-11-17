@@ -1,4 +1,7 @@
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? (import.meta.env.DEV ? 'http://localhost:4000' : '');
+export function publicAssetUrl(path: string): string {
+  return path.startsWith('/cms-media/') ? `${API_BASE}${path}` : path;
+}
 type ApiError = { error?: { message?: string; code?: string; details?: { path: (string | number)[]; message: string }[] } };
 
 export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {

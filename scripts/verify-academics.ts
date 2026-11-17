@@ -187,8 +187,12 @@ async function main() {
         const slideBase = { image: { src: '/images/figma/life-vsm.webp', alt: 'Audit slide', width: 768, height: 432 }, href: '', enabled: true };
         if (master === 'program-videos') {
           items.push({ ...slideBase, caption: 'Audit caption' });
+        } else if (master === 'gallery') {
+          items.push({ ...slideBase, caption: 'Audit gallery item', videoLink: '' });
         } else if (master === 'events') {
           items.push({ ...slideBase, videoLink: '' });
+        } else if (master === 'internships') {
+          items.push({ src: '/images/media/internship-1.webp', alt: 'Audit internship slide', width: 549, height: 620, videoLink: '', enabled: true });
         } else {
           items.push({ ...slideBase, caption: '' });
         }
@@ -198,7 +202,17 @@ async function main() {
       const res = await patch(`master-${master}`, { content: { items }, updatedAt: doc.updatedAt });
       assert.equal(res.status, 200, `${master}: ${await res.clone().text()}`);
       const saved: Doc = (await res.json()).data;
-      assert.deepEqual(saved.content.items, items);
+      const expectedItems = master === 'program-videos' || master === 'internships'
+        ? items.map((item) => ({
+            ...item,
+            videoLink: typeof item.videoLink === 'string'
+              ? item.videoLink
+              : typeof item.caption === 'string' && /^https?:\/\//i.test(item.caption.trim())
+                ? item.caption.trim()
+                : '',
+          }))
+        : items;
+      assert.deepEqual(saved.content.items, expectedItems);
       const restored = await patch(`master-${master}`, { content: doc.content, updatedAt: saved.updatedAt });
       assert.equal(restored.status, 200);
     }

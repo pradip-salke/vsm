@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { SPECIALISATIONS_HUB_PATH, specialisationPagePath } from './cmsPaths';
 import type { AcademicsPageEditorConfig } from './academicsPageConfigs';
 import type { Value } from './ContentFields';
+import { academicTemplateSection } from '@vsmedu/contracts/academics';
 
 const WEB_PATH_PREFIX = '/our-academics/in-demand-specialisations/';
 
@@ -18,6 +19,7 @@ const SECTION_ORDER: SpecSectionKey[] = [
   'tabs',
   'glance',
   'overview',
+  'templateSections',
   'why',
   'careers',
   'curriculum',
@@ -33,6 +35,7 @@ const LABELS: Record<SpecSectionKey, string> = {
   tabs: 'Section navigation tabs',
   glance: 'At a Glance (sidebar)',
   overview: 'Programme overview',
+  templateSections: 'Additional content sections',
   why: 'Why this specialisation',
   careers: 'Careers & roles',
   curriculum: 'Curriculum subjects',
@@ -48,6 +51,7 @@ const SUBTITLES: Record<SpecSectionKey, string> = {
   tabs: 'Sticky “on this page” links. Each anchor must match a section id on the public page.',
   glance: 'Sidebar fact rows and action buttons (when shown on the site).',
   overview: 'Eyebrow, H1-style title, and rich HTML intro paragraphs.',
+  templateSections: 'Display order places a section before: 1 Overview, 2 Why This Specialisation, 3 Careers, 4 Curriculum, 5 Admission; 6 places it after Admission.',
   why: 'Section title and bullet rows with optional icons.',
   careers: 'Title, short intro HTML, and job role lines.',
   curriculum: 'Title, intro HTML, and subject lines (one per row).',
@@ -63,6 +67,7 @@ const ANCHORS: Record<SpecSectionKey, string> = {
   tabs: 'tabs',
   glance: 'at-a-glance',
   overview: 'overview',
+  templateSections: 'custom-sections',
   why: 'why-specialisation',
   careers: 'career-opportunities',
   curriculum: 'specialisation-curriculum',
@@ -101,11 +106,11 @@ export function buildSpecialisationPageConfig(slug: string): AcademicsPageEditor
       </>
     ),
     liveUrl,
-    sections: SECTION_ORDER,
+    sections: SECTION_ORDER.filter((key) => !(['financial-management-specialisation', 'mba-pgdm-in-human-resources-mumbai', 'mba-in-marketing-mumbai'].includes(slug) && (key === 'curriculum' || key === 'admission'))),
     labels: LABELS as Record<string, string>,
     subtitles: SUBTITLES as Record<string, string>,
     anchors: ANCHORS as Record<string, string>,
-    defaults: Object.fromEntries(SECTION_ORDER.map((k) => [k, page[k as SpecSectionKey] as unknown as Value])) as Record<string, Value>,
+    defaults: { ...Object.fromEntries(SECTION_ORDER.map((k) => [k, page[k as SpecSectionKey] as unknown as Value])), templateSections: { sections: [academicTemplateSection] } } as Record<string, Value>,
     masterLinks: {
       hero: { to: `${specialisationPagePath(slug)}/hero`, label: 'Manage Page Banner Slides →' },
       internships: { to: `${specialisationPagePath(slug)}/internships`, label: `Manage ${meta.navTitle} Summer Internship Slides` },

@@ -1,0 +1,4 @@
+.cms-gallery-tabs { display: flex; gap: 8px; margin: 0 0 18px; border-bottom: 1px solid var(--cms-border-light); }
+.cms-gallery-tabs a { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; color: var(--cms-muted); text-decoration: none; border-bottom: 2px solid transparent; font-weight: 600; }
+.cms-gallery-tabs a.is-active { color: var(--cms-navy); border-bottom-color: var(--cms-navy); }
+@media (max-width: 640px) { .cms-gallery-tabs { overflow-x: auto; } .cms-gallery-tabs a { white-space: nowrap; } }

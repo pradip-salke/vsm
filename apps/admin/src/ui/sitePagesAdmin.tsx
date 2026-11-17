@@ -79,20 +79,27 @@ export function siteMasterPage(group: SiteGroupKey, slug: string) {
 export function sitePageConfig(group: SiteGroupKey, slug: string): AcademicsPageEditorConfig {
   const { label, registry, api, cms, masters, shared } = siteGroups[group];
   const page = registry[slug]!;
-  const name = `${page.navTitle} Page`;
-  const masterLinks: AcademicsPageEditorConfig['masterLinks'] = { hero: { to: `${cms(slug)}/hero`, label: 'Manage Page Banner Slides →' } };
+  const isBlogDetail = group === 'blogs' && slug === 'detail';
+  const name = isBlogDetail ? 'Blog Detail Defaults' : `${page.navTitle} Page`;
+  const hasHeroMaster = !(group === 'blogs' && slug === 'detail');
+  const masterLinks: AcademicsPageEditorConfig['masterLinks'] = hasHeroMaster
+    ? { hero: { to: `${cms(slug)}/hero`, label: 'Manage Page Banner Slides →' } }
+    : {};
   for (const [key, info] of Object.entries(masters)) {
     if (info.section && key in page.masters) masterLinks[info.section] = { to: `${cms(slug)}/${key}`, label: `Manage ${info.label} →` };
   }
   return {
     apiList: api(slug),
     apiBulk: api(slug),
-    breadcrumbs: { group: label, parent: page.navTitle, current: `${page.navTitle} CMS` },
-    title: label === page.navTitle ? `${label} Page` : `${label} – ${page.navTitle}`,
+    breadcrumbs: isBlogDetail
+      ? { group: 'Blog Management', parent: 'Blog Posts', current: 'Detail Defaults' }
+      : { group: label, parent: page.navTitle, current: `${page.navTitle} CMS` },
+    title: isBlogDetail ? 'Blog Detail Defaults' : label === page.navTitle ? `${label} Page` : `${label} – ${page.navTitle}`,
     description: (
       <>
-        Edit all in-page sections for <strong>{group === 'blogs' && slug === 'detail' ? 'every blog detail page (/blogs/<post-slug>/)' : page.path}</strong> in display order. Banner slides are edited under{' '}
-        <Link to={`${cms(slug)}/hero`}>Page Banner (slider)</Link>. Use <strong>Update {name}</strong> to save every changed section together.
+        Edit all in-page sections for <strong>{group === 'blogs' && slug === 'detail' ? 'every blog detail page (/blogs/<post-slug>/)' : page.path}</strong> in display order.{' '}
+        {hasHeroMaster && <>Banner slides are edited under <Link to={`${cms(slug)}/hero`}>Page Banner (slider)</Link>. </>}
+        Use <strong>Update {name}</strong> to save every changed section together.
         Content here is stored for this page only.
       </>
     ),

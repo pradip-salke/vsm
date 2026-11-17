@@ -5,6 +5,7 @@ import { prisma } from '../../lib/prisma.js';
 import { HttpError } from '../../middleware/errors.js';
 import { cleanSubtitle } from './home.service.js';
 import { normalizeVideoLink } from './video-link.js';
+import { academicTemplateSection, academicTemplateItem } from '@vsmedu/contracts/academics';
 
 type Client = Prisma.TransactionClient | typeof prisma;
 
@@ -41,6 +42,15 @@ function normalizeDocument(key: string, content: unknown): unknown {
     };
   }
   return key === 'master-testimonials' ? normalizeTestimonialsMaster(content) : content;
+}
+
+function mergeDefaults(defaultValue: unknown, storedValue: unknown): unknown {
+  if (Array.isArray(defaultValue)) return Array.isArray(storedValue) ? storedValue : structuredClone(defaultValue);
+  if (defaultValue && typeof defaultValue === 'object' && !Array.isArray(defaultValue)) {
+    const stored = storedValue && typeof storedValue === 'object' && !Array.isArray(storedValue) ? storedValue as Record<string, unknown> : {};
+    return Object.fromEntries(Object.entries(defaultValue).map(([key, value]) => [key, key in stored ? mergeDefaults(value, stored[key]) : structuredClone(value)]));
+  }
+  return storedValue === undefined ? defaultValue : storedValue;
 }
 
 function mergeHeroForPublic(
@@ -81,6 +91,8 @@ function lineCellRequired(key: string, documentKey: string, parent: string): boo
 }
 
 function contentSchema(value: unknown, key = '', parent = '', documentKey = ''): z.ZodType {
+  if (documentKey === 'templateSections' && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true })).max(100);
+  if (documentKey === 'templateSections' && key === 'items' && Array.isArray(value)) return z.array(contentSchema(academicTemplateItem, '', key, documentKey)).max(100);
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key, documentKey)).max(100);
   if (typeof value === 'boolean') return z.boolean();
   if (typeof value === 'number') return z.number().finite().min(0).max(20000);
@@ -123,7 +135,7 @@ function contentSchema(value: unknown, key = '', parent = '', documentKey = ''):
     }
   }
   if (
-    ['title', 'year', 'anchor', 'icon'].includes(key) ||
+    (['title', 'year', 'anchor', 'icon'].includes(key) && !(documentKey === 'templateSections' && ['title', 'icon'].includes(key))) ||
     lineCellRequired(key, documentKey, parent) ||
     (key === 'src' && parent !== 'avatar' && parent !== 'cardIcon')
   ) {
@@ -156,7 +168,7 @@ async function loadRows() {
 export async function readAimaDocument(key: string) {
   assertKnown(key);
   const row = await findRow(prisma, key);
-  return { content: normalizeDocument(key, row?.value ?? aimaDocuments[key]), updatedAt: row?.updatedAt.toISOString() ?? null };
+  return { content: mergeDefaults(aimaDocuments[key], normalizeDocument(key, row?.value ?? aimaDocuments[key])), updatedAt: row?.updatedAt.toISOString() ?? null };
 }
 
 export async function readAima() {
@@ -165,11 +177,12 @@ export async function readAima() {
   const masters = structuredClone(aimaMasterDefaults);
   for (const [key, row] of rows) {
     if (key.startsWith('master-') && key.slice(7) in masters) {
-      Object.assign(masters, { [key.slice(7) as AimaMasterKey]: normalizeDocument(key, row.value) });
+      Object.assign(masters, { [key.slice(7) as AimaMasterKey]: mergeDefaults(aimaDocuments[key], normalizeDocument(key, row.value)) });
     } else if (key in sections) {
-      Object.assign(sections, { [key as AimaKey]: normalizeDocument(key, row.value) });
+      Object.assign(sections, { [key as AimaKey]: mergeDefaults(aimaDocuments[key], normalizeDocument(key, row.value)) });
     }
   }
+  if (!rows.has('faq')) sections.faq = { ...aimaDefaults.faq, items: [] };
   sections.hero = mergeHeroForPublic(
     sections.hero as (typeof aimaDefaults)['hero'],
     masters.hero as (typeof aimaMasterDefaults)['hero']
@@ -182,7 +195,7 @@ export async function readAimaAllAdmin() {
   const result: Record<string, { content: unknown; updatedAt: string | null }> = {};
   for (const [key, defaultValue] of Object.entries(aimaDocuments)) {
     const row = rows.get(key);
-    result[key] = { content: normalizeDocument(key, row?.value ?? defaultValue), updatedAt: row?.updatedAt.toISOString() ?? null };
+    result[key] = { content: mergeDefaults(defaultValue, normalizeDocument(key, row?.value ?? defaultValue)), updatedAt: row?.updatedAt.toISOString() ?? null };
   }
   return result;
 }

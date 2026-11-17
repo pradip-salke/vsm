@@ -14,7 +14,7 @@ export const placementPages = [
   { label: 'Connect With Us', href: '/connect-with-us/' },
 ];
 
-export async function PlacementPageShell({ title, active, children, pageSlug }: { title: string; active: string; children: ReactNode; pageSlug?: string }) {
+export async function PlacementPageShell({ title, active, activeHref, children, pageSlug }: { title: string; active: string; activeHref?: string; children: ReactNode; pageSlug?: string }) {
   const cms = pageSlug ? await getPlacementsPageContent(pageSlug) : null;
   const hero = cms?.sections.hero ?? {};
   const slide = { ...academicsHero, ...hero, title: cmsString(hero.title, title), subtitle: cmsString(hero.subtitle, "Navigating Today’s Business World with Tomorrow’s Leaders") };
@@ -35,7 +35,7 @@ export async function PlacementPageShell({ title, active, children, pageSlug }: 
         <ul className={`container ${styles.navList}`} role="list">
           {navLinks.map((page) => (
             <li key={page.href}>
-              <Link href={page.href} aria-current={active === page.label ? 'page' : undefined}>{page.label}</Link>
+              <Link href={page.href} aria-current={activeHref ? activeHref === page.href ? 'page' : undefined : active === page.label ? 'page' : undefined}>{page.label}</Link>
             </li>
           ))}
         </ul>
@@ -54,11 +54,11 @@ export async function PlacementPageShell({ title, active, children, pageSlug }: 
   );
 }
 
-export function PlacementSection({ title, children, intro, className }: { title: string; children: ReactNode; intro?: ReactNode; className?: string }) {
+export function PlacementSection({ title, eyebrow = 'Placement', children, intro, className }: { title: string; eyebrow?: string; children: ReactNode; intro?: ReactNode; className?: string }) {
   return (
     <section className={`container ${styles.section} ${className ?? ''}`}>
       <header className={styles.sectionHeader}>
-        <p className={styles.eyebrow}>Placement</p>
+        {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
         <h2>{title}</h2>
       </header>
       {intro && <div className={styles.intro}>{intro}</div>}

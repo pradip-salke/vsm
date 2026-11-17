@@ -10,14 +10,13 @@ import { CmsHtml } from '@/components/ui/CmsHtml';
 
 const metadata: Metadata = {
   title: 'PGDM Placements',
-  description: 'Explore PGDM placements, recruiters, placement records, alumni outcomes and corporate connections at Valia School of Management.',
+  description: 'Explore PGDM placements, recruiters, placement records and corporate connections at Valia School of Management.',
   alternates: { canonical: '/placements/' },
 };
 
 const pages = [
   { title: 'Our Recruiters', text: 'Meet organizations that recruit VSM students across industries.', href: '/placements/our-recruiters/' },
   { title: 'Placement Records', text: 'Review recent internship records and batch-wise placement outcomes.', href: '/placements/placement-records/' },
-  { title: 'Alumni', text: 'Read about distinguished alumni and the paths they have built after PGDM.', href: '/placements/alumni/' },
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -29,7 +28,8 @@ export default async function PlacementsPage() {
   const intro = cms?.sections.intro;
   const cardSection = cms?.sections.cards;
   const highlights = cms?.sections.highlights;
-  const cards = Array.isArray(cardSection?.items) ? cardSection.items as { title: string; text: string; linkText: string; href: string }[] : pages.map((page) => ({ ...page, linkText: `Explore ${page.title}` }));
+  const cards = (Array.isArray(cardSection?.items) ? cardSection.items as { title: string; text: string; linkText: string; href: string }[] : pages.map((page) => ({ ...page, linkText: `Explore ${page.title}` })))
+    .filter((page) => page.href !== '/placements/alumni/' && page.title.toLowerCase() !== 'alumni');
   const stats = Array.isArray(highlights?.items) ? highlights.items as { value: string; label: string }[] : batch2022Highlights.map(([value, label]) => ({ value, label }));
   const introBody = cmsString(intro?.body, placementIntro.map((paragraph) => `<p>${paragraph}</p>`).join(''));
   return (

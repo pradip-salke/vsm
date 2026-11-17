@@ -29,10 +29,16 @@
     "verify:academic-faq": "tsx scripts/verify-academic-faq.ts",
     "verify:spec-financial-management": "tsx scripts/verify-specialisation-cms.ts financial-management-specialisation",
     "verify:spec-human-resources": "tsx scripts/verify-specialisation-cms.ts mba-pgdm-in-human-resources-mumbai",
+    "verify:spec-marketing": "tsx scripts/verify-specialisation-cms.ts mba-in-marketing-mumbai",
+    "verify:spec-business-analytics": "tsx scripts/verify-specialisation-cms.ts pgdm-in-business-analytics-mumbai",
+    "verify:spec-operations": "tsx scripts/verify-specialisation-cms.ts operations-and-supply-chain-management-specialisation",
     "verify:academics-faculty": "tsx scripts/verify-academics-faculty.ts",
     "verify:placements": "tsx scripts/verify-placements.ts",
     "verify:events": "tsx scripts/verify-events.ts",
-    "verify:seo": "tsx scripts/verify-seo.ts"
+    "verify:seo": "tsx scripts/verify-seo.ts",
+    "verify:enquiries": "tsx scripts/verify-enquiries.ts",
+    "verify:footer": "tsx scripts/verify-footer.ts",
+    "verify:cms-v2": "tsx scripts/verify-cms-v2.ts"
   },
   "devDependencies": {
     "prisma": "^6.19.0",

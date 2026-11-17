@@ -1,12 +1,16 @@
 import type { CSSProperties } from 'react';
 import Image from 'next/image';
-import { contact, topBarSocials } from '@/content/site';
+import type { FooterSocialLink } from '@vsmedu/contracts/footer';
+import { contact } from '@/content/site';
 import { Icon } from '@/components/ui/Icon';
 import { icons, topBarSocialIcons } from '@/components/ui/icons';
 import { MailIcon } from '@/components/ui/MailIcon';
 import styles from './TopBar.module.css';
 
-export function TopBar() {
+export function TopBar({ socials }: { socials?: FooterSocialLink[] }) {
+  const topBarKeys = new Set(['facebook', 'instagram', 'youtube']);
+  const visibleSocials = (socials ?? []).filter((social) => topBarKeys.has(social.key) && social.href?.trim());
+
   return (
     <div className={styles.topBar}>
       <div className={`container ${styles.inner}`}>
@@ -33,12 +37,12 @@ export function TopBar() {
           </li>
         </ul>
         <ul className={styles.socials} role="list">
-          {topBarSocials.map((social) => {
+          {visibleSocials.map((social) => {
             const glyph = topBarSocialIcons[social.key];
             if (!glyph) return null;
             return (
               <li key={social.key}>
-                <a className={styles.social} href={social.href!} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+                <a className={styles.social} href={social.href!.trim()} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
                   <Image
                     src={glyph.src}
                     alt=""

@@ -85,7 +85,7 @@ async function main() {
     assert.equal(login.status, 200, 'Login must succeed');
     const h = { Cookie: login.headers.get('set-cookie')!.split(';')[0]!, Origin: origin, 'Content-Type': 'application/json' };
 
-    const adminBase = `${base}/api/v1/admin/academics/faculty`;
+    const adminBase = `${base}/api/v1/admin/academics/teaching-faculty`;
     const getOne = async (key: string): Promise<Doc> => {
       const res = await fetch(`${adminBase}/${key}`, { headers: h });
       assert.equal(res.status, 200, `GET ${key}: ${res.status}`);

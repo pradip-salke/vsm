@@ -533,6 +533,13 @@
   font-weight: 400;
 }
 
+.cms-field-help {
+  margin: 4px 0 10px;
+  color: var(--cms-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .cms-simple-list .cms-marquee-rows {
   margin: 10px 0 14px;
 }

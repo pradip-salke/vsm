@@ -111,6 +111,11 @@ const labels: Record<string, string> = {
   specialisations: 'Specialisation chips',
   roles: 'Job roles',
   subjects: 'Curriculum subjects',
+  employers: 'Employers',
+  itemsTitle: 'Reasons heading',
+  itemsIntro: 'Reasons introduction',
+  outro: 'Text after the list',
+  moduleTitle: 'Module heading',
   subsectionTitle: 'Subsection heading',
   multiExitTitle: 'Multi-exit block heading',
   exitAwards: 'Exit award lines',
@@ -167,6 +172,12 @@ const labels: Record<string, string> = {
   particularHeading: 'Column 1 Heading',
   deductionHeading: 'Column 2 Heading',
   refundHeading: 'Column 3 Heading',
+  policy: 'Anti-Ragging Policy',
+  committees: 'Committees',
+  groups: 'Committee Sections',
+  members: 'Committee Members',
+  designation: 'Designation',
+  report: 'EOA Report',
 };
 
 const multilineLists = /^(cells|roles|subjects)$/;
@@ -831,7 +842,9 @@ export function Field({
   // Repeatable array of items (Cards, Stats, FAQs, etc.)
   if (Array.isArray(value)) {
     const itemTemplate = (Array.isArray(template) ? template[0] : undefined) ?? value[0] ?? '';
-    const itemName = label(name).replace(/s$/, '') || 'Item';
+    const isListSectionTemplate = name === 'sections' && itemTemplate && typeof itemTemplate === 'object' && !Array.isArray(itemTemplate) && 'subsectionTitle' in itemTemplate && 'displayOrder' in itemTemplate && 'items' in itemTemplate;
+    const itemName = isListSectionTemplate ? 'Section' : label(name).replace(/s$/, '') || 'Item';
+    const itemLabel = (item: unknown) => isListSectionTemplate && item && typeof item === 'object' && !Array.isArray(item) && (item as Record<string, unknown>).sectionType === 'text' ? 'Text Section' : isListSectionTemplate ? 'List Section' : itemName;
     const eligibilityCriterionTemplate =
       itemTemplate &&
       typeof itemTemplate === 'object' &&
@@ -1001,10 +1014,10 @@ export function Field({
       };
 
       const addItem = () => {
-        onChange([...itemValues, { icon: '', iconSize: 40, text: '' }] as unknown as Value);
+        onChange([...itemValues, { icon: '', iconSize: 40, text: '', ...(itemTemplate && typeof itemTemplate === 'object' && !Array.isArray(itemTemplate) && 'displayOrder' in itemTemplate ? { displayOrder: itemValues.length + 1 } : {}) }] as unknown as Value);
       };
 
-      const listHeading = name === 'items' ? 'Why Choose VSM Highlights' : label(name);
+      const listHeading = name === 'items' && itemTemplate && typeof itemTemplate === 'object' && !Array.isArray(itemTemplate) && 'displayOrder' in itemTemplate ? 'Icon List' : name === 'items' ? 'Why Choose VSM Highlights' : label(name);
 
       return (
         <fieldset className="cms-list cms-simple-list">
@@ -1029,10 +1042,11 @@ export function Field({
                   disabled={readOnly}
                   onChange={(e) => updateItem(index, 'text', e.target.value)}
                 />
+                {itemTemplate && typeof itemTemplate === 'object' && !Array.isArray(itemTemplate) && 'displayOrder' in itemTemplate && <label>Display order <input type="number" min={0} value={Number(item.displayOrder ?? index + 1)} disabled={readOnly} onChange={e => updateItem(index, 'displayOrder', Number(e.target.value))} /></label>}
                 <button
                   type="button"
                   className="cms-btn-delete"
-                  disabled={readOnly || itemValues.length <= 1}
+                  disabled={readOnly || (itemValues.length <= 1 && !(itemTemplate && typeof itemTemplate === 'object' && !Array.isArray(itemTemplate) && 'displayOrder' in itemTemplate))}
                   onClick={() => removeItem(index)}
                   title="Delete item"
                   aria-label="Delete item"
@@ -1189,26 +1203,29 @@ export function Field({
         <legend className="cms-list-legend">
           {label(name)} <span className="cms-count-badge">({value.length})</span>
         </legend>
+        {name === 'profiles' && (
+          <p className="cms-field-help">If all profiles on this page are inactive, the section will be hidden on the live site.</p>
+        )}
         <div className="cms-list-items">
           {value.map((item, index) => (
             <div className="cms-list-item" key={index}>
               <div className="cms-item-bar">
-                <span className="cms-item-tag">{itemName} {index + 1}</span>
+                <span className="cms-item-tag">{itemLabel(item)} {index + 1}</span>
                 <div className="cms-item-actions">
                   <button
                     type="button"
                     className="cms-item-remove-btn cms-btn-delete"
                     disabled={readOnly}
                     onClick={() => onChange(value.filter((_, i) => i !== index))}
-                    title={`Delete ${itemName} ${index + 1}`}
-                    aria-label={`Delete ${itemName} ${index + 1}`}
+                    title={`Delete ${itemLabel(item)} ${index + 1}`}
+                    aria-label={`Delete ${itemLabel(item)} ${index + 1}`}
                   >
                     <Icon name="trash" size={15} />
                   </button>
                 </div>
               </div>
               <Field
-                name={`${itemName} ${index + 1}`}
+                name={`${itemLabel(item)} ${index + 1}`}
                 value={name === 'profiles' && item && typeof item === 'object' && !Array.isArray(item) ? { enabled: true, ...item } : item}
                 template={name === 'profiles' && itemTemplate && typeof itemTemplate === 'object' && !Array.isArray(itemTemplate) ? { enabled: true, ...itemTemplate } : itemTemplate}
                 readOnly={readOnly}
@@ -1218,14 +1235,16 @@ export function Field({
             </div>
           ))}
         </div>
-        <button
-          type="button"
-          className="cms-secondary cms-btn-add-item"
-          disabled={readOnly || value.length >= 100}
-          onClick={() => onChange([...value, blank(itemTemplate)])}
-        >
-          ＋ Add {itemName}
-        </button>
+        {!isListSectionTemplate && (
+          <button
+            type="button"
+            className="cms-secondary cms-btn-add-item"
+            disabled={readOnly || value.length >= 100}
+            onClick={() => onChange([...value, blank(itemTemplate)])}
+          >
+            ＋ Add {itemName}
+          </button>
+        )}
       </fieldset>
     );
   }
@@ -1354,7 +1373,7 @@ export function Field({
           <legend>{label(name)}</legend>
         )}
         {error && <p role="alert" className="cms-error">{error}</p>}
-        {Object.entries(value).map(([key, item]) => (
+        {Object.entries(value).filter(([key]) => key !== 'sectionType' && !(value.sectionType === 'text' && (key === 'subsectionTitle' || key === 'items'))).map(([key, item]) => (
           <Field
             key={key}
             name={key}
@@ -1378,7 +1397,7 @@ export function Field({
   const pathImage = name === 'icon';
   const link = name === 'videoLink' || name === 'videoUrl' || /href|url|^src$|^poster$|^icon$/i.test(name);
   const longText =
-    /^(body|description|quote|answer|lead|subtitle|address|content|intro|year1Intro|year2Intro|closing)$/i.test(name);
+    /^(body|description|quote|answer|lead|subtitle|address|content|intro|itemsIntro|outro|employers|year1Intro|year2Intro|closing)$/i.test(name);
   const plainLongText = /^(note|organisations|academic|bio|summary|metaDescription|emptyText)$/.test(name);
   const placeholder = link
     ? name === 'videoUrl' || name === 'videoLink'

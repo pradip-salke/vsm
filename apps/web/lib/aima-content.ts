@@ -9,6 +9,6 @@ export async function getAimaContent(): Promise<{ sections: AimaContent; masters
     return { sections: { ...aimaDefaults, ...payload.sections }, masters: { ...aimaMasterDefaults, ...payload.masters } };
   } catch (error) {
     console.error('AIMA CMS unavailable; using bundled defaults.', error instanceof Error ? error.message : 'Unknown error');
-    return { sections: aimaDefaults, masters: aimaMasterDefaults };
+    return { sections: { ...aimaDefaults, faq: { ...aimaDefaults.faq, items: [] } }, masters: aimaMasterDefaults };
   }
 }

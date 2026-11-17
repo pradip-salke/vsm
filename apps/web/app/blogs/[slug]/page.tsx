@@ -1,11 +1,8 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
 import { Link } from '@/components/navigation/Link';
-import { PageHero } from '@/components/sections/PageHero';
-import { academicsHero } from '@/content/academics';
-import { getPublicBlogPost } from '@/lib/blog-content';
+import { getBlogDetailPageSettings, getPublicBlogPost } from '@/lib/blog-content';
 import styles from '../Blogs.module.css';
 import { withSeo } from '@/lib/seo';
 
@@ -40,15 +37,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const article = await getPublicBlogPost(slug);
+  const [article, pageSettings] = await Promise.all([getPublicBlogPost(slug), getBlogDetailPageSettings()]);
   if (!article) notFound();
-  const slide = { ...academicsHero, title: 'VSM Blog', subtitle: 'Ideas and perspectives for future-ready leaders' };
 
   return (
-    <>
-      <PageHero size="inner" slides={[slide]} actions={<Button href="/blogs/">Browse all blogs</Button>} breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Blogs', href: '/blogs/' }, { label: article.title }]} />
-      <main className={`container ${styles.detailMain}`}>
-        <Link href="/blogs/" className={styles.backLink}>← All blogs</Link>
+    <main className={`container ${styles.detailMain}`}>
+        <Link href="/blogs/" className={styles.backLink}>{pageSettings.links.backLinkText}</Link>
         <article className={styles.detail}>
           <header className={styles.detailHeader}>
             <div className={styles.meta}>
@@ -56,6 +50,13 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
               <time dateTime={article.date}>{formatDate(article.date)}</time>
             </div>
             <h1>{article.title}</h1>
+          </header>
+          {article.image && (
+            <div className={styles.detailImage}>
+              <Image src={article.image} alt={article.imageAlt || article.title} width={1400} height={800} sizes="(max-width: 900px) 100vw, 1100px" priority unoptimized={/^https?:\/\//i.test(article.image)} />
+            </div>
+          )}
+          <div className={styles.detailIntro}>
             <div className={styles.lead} dangerouslySetInnerHTML={{ __html: article.excerpt }} />
             {article.authorName && (
               <div className={styles.author}>
@@ -63,17 +64,12 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                 <span><strong>{article.authorName}</strong>{article.authorRole && <small>{article.authorRole}</small>}</span>
               </div>
             )}
-          </header>
-          {article.image && (
-            <div className={styles.detailImage}>
-            <Image src={article.image} alt={article.imageAlt || article.title} width={1400} height={800} sizes="(max-width: 900px) 100vw, 1100px" priority unoptimized={/^https?:\/\//i.test(article.image)} />
-            </div>
-          )}
+          </div>
           <div className={styles.articleContent} dangerouslySetInnerHTML={{ __html: articleHtml(article.body) }} />
           {article.authorBio && <p className={styles.authorBio}>{article.authorBio}</p>}
-          <footer className={styles.articleFooter}><Link href="/blogs/">← Back to all blogs</Link></footer>
+          <footer className={styles.articleFooter}><Link href="/blogs/">{pageSettings.links.footerLinkText}</Link></footer>
         </article>
-      </main>
-    </>
+    </main>
   );
 }
+

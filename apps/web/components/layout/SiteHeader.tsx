@@ -5,6 +5,7 @@ import { Link } from '@/components/navigation/Link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useId, useRef, useState } from 'react';
 import { drawerNav, mainNav, type NavItem } from '@/content/site';
+import type { FooterSocialLink } from '@vsmedu/contracts/footer';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
 import { TopBar } from './TopBar';
@@ -12,6 +13,7 @@ import styles from './SiteHeader.module.css';
 
 function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string }) {
   const [open, setOpen] = useState(false);
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [dismissed, setDismissed] = useState(false);
   const menuId = useId();
   const ref = useRef<HTMLLIElement>(null);
@@ -21,6 +23,7 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
     if (previousPathname.current === pathname) return;
     previousPathname.current = pathname;
     setOpen(false);
+    setOpenSubmenu(null);
     setDismissed(true);
   }, [pathname]);
 
@@ -45,6 +48,7 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
       }}
       onPointerLeave={() => {
         setOpen(false);
+        setOpenSubmenu(null);
         setDismissed(false);
       }}
       onKeyDown={(event) => {
@@ -75,10 +79,26 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
       </button>
       <ul id={menuId} className={styles.dropdown} role="list">
         {item.children.map((child) => (
-          <li key={child.href + child.label}>
-            <Link className={styles.dropdownLink} href={child.href} onClick={() => { setOpen(false); setDismissed(true); }}>
+          <li key={child.href + child.label} className={child.children ? styles.nestedItem : undefined}>
+            {child.children ? <>
+              <button
+                type="button"
+                className={`${styles.dropdownLink} ${styles.submenuTrigger}`}
+                aria-expanded={openSubmenu === child.label}
+                onClick={() => setOpenSubmenu((current) => current === child.label ? null : child.label)}
+              >
+                {child.label}<Icon src={icons.chevronDown} className={styles.submenuChevron} />
+              </button>
+              <ul className={`${styles.dropdown} ${styles.submenu}`} role="list">
+                {child.children.map((nested) => <li key={nested.href + nested.label}>
+                  <Link className={styles.dropdownLink} href={nested.href} onClick={() => { setOpen(false); setOpenSubmenu(null); setDismissed(true); }}>
+                    {nested.label}
+                  </Link>
+                </li>)}
+              </ul>
+            </> : <Link className={styles.dropdownLink} href={child.href} onClick={() => { setOpen(false); setDismissed(true); }}>
               {child.label}
-            </Link>
+            </Link>}
           </li>
         ))}
       </ul>
@@ -100,12 +120,19 @@ function MobileNav({ onNavigate }: { onNavigate: () => void }) {
               <ul className={styles.drawerSub} role="list">
                 {item.children.map((child) => (
                   <li key={child.href + child.label}>
-                    <Link href={child.href} onClick={(event) => {
+                    {child.children ? <details className={styles.drawerNested}>
+                      <summary className={styles.drawerNestedLink}>{child.label}<Icon src={icons.chevronDown} className={styles.drawerChevron} /></summary>
+                      <ul className={styles.drawerNestedSub} role="list">
+                        {child.children.map((nested) => <li key={nested.href + nested.label}>
+                          <Link href={nested.href} onClick={onNavigate}>{nested.label}</Link>
+                        </li>)}
+                      </ul>
+                    </details> : <Link href={child.href} onClick={(event) => {
                       event.currentTarget.closest('details')?.removeAttribute('open');
                       onNavigate();
                     }}>
                       {child.label}
-                    </Link>
+                    </Link>}
                   </li>
                 ))}
               </ul>
@@ -130,7 +157,7 @@ function MobileNav({ onNavigate }: { onNavigate: () => void }) {
   );
 }
 
-export function SiteHeader({ logoSrc }: { logoSrc: string }) {
+export function SiteHeader({ logoSrc, socials }: { logoSrc: string; socials?: FooterSocialLink[] }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -156,7 +183,7 @@ export function SiteHeader({ logoSrc }: { logoSrc: string }) {
 
   return (
     <header className={styles.header}>
-      <TopBar />
+      <TopBar socials={socials} />
       <div className={styles.mainBar}>
         <div className={`container ${styles.inner}`}>
           <div className={styles.brand}>

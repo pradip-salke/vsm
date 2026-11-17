@@ -4,6 +4,23 @@
   margin-top: var(--heading-copy-gap);
 }
 
+.templateRichText {
+  color: var(--color-text-body);
+  font-family: inherit;
+  font-size: var(--font-size-body);
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.templateRichText :global(*) {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit;
+}
+
+.templateRichText :global(p) + :global(p) { margin-top: 1em; }
+.templateRichText :global(a) { color: var(--color-primary); text-decoration: underline; }
+
 .aboutBody :global(p) + :global(p),
 .aboutBody :global(p) + :global(ul),
 .aboutBody :global(ul) + :global(p) {

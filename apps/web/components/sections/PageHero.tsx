@@ -18,9 +18,10 @@ type PageHeroProps = {
   className?: string;
   /** `home` = 820px slider, `inner` = 559px page banner. */
   size?: 'home' | 'inner';
+  slideActions?: boolean;
 };
 
-export function PageHero({ slides, actions, breadcrumb, size = 'home', className }: PageHeroProps) {
+export function PageHero({ slides, actions, breadcrumb, size = 'home', className, slideActions = false }: PageHeroProps) {
   // Guard against missing slides prop
   const safeSlides = Array.isArray(slides) ? slides : [];
 
@@ -68,7 +69,7 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home', className
             )}
             <div className={styles.copy}>
               <Heading className={styles.title}>{slide.title}</Heading>
-              {size === 'home' && 'primaryText' in slide ? <>
+              {(size === 'home' || slideActions) && 'primaryText' in slide ? <>
                 <div className={styles.subtitle} dangerouslySetInnerHTML={{ __html: slide.subtitle }} />
                 <div className={styles.actions}>
                   {slide.primaryText && slide.primaryHref && <Button href={slide.primaryHref}>{slide.primaryText}</Button>}

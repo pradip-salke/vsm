@@ -61,16 +61,21 @@
 
 .socials {
   display: flex;
-  flex-wrap: wrap;
-  gap: clamp(0.75rem, 1.042vw, 1.25rem);
+  flex-wrap: nowrap;
+  gap: clamp(0.375rem, 0.8vw, 0.75rem);
   margin-top: clamp(0.75rem, 1.042vw, 1.25rem);
+}
+
+.socials li {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 /* 84px white circles with navy glyphs */
 .social {
   display: grid;
   place-items: center;
-  width: clamp(3.25rem, 4.375vw, 5.25rem);
+  width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--color-surface);
@@ -99,16 +104,5 @@ a.social:hover {
 
 /* Keep all five circles on one row; they shrink below 52px only when the card is too narrow */
 @media (max-width: 599px) {
-  .socials {
-    flex-wrap: nowrap;
-  }
-
-  .socials li {
-    flex: 0 1 clamp(3.25rem, 4.375vw, 5.25rem);
-    min-width: 0;
-  }
-
-  .social {
-    width: 100%;
-  }
+  .socials { gap: 0.375rem; }
 }

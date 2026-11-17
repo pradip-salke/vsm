@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Button } from '@/components/ui/Button';
 import { PageHero } from '@/components/sections/PageHero';
-import { academicsHero } from '@/content/academics';
-import { APPLY_PATH } from '@/content/site';
+import { CmsHtml } from '@/components/ui/CmsHtml';
+import { getPublicFooter } from '@/lib/site-brand';
 import styles from './ContactPage.module.css';
 import { withSeo } from '@/lib/seo';
 
@@ -12,14 +12,19 @@ const metadata: Metadata = {
   alternates: { canonical: '/contact-us/' },
 };
 
-const contactMapUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15077.700395413956!2d72.81570538587455!3d19.132860685866014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c90a5cf14ec3%3A0x43e2ef0e96af06f9!2sValia%20School%20of%20Management!5e0!3m2!1sen!2sin!4v1739169921810!5m2!1sen!2sin';
-
 export async function generateMetadata(): Promise<Metadata> {
   return withSeo('/contact-us/', metadata);
 }
 
-export default function ContactUsPage() {
-  const slide = { ...academicsHero, title: 'Get in Touch with VSM', subtitle: "We're Here to Answer Your Queries" };
+export default async function ContactUsPage() {
+  const { contactPage } = await getPublicFooter();
+  const slide = {
+    image: contactPage.hero.image,
+    imagePosition: contactPage.hero.imagePosition,
+    mobileImagePosition: contactPage.hero.mobileImagePosition,
+    title: contactPage.hero.title,
+    subtitle: contactPage.hero.subtitle,
+  };
 
   return (
     <>
@@ -27,27 +32,22 @@ export default function ContactUsPage() {
         size="inner"
         slides={[slide]}
         actions={<>
-          <Button href={APPLY_PATH}>Apply Now</Button>
-          <Button variant="arrow" href="mailto:admissions@vsmedu.in">Enquire now</Button>
+          {contactPage.hero.applyText && contactPage.hero.applyHref && <Button href={contactPage.hero.applyHref}>{contactPage.hero.applyText}</Button>}
+          {contactPage.hero.enquireText && contactPage.hero.enquireHref && <Button variant="arrow" href={contactPage.hero.enquireHref}>{contactPage.hero.enquireText}</Button>}
         </>}
-        breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
+        breadcrumb={[{ label: 'Home', href: '/' }, { label: contactPage.breadcrumbLabel }]}
       />
       <div className={styles.main}>
         <section className={`container ${styles.section}`} aria-label="Contact introduction">
-          <p className={styles.intro}>
-            At Valia School of Management, we’re always open to your questions, suggestions, and feedback. Whether you’re a prospective student, a parent, or just curious about our programs, our team is here to provide you with the information you need. Reach out to us within our working hours, and we’ll be more than happy to assist you.
-          </p>
-          
-          <p className={styles.closing}>
-            Feel free to contact us during our working hours, and we’ll ensure your queries are addressed promptly. Your journey towards excellence in management education starts here, and we’re excited to guide you through every step of the way.
-          </p>
+          {contactPage.intro && <CmsHtml className={styles.intro} html={contactPage.intro} />}
+          {contactPage.closing && <CmsHtml className={styles.closing} html={contactPage.closing} />}
         </section>
       </div>
       <section className={styles.mapSection} aria-label="Location">
         <div className={styles.mapFrame}>
           <iframe
             title="Valia School of Management on Google Maps"
-            src={contactMapUrl}
+            src={contactPage.mapEmbedUrl}
             width="600"
             height="450"
             loading="lazy"

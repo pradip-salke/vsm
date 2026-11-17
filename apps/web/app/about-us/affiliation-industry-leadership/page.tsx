@@ -17,9 +17,11 @@ export default async function AffiliationPage() {
   const leaderSection = cms?.sections.leaders;
   const pastSection = cms?.sections['past-presidents'];
   const profiles = (value: unknown, fallback: typeof industryLeaders) => cmsProfiles(value, fallback).map((profile) => ({ ...profile, image: typeof profile.image === 'string' ? profile.image : profile.image?.src }));
+  const leaders = profiles(leaderSection?.profiles, industryLeaders);
+  const pastPresidents = profiles(pastSection?.profiles, aimaPastPresidents);
   return <AboutPageShell title="Affiliation & Industry Leadership" active="Affiliation & Industry Leadership" pageSlug="affiliation-industry-leadership">
     <AboutSection title={cmsString(intro?.title, 'Affiliation and Industry Leadership at Valia School of Management')}><CmsHtml html={cmsString(intro?.body, affiliationIntro.map((text) => `<p>${text}</p>`).join(''))} /></AboutSection>
-    <AboutSection title={cmsString(leaderSection?.title, 'Industry Leadership')}><ProfileGrid profiles={profiles(leaderSection?.profiles, industryLeaders)} advisory facultyStyle /></AboutSection>
-    <AboutSection title={cmsString(pastSection?.title, 'AIMA Past Presidents - A Decade of Exemplary Leadership')}><ProfileGrid profiles={profiles(pastSection?.profiles, aimaPastPresidents)} compact advisory facultyStyle /></AboutSection>
+    {leaderSection?.enabled !== false && leaders.length > 0 && <AboutSection title={cmsString(leaderSection?.title, 'Industry Leadership')}><ProfileGrid profiles={leaders} advisory facultyStyle /></AboutSection>}
+    {pastSection?.enabled !== false && pastPresidents.length > 0 && <AboutSection title={cmsString(pastSection?.title, 'AIMA Past Presidents - A Decade of Exemplary Leadership')}><ProfileGrid profiles={pastPresidents} compact advisory facultyStyle /></AboutSection>}
   </AboutPageShell>;
 }

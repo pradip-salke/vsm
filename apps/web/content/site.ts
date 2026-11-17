@@ -1,5 +1,5 @@
 export type NavLink = { label: string; href: string };
-export type NavItem = NavLink & { children?: NavLink[] };
+export type NavItem = NavLink & { children?: NavItem[] };
 
 export const ACADEMICS_PGDM_PATH = '/our-academics/aicte-pgdm-courses-in-mumbai/';
 export const APPLY_PATH = '/admissions/application-form/';
@@ -19,23 +19,6 @@ export const contact = {
 };
 
 export type SocialKey = 'facebook' | 'x' | 'instagram' | 'linkedin' | 'pinterest' | 'youtube';
-/** `href: null` = profile URL not supplied yet; linked-only lists (`withUrl`) hide the icon until it is. */
-export type SocialLink = { key: SocialKey; label: string; href: string | null };
-
-export const socials: Record<SocialKey, SocialLink> = {
-  facebook: { key: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61569771774772' },
-  x: { key: 'x', label: 'X (Twitter)', href: 'https://twitter.com/ValiaSOM' },
-  instagram: { key: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/vsom_official/' },
-  linkedin: { key: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/company/108657561/' },
-  pinterest: { key: 'pinterest', label: 'Pinterest', href: null },
-  youtube: { key: 'youtube', label: 'YouTube', href: 'https://www.youtube.com/@valiaschoolofmanagement' },
-};
-
-const withUrl = (links: SocialLink[]) => links.filter((link) => link.href);
-
-export const topBarSocials = withUrl([socials.facebook, socials.instagram, socials.youtube]);
-/** The contact card shows every icon from the design; ones without a URL render unlinked. */
-export const contactCardSocials = [socials.facebook, socials.x, socials.instagram, socials.linkedin, socials.pinterest];
 
 export const specialisationLinks: NavLink[] = [
   { label: 'Finance', href: '/our-academics/in-demand-specialisations/financial-management-specialisation/' },
@@ -57,6 +40,15 @@ export const mainNav: NavItem[] = [
       { label: 'AIMA PGDM', href: '/our-academics/aima-pgdm/' },
       ...specialisationLinks.map((link) => ({ label: `PGDM in ${link.label}`, href: link.href })),
       { label: 'Faculty', href: '/faculty/' },
+      {
+        label: 'Mandatory Disclosure',
+        href: '/our-academics/aicte-pgdm-courses-in-mumbai/',
+        children: [
+          { label: 'Anti-Ragging Policy', href: '/anti-ragging-policy/' },
+          { label: 'Committee', href: '/committee/' },
+          { label: 'EOA Report', href: '/eoa-report/' },
+        ],
+      },
     ],
   },
   {

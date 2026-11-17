@@ -146,10 +146,10 @@ async function main() {
       rows: [...(fees.content as { rows: unknown[] }).rows, { label: 'Audit Fee Row', amount: 'INR 1/-' }],
     };
     const editedCourse = structuredClone(courseMod.content) as {
-      year1Intro: string;
+      year1Module1Heading: string;
       year1Rows: { left: string; right: string }[];
     };
-    editedCourse.year1Intro += ' <strong>audit</strong>';
+    editedCourse.year1Module1Heading += ' Audit';
     editedCourse.year1Rows.push({ left: 'Audit L', right: 'Audit R' });
     const bulkRes = await bulk({
       'master-hero': { content: editedSlides, updatedAt: masterHero.updatedAt },
@@ -160,8 +160,8 @@ async function main() {
     assert.equal(bulkRes.status, 200, await bulkRes.clone().text());
     const bulkSaved = (await requireJson<{ data: Record<string, Doc> }>(bulkRes, 'aima bulk PATCH')).data;
     assert.equal((bulkSaved.fees.content as { rows: unknown[] }).rows.length, (fees.content as { rows: unknown[] }).rows.length + 1);
-    assert.match(String((bulkSaved['course-modules'].content as { year1Intro: string }).year1Intro), /<strong>audit<\/strong>/);
-    pass('Bulk PATCH: banner items reorder/toggle, breadcrumb row, fee row, course-modules rich intro + row');
+    assert.match(String((bulkSaved['course-modules'].content as { year1Module1Heading: string }).year1Module1Heading), /Audit/);
+    pass('Bulk PATCH: banner items reorder/toggle, breadcrumb row, fee row, course-modules heading + row');
 
     const faq = await get('faq');
     const badFaq = { ...(faq.content as object), title: '  ' };

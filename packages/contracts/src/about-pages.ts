@@ -253,6 +253,7 @@ export const aboutPages = {
         ),
       },
       leaders: {
+        enabled: true,
         title: 'Industry Leadership',
         profiles: [
           profile('Rekha Sethi', 'aima-rekha.png', 'Director General AIMA'),
@@ -264,6 +265,7 @@ export const aboutPages = {
         ],
       },
       'past-presidents': {
+        enabled: true,
         title: 'AIMA Past Presidents - A Decade of Exemplary Leadership',
         profiles: [
           profile('Sanjay Kirloskar', 'aima-kirloskar.png', '2019 - 2020', ['Chairman and Managing Director', 'Kirloskar Brothers Limited']),
@@ -328,6 +330,73 @@ export const aboutPages = {
     { content: 'Student Residence Content' },
     { content: 'Section heading and the residence description (supports links).' },
     seo('Student Residence', 'Student accommodation information for Valia School of Management students.')
+  ),
+  'anti-ragging-policy': page(
+    '/anti-ragging-policy/',
+    'Anti-Ragging Policy',
+    'Anti-Ragging Policy',
+    NAVIGATING,
+    {
+      policy: {
+        title: 'ANTI-RAGGING POLICY',
+        intro: '<p>We are committed to maintaining a safe, respectful, and inclusive environment. Ragging is strictly prohibited, and strict action will be taken against violators as per regulations. Click the link below to learn more about our anti-ragging guidelines and complaint procedures.</p>',
+        linkText: 'https://www.antiragging.in/affidavit_affiliated_form.php',
+        linkHref: 'https://www.antiragging.in/affidavit_affiliated_form.php',
+      },
+    },
+    { policy: 'Anti-Ragging Policy' },
+    { policy: 'Policy heading, full description and official complaint-procedure link.' },
+    seo('Anti-Ragging Policy | Valia School of Management', 'Anti-ragging policy and complaint procedure at Valia School of Management.')
+  ),
+  committee: page(
+    '/committee/',
+    'Committee',
+    'Committee',
+    NAVIGATING,
+    {
+      committees: {
+        groups: [
+          {
+            title: 'Women Grievance Redressal Committee',
+            intro: '<p>The institute has a well-set Women Grievance Redressal Committee wherein the students can lodge their grievances, which are considered in the Women Grievance Redressal Committee meetings and appropriate action is taken. The committee of the institute is as follows:</p>',
+            members: [
+              { name: 'Dr. Shobha Menon', designation: 'Chairperson' },
+              { name: 'Mrs. Jansi Varsala', designation: 'Member' },
+            ],
+          },
+          {
+            title: 'Grievance Redressal Committee',
+            intro: '<p>The institute has a well set online grievance redressal committee wherein the students can lodge their grievances, which are considered in the grievance redressal committee meetings and appropriate action is taken. The grievance redressal committee of the institute is as follows:</p>',
+            members: [
+              { name: 'Dr. Shobha Menon', designation: 'Chairperson' },
+              { name: 'Prof. Ajai Pillai', designation: 'Member' },
+              { name: 'Mr. Omkar Malvade', designation: 'Member' },
+            ],
+          },
+        ],
+      },
+    },
+    { committees: 'Committees' },
+    { committees: 'Committee names, descriptions and ordered member rows.' },
+    seo('Committee | Valia School of Management', 'Women Grievance Redressal and Grievance Redressal Committees at Valia School of Management.')
+  ),
+  'eoa-report': page(
+    '/eoa-report/',
+    'EOA Report',
+    'EOA Report',
+    NAVIGATING,
+    {
+      report: {
+        title: 'EOA Report 2026–27',
+        intro: 'Extension of Approval (EOA)',
+        description: 'View the official 2026–27 report on the VSM website.',
+        linkText: 'Open EOA Report',
+        linkHref: 'https://vsmedu.com/wp-content/uploads/2026/04/EOA-Report-2026-27-1.pdf',
+      },
+    },
+    { report: 'EOA Report' },
+    { report: 'Report heading, description and the official PDF link.' },
+    seo('EOA Report | Valia School of Management', 'EOA Report 2026–27 for Valia School of Management.')
   ),
 } satisfies Record<string, SitePageDefinition>;
 

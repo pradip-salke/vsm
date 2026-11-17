@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api';
 import './home-editor.css';
-import { Field, type Value } from './ContentFields';
+import { Field, blank, type Value } from './ContentFields';
+import { academicTemplateSection } from '@vsmedu/contracts/academics';
 import { FaqSectionEditor, type FaqContent } from './FaqSectionEditor';
 import { type AcademicsPageEditorConfig, aictePageConfig, aimaPageConfig, facultyPageConfig } from './academicsPageConfigs';
 
@@ -306,6 +307,20 @@ export function AcademicsPageEditor({
               {!canEdit && <span className="cms-status-readonly">You have read-only access.</span>}
             </div>
             <div className="cms-save-actions">
+              {config.sections.includes('templateSections') && <button type="button" className="cms-secondary" disabled={loading || readOnly || !documents.templateSections} onClick={() => {
+                const content = documents.templateSections.content;
+                if (!content || typeof content !== 'object' || Array.isArray(content)) return;
+                const sections = Array.isArray(content.sections) ? content.sections : [];
+                change('templateSections', { ...content, sections: [...sections, { title: '', body: '', subsectionTitle: '', displayOrder: 1, items: [], sectionType: 'text' }] });
+                requestAnimationFrame(() => document.getElementById('section-templateSections')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+              }}>＋ Add Text Section</button>}
+              {config.sections.includes('templateSections') && <button type="button" className="cms-secondary" disabled={loading || readOnly || !documents.templateSections} onClick={() => {
+                const content = documents.templateSections.content;
+                if (!content || typeof content !== 'object' || Array.isArray(content)) return;
+                const sections = Array.isArray(content.sections) ? content.sections : [];
+                change('templateSections', { ...content, sections: [...sections, { ...(blank(academicTemplateSection as unknown as Value) as Record<string, Value>), sectionType: 'list' }] });
+                requestAnimationFrame(() => document.getElementById('section-templateSections')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+              }}>＋ Add List Section</button>}
               {dirtyCount > 0 && (
                 <button type="button" className="cms-secondary" disabled={busy || uploads > 0} onClick={discard}>
                   Discard changes

@@ -1,4 +1,4 @@
-import { academicsDefaults, academicsLabels, type AcademicsKey } from '@vsmedu/contracts/academics';
+import { academicsDefaults, academicsLabels, academicTemplateSection, type AcademicsKey } from '@vsmedu/contracts/academics';
 import { aimaDefaults, aimaLabels, type AimaKey } from '@vsmedu/contracts/academics-aima';
 import { facultyPageDefaults, facultyPageLabels, type FacultyPageKey } from '@vsmedu/contracts/academics-faculty';
 import type { ReactNode } from 'react';
@@ -45,6 +45,7 @@ const AICTE_SECTIONS: AcademicsKey[] = [
   'tabs',
   'glance',
   'about',
+  'templateSections',
   'program-videos',
   'why',
   'gallery',
@@ -65,9 +66,10 @@ const AICTE_SUBTITLES: Record<AcademicsKey, string> = {
   tabs: 'The sticky in-page tab bar below the banner. Each anchor must match a section ID on the page.',
   glance: 'Programme summary card in the left sidebar, with its Apply, Brochure and Contact buttons.',
   about: 'Programme introduction: section heading and one rich-text block for all body copy (links and lists in the editor).',
+  templateSections: 'Display order places a section before: 1 About Program, 2 Program Videos, 3 Why VSM, 4 Gallery, 5 Events, 6 Curriculum, 7 Faculty, 8 Eligibility, 9 Fees, 10 Admission, 11 VSM Advantage; 12 places it after VSM Advantage.',
   'program-videos': 'Carousel heading. Video slides are managed in Program Videos.',
   why: 'Why Choose VSM image and highlight list with icons.',
-  gallery: 'Carousel heading. Gallery slides are managed in Life @ VSM Gallery.',
+  gallery: 'Carousel heading is edited here. Gallery images and page visibility are managed in the shared Gallery CMS.',
   events: 'Carousel heading. Event slides are managed in Upcoming Events.',
   internships: 'Carousel heading. Internship slides are managed in Summer Internships.',
   testimonials: 'Testimonial heading. Student testimonials and their optional video links are managed in Student Testimonials.',
@@ -85,6 +87,7 @@ const AICTE_ANCHORS: Record<AcademicsKey, string> = {
   tabs: 'tabs',
   glance: 'at-a-glance',
   about: 'about-program',
+  templateSections: 'custom-sections',
   'program-videos': 'program-videos',
   why: 'why-vsm',
   gallery: 'gallery',
@@ -117,11 +120,11 @@ export const aictePageConfig: AcademicsPageEditorConfig = {
   labels: academicsLabels as Record<string, string>,
   subtitles: AICTE_SUBTITLES as Record<string, string>,
   anchors: AICTE_ANCHORS as Record<string, string>,
-  defaults: academicsDefaults as unknown as Record<string, Value>,
+  defaults: { ...academicsDefaults, templateSections: { sections: [academicTemplateSection] } } as unknown as Record<string, Value>,
   masterLinks: {
     hero: { to: `${ACADEMICS_CMS_PATH}/hero`, label: 'Manage Page Banner Slides →' },
     'program-videos': { to: `${ACADEMICS_CMS_PATH}/program-videos`, label: 'Manage Program Video Slides →' },
-    gallery: { to: `${ACADEMICS_CMS_PATH}/gallery`, label: 'Manage Gallery Slides →' },
+    gallery: { to: '/masters/gallery/life', label: 'Manage Gallery images →' },
     events: { to: `${ACADEMICS_CMS_PATH}/events`, label: 'Manage Event Slides →' },
     faculty: { to: '/masters/faculty', label: 'Manage Faculty Slider →' },
     internships: { to: ACADEMICS_CMS_PATH + '/internships', label: 'Manage Academic Internship Slides' },
@@ -152,6 +155,7 @@ const AIMA_SECTIONS: AimaKey[] = [
   'glance',
   'about-vsm',
   'about-aima',
+  'templateSections',
   'about-pgdm',
   'program-structure',
   'specialisations',
@@ -170,6 +174,7 @@ const AIMA_SUBTITLES: Record<AimaKey, string> = {
   glance: 'Sidebar summary card with Apply, Brochure and Contact actions.',
   'about-vsm': 'Opening “About Program” block: heading, rich HTML, and specialisation chips with icons.',
   'about-aima': 'AIMA introduction, subsection title, and bullet list with icons.',
+  templateSections: 'Add sections with a heading, description, subheading and icon list. Display order places a section before: 1 About VSM, 2 About AIMA, 3 About PGDM, 4 Program Structure, 5 Specialisations, 6 Course Modules, 7 Fees, 8 Other Details, 9 Admission Procedure; 10 places it after Admission Procedure.',
   'about-pgdm': 'Rich HTML describing the PGDM programme structure.',
   'program-structure': 'Program structure note and icon highlight rows.',
   specialisations: 'List of specialisation names with icons (same chips as in About VSM).',
@@ -188,6 +193,7 @@ const AIMA_ANCHORS: Record<AimaKey, string> = {
   glance: 'at-a-glance',
   'about-vsm': 'about-vsm',
   'about-aima': 'about-aima',
+  templateSections: 'custom-sections',
   'about-pgdm': 'about-pgdm',
   'program-structure': 'program-structure',
   specialisations: 'specialisations',
@@ -217,7 +223,7 @@ export const aimaPageConfig: AcademicsPageEditorConfig = {
   labels: aimaLabels as Record<string, string>,
   subtitles: AIMA_SUBTITLES as Record<string, string>,
   anchors: AIMA_ANCHORS as Record<string, string>,
-  defaults: aimaDefaults as unknown as Record<string, Value>,
+  defaults: { ...aimaDefaults, templateSections: { sections: [academicTemplateSection] } } as unknown as Record<string, Value>,
   masterLinks: {
     hero: { to: `${AIMA_CMS_PATH}/hero`, label: 'Manage Page Banner Slides →' },
     internships: { to: `${AIMA_CMS_PATH}/internships`, label: 'Manage AIMA PGDM Internship Slides' },
@@ -243,6 +249,7 @@ export const aimaPageConfig: AcademicsPageEditorConfig = {
 const FACULTY_SECTIONS: FacultyPageKey[] = ['hero', 'tabs', 'glance', 'intro', 'experience'];
 
 const FACULTY_SUBTITLES: Record<FacultyPageKey, string> = {
+  templateSections: 'Display order places a section before: 1 Faculty Profiles, 2 Teaching Experience; 3 places it after Teaching Experience.',
   hero: 'Breadcrumb trail and the “Meet Our Faculty” jump link. Heading, subtitle and image are edited in Page Banner (slider).',
   tabs: 'Sticky section navigation. Each anchor must match a section id on the Faculty page.',
   glance: 'Sidebar summary card: eyebrow, heading, intro text and the two fact rows. The Profiles count is the number of active faculty profiles.',
@@ -251,6 +258,7 @@ const FACULTY_SUBTITLES: Record<FacultyPageKey, string> = {
 };
 
 const FACULTY_ANCHORS: Record<FacultyPageKey, string> = {
+  templateSections: 'custom-sections',
   hero: 'banner',
   tabs: 'tabs',
   glance: 'faculty-overview',
@@ -259,8 +267,8 @@ const FACULTY_ANCHORS: Record<FacultyPageKey, string> = {
 };
 
 export const facultyPageConfig: AcademicsPageEditorConfig = {
-  apiList: '/admin/academics/faculty',
-  apiBulk: '/admin/academics/faculty',
+  apiList: '/admin/academics/teaching-faculty',
+  apiBulk: '/admin/academics/teaching-faculty',
   breadcrumbs: { group: 'Our Academics', parent: 'Faculty', current: 'Teaching Faculty CMS' },
   title: 'Faculty – Page Sections',
   description: (
@@ -276,7 +284,7 @@ export const facultyPageConfig: AcademicsPageEditorConfig = {
   labels: facultyPageLabels as Record<string, string>,
   subtitles: FACULTY_SUBTITLES as Record<string, string>,
   anchors: FACULTY_ANCHORS as Record<string, string>,
-  defaults: facultyPageDefaults as unknown as Record<string, Value>,
+  defaults: { ...facultyPageDefaults, templateSections: { sections: [academicTemplateSection] } } as unknown as Record<string, Value>,
   masterLinks: {
     hero: { to: `${FACULTY_CMS_PATH}/hero`, label: 'Manage Page Banner Slides →' },
     intro: { to: `${FACULTY_CMS_PATH}/profiles`, label: 'Manage Faculty Profiles →' },

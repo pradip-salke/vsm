@@ -13,7 +13,21 @@ function normalizeHero(value: unknown, actions = homeDefaults.hero) {
 }
 
 export function cleanSubtitle(value: string) {
-  return sanitizeHtml(value, { allowedTags: ['p', 'div', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'ul', 'ol', 'li', 'a'], allowedAttributes: { a: ['href', 'title', 'rel'], p: ['style'], div: ['style'] }, allowedStyles: { '*': { 'text-align': [/^(left|center|right|justify)$/] } }, allowedSchemes: ['http', 'https', 'mailto', 'tel'], allowProtocolRelative: false });
+  return sanitizeHtml(value, {
+    allowedTags: ['p', 'div', 'h2', 'h3', 'h4', 'blockquote', 'br', 'strong', 'b', 'em', 'i', 'u', 's', 'ul', 'ol', 'li', 'a'],
+    allowedAttributes: { a: ['href', 'title', 'rel', 'target'], p: ['style'], div: ['style'] },
+    allowedStyles: { '*': { 'text-align': [/^(left|center|right|justify)$/] } },
+    allowedSchemes: ['http', 'https', 'mailto', 'tel'],
+    allowProtocolRelative: false,
+    transformTags: {
+      a: (_tagName, attributes) => ({
+        tagName: 'a',
+        attribs: attributes.target === '_blank'
+          ? { ...attributes, target: '_blank', rel: 'noopener noreferrer' }
+          : Object.fromEntries(Object.entries(attributes).filter(([key]) => key !== 'target')),
+      }),
+    },
+  });
 }
 
 function sanitizeFacultyDetails(content: unknown) {
@@ -100,6 +114,7 @@ export async function readHome() {
   const rows = await prisma.websiteSetting.findMany({ where: { key: { startsWith: 'home.' }, isPublic: true } });
   const sections = structuredClone(homeDefaults);
   const masters = structuredClone(homeMasterDefaults);
+  let hasFaqRecord = false;
   for (const row of rows) {
     const key = row.key.slice(5);
     if (key.startsWith('master-') && key.slice(7) in masters) {
@@ -107,8 +122,12 @@ export async function readHome() {
       if (key === 'master-events') masterValue = normalizeHomeEventsMaster(masterValue) as typeof masters.events;
       if (key === 'master-testimonials') masterValue = normalizeTestimonialsMaster(masterValue) as typeof masters.testimonials;
       Object.assign(masters, { [key.slice(7)]: masterValue });
-    } else if (key in sections) Object.assign(sections, { [key]: key === 'program' ? { ...homeDefaults.program, ...(row.value as object) } : row.value });
+    } else if (key in sections) {
+      Object.assign(sections, { [key]: key === 'program' ? { ...homeDefaults.program, ...(row.value as object) } : row.value });
+      if (key === 'faq') hasFaqRecord = true;
+    }
   }
+  if (!hasFaqRecord) sections.faq = { ...homeDefaults.faq, items: [] };
   masters.hero = normalizeHero(masters.hero, sections.hero) as typeof masters.hero;
   sanitizeFacultyDetails(masters.faculty);
   return { sections, masters };

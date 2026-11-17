@@ -9,6 +9,7 @@ import { prisma } from '../../lib/prisma.js';
 import { HttpError } from '../../middleware/errors.js';
 import { cleanSubtitle } from './home.service.js';
 import { normalizeVideoLink } from './video-link.js';
+import { academicTemplateSection, academicTemplateItem } from '@vsmedu/contracts/academics';
 
 type Client = Prisma.TransactionClient | typeof prisma;
 
@@ -30,6 +31,7 @@ export const specDocuments: Record<string, unknown> = (() => {
     out[`${slug}.tabs`] = page.tabs;
     out[`${slug}.glance`] = page.glance;
     out[`${slug}.overview`] = page.overview;
+    out[`${slug}.templateSections`] = page.templateSections;
     out[`${slug}.why`] = page.why;
     out[`${slug}.careers`] = page.careers;
     out[`${slug}.curriculum`] = page.curriculum;
@@ -48,7 +50,7 @@ export const specDocuments: Record<string, unknown> = (() => {
   return out;
 })();
 
-const RICH_TEXT_KEYS = new Set(['subtitle', 'body', 'intro', 'description', 'answer']);
+const RICH_TEXT_KEYS = new Set(['subtitle', 'body', 'intro', 'itemsIntro', 'outro', 'employers', 'description', 'answer']);
 
 function normalizeDocument(key: string, content: unknown): unknown {
   if ((key.endsWith('.careers') || key.endsWith('.curriculum')) && content && typeof content === 'object' && !Array.isArray(content)) {
@@ -86,6 +88,8 @@ function assertKnown(key: string) {
 }
 
 function contentSchema(value: unknown, key = '', parent = '', documentKey = ''): z.ZodType {
+  if (documentKey.endsWith('.templateSections') && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true })).max(100);
+  if (documentKey.endsWith('.templateSections') && key === 'items' && Array.isArray(value)) return z.array(contentSchema(academicTemplateItem, '', key, documentKey)).max(100);
   const section = documentKey.includes('.') ? documentKey.split('.', 2)[1]! : '';
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key, documentKey)).max(100);
   if (typeof value === 'boolean') return z.boolean();
@@ -123,9 +127,10 @@ function contentSchema(value: unknown, key = '', parent = '', documentKey = ''):
   }
 
   if (documentKey.endsWith('.faq')) {
+    const businessAnalyticsFaq = documentKey === 'pgdm-in-business-analytics-mumbai.faq';
     if (parent === 'items' && key === 'question') {
       result = result.refine((v) => typeof v === 'string' && v.trim().length > 0, 'This field is required');
-    } else if (parent === '' && ['title', 'eyebrow', 'description', 'buttonText', 'buttonHref'].includes(key)) {
+    } else if (parent === '' && (businessAnalyticsFaq ? ['title'] : ['title', 'eyebrow', 'description', 'buttonText', 'buttonHref']).includes(key)) {
       result = result.refine((v) => typeof v === 'string' && v.trim().length > 0, 'This field is required');
     }
   }
@@ -138,7 +143,7 @@ function contentSchema(value: unknown, key = '', parent = '', documentKey = ''):
   }
 
   if (
-    ['title', 'year', 'anchor', 'icon'].includes(key) ||
+    (['title', 'year', 'anchor', 'icon'].includes(key) && !(documentKey.endsWith('.templateSections') && ['title', 'icon'].includes(key))) ||
     (key === 'src' && parent !== 'avatar' && parent !== 'cardIcon')
   ) {
     result = result.refine((v) => typeof v === 'string' && v.trim().length > 0, 'This field is required');
@@ -227,11 +232,14 @@ export async function readSpecialisationPage(slug: string) {
     tabs: pick('tabs'),
     glance: pick('glance'),
     overview: pick('overview'),
+    templateSections: pick('templateSections'),
     why: pick('why'),
     careers: normalizeDocument(`${slug}.careers`, pick('careers')),
     curriculum: normalizeDocument(`${slug}.curriculum`, pick('curriculum')),
     admission: pick('admission'),
-    faq: pick('faq'),
+    faq: rows.has(`${slug}.faq`)
+      ? pick('faq')
+      : { ...(specDocuments[`${slug}.faq`] as object), items: [] },
     internships: {
       ...(pick('internships') as { title: string }),
       items: internships.items,

@@ -280,56 +280,66 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
         <div className="cms-loading-card"><span className="button-spinner" /><p>Loading post…</p></div>
       ) : (
         <form className="cms-sections-stream" onSubmit={save}>
-          <Card title="Article Content" subtitle="Title, URL slug, the excerpt shown on listing cards, and the full article body.">
-            <label className="cms-field"><span>Title</span><input required minLength={3} maxLength={240} value={form.title} disabled={readOnly} onChange={(e) => set('title', e.target.value)} /></label>
-            <label className="cms-field">
-              <span>URL slug</span>
-              <input required pattern="[a-z0-9]+(-[a-z0-9]+)*" title="Lowercase letters, numbers and hyphens" maxLength={240} value={form.slug} disabled={readOnly} onChange={(e) => { setSlugTouched(true); set('slug', e.target.value); }} />
-              <small className="cms-field-hint">Public URL: /blogs/{form.slug || '…'}/</small>
-            </label>
-            <div className="cms-field"><span>Excerpt</span><ArticleHtmlEditor label="Excerpt" rows={5} value={form.excerpt} disabled={readOnly} onChange={(html) => set('excerpt', html)} /></div>
-            <div className="cms-field"><span>Article body</span><ArticleHtmlEditor label="Article body" value={form.body} disabled={readOnly} upload={upload} onChange={(html) => set('body', html)} /></div>
+          <Card title="Basics" subtitle="Post title, URL and categories.">
+            <div className="cms-fields cms-blog-basics-fields">
+              <label className="cms-field"><span>Title</span><input required minLength={3} maxLength={240} value={form.title} disabled={readOnly} onChange={(e) => set('title', e.target.value)} /></label>
+              <label className="cms-field">
+                <span>URL slug</span>
+                <input required pattern="[a-z0-9]+(-[a-z0-9]+)*" title="Lowercase letters, numbers and hyphens" maxLength={240} value={form.slug} disabled={readOnly} onChange={(e) => { setSlugTouched(true); set('slug', e.target.value); }} />
+                <small className="cms-field-hint">Public URL: /blogs/{form.slug || '...'}/</small>
+              </label>
+              <div className="cms-blog-wide-field"><ChipsInput label="Categories" values={form.categories} suggestions={suggestions.categories} disabled={readOnly} onChange={(v) => set('categories', v)} /></div>
+              <div className="cms-blog-wide-field"><ChipsInput label="Tags" values={form.tags} suggestions={suggestions.tags} disabled={readOnly} onChange={(v) => set('tags', v)} /></div>
+            </div>
           </Card>
 
-          <Card title="Featured Image" subtitle="Shown on the listing card and at the top of the article.">
+          <Card title="Content" subtitle="Short summary for post cards and the full article.">
+            <div className="cms-fields">
+              <div className="cms-field cms-field--long"><span>Summary</span><ArticleHtmlEditor label="Summary" rows={3} value={form.excerpt} disabled={readOnly} onChange={(html) => set('excerpt', html)} /></div>
+              <div className="cms-field cms-field--long"><span>Article body</span><ArticleHtmlEditor label="Article body" value={form.body} disabled={readOnly} upload={upload} onChange={(html) => set('body', html)} /></div>
+            </div>
+          </Card>
+
+          <Card title="Media" subtitle="Featured image shown on the blog listing and post page.">
             <ImageField label="Featured image" value={form.coverImageUrl} alt={form.coverImageAlt} onChange={(src) => set('coverImageUrl', src)} onAltChange={(alt) => set('coverImageAlt', alt)} upload={upload} disabled={readOnly} />
           </Card>
 
-          <Card title="Categories & Tags" subtitle="The first category is shown on the listing card. Pick existing values from suggestions or type new ones.">
-            <ChipsInput label="Categories" values={form.categories} suggestions={suggestions.categories} disabled={readOnly} onChange={(v) => set('categories', v)} />
-            <ChipsInput label="Tags" values={form.tags} suggestions={suggestions.tags} disabled={readOnly} onChange={(v) => set('tags', v)} />
-          </Card>
-
           <Card title="Author" subtitle="Author details for this article (optional).">
-            <label className="cms-field"><span>Author name</span><input maxLength={160} value={form.authorName} disabled={readOnly} onChange={(e) => set('authorName', e.target.value)} /></label>
-            <label className="cms-field"><span>Author designation</span><input maxLength={160} value={form.authorRole} disabled={readOnly} onChange={(e) => set('authorRole', e.target.value)} /></label>
-            <ImageField label="Author photo" value={form.authorImageUrl} onChange={(src) => set('authorImageUrl', src)} upload={upload} disabled={readOnly} />
-            <label className="cms-field"><span>Author bio</span><textarea rows={3} maxLength={2000} value={form.authorBio} disabled={readOnly} onChange={(e) => set('authorBio', e.target.value)} /></label>
+            <div className="cms-fields">
+              <label className="cms-field"><span>Author name</span><input maxLength={160} value={form.authorName} disabled={readOnly} onChange={(e) => set('authorName', e.target.value)} /></label>
+              <label className="cms-field"><span>Author designation</span><input maxLength={160} value={form.authorRole} disabled={readOnly} onChange={(e) => set('authorRole', e.target.value)} /></label>
+              <ImageField label="Author photo" value={form.authorImageUrl} onChange={(src) => set('authorImageUrl', src)} upload={upload} disabled={readOnly} />
+              <label className="cms-field"><span>Author bio</span><textarea rows={3} maxLength={2000} value={form.authorBio} disabled={readOnly} onChange={(e) => set('authorBio', e.target.value)} /></label>
+            </div>
           </Card>
 
           <Card title="Publishing" subtitle="Draft and archived posts are hidden from the website. A future publish date schedules the post.">
-            <label className="cms-field">
-              <span>Status</span>
-              <select value={form.status} disabled={readOnly} onChange={(e) => set('status', e.target.value as BlogPostStatus)}>
-                <option value="DRAFT">Draft (hidden)</option>
-                <option value="PUBLISHED">Published</option>
-                <option value="ARCHIVED">Archived (hidden)</option>
-              </select>
-            </label>
-            <label className="cms-field">
-              <span>Publish date</span>
-              <input type="datetime-local" value={toLocalInput(form.publishedAt)} disabled={readOnly} onChange={(e) => set('publishedAt', e.target.value ? new Date(e.target.value).toISOString() : null)} />
-              <small className="cms-field-hint">Leave empty to use the moment it is first published.</small>
-            </label>
-            <label className="cms-field cms-checkbox"><span>Featured post</span><input type="checkbox" checked={form.featured} disabled={readOnly} onChange={(e) => set('featured', e.target.checked)} /></label>
+            <div className="cms-fields cms-blog-publishing-fields">
+              <label className="cms-field">
+                <span>Status</span>
+                <select value={form.status} disabled={readOnly} onChange={(e) => set('status', e.target.value as BlogPostStatus)}>
+                  <option value="DRAFT">Draft (hidden)</option>
+                  <option value="PUBLISHED">Published</option>
+                  <option value="ARCHIVED">Archived (hidden)</option>
+                </select>
+              </label>
+              <label className="cms-field">
+                <span>Publish date</span>
+                <input type="datetime-local" value={toLocalInput(form.publishedAt)} disabled={readOnly} onChange={(e) => set('publishedAt', e.target.value ? new Date(e.target.value).toISOString() : null)} />
+                <small className="cms-field-hint">Leave empty to use the moment it is first published.</small>
+              </label>
+              <label className="cms-field cms-checkbox"><span>Featured post</span><input type="checkbox" checked={form.featured} disabled={readOnly} onChange={(e) => set('featured', e.target.checked)} /></label>
+            </div>
           </Card>
 
           <Card title="SEO" subtitle="Search engine title and description. Empty fields fall back to the article title and excerpt.">
-            <label className="cms-field"><span>SEO title</span><input maxLength={255} value={form.seoTitle} disabled={readOnly} placeholder={form.title} onChange={(e) => set('seoTitle', e.target.value)} /><small className="cms-field-hint">{form.seoTitle.length}/60 recommended</small></label>
-            <label className="cms-field"><span>Meta description</span><textarea rows={3} maxLength={500} value={form.seoDescription} disabled={readOnly} onChange={(e) => set('seoDescription', e.target.value)} /><small className="cms-field-hint">{form.seoDescription.length}/160 recommended</small></label>
-            <label className="cms-field"><span>Canonical URL</span><input value={form.canonicalUrl} disabled={readOnly} placeholder={`/blogs/${form.slug}/`} onChange={(e) => set('canonicalUrl', e.target.value)} /></label>
-            <ImageField label="Social share (Open Graph) image" value={form.ogImageUrl} onChange={(src) => set('ogImageUrl', src)} upload={upload} disabled={readOnly} />
-            <label className="cms-field cms-checkbox"><span>Hide from search engines (noindex)</span><input type="checkbox" checked={form.noIndex} disabled={readOnly} onChange={(e) => set('noIndex', e.target.checked)} /></label>
+            <div className="cms-fields">
+              <label className="cms-field"><span>SEO title</span><input maxLength={255} value={form.seoTitle} disabled={readOnly} placeholder={form.title} onChange={(e) => set('seoTitle', e.target.value)} /><small className="cms-field-hint">{form.seoTitle.length}/60 recommended</small></label>
+              <label className="cms-field"><span>Meta description</span><textarea rows={3} maxLength={500} value={form.seoDescription} disabled={readOnly} onChange={(e) => set('seoDescription', e.target.value)} /><small className="cms-field-hint">{form.seoDescription.length}/160 recommended</small></label>
+              <label className="cms-field"><span>Canonical URL</span><input value={form.canonicalUrl} disabled={readOnly} placeholder={`/blogs/${form.slug}/`} onChange={(e) => set('canonicalUrl', e.target.value)} /></label>
+              <ImageField label="Social share (Open Graph) image" value={form.ogImageUrl} onChange={(src) => set('ogImageUrl', src)} upload={upload} disabled={readOnly} />
+              <label className="cms-field cms-checkbox"><span>Hide from search engines (noindex)</span><input type="checkbox" checked={form.noIndex} disabled={readOnly} onChange={(e) => set('noIndex', e.target.checked)} /></label>
+            </div>
           </Card>
 
           <div className="cms-bulk-save-bar">

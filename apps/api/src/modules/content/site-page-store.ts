@@ -37,6 +37,24 @@ export function createSitePageStore(options: {
     return { ...p.sections, ...Object.fromEntries(Object.entries(p.masters).map(([key, value]) => [`master-${key}`, value])) };
   }
 
+  // Older saved sections can lack fields that were added to the page defaults later.
+  // Merge missing defaults on reads so editors submit a complete, schema-valid document.
+  function withDefaults(defaultValue: unknown, savedValue: unknown): unknown {
+    if (
+      defaultValue && savedValue &&
+      typeof defaultValue === 'object' && !Array.isArray(defaultValue) &&
+      typeof savedValue === 'object' && !Array.isArray(savedValue)
+    ) {
+      const defaults = defaultValue as Record<string, unknown>;
+      const saved = savedValue as Record<string, unknown>;
+      return Object.fromEntries(Object.keys({ ...defaults, ...saved }).map((key) => [
+        key,
+        key in saved ? withDefaults(defaults[key], saved[key]) : defaults[key],
+      ]));
+    }
+    return savedValue;
+  }
+
   function assertKnown(slug: string, key: string) {
     if (!Object.hasOwn(documents(slug), key)) throw new HttpError(404, 'SECTION_NOT_FOUND', `Unknown section "${key}" on ${label} page ${slug}`);
   }
@@ -93,7 +111,7 @@ export function createSitePageStore(options: {
     const result: Record<string, Doc> = {};
     for (const [key, value] of Object.entries(defaults)) {
       const row = byKey.get(key);
-      result[key] = { content: row?.value ?? value, updatedAt: row?.updatedAt.toISOString() ?? null };
+      result[key] = { content: row ? withDefaults(value, row.value) : value, updatedAt: row?.updatedAt.toISOString() ?? null };
     }
     return result;
   }
@@ -101,7 +119,8 @@ export function createSitePageStore(options: {
   async function read(slug: string, key: string): Promise<Doc> {
     assertKnown(slug, key);
     const row = await prisma.websiteSetting.findUnique({ where: { key: `${prefix(slug)}${key}` } });
-    return { content: row?.value ?? documents(slug)[key], updatedAt: row?.updatedAt.toISOString() ?? null };
+    const defaults = documents(slug)[key];
+    return { content: row ? withDefaults(defaults, row.value) : defaults, updatedAt: row?.updatedAt.toISOString() ?? null };
   }
 
   /** Public payload: sections plus enabled master items; the first enabled banner slide is merged into `hero`. */

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { readSliderVisibility } from '../modules/content/slider-visibility.service.js';
 import { readCommonSlides } from '../modules/content/common-slides.service.js';
+import { readPublicGallery } from '../modules/content/gallery.service.js';
 import { readTestimonialMaster } from '../modules/content/testimonial-masters.service.js';
 import { getPage, getProgrammes } from '../modules/content/content.controller.js';
 import { publicHome, publicGlobalSettings } from '../modules/content/home.controller.js';
@@ -24,6 +25,7 @@ import {
 
 export const publicRouter = Router();
 publicRouter.get('/common-slides/:scope', async (req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json({ data: await readCommonSlides(String(req.params.scope)) }); });
+publicRouter.get('/gallery/:page', async (req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json({ data: await readPublicGallery(String(req.params.page)) }); });
 publicRouter.get('/slider-visibility/:master', async (req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json({ data: await readSliderVisibility(String(req.params.master)) }); });
 publicRouter.get('/testimonials/:scope/:kind', async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');

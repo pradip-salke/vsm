@@ -2,11 +2,12 @@
 
 import { useId, useState, type KeyboardEvent } from 'react';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { curriculum, curriculumIntro, type CurriculumCell } from '@/content/academics';
+import type { CurriculumCell } from '@/content/academics';
 import styles from './AcademicsBlocks.module.css';
 import type { AcademicsContent } from '@vsmedu/contracts/academics';
 
 function Cell({ value }: { value: CurriculumCell }) {
+  if (typeof value === 'string' && value.includes('\n')) value = value.split('\n').filter(Boolean);
   if (Array.isArray(value)) {
     return (
       <ul className={styles.courseList} role="list">
@@ -19,7 +20,8 @@ function Cell({ value }: { value: CurriculumCell }) {
   return <>{value}</>;
 }
 
-export function Curriculum({ notes }: { notes?: AcademicsContent['curriculum']['years'] }) {
+export function Curriculum({ content }: { content: AcademicsContent['curriculum'] }) {
+  const curriculum = content.years.map(year => ({ ...year, total: { label: year.totalLabel, value: year.totalValue } }));
   const [selected, setSelected] = useState(0);
   const baseId = useId();
 
@@ -32,8 +34,8 @@ export function Curriculum({ notes }: { notes?: AcademicsContent['curriculum']['
 
   return (
     <section aria-labelledby="curriculum-title">
-      <SectionHeading id="curriculum-title" title="Academic Curriculum">
-        <p>{curriculumIntro}</p>
+      <SectionHeading id="curriculum-title" title={content.title}>
+        <p>{content.intro}</p>
       </SectionHeading>
 
       <div className={styles.yearTabs} role="tablist" aria-label="Curriculum year">
@@ -94,7 +96,7 @@ export function Curriculum({ notes }: { notes?: AcademicsContent['curriculum']['
               </tr>
             </tbody>
           </table>
-          {(notes?.[index]?.note ?? table.note) ? <div className={`${styles.note} ${styles.curriculumNote}`} dangerouslySetInnerHTML={{ __html: notes?.[index]?.note ?? table.note ?? '' }} /> : null}
+          {table.note ? <div className={`${styles.note} ${styles.curriculumNote}`} dangerouslySetInnerHTML={{ __html: table.note }} /> : null}
         </div>
       ))}
     </section>

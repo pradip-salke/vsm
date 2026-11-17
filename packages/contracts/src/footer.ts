@@ -17,6 +17,34 @@ export const FooterSocialLinkSchema = z.object({
   href: z.string().trim().max(1000).nullable().default(''),
 });
 
+export const ContactPageSchema = z.object({
+  breadcrumbLabel: z.string().trim().min(1).max(100).default('Contact'),
+  hero: z.object({
+    title: z.string().trim().min(1).max(200).default('Get in Touch with VSM'),
+    subtitle: z.string().trim().max(300).default("We're Here to Answer Your Queries"),
+    image: z.object({
+      src: z.string().trim().min(1).max(500).default('/images/figma/academics-banner.webp'),
+      alt: z.string().trim().max(300).default('PGDM graduates celebrating at Valia School of Management'),
+      width: z.number().int().positive().default(1918),
+      height: z.number().int().positive().default(820),
+    }).default({ src: '/images/figma/academics-banner.webp', alt: 'PGDM graduates celebrating at Valia School of Management', width: 1918, height: 820 }),
+    imagePosition: z.string().trim().max(100).default('70% 100%'),
+    mobileImagePosition: z.string().trim().max(100).default('78% 50%'),
+    applyText: z.string().trim().max(100).default('Apply Now'),
+    applyHref: z.string().trim().max(500).default('/admissions/application-form/'),
+    enquireText: z.string().trim().max(100).default('Enquire now'),
+    enquireHref: z.string().trim().max(500).default('mailto:admissions@vsmedu.in'),
+  }).default({
+    title: 'Get in Touch with VSM', subtitle: "We're Here to Answer Your Queries",
+    image: { src: '/images/figma/academics-banner.webp', alt: 'PGDM graduates celebrating at Valia School of Management', width: 1918, height: 820 },
+    imagePosition: '70% 100%', mobileImagePosition: '78% 50%', applyText: 'Apply Now', applyHref: '/admissions/application-form/',
+    enquireText: 'Enquire now', enquireHref: 'mailto:admissions@vsmedu.in',
+  }),
+  intro: z.string().trim().max(5000).default('At Valia School of Management, we’re always open to your questions, suggestions, and feedback. Whether you’re a prospective student, a parent, or just curious about our programs, our team is here to provide you with the information you need. Reach out to us within our working hours, and we’ll be more than happy to assist you.'),
+  closing: z.string().trim().max(5000).default('Feel free to contact us during our working hours, and we’ll ensure your queries are addressed promptly. Your journey towards excellence in management education starts here, and we’re excited to guide you through every step of the way.'),
+  mapEmbedUrl: z.string().trim().url().max(2000).default('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15077.700395413956!2d72.81570538587455!3d19.132860685866014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c90a5cf14ec3%3A0x43e2ef0e96af06f9!2sValia%20School%20of%20Management!5e0!3m2!1sen!2sin!4v1739169921810!5m2!1sen!2sin'),
+});
+
 export const FooterContentSchema = z.object({
   about: z.object({
     logoUrl: z.string().trim().max(500).default('/images/brand/vsm-logo.svg'),
@@ -37,6 +65,7 @@ export const FooterContentSchema = z.object({
     phones: z.array(FooterPhoneSchema),
     address: z.string().trim().max(1000),
   }),
+  contactPage: ContactPageSchema.default(ContactPageSchema.parse({})),
   socials: z.array(FooterSocialLinkSchema).optional().default([]),
   bottomLinks: z.array(FooterLinkSchema),
   copyright: z.string().trim().max(500),
@@ -91,6 +120,7 @@ export const footerDefaults: FooterContent = {
     ],
     address: '5th Floor, Valia College Building, Cosmopolitan Education Society Road, Andheri & D. N. Nagar Metro Station, Andheri (West), Mumbai – 400 053.',
   },
+  contactPage: ContactPageSchema.parse({}),
   socials: [
     { key: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61569771774772' },
     { key: 'x', label: 'X (Twitter)', href: 'https://twitter.com/ValiaSOM' },

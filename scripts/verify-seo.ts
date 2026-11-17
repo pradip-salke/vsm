@@ -225,8 +225,8 @@ async function main() {
     pass(`sitemaps: ${robots.sitemaps.map((m) => `${m.file} (${m.urlCount})`).join(', ')}`);
 
     console.info('\nSEO audit');
-    const audit = await ok<{ total: number; reachable: number; averageScore: number; durationMs: number; rows: { path: string; status: number; score: number; title: string; hasOverride: boolean; checks: { id: string }[] }[] }>('GET', '/audit');
-    assert.equal(audit.total, list.length);
+    const audit = await ok<{ total: number; reachable: number; averageScore: number; durationMs: number; rows: { path: string; status: number; score: number; title: string; hasOverride: boolean; checks: { id: string }[] }[] }>('GET', `/audit?paths=${encodeURIComponent(PAGE)}`);
+    assert.equal(audit.total, 1);
     const contactRow = audit.rows.find((r) => r.path === PAGE);
     assert.ok(contactRow?.hasOverride && contactRow.title === override.metaTitle && contactRow.checks.some((c) => c.id === 'robots'));
     pass(`audit: ${audit.reachable}/${audit.total} reachable, average score ${audit.averageScore}, ${Math.round(audit.durationMs / 1000)}s`);

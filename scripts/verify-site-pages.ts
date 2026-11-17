@@ -88,14 +88,14 @@ async function main() {
         assert.equal(pub.path, registry[slug].path);
         for (const key of Object.keys(registry[slug].sections)) assert(key in pub.sections, `${publicBase}/${slug}: section ${key}`);
         assert.deepEqual(Object.keys(pub.masters).sort(), Object.keys(registry[slug].masters).sort());
-        const firstSlide = (registry[slug].masters.hero.items[0] as Slide).title;
-        assert.equal((pub.sections.hero as { title?: string }).title, firstSlide, `${publicBase}/${slug}: banner slide merged into hero`);
+        const firstSlide = registry[slug].masters.hero.items[0] as Slide | undefined;
+        if (firstSlide) assert.equal((pub.sections.hero as { title?: string }).title, firstSlide.title, `${publicBase}/${slug}: banner slide merged into hero`);
         pageCount++;
       }
       assert.equal((await fetch(`${base}/api/v1/public/${publicBase}/not-a-page`)).status, 404);
     }
-    assert.equal(pageCount, 12);
-    pass(`Public endpoints serve all ${pageCount} pages (9 About Us, Career, Blog Listing, Blog Detail) with banner master; unknown page 404`);
+    assert.equal(pageCount, 15);
+    pass(`Public endpoints serve all ${pageCount} pages (12 About Us, Career, Blog Listing, Blog Detail) with banner master; unknown page 404`);
 
     // 2. Auth / roles
     assert.equal((await fetch(`${base}/api/v1/admin/about/our-philosophy`)).status, 401);

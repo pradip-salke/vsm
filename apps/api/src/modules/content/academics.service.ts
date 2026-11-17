@@ -3,6 +3,8 @@ import { z } from 'zod';
 import {
   academicsCaptionRequired,
   academicsDefaults,
+  academicTemplateSection,
+  academicTemplateItem,
   academicsMasterDefaults,
   type AcademicsKey,
   type AcademicsMasterKey,
@@ -227,6 +229,8 @@ function assertKnown(key: string) {
 
 // Validate against the imported content structure; unknown fields cannot be persisted.
 function contentSchema(value: unknown, key = '', parent = '', documentKey = ''): z.ZodType {
+  if (documentKey === 'templateSections' && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true })).max(100);
+  if (documentKey === 'templateSections' && key === 'items' && Array.isArray(value)) return z.array(contentSchema(academicTemplateItem, '', key, documentKey)).max(100);
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key, documentKey)).max(100);
   if (typeof value === 'boolean') return z.boolean();
   if (typeof value === 'number') return z.number().finite().min(0).max(20000);
@@ -267,7 +271,7 @@ function contentSchema(value: unknown, key = '', parent = '', documentKey = ''):
     }
   }
   const captionRequired = key === 'caption' && academicsCaptionRequired.some((master) => documentKey === `master-${master}`);
-  if (['title', 'year', 'anchor', 'icon'].includes(key) || captionRequired || (key === 'src' && parent !== 'avatar')) {
+  if ((['title', 'year', 'anchor', 'icon'].includes(key) && !(documentKey === 'templateSections' && ['title', 'icon'].includes(key))) || captionRequired || (key === 'src' && parent !== 'avatar')) {
     result = result.refine((v) => typeof v === 'string' && v.trim().length > 0, 'This field is required');
   }
   if (key === 'width' || key === 'height') result = z.number().int().min(1).max(20000);
@@ -332,6 +336,7 @@ export async function readAcademics() {
       Object.assign(sections, { [key as AcademicsKey]: row.value });
     }
   }
+  if (!rows.has('faq')) sections.faq = { ...academicsDefaults.faq, items: [] };
   sections.hero = mergeHeroForPublic(
     sections.hero as (typeof academicsDefaults)['hero'],
     masters.hero as (typeof academicsMasterDefaults)['hero']

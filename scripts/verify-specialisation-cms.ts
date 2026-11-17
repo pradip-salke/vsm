@@ -35,6 +35,8 @@ const sectionSuffixes = [
   'curriculum',
   'admission',
   'faq',
+  'internships',
+  'testimonials',
 ] as const;
 
 /** Other programme slugs whose DB rows must not change during this audit (FAQ + hero sample). */
@@ -60,7 +62,7 @@ function allApiKeysForSlug(slug: string) {
   if (!(slug in academicsSpecialisationDefaults)) {
     throw new Error(`Unknown specialisation slug (not in contracts): ${slug}`);
   }
-  return [...sectionSuffixes.map((s) => `${slug}.${s}`), `master-${slug}.hero`];
+  return [...sectionSuffixes.map((s) => `${slug}.${s}`), `master-${slug}.hero`, `master-${slug}.internships`, `master-${slug}.testimonials`];
 }
 
 async function cleanupUser(email: string, auditName: string) {
@@ -133,7 +135,7 @@ async function main() {
 
     const specBase = `${base}/api/v1/admin/academics/specialisations/page/${encodeURIComponent(SPEC_SLUG)}`;
     const urlForKey = (apiKey: string) => {
-      if (apiKey === `master-${SPEC_SLUG}.hero`) return `${specBase}/master-hero`;
+      if (apiKey.startsWith(`master-${SPEC_SLUG}.`)) return `${specBase}/master-${apiKey.slice(`master-${SPEC_SLUG}.`.length)}`;
       if (apiKey.startsWith(`${SPEC_SLUG}.`)) return `${specBase}/${apiKey.slice(SPEC_SLUG.length + 1)}`;
       throw new Error(`Unknown apiKey: ${apiKey}`);
     };
@@ -181,7 +183,7 @@ async function main() {
     };
     const editedCareers = {
       ...careers.content,
-      roles: [`Audit role (${auditLabel})`, ...((careers.content.roles as string[]) ?? [])],
+      roles: [{ icon: '/images/figma/icon-neutral.svg', iconSize: 32, text: `Audit role (${auditLabel})` }, ...((careers.content.roles as { icon: string; iconSize: number; text: string }[]) ?? [])],
     };
     const bulkRes = await bulk({
       [`${SPEC_SLUG}.overview`]: { content: editedOverview as unknown as Record<string, unknown>, updatedAt: overview.updatedAt },

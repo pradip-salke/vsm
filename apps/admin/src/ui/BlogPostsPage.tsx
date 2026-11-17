@@ -4,7 +4,7 @@ import type { BlogPostRecord, BlogPostStatus } from '@vsmedu/contracts/blogs';
 import { api } from '../lib/api';
 import { Icon } from './Icon';
 import { preview } from './ContentFields';
-import { BLOG_POSTS_PATH } from './sitePagesAdmin';
+import { BLOG_POSTS_PATH, SitePageEditor } from './sitePagesAdmin';
 import './home-editor.css';
 
 type ListItem = Pick<BlogPostRecord, 'id' | 'slug' | 'title' | 'status' | 'featured' | 'publishedAt' | 'updatedAt' | 'categories' | 'tags' | 'coverImageUrl' | 'authorName'>;
@@ -114,6 +114,7 @@ export function BlogPostsPage({ canEdit }: { canEdit: boolean }) {
           <span aria-hidden="true">＋</span> Add Blog Post
         </button>
       </header>
+      <SitePageEditor canEdit={canEdit} group="blogs" slug="detail" />
       {error && <div className="cms-error" role="alert">{error} <button type="button" onClick={() => void load()}>Reload</button></div>}
       <p className="cms-master-message" role="status">{message}</p>
       <div className="cms-table-toolbar">

@@ -1,6 +1,7 @@
 // AIMA PGDM page (/our-academics/aima-pgdm/) — CMS defaults (mirrors static content; site may stay static).
 import { academicPageFaqDefault } from './academic-faq.js';
 import type { AcademicsHeroSlide, AcademicsImage } from './academics.js';
+import { academicTemplateSection } from './academics.js';
 import { homeDefaults, homeMasterDefaults } from './home.js';
 
 const FIG = '/images/figma';
@@ -26,6 +27,7 @@ export type AimaCoursePairRow = { left: string; right: string };
 export type AimaSpecRow = { label: string; paper1: string; paper2: string; paper3: string; paper4: string; paper5: string };
 
 export const aimaDefaults = {
+  templateSections: { sections: [] as (typeof academicTemplateSection)[] },
   hero: {
     breadcrumb: [
       { label: 'Home', href: '/' },
@@ -204,6 +206,7 @@ export const aimaDefaults = {
       { label: 'Second Year Fees', amount: 'INR 1,75,000/-' },
       { label: 'Total Course Fees', amount: 'INR 4,00,000/-' },
     ],
+    note: '',
   },
   'other-details': {
     title: 'Other Details',
@@ -283,6 +286,7 @@ export const aimaMasterDefaults = {
 };
 
 export const aimaLabels: Record<keyof typeof aimaDefaults, string> = {
+  templateSections: 'Custom content sections',
   hero: 'Page Banner Breadcrumb',
   tabs: 'Section Navigation Tabs',
   glance: 'At a Glance (sidebar)',

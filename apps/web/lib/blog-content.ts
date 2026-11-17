@@ -1,6 +1,11 @@
 import 'server-only';
 import legacyArticles from '@/content/blogs.json';
 import type { BlogPostRecord } from '@vsmedu/contracts/blogs';
+import { blogPages } from '@vsmedu/contracts/blogs';
+
+export type BlogDetailPageSettings = {
+  links: typeof blogPages.detail.sections.links;
+};
 
 export type BlogArticle = {
   id: number | string;
@@ -80,6 +85,19 @@ function articleFromLegacy(post: LegacyArticle): BlogArticle {
 }
 
 const fallbackArticles = (legacyArticles as LegacyArticle[]).map(articleFromLegacy);
+
+export async function getBlogDetailPageSettings(): Promise<BlogDetailPageSettings> {
+  try {
+    const response = await fetch(`${apiBase()}/api/v1/public/blogs/pages/detail`, { cache: 'no-store', signal: AbortSignal.timeout(5000) });
+    if (!response.ok) throw new Error(`Blog page API returned ${response.status}`);
+    const data = (await response.json() as { data: { sections: Record<string, unknown> } }).data;
+    const links = { ...blogPages.detail.sections.links, ...(data.sections.links as Partial<typeof blogPages.detail.sections.links>) };
+    return { links };
+  } catch (error) {
+    console.error('Blog detail page settings unavailable; using bundled defaults.', error instanceof Error ? error.message : 'Unknown error');
+    return { links: blogPages.detail.sections.links };
+  }
+}
 
 export async function getPublicBlogPage(requestedPage: number, fallbackPageSize = 8) {
   try {

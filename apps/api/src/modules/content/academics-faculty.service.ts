@@ -9,6 +9,7 @@ import {
 import { prisma } from '../../lib/prisma.js';
 import { HttpError } from '../../middleware/errors.js';
 import { cleanSubtitle } from './home.service.js';
+import { academicTemplateSection, academicTemplateItem } from '@vsmedu/contracts/academics';
 
 type Client = Prisma.TransactionClient | typeof prisma;
 
@@ -47,6 +48,8 @@ function assertKnown(key: string) {
 }
 
 function contentSchema(value: unknown, key = '', parent = '', documentKey = ''): z.ZodType {
+  if (documentKey === 'templateSections' && key === 'sections' && Array.isArray(value)) return z.array(contentSchema(academicTemplateSection, '', key, documentKey)).max(100);
+  if (documentKey === 'templateSections' && key === 'items' && Array.isArray(value)) return z.array(contentSchema(academicTemplateItem, '', key, documentKey)).max(100);
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key, documentKey)).max(100);
   if (typeof value === 'boolean') return z.boolean();
   if (typeof value === 'number') return z.number().finite().min(0).max(20000);
@@ -114,7 +117,7 @@ export async function readFacultyDocument(key: string) {
 
 /** Public payload: sections + masters; disabled profiles are filtered out. */
 export async function readFacultyPage() {
-  const stored = await prisma.websiteSetting.findMany({ where: { key: { startsWith: DB_PREFIX, not: `${DB_PREFIX}master-profiles` }, isPublic: true } });
+  const stored = await prisma.websiteSetting.findMany({ where: { key: { startsWith: DB_PREFIX }, isPublic: true } });
   const rows = new Map(stored.map(row => [row.key.slice(DB_PREFIX.length), row]));
   const sections = structuredClone(facultyPageDefaults) as Record<string, unknown>;
   const masters = structuredClone(facultyMasterDefaults);
@@ -126,7 +129,8 @@ export async function readFacultyPage() {
     }
   }
   sections.hero = mergeHeroForPublic(sections.hero as (typeof facultyPageDefaults)['hero'], masters.hero);
-  return { sections: sections as typeof facultyPageDefaults, masters: { hero: masters.hero } };
+  const profiles = masters.profiles.items.filter((profile) => profile.enabled !== false);
+  return { sections: sections as typeof facultyPageDefaults, masters: { hero: masters.hero, profiles: { items: profiles } } };
 }
 
 export async function readFacultyAllAdmin() {

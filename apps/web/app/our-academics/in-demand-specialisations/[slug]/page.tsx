@@ -11,6 +11,7 @@ import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
 import { AtAGlance } from '@/features/academics/AtAGlance';
 import layout from '@/features/academics/AcademicsLayout.module.css';
+import blocks from '@/features/academics/AcademicsBlocks.module.css';
 import styles from './SpecialisationPage.module.css';
 import { withSeo } from '@/lib/seo';
 import { getSpecialisationClosingContent } from '@/lib/academics-specialisations-content';
@@ -41,6 +42,8 @@ export default async function SpecialisationPage({ params }: Props) {
     academicsSpecialisationDefaults[slug as keyof typeof academicsSpecialisationDefaults];
   if (!specPage) notFound();
   const closingContent = await getSpecialisationClosingContent(slug);
+  const customSections = (closingContent.templateSections?.sections ?? []).map((section, index) => ({ section, index })).sort((a, b) => a.section.displayOrder - b.section.displayOrder || a.index - b.index);
+  const sectionsAt = (position: number) => customSections.filter(({ section }) => Math.max(1, Math.min(6, section.displayOrder || 1)) === position).map(({ section, index }) => <section key={`custom-${index}`} className={layout.block}>{section.title && <SectionHeading title={section.title} />}<div className={blocks.prose}><div className={blocks.templateRichText} dangerouslySetInnerHTML={{ __html: section.body }} />{section.subsectionTitle && <h3>{section.subsectionTitle}</h3>}<div className={section.items.length > 5 ? layout.customListViewport : undefined} role={section.items.length > 5 ? 'region' : undefined} aria-label={section.items.length > 5 ? `${section.title || 'Content'} list` : undefined} tabIndex={section.items.length > 5 ? 0 : undefined}><IconList items={section.items.slice().sort((a, b) => a.displayOrder - b.displayOrder)} divided className={styles.list} /></div></div></section>);
 
   const defaultBreadcrumb = [
     { label: 'Home', href: '/' },
@@ -69,7 +72,7 @@ export default async function SpecialisationPage({ params }: Props) {
         breadcrumb={closingContent.breadcrumb ?? defaultBreadcrumb}
         actions={<><Button href={APPLY_PATH}>Apply Now</Button><Button variant="arrow" href={ENQUIRY_ANCHOR}>Enquire now</Button></>}
       />
-      <AcademicsTabs tabs={closingContent.tabs.links.map(({ label, anchor }) => ({ label, id: anchor }))} />
+      <AcademicsTabs tabs={closingContent.tabs.links.filter(({ anchor }) => !(['financial-management-specialisation', 'mba-pgdm-in-human-resources-mumbai', 'mba-in-marketing-mumbai'].includes(slug) && ['specialisation-curriculum', 'admission-procedure'].includes(anchor))).map(({ label, anchor }) => ({ label, id: anchor }))} />
       <div className={`${layout.layout} ${styles.layout}`}>
         <aside className={`${layout.sidebar} ${styles.sidebar}`} aria-label={`${page.title} overview`}>
           <AtAGlance
@@ -85,30 +88,42 @@ export default async function SpecialisationPage({ params }: Props) {
           />
         </aside>
         <main className={layout.main}>
+          {sectionsAt(1)}
           <div id="about-program" className={layout.block}>
             <section id="overview" className={styles.section}>
               <SectionHeading eyebrow={closingContent.overview.eyebrow} title={closingContent.overview.title} />
               <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.overview.body }} />
             </section>
           </div>
+          {sectionsAt(2)}
           <section id="why-specialisation" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={closingContent.why.title} />
+            {closingContent.why.intro && <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.why.intro }} />}
+            {closingContent.why.itemsTitle && <h3>{closingContent.why.itemsTitle}</h3>}
+            {closingContent.why.itemsIntro && <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.why.itemsIntro }} />}
             <IconList items={closingContent.why.items} divided className={styles.list} />
+            {closingContent.why.outro && <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.why.outro }} />}
           </section>
+          {sectionsAt(3)}
           <section id="career-opportunities" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={closingContent.careers.title} />
             <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.careers.intro }} />
             {renderIconList(closingContent.careers.roles, 'Career opportunities')}
+            {closingContent.careers.employers && <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.careers.employers }} />}
           </section>
-          <section id="specialisation-curriculum" className={`${layout.block} ${styles.section}`}>
+          {sectionsAt(4)}
+          {!['financial-management-specialisation', 'mba-pgdm-in-human-resources-mumbai', 'mba-in-marketing-mumbai'].includes(slug) && <section id="specialisation-curriculum" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={closingContent.curriculum.title} />
             <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.curriculum.intro }} />
+            {closingContent.curriculum.moduleTitle && <h3>{closingContent.curriculum.moduleTitle}</h3>}
             {renderIconList(closingContent.curriculum.subjects, 'Curriculum subjects')}
-          </section>
-          <section id="admission-procedure" className={`${layout.block} ${styles.section}`}>
+          </section>}
+          {sectionsAt(5)}
+          {!['financial-management-specialisation', 'mba-pgdm-in-human-resources-mumbai', 'mba-in-marketing-mumbai'].includes(slug) && <section id="admission-procedure" className={`${layout.block} ${styles.section}`}>
             <SectionHeading title={closingContent.admission.title} />
             <IconList items={closingContent.admission.steps} ordered divided className={layout.steps} />
-          </section>
+          </section>}
+          {sectionsAt(6)}
         </main>
       </div>
       <AcademicClosingSections

@@ -63,7 +63,7 @@ export default async function HomePage() {
       {(visibility.testimonials || Boolean(commonSlides && (commonSlides.video.length || commonSlides.written.length))) && <Testimonials videoItems={commonSlides?.video ?? enabled(testimonialMasters.video)} writtenItems={commonSlides?.written ?? enabled(testimonialMasters.written)} heading={content.testimonials} reduceBottomPadding />}
       <Marquee items={content.marquee.items} />
       {enabled(masters.events.items).length > 0 && <MediaCarousel id="events" title={content.events.title} items={enabled(masters.events.items)} layout="events" homeEventSpacing galleryPopup galleryAlbums={eventGalleryAlbums} moreLink={{ href: '/events/gallery/', label: 'View More' }} />}
-      {enabled(masters.life.items).length > 0 && <MediaCarousel id="life-at-vsm" title={content.life.title} items={enabled(masters.life.items)} layout="life" background="cream" galleryPopup galleryAlbums={eventGalleryAlbums} galleryFallbackSlug="infra" />}
+      {(commonSlides?.gallery ?? enabled(masters.life.items)).length > 0 && <MediaCarousel id="life-at-vsm" title={content.life.title} items={commonSlides?.gallery ?? enabled(masters.life.items)} layout="life" background="cream" galleryPopup galleryAlbums={eventGalleryAlbums} galleryFallbackSlug="infra" />}
       <FaqSection content={content.faq} />
       <CtaBanner content={content.cta} />
     </div>

@@ -1,0 +1,24 @@
+.main { padding-block: var(--section-spacing); }
+.section { padding: clamp(1.5rem, 3vw, 3rem); border: 1px solid var(--color-border-soft); border-radius: var(--radius-sm); background: var(--color-surface); box-shadow: var(--shadow-card); }
+.section + .section { margin-top: clamp(1.5rem, 2.5vw, 2.5rem); }
+.heading { margin-bottom: var(--heading-copy-gap); color: var(--color-heading); font-size: var(--font-size-h2); }
+.subheading { margin-bottom: .9rem; color: var(--color-heading); font-size: var(--font-size-h3); }
+.copy { max-width: 68rem; color: var(--color-text-answer); line-height: var(--line-height-body); }
+.copy p + p { margin-top: 1rem; }
+.copy a { color: var(--color-primary-dark); text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+.tableScroll { margin-top: 1.25rem; overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-xs); }
+.table { width: 100%; min-width: 35rem; border-collapse: collapse; background: var(--color-surface); }
+.table th, .table td { padding: .85rem 1rem; border-bottom: 1px solid var(--color-border); text-align: left; }
+.table thead th { background: var(--color-sky); color: var(--color-heading); font-weight: var(--font-weight-bold); }
+.table tbody tr:last-child th, .table tbody tr:last-child td { border-bottom: 0; }
+.table tbody th { width: 5rem; font-weight: var(--font-weight-bold); }
+.reportCard { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: clamp(1.25rem, 2.5vw, 2rem); border: 1px solid var(--color-border-soft); border-radius: var(--radius-xs); background: var(--color-page); }
+.reportTitle { margin-bottom: .5rem; color: var(--color-heading); font-size: var(--font-size-h3); font-weight: var(--font-weight-bold); }
+.reportLink { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; padding: .65rem 1rem; border: 1px solid var(--color-primary); border-radius: var(--radius-xs); background: var(--color-primary); color: var(--color-on-primary, #fff); font-weight: var(--font-weight-bold); }
+.reportLink:hover { background: var(--color-primary-dark); }
+@media (max-width: 600px) {
+  .main { padding-block: var(--space-6); }
+  .section { padding: 1.25rem; }
+  .table { min-width: 32rem; }
+  .reportCard { align-items: flex-start; flex-direction: column; }
+}

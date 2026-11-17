@@ -5,6 +5,7 @@ import { readAima } from './academics-aima.service.js';
 import { readSpecialisationPage } from './academics-specialisations.service.js';
 import { readTestimonialMaster } from './testimonial-masters.service.js';
 import { readSliderVisibility } from './slider-visibility.service.js';
+import { readPublicGallery } from './gallery.service.js';
 import { HttpError } from '../../middleware/errors.js';
 
 const scopes = ['home', 'aicte', 'aima', ...academicsSpecialisationIndex.map(item => item.slug)];
@@ -19,6 +20,7 @@ export async function readCommonSlides(scope: string) {
   const [facultyVisibility, recruiterVisibility, internshipVisibility, testimonialVisibility] = await Promise.all([
     readSliderVisibility('faculty'), readSliderVisibility('recruiters'), readSliderVisibility('internships'), readSliderVisibility('testimonials'),
   ]);
+  const gallery = await readPublicGallery(scope);
   const shared = <T extends Item>(items: T[], oldPages: string[]) => items.filter(item => item.enabled !== false && (item.pages ?? oldPages).includes(scope));
   const sourced = <T extends Item>(items: T[], source: string, oldPages: string[]) => items.filter(item => item.enabled !== false && (item.pages ?? (oldPages.includes(source) ? [source] : [])).includes(scope));
   const internshipSources = [home.masters.internships.items, academics.masters.internships.items, aima.masters.internships.items, ...specialisations.map(page => page.internships.items)] as Item[][];
@@ -28,6 +30,7 @@ export async function readCommonSlides(scope: string) {
     return sourced(data.items, scopes[index]!, testimonialVisibility.pages);
   });
   return {
+    gallery,
     faculty: shared(home.masters.faculty.items, facultyVisibility.pages),
     recruiters: shared(home.masters.recruiters.items, recruiterVisibility.pages),
     internships: internshipSources.flatMap((items, index) => sourced(items, scopes[index]!, internshipVisibility.pages)),

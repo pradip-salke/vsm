@@ -1,7 +1,7 @@
 .sidebar { min-width: 0; }
 .layout { width: 100%; }
 
-.section { min-height: 18rem; }
+.section { min-height: 18rem; overflow-x: clip; }
 .paragraph { max-width: 70ch; margin-top: var(--space-5); color: var(--color-text-body); font-size: var(--font-size-body); line-height: 1.75; }
 .section > .paragraph:first-of-type { margin-top: var(--heading-copy-gap); }
 .listViewport {

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { PlacementPageShell, PlacementSection } from '../placements/PlacementPageShell';
 import { withSeo } from '@/lib/seo';
+import { getPlacementsPageContent, cmsString } from '@/lib/cms-content';
 
 const metadata: Metadata = {
   title: 'Connect With Us',
@@ -12,13 +13,23 @@ export async function generateMetadata(): Promise<Metadata> {
   return withSeo('/connect-with-us/', metadata);
 }
 
-export default function ConnectWithUsPage() {
+export default async function ConnectWithUsPage() {
+  const cms = await getPlacementsPageContent('connect-with-us');
+  const contact = cms?.sections.contact;
+  const pageLinks = cms?.sections['page-nav']?.links;
+  const pageTitle = Array.isArray(pageLinks)
+    ? (pageLinks.find((item) => item && typeof item === 'object' && 'href' in item && item.href === '/connect-with-us/') as { label?: unknown } | undefined)?.label
+    : undefined;
+  const title = typeof pageTitle === 'string' ? pageTitle : '';
+  const emails = Array.isArray(contact?.emails) ? contact.emails.filter((item): item is string => typeof item === 'string' && Boolean(item.trim())) : [];
+  const phones = Array.isArray(contact?.phones) ? contact.phones.filter((item): item is string => typeof item === 'string' && Boolean(item.trim())) : [];
+
   return (
-    <PlacementPageShell title="Connect With Us" active="Connect With Us">
-      <PlacementSection title="We’re Here to Answer Your Queries">
-        <p>At Valia School of Management, we’re always open to your questions, suggestions, and feedback. Whether you’re a prospective student, a parent, or just curious about our programs, our team is here to provide you with the information you need. Reach out to us within our working hours, and we’ll be more than happy to assist you.</p>
-        <p><strong>Email address:</strong> <a href="mailto:info@vsmedu.in">info@vsmedu.in</a> · <a href="mailto:placement@vsmedu.in">placement@vsmedu.in</a></p>
-        <p><strong>Contact number:</strong> <a href="tel:+917304343478">+91 73043 43478</a> · <a href="tel:+917304343460">+91 73043 43460</a></p>
+    <PlacementPageShell title={title} active={title} activeHref="/connect-with-us/" pageSlug="connect-with-us">
+      <PlacementSection title={cmsString(contact?.title)} eyebrow={cmsString(contact?.eyebrow)}>
+        {cmsString(contact?.body) && <p>{cmsString(contact?.body)}</p>}
+        {emails.length > 0 && <p><strong>{cmsString(contact?.emailLabel)}</strong> {emails.map((email, index) => <span key={`${email}-${index}`}>{index > 0 && ' · '}<a href={`mailto:${email}`}>{email}</a></span>)}</p>}
+        {phones.length > 0 && <p><strong>{cmsString(contact?.phoneLabel)}</strong> {phones.map((phone, index) => <span key={`${phone}-${index}`}>{index > 0 && ' · '}<a href={`tel:${phone.replace(/[^+\d]/g, '')}`}>{phone}</a></span>)}</p>}
       </PlacementSection>
     </PlacementPageShell>
   );

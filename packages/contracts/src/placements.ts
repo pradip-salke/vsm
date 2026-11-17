@@ -9,7 +9,6 @@ const HERO_SUBTITLE = 'Navigating Today’s Business World with Tomorrow’s Lea
 const EYEBROW = 'Placement';
 
 export type PlacementImageItem = { src: string; alt: string; width: number; height: number; enabled: boolean };
-export type PlacementAlumniItem = { name: string; qualification: string; bio: string; enabled: boolean };
 
 const pageNav = () => ({
   title: 'Placement pages',
@@ -99,12 +98,6 @@ const batch2022InternshipItems = [
   'Internship_Binit-Kushwaha.jpg', 'Final-Placement_Sudha-Konar.jpg', 'Internship_Prashant-Jha.jpg',
 ].map((file) => record(`https://vsmedu.com/wp-content/uploads/2024/04/${file}`, altFromFile(file)));
 
-const alumniItems: PlacementAlumniItem[] = [
-  { name: 'Mr. Bhaskar Chatterjee', qualification: 'PGDM', bio: 'Member Secretary and Chief Executive Officer of the Indian Council of Social Science Research, New Delhi. He joined the Indian Administrative Service in July 1975 and has authored books on Japanese management and human resource management.' },
-  { name: 'Mr. P K Gupta', qualification: 'PGDITM & DBA (Pursuing) · President, Alumni Association', bio: 'Director – Strategic Development, Intercontinental at Legato Systems. He completed PGDITM in 2000 and is pursuing a Doctorate in Business Administration from AMU.' },
-  { name: 'Mr. K Ramalingam', qualification: 'PGDITM', bio: 'Member (Planning) at Airports Authority of India. He holds an M.Tech in Electrical Engineering from IIT Chennai and a Post Graduate Diploma in Management with a specialisation in Information Technology.' },
-  { name: 'Mr. P. Jayakumar', qualification: 'PGDM & DBA (Pursuing)', bio: 'Founder President of the Alumni Association and Advisor, Business Development at Tata BP Solar India Limited, Delhi. He has over a decade of experience in renewable energy and business management.' },
-].map((item) => ({ ...item, enabled: true }));
 
 const HERO_LABEL = 'Page Banner Breadcrumb';
 const HERO_SUBTITLE_TEXT = 'Breadcrumb trail for the banner. Heading, image and buttons are edited in Page Banner (slider).';
@@ -125,7 +118,6 @@ export const placementsPages = {
         items: [
           { title: 'Our Recruiters', text: 'Meet organizations that recruit VSM students across industries.', linkText: 'Explore Our Recruiters', href: '/placements/our-recruiters/' },
           { title: 'Placement Records', text: 'Review recent internship records and batch-wise placement outcomes.', linkText: 'Explore Placement Records', href: '/placements/placement-records/' },
-          { title: 'Alumni', text: 'Read about distinguished alumni and the paths they have built after PGDM.', linkText: 'Explore Alumni', href: '/placements/alumni/' },
           { title: 'Connect With Us', text: 'Contact our team to discuss student engagement, internships and recruitment opportunities.', linkText: 'Connect with VSM', href: '/connect-with-us/' },
         ],
       },
@@ -303,32 +295,34 @@ export const placementsPages = {
       'salary-table': 'Table heading, column headings and one row per stream.',
     },
   },
-  alumni: {
-    path: '/placements/alumni/',
-    navTitle: 'Alumni',
+  'connect-with-us': {
+    path: '/connect-with-us/',
+    navTitle: 'Connect With Us',
     sections: {
-      hero: breadcrumb('Alumni'),
+      hero: breadcrumb('Connect With Us'),
       'page-nav': pageNav(),
-      intro: {
+      contact: {
         eyebrow: EYEBROW,
-        title: 'Meet Our Alumni',
-        body: html([
-          'The students graduating from a two-year regular PGDM program across India are of high caliber, doing very well in their profession and have secured high positions in different industries. Here is a list of some distinguished alumni:',
-        ]),
+        title: "We're Here to Answer Your Queries",
+        body: "At Valia School of Management, we're always open to your questions, suggestions, and feedback. Whether you're a prospective student, a parent, or just curious about our programs, our team is here to provide you with the information you need. Reach out to us within our working hours, and we'll be more than happy to assist you.",
+        emailLabel: 'Email address:',
+        emails: ['info@vsmedu.in', 'placement@vsmedu.in'],
+        phoneLabel: 'Contact number:',
+        phones: ['+91 73043 43478', '+91 73043 43460'],
       },
     },
-    masters: { hero: { items: [bannerSlide('Alumni')] }, alumni: { items: alumniItems } },
-    masterLabels: { hero: 'Page Banner', alumni: 'Alumni Profiles' },
-    masterSections: { alumni: 'intro' },
+    masters: { hero: { items: [] } },
+    masterLabels: { hero: 'Page Banner' },
+    masterSections: {},
     labels: {
       hero: HERO_LABEL,
       'page-nav': NAV_LABEL,
-      intro: 'Meet Our Alumni (intro)',
+      contact: 'Contact Information',
     },
     subtitles: {
       hero: HERO_SUBTITLE_TEXT,
       'page-nav': NAV_SUBTITLE,
-      intro: 'Section eyebrow, heading and paragraph above the alumni cards. Cards are managed in Alumni Profiles.',
+      contact: 'Contact eyebrow, heading, introduction, labels, email addresses and phone numbers.',
     },
   },
 } satisfies Record<

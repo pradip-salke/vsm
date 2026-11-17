@@ -125,6 +125,13 @@
 
 .cms-slides-table th button span.is-sorted{color:var(--navy,#272e6d);font-weight:800}
 .cms-video-upload{display:grid;gap:5px;margin-top:6px}.cms-video-upload input{max-width:100%;font-size:11px}.cms-video-upload small{color:var(--muted);font-size:11px}
+
+/* Blog post editor field proportions */
+.cms-blog-basics-fields{grid-template-columns:minmax(0,2fr) minmax(220px,1fr)}
+.cms-blog-wide-field{grid-column:1/-1;min-width:0}
+.cms-blog-publishing-fields{grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
+@media(max-width:900px){.cms-blog-basics-fields{grid-template-columns:repeat(2,minmax(0,1fr))}.cms-blog-publishing-fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.cms-blog-basics-fields,.cms-blog-publishing-fields{grid-template-columns:1fr}}
 .cms-testimonial-tabs {
   display: flex;
   flex-wrap: wrap;

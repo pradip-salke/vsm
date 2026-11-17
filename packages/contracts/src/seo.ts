@@ -146,7 +146,6 @@ export const seoStaticPages: SeoPageEntry[] = [
   main('/placements/placement-records/', 'Placement Records'),
   main('/placements/placement-records/pgdm-2022-24-batch/', 'PGDM 2022–24 Batch'),
   main('/placements/placement-records/pgdm-2021-23-batch/', 'PGDM 2021–23 Batch'),
-  main('/placements/alumni/', 'Alumni'),
   main('/events/gallery/', 'Photo Gallery'),
   main('/events/gallery/2/', 'Photo Gallery – Page 2'),
   main('/events/achievements/', 'Achievements'),
