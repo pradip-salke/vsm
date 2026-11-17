@@ -147,6 +147,7 @@ const labels: Record<string, string> = {
   subheading: 'Subheading',
   detail: 'Description',
   profiles: 'Profiles',
+  enabled: 'Active',
   cards: 'Cards',
   signature: 'Signature Lines',
   bridge: 'Industry Bridge Points',
@@ -1208,8 +1209,8 @@ export function Field({
               </div>
               <Field
                 name={`${itemName} ${index + 1}`}
-                value={item}
-                template={itemTemplate}
+                value={name === 'profiles' && item && typeof item === 'object' && !Array.isArray(item) ? { enabled: true, ...item } : item}
+                template={name === 'profiles' && itemTemplate && typeof itemTemplate === 'object' && !Array.isArray(itemTemplate) ? { enabled: true, ...itemTemplate } : itemTemplate}
                 readOnly={readOnly}
                 onUpload={onUpload}
                 onChange={(v) => onChange(value.map((entry, i) => (i === index ? v : entry)))}

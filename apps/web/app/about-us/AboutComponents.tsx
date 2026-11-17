@@ -14,7 +14,7 @@ export function CmsHtml({ html, className = styles.copy }: { html: string; class
 export function ProfileGrid({ profiles, compact = false, advisory = false, uniformImage = false, facultyStyle = false, className = '' }: { profiles: AboutProfile[]; compact?: boolean; advisory?: boolean; uniformImage?: boolean; facultyStyle?: boolean; className?: string }) {
   return <div className={`${compact ? styles.pastYears : styles.profileGrid}${advisory ? ` ${styles.advisoryGrid}` : ''}${uniformImage ? ` ${styles.uniformImageGrid}` : ''}${facultyStyle ? ` ${styles.facultyStyleGrid}` : ''}${className ? ` ${className}` : ''}`}>
     {profiles.map((profile) => <article className={`${styles.profile}${advisory ? ` ${styles.advisoryProfile}` : ''}${facultyStyle ? ` ${styles.facultyStyleProfile}` : ''}`} key={profile.name}>
-      {profile.image && <Image src={profile.image.startsWith('https://') ? profile.image : `/images/about/${profile.image}`} alt={profile.name} width={600} height={750} sizes={facultyStyle ? '(max-width: 650px) 100vw, (max-width: 1023px) 50vw, 25vw' : '(max-width: 650px) min(100vw, 18rem), (max-width: 900px) 8rem, 10rem'} />}
+      {profile.image && <Image src={profile.image.startsWith('https://') || profile.image.startsWith('/') ? profile.image : `/images/about/${profile.image}`} alt={profile.name} width={600} height={750} sizes={facultyStyle ? '(max-width: 650px) 100vw, (max-width: 1023px) 50vw, 25vw' : '(max-width: 650px) min(100vw, 18rem), (max-width: 900px) 8rem, 10rem'} />}
       <div className={styles.profileCopy}>
         <h3>{profile.name}</h3>
         {profile.role && <p className={styles.profileRole}>{profile.role}</p>}

@@ -1,7 +1,7 @@
 import 'server-only';
 
 export type CmsImage = { src: string; alt?: string; width?: number; height?: number };
-export type CmsProfile = { name: string; role?: string; details?: string[]; image?: string | CmsImage };
+export type CmsProfile = { name: string; role?: string; details?: string[]; image?: string | CmsImage; enabled?: boolean };
 export type CmsSection = Record<string, unknown>;
 export type CmsPageData = { path?: string; sections: Record<string, CmsSection>; masters: Record<string, CmsSection> };
 
@@ -55,7 +55,7 @@ export function cmsProfiles(value: unknown, fallback: CmsProfile[]): CmsProfile[
       details: Array.isArray(profile.details) ? profile.details.map(String) : old?.details,
       image: profile.image ?? old?.image,
     };
-  });
+  }).filter(profile => profile.enabled !== false);
 }
 
 export function cmsParagraphs(html: unknown, fallback: string[]): string[] {

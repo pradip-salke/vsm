@@ -54,7 +54,7 @@ export function createSitePageStore(options: {
       return z.number().finite().min(0).max(20000);
     }
     if (value && typeof value === 'object') {
-      return z.object(Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key)]))).strict();
+      return z.object({ ...Object.fromEntries(Object.entries(value).map(([k, v]) => [k, contentSchema(v, k, key)])), ...(parent === 'profiles' ? { enabled: z.boolean().optional() } : {}) }).strict();
     }
     let result: z.ZodType = z.string().max(30000);
     if (/href$|^src$/i.test(key)) {
