@@ -22,8 +22,9 @@
   min-width: 0;
   padding-top: 0;
   padding-bottom: 0;
+  background: var(--color-cream);
 }
-.mapFrame { overflow: hidden; width: 100%; aspect-ratio: 16 / 5; background: var(--color-cream); }
+.mapFrame { overflow: hidden; width: min(100%, var(--container-max)); margin-inline: auto; aspect-ratio: 16 / 5; background: var(--color-cream); }
 .mapFrame iframe { display: block; width: 100%; height: 100%; border: 0; }
 
 @media (max-width: 900px) {
@@ -32,4 +33,10 @@
 
 @media (max-width: 599px) {
   .mapFrame { aspect-ratio: 16 / 9; }
+}
+
+@media (max-width: 1023px) and (max-height: 500px) {
+  :global(main):has(> .mapSection) > :global(section[aria-label='Introduction']) [class*='slide'] {
+    min-height: clamp(17rem, 52vw, 20rem);
+  }
 }

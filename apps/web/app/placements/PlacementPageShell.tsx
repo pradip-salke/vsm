@@ -49,7 +49,9 @@ export async function PlacementPageShell({ title, active, activeHref, children, 
           ))}
         </nav>
       )}
-      <div className={styles.main}>{children}</div>
+      <div className={styles.main} data-placement-page="">
+        {children}
+      </div>
     </>
   );
 }

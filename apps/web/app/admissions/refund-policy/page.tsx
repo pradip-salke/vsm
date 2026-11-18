@@ -35,7 +35,7 @@ export default async function RefundPolicyPage() {
   const cmsRows = Array.isArray(refundTable?.refundRows) ? refundTable.refundRows as {particular:string;deduction:string;refund:string}[] : null;
   return <AdmissionsPageShell title="Refund Policy" subtitle="Cancellation of Admission, Refund of Fees and Return of Documents by Institute" active="Refund Policy" content={content}>
     <AdmissionSection title={cmsString(policyContent?.title, 'Cancellation of Admission, Refund of Fees and Return of Documents by Institute')}>
-      <ol className={styles.list}>{(policyClauses ?? policy.map((item) => ({body: ''}))).map((clause, index) => <li key={index}><span className={styles.marker} aria-hidden>{index + 1}</span><p>{policyClauses ? <span dangerouslySetInnerHTML={{__html:clause.body}} /> : policy[index]}</p></li>)}</ol>
+      <ol className={styles.list}>{(policyClauses ?? policy.map((item) => ({body: ''}))).map((clause, index) => <li key={index}><span className={styles.marker} aria-hidden>{index + 1}</span><div>{policyClauses ? <span dangerouslySetInnerHTML={{__html:clause.body}} /> : policy[index]}</div></li>)}</ol>
       <p className={`${styles.lead} ${styles.refundAfterList}`} dangerouslySetInnerHTML={{__html:cmsString(policyContent?.note, 'Notwithstanding the clause above, the student shall not be entitled to any refund of his/her fee, if the cancellation of admission request is made by the Student after the Course Commences.')}} />
     </AdmissionSection>
     <AdmissionSection title={cmsString(refundTable?.title, 'Refund Policy: As prescribed by AICTE')}>

@@ -1,3 +1,4 @@
+:global(body):has(.main) { min-width: 0; }
 .main { min-width: 0; }
 .nav { position: sticky; top: 0; z-index: calc(var(--z-header) - 1); background: var(--color-sky); }
 .navList { display: flex; align-items: stretch; justify-content: space-between; gap: 1.5rem; min-height: clamp(3.75rem, 5.365vw, 5rem); overflow-x: auto; scrollbar-width: none; }

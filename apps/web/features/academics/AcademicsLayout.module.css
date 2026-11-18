@@ -48,7 +48,8 @@
  * 120px gutter) and a content column whose blocks are split by full-width lines.
  */
 .layout {
-  width: 100vw;
+  width: min(100vw, var(--container-max));
+  margin-inline: auto;
   --academic-heading-gap: clamp(15px, 2.34375vw, 45px);
   --academic-heading-top-visible-gap: clamp(15px, 2.34375vw, 45px);
   --academic-heading-bottom-visible-gap: clamp(12.5px, 1.953125vw, 37.5px);
@@ -60,7 +61,7 @@
   --life-heading-ink-bottom: calc(var(--font-size-h1) * 0.2);
   --why-heading-ink-top: calc(var(--font-size-h1) * 0.25);
   --why-heading-ink-bottom: calc(var(--font-size-h1) * 0.05);
-  --edge: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
+  --edge: max(var(--page-gutter), (100% - var(--container-width)) / 2);
   --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem); /* 43px at 1920px, matching Why Choose VSM */
   --academic-divider-left: var(--column-inset);
   --academic-divider-right: calc(var(--edge) + 0.365vw);
@@ -166,6 +167,8 @@
 
 .block.customTextSection {
   border-bottom: 0;
+  padding-top: calc(var(--section-rule-gap) / 2);
+  padding-bottom: calc(var(--academic-section-bottom) / 2);
 }
 
 .main > :global(#curriculum).block {
@@ -211,10 +214,10 @@
   padding-top: var(--why-heading-top-padding);
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1199px) {
   .advantageListViewport {
-    margin-inline: 0 calc(-1 * var(--page-gutter));
-    padding-inline: 0 var(--page-gutter);
+    margin-inline: calc(-1 * var(--page-gutter)) calc(-1 * var(--page-gutter));
+    padding-inline: var(--page-gutter);
   }
 }
 
@@ -273,7 +276,7 @@
   overflow-x: clip;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1199px) {
   .layout {
     grid-template-columns: 1fr;
     --academic-divider-left: var(--page-gutter);

@@ -45,7 +45,7 @@ export default async function AdmissionsProcessPage() {
       <div className={styles.stepGrid}>{stepItems.map(({title, text}, i) => <article key={`${title}-${i}`} className={styles.step}><span className={styles.marker} aria-hidden>{i + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
     </AdmissionSection>
     <AdmissionSection title={cmsString(cta?.title, 'Begin Your Management Journey – Apply Now')}>
-      <p className={styles.lead} dangerouslySetInnerHTML={{ __html: cmsString(cta?.lead, '<p>Take the first step toward your management career. Complete the application form to get started.</p>') }} />
+      <div className={styles.lead} dangerouslySetInnerHTML={{ __html: cmsString(cta?.lead, '<p>Take the first step toward your management career. Complete the application form to get started.</p>') }} />
       <div className={styles.actions}><Button href={cmsString(cta?.primaryHref, APPLY_PATH)}>{cmsString(cta?.primaryText, 'Complete Application Form')}</Button><Button variant="arrow" href={cmsString(cta?.secondaryHref, '/contact-us/')}>{cmsString(cta?.secondaryText, 'Contact Admissions')}</Button></div>
     </AdmissionSection>
   </AdmissionsPageShell>;

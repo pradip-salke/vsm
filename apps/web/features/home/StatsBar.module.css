@@ -10,6 +10,7 @@
   grid-template-columns: 338fr 425fr 463fr 439fr;
   width: min(120rem, 100vw);
   max-width: 120rem;
+  margin-inline: auto;
   height: 18.75vw;
   margin-block: 0;
   padding-block: 2.604167vw;
@@ -112,5 +113,15 @@
   .item + .item {
     padding-top: var(--space-5);
     border-top: var(--border-width) solid rgb(255 255 255 / 40%);
+  }
+
+  .label {
+    height: auto;
+    line-height: 1.4;
+  }
+
+  .description {
+    margin-top: var(--space-3);
+    line-height: 1.6;
   }
 }

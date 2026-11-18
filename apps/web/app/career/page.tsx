@@ -33,7 +33,7 @@ export default async function CareerPage() {
     <>
       <PageHero
         size="inner"
-        className="careerHero"
+        className={`${styles.hero} careerHero`}
         slides={[slide]}
         actions={<Button href={slide.primaryHref || '#career-application'}>{slide.primaryText || 'Apply for a position'}</Button>}
         breadcrumb={breadcrumbSection?.breadcrumb ?? [{ label: 'Home', href: '/' }, { label: 'Career' }]}

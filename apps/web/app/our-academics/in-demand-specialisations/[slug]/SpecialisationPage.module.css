@@ -25,7 +25,7 @@
 }
 .listViewport .list { margin-top: 0; }
 
-@media (max-width: 1023px) {
+@media (max-width: 1199px) {
   .sidebar { padding: var(--section-spacing) var(--page-gutter); }
   .listViewport {
     --band-start: 0px;

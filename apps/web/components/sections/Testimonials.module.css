@@ -116,12 +116,13 @@
 }
 
 .person {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   flex: 0 0 auto;
-  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
   margin-top: auto;
+  padding-top: 0.75rem;
 }
 
 .avatar {
@@ -145,6 +146,8 @@
 }
 
 .name {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font-family: var(--font-heading);
   font-size: var(--font-size-h3);
   font-weight: var(--font-weight-extrabold);
@@ -156,6 +159,7 @@
 
 .batch {
   display: flex;
+  grid-column: 1 / -1;
   align-items: center;
   gap: clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
   font-size: var(--font-size-table);
@@ -175,4 +179,7 @@
   .carousel {
     --slide-width: 86vw;
   }
+  .card { height: 20rem; }
+  .name { font-size: clamp(1rem, 4.5vw, 1.375rem); line-height: 1.2; }
+  .quote { line-height: 1.65; }
 }

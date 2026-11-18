@@ -148,8 +148,8 @@
   margin-top: calc((var(--header-height) - 2rem) / 2);
 }
 
-.navItem:not([data-dismissed]):hover .dropdown,
-.navItem[data-open] .dropdown {
+.navItem:not([data-dismissed]):hover > .dropdown,
+.navItem[data-open] > .dropdown {
   opacity: 1;
   visibility: visible;
   transform: none;
@@ -204,7 +204,7 @@
 .menuToggle {
   display: grid;
   place-items: center;
-  width: clamp(2.5rem, 2.631vw, 3.1577rem);
+  width: clamp(2.75rem, 2.631vw, 3.1577rem);
   aspect-ratio: 1;
   padding: 0;
   border: 0;
@@ -213,7 +213,7 @@
 }
 
 .menuToggle span {
-  --icon-size: 100%;
+  --icon-size: 75%;
 }
 
 /* Drawer */
@@ -241,7 +241,7 @@
   display: flex;
   flex-direction: column;
   width: min(100%, 28rem);
-  padding: var(--space-5);
+  padding: clamp(1rem, 4vw, var(--space-5));
   overflow-y: auto;
   background: var(--color-surface);
   transform: translateX(100%);
@@ -264,7 +264,7 @@
 }
 
 .drawerLogo {
-  width: 11rem;
+  width: min(11rem, 60%);
   height: auto;
 }
 
@@ -326,6 +326,7 @@
 }
 
 .drawerSub a {
+  overflow-wrap: anywhere;
   padding: 0.45rem 0;
   color: var(--color-text-body);
   font-size: var(--font-size-input);
@@ -351,4 +352,9 @@
   .harvard {
     display: none;
   }
+
+  .inner { gap: clamp(0.5rem, 2vw, 1rem); }
+  .brand { --logo-w: clamp(8rem, 41vw, 12rem); }
+  .actions { gap: clamp(0.5rem, 3vw, 1rem); margin-right: 0; }
+  .aicte { --aicte-w: clamp(2.5rem, 11vw, 3rem); }
 }

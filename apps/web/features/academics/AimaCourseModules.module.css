@@ -26,6 +26,6 @@
 }
 
 .iconList {
-  --band-bleed: 0px;
-  --band-end: 0px;
+  --band-bleed: var(--academic-divider-left, 0px);
+  --band-end: calc(-1 * var(--academic-divider-right, 0px));
 }

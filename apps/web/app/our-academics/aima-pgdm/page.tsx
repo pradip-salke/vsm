@@ -109,7 +109,7 @@ export default async function AimaPgdmPage() {
           <section id={sectionAnchor(6, 'aima-fees')} className={layout.block}>
             <SectionHeading title={sections.fees.title} />
             <div className={blocks.tableScroll} tabIndex={0}>
-              <table className={`${blocks.table} ${blocks.feeTable}`}>
+              <table className={`${blocks.table} ${blocks.feeTable} ${styles.feeTable}`}>
                 <caption className="visually-hidden">AIMA PGDM course fees</caption>
                 <thead><tr><th scope="col">{sections.fees.columnLabel}</th><th scope="col">{sections.fees.columnValue}</th></tr></thead>
                 <tbody>{sections.fees.rows.map(({ label, amount }) => <tr key={label}><th scope="row">{label}</th><td>{amount}</td></tr>)}</tbody>

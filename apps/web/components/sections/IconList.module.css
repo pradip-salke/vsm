@@ -23,7 +23,7 @@
   content: '';
   position: absolute;
   z-index: -1;
-  inset: calc((var(--badge) * 1.195 - 100%) / -2) var(--band-end, 0) calc((var(--badge) * 1.195 - 100%) / -2)
+  inset: min(0px, calc((100% - var(--badge) * 1.195) / 2)) var(--band-end, 0) min(0px, calc((100% - var(--badge) * 1.195) / 2))
     calc(-1 * var(--band-bleed));
   background: var(--color-primary);
   opacity: 0;
