@@ -72,16 +72,6 @@ const batch2022Highlights = stats([
 const altFromFile = (file: string) => file.replace(/[_-]/g, ' ').replace(/\.[^.]+$/, '');
 const record = (src: string, alt: string): PlacementImageItem => ({ src, alt, width: 724, height: 1024, enabled: true });
 
-const recruiterItems: PlacementImageItem[] = ([
-  ['1702 Digital', 'Artboard-2.jpg'], ['Ans source', 'Artboard-3.jpg'], ['AU Small Finance Bank', 'Artboard-4.jpg'],
-  ['Axis Bank', 'Artboard-5.jpg'], ['Blue Star', 'Artboard-6.jpg'], ['Cargosol', 'Artboard-7.jpg'],
-  ['Cielo Systems', 'Artboard-8.jpg'], ['Airconditioning', 'Artboard-11.jpg'], ['IIFL Securities', 'Artboard-14.jpg'],
-  ['IndusInd Bank', 'Artboard-16.jpg'], ['KANTAR', 'Artboard-19.jpg'], ['Ninety Nine Years', 'Artboard-1.jpg'],
-  ['Club Mahindra', 'Artboard-9.jpg'], ['DCB Bank', 'Artboard-10.jpg'], ['easiloan', 'Artboard-12.jpg'],
-  ['Expertrons Inspire Success', 'Artboard-13.jpg'], ['ImpactGuru', 'Artboard-15.jpg'], ['Jaro Education', 'Artboard-17.jpg'],
-  ['K11 School of Fitness Sciences', 'Artboard-18.jpg'], ['Kotak Securities', 'Artboard-20.jpg'],
-] as [string, string][]).map(([alt, file]) => ({ src: `https://vsmedu.com/wp-content/uploads/2024/01/${file}`, alt, width: 240, height: 120, enabled: true }));
-
 const currentRecordItems = ['s1-724x1024.jpeg', 's2-724x1024.jpeg', 's3-724x1024.jpeg'].map((file, index) =>
   record(`https://vsmedu.com/wp-content/uploads/2026/06/${file}`, `Summer internship placement record ${index + 1}, PGDM batch 2025–27`)
 );
@@ -156,9 +146,9 @@ export const placementsPages = {
       intro: { eyebrow: EYEBROW, title: 'Industry Connections That Help Students Grow', body: placementIntro },
       recruiters: { title: 'Our Recruiters' },
     },
-    masters: { hero: { items: [bannerSlide('Our Recruiters')] }, recruiters: { items: recruiterItems } },
-    masterLabels: { hero: 'Page Banner', recruiters: 'Recruiter Logos' },
-    masterSections: { recruiters: 'recruiters' },
+    masters: { hero: { items: [bannerSlide('Our Recruiters')] } },
+    masterLabels: { hero: 'Page Banner' },
+    masterSections: {},
     labels: {
       hero: HERO_LABEL,
       'page-nav': NAV_LABEL,
@@ -169,7 +159,7 @@ export const placementsPages = {
       hero: HERO_SUBTITLE_TEXT,
       'page-nav': NAV_SUBTITLE,
       intro: 'Section eyebrow, heading and introductory paragraphs.',
-      recruiters: 'Heading above the logo grid. Logos are managed in Recruiter Logos.',
+      recruiters: 'Heading above the logo grid. Logo images are managed in Masters → Recruiters.',
     },
   },
   'placement-records': {

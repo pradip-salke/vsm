@@ -227,9 +227,9 @@ function assertKnown(key: string) {
   }
 }
 
-// Validate against the imported content structure; unknown fields cannot be persisted.
+// Validate against the compiled shared content structure; unknown fields cannot be persisted.
 function contentSchema(value: unknown, key = '', parent = '', documentKey = ''): z.ZodType {
-  if (documentKey === 'templateSections' && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true })).max(100);
+  if (documentKey === 'templateSections' && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true, imageUrl: true })).max(100);
   if (documentKey === 'templateSections' && key === 'items' && Array.isArray(value)) return z.array(contentSchema(academicTemplateItem, '', key, documentKey)).max(100);
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key, documentKey)).max(100);
   if (typeof value === 'boolean') return z.boolean();

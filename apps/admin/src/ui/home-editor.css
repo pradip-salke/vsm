@@ -140,3 +140,15 @@
 }
 .cms-rich-content { font-weight: 400; }
 .cms-rich-content strong, .cms-rich-content b { font-weight: 700; }
+.cms-report-upload{min-width:0;display:grid;gap:8px;color:var(--ink)}
+.cms-report-upload>.cms-field-label{font-size:13px;font-weight:600}
+.cms-report-upload-card{display:flex;align-items:center;gap:16px;min-width:0;padding:16px;border:1px solid #dce3ee;border-radius:10px;background:#fff}
+.cms-report-upload-icon{display:grid;place-items:center;flex:none;width:60px;height:70px;border-radius:8px;background:#eaf4fa;color:#202b67;font-size:14px;font-weight:800}
+.cms-report-upload-details{display:grid;justify-items:start;gap:6px;min-width:0;flex:1}
+.cms-report-upload-details strong{max-width:100%;overflow-wrap:anywhere;color:#253658;font-size:13px}
+.cms-report-upload-details small,.cms-report-upload-hint{color:#73849d;font-size:12px}
+.cms-report-upload-button,.cms-report-upload-view{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border:1px solid #d7dfed;border-radius:6px;background:white;color:#202b67;font-size:12px;font-weight:600;text-decoration:none;cursor:pointer}
+.cms-report-upload-button:hover,.cms-report-upload-view:hover{background:#f3f7fc}
+.cms-report-upload-button:focus-within{outline:2px solid #7b9bca;outline-offset:2px}
+.cms-report-upload-button.is-disabled{opacity:.6;cursor:not-allowed}
+@media(max-width:600px){.cms-report-upload-card{flex-wrap:wrap}.cms-report-upload-view{margin-left:76px}}

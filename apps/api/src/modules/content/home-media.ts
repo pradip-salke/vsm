@@ -52,3 +52,18 @@ export const uploadProgramVideo: RequestHandler = async (req, res) => {
     res.status(201).json({ data: { id: asset.id, src: `/cms-media/${name}` } });
   } catch (error) { await unlink(path).catch(() => undefined); throw error; }
 };
+
+export const uploadReportPdf: RequestHandler = async (req, res) => {
+  if (!Buffer.isBuffer(req.body) || !req.body.length || req.body.subarray(0, 5).toString('ascii') !== '%PDF-') {
+    throw new HttpError(400, 'INVALID_PDF', 'Choose a valid PDF file');
+  }
+  const originalName = decodeURIComponent(req.get('x-file-name') ?? 'eoa-report.pdf').replace(/[^a-zA-Z0-9._ -]/g, '_').slice(0, 255);
+  const name = `${randomUUID()}.pdf`;
+  await mkdir(homeMediaRoot, { recursive: true });
+  const path = resolve(homeMediaRoot, name);
+  await writeFile(path, req.body);
+  try {
+    const asset = await prisma.mediaAsset.create({ data: { storageKey: `home/${name}`, originalName, mimeType: 'application/pdf', byteSize: req.body.length, scanStatus: 'VALIDATED' } });
+    res.status(201).json({ data: { id: asset.id, src: `/cms-media/${name}` } });
+  } catch (error) { await unlink(path).catch(() => undefined); throw error; }
+};

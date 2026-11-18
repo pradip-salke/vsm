@@ -31,6 +31,19 @@ function normalizeTestimonialsMaster(content: unknown): unknown {
 }
 
 function normalizeDocument(key: string, content: unknown): unknown {
+  if (key === 'tabs' && content && typeof content === 'object' && !Array.isArray(content)) {
+    const doc = content as { links?: unknown[] };
+    if (Array.isArray(doc.links)) {
+      return {
+        ...doc,
+        links: doc.links.filter((link) =>
+          !link || typeof link !== 'object' || Array.isArray(link)
+            ? true
+            : (link as { anchor?: unknown }).anchor !== 'admission-procedure',
+        ),
+      };
+    }
+  }
   if (key === 'course-modules' && content && typeof content === 'object' && !Array.isArray(content)) {
     const { year1Intro, ...doc } = content as Record<string, unknown>;
     const legacy = typeof year1Intro === 'string' ? year1Intro.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim() : '';
@@ -91,7 +104,7 @@ function lineCellRequired(key: string, documentKey: string, parent: string): boo
 }
 
 function contentSchema(value: unknown, key = '', parent = '', documentKey = ''): z.ZodType {
-  if (documentKey === 'templateSections' && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true })).max(100);
+  if (documentKey === 'templateSections' && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true, imageUrl: true })).max(100);
   if (documentKey === 'templateSections' && key === 'items' && Array.isArray(value)) return z.array(contentSchema(academicTemplateItem, '', key, documentKey)).max(100);
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key, documentKey)).max(100);
   if (typeof value === 'boolean') return z.boolean();

@@ -87,6 +87,11 @@ export function buildSpecialisationPageConfig(slug: string): AcademicsPageEditor
   const meta = page.meta;
   const liveUrl = `${WEB_PATH_PREFIX}${meta.slug}/`;
   const apiBase = `/admin/academics/specialisations/page/${encodeURIComponent(slug)}`;
+  const sections = SECTION_ORDER.filter((key) =>
+    !(slug === 'pgdm-in-business-analytics-mumbai' && ['why', 'careers', 'curriculum', 'admission'].includes(key)) &&
+    !(slug === 'operations-and-supply-chain-management-specialisation' && ['careers', 'curriculum', 'admission'].includes(key)) &&
+    !(['financial-management-specialisation', 'mba-pgdm-in-human-resources-mumbai', 'mba-in-marketing-mumbai'].includes(slug) && (key === 'curriculum' || key === 'admission'))
+  );
 
   return {
     apiList: apiBase,
@@ -106,11 +111,11 @@ export function buildSpecialisationPageConfig(slug: string): AcademicsPageEditor
       </>
     ),
     liveUrl,
-    sections: SECTION_ORDER.filter((key) => !(['financial-management-specialisation', 'mba-pgdm-in-human-resources-mumbai', 'mba-in-marketing-mumbai'].includes(slug) && (key === 'curriculum' || key === 'admission'))),
+    sections,
     labels: LABELS as Record<string, string>,
     subtitles: SUBTITLES as Record<string, string>,
     anchors: ANCHORS as Record<string, string>,
-    defaults: { ...Object.fromEntries(SECTION_ORDER.map((k) => [k, page[k as SpecSectionKey] as unknown as Value])), templateSections: { sections: [academicTemplateSection] } } as Record<string, Value>,
+    defaults: { ...Object.fromEntries(sections.map((k) => [k, page[k as SpecSectionKey] as unknown as Value])), templateSections: { sections: [academicTemplateSection] } } as Record<string, Value>,
     masterLinks: {
       hero: { to: `${specialisationPagePath(slug)}/hero`, label: 'Manage Page Banner Slides →' },
       internships: { to: `${specialisationPagePath(slug)}/internships`, label: `Manage ${meta.navTitle} Summer Internship Slides` },

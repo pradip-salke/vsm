@@ -9,7 +9,7 @@ export type SpecialisationPageContent = {
   heroTitle: string;
   image: string;
   overview: string[];
-  reasons: string[];
+  reasons?: string[];
   roles: string[];
   subjects: string[];
 };
@@ -63,7 +63,6 @@ export const academicSpecialisations: SpecialisationPageContent[] = [
       'Business Analytics combines management principles with data analysis. Students learn to interpret information, identify patterns, and turn findings into decisions that help organisations improve performance and plan strategically.',
       'The specialisation introduces data science, visualisation, and predictive methods alongside core business learning. These skills are relevant across sectors that increasingly rely on data-informed decisions.',
     ],
-    reasons: ['Turn complex data into useful business insights', 'Build skills in data science and visualisation', 'Apply analytics to decisions across functional areas', 'Prepare for a wide variety of roles and industries', 'Learn tools used in modern analytics teams'],
     roles: ['Business Analyst', 'Data Analyst', 'Data Scientist', 'Business Intelligence Analyst', 'Analytics Consultant', 'Marketing Analytics Specialist', 'Risk Analyst', 'Supply Chain Analyst', 'Human Resource Analytics Specialist', 'Web Analytics Specialist'],
     subjects: ['Data Science with Python', 'SQL for Data Analysis', 'Big Data Analytics', 'Power BI', 'Machine Learning', 'Data Science with R', 'Financial Analytics', 'Marketing Analytics', 'HR Analytics', 'Operations Analytics'],
   },

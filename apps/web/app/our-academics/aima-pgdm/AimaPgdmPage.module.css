@@ -47,9 +47,6 @@
 .subheading { margin: var(--space-6) 0 var(--space-3); font-size: var(--font-size-h3); font-weight: var(--font-weight-extrabold); }
 .moduleNote { margin-top: var(--heading-copy-gap); font-weight: var(--font-weight-extrabold); }
 .moduleList { display: grid; gap: .6em; margin: 0; padding-left: 1.15rem; }
-.certificate { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: var(--space-6); padding: clamp(1.5rem, 3vw, 3rem); background: var(--color-sky); }
-.certificate h3 { margin: 0; font-size: var(--font-size-h3); }
-.certificateImage { display: block; width: clamp(7rem, 11vw, 10rem); height: auto; object-fit: contain; }
 
 @media (max-width: 1023px) {
   .iconList { --band-end: calc(-1 * var(--page-gutter)); }
@@ -61,5 +58,4 @@
 }
 
 @media (max-width: 767px) {
-  .certificate { align-items: flex-start; }
 }

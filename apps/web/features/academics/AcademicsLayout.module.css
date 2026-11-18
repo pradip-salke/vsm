@@ -164,6 +164,10 @@
   border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
+.block.customTextSection {
+  border-bottom: 0;
+}
+
 .main > :global(#curriculum).block {
   --curriculum-year-tabs-gap: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - 17px);
   padding-top: calc(var(--academic-heading-top-visible-gap) - var(--academic-title-ink-offset));

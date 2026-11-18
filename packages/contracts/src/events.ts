@@ -60,19 +60,10 @@ const albums = (rows: [string, string][]): EventsAlbumItem[] =>
     return { title, image: { ...cover }, images: images.length ? images : [{ ...cover }], enabled: true };
   });
 
-const pagination = () => ({
-  links: [
-    { label: '1', href: '/events/gallery/' },
-    { label: '2', href: '/events/gallery/2/' },
-  ],
-});
-
 const HERO_LABEL = 'Page Banner Breadcrumb';
 const HERO_SUBTITLE_TEXT = 'Breadcrumb trail for the banner. Heading, image and buttons are edited in Page Banner (slider).';
 const NAV_LABEL = 'Event Page Links';
 const NAV_SUBTITLE = 'Links bar below the banner that switches between Events pages.';
-const PAGINATION_LABEL = 'Gallery Pagination';
-const PAGINATION_SUBTITLE = 'Numbered page links below the album grid (label and link per page).';
 
 export const eventsPages = {
   gallery: {
@@ -82,7 +73,6 @@ export const eventsPages = {
       hero: breadcrumb('Gallery'),
       'page-nav': pageNav(true),
       intro: { title: 'Event Gallery', description: "Navigating Today's Business World with Tomorrow's Leaders" },
-      pagination: pagination(),
     },
     masters: {
       hero: { items: [bannerSlide('Gallery')] },
@@ -99,12 +89,11 @@ export const eventsPages = {
     },
     masterLabels: { hero: 'Page Banner', albums: 'Gallery Albums' },
     masterSections: { albums: 'intro' },
-    labels: { hero: HERO_LABEL, 'page-nav': NAV_LABEL, intro: 'Gallery Heading', pagination: PAGINATION_LABEL },
+    labels: { hero: HERO_LABEL, 'page-nav': NAV_LABEL, intro: 'Gallery Heading' },
     subtitles: {
       hero: HERO_SUBTITLE_TEXT,
       'page-nav': NAV_SUBTITLE,
       intro: 'Heading and sub-heading above the album grid. Albums are managed from Website Pages → Gallery.',
-      pagination: PAGINATION_SUBTITLE,
     },
   },
   'gallery-2': {
@@ -114,7 +103,6 @@ export const eventsPages = {
       hero: breadcrumb('Gallery'),
       'page-nav': pageNav(true),
       intro: { title: 'More from the Event Gallery', description: 'Student activities and campus moments at Valia School of Management.' },
-      pagination: pagination(),
     },
     masters: {
       hero: { items: [bannerSlide('Gallery')] },
@@ -128,12 +116,11 @@ export const eventsPages = {
     },
     masterLabels: { hero: 'Page Banner', albums: 'Gallery Albums' },
     masterSections: { albums: 'intro' },
-    labels: { hero: HERO_LABEL, 'page-nav': NAV_LABEL, intro: 'Gallery Heading', pagination: PAGINATION_LABEL },
+    labels: { hero: HERO_LABEL, 'page-nav': NAV_LABEL, intro: 'Gallery Heading' },
     subtitles: {
       hero: HERO_SUBTITLE_TEXT,
       'page-nav': NAV_SUBTITLE,
       intro: 'Heading and sub-heading above the album grid. Albums are managed from Website Pages → Gallery.',
-      pagination: PAGINATION_SUBTITLE,
     },
   },
   achievements: {

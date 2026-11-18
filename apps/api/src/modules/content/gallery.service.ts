@@ -10,10 +10,10 @@ import { eventsPages } from '@vsmedu/contracts/events';
 const pages = ['home', 'aicte', 'aima', ...academicsSpecialisationIndex.map(page => page.slug), 'events-gallery', 'events-gallery-2'];
 const pageSet = new Set(pages);
 const assetSchema = z.object({ src: z.string().max(2048), alt: z.string().max(1000), width: z.number().int().positive(), height: z.number().int().positive() }).passthrough();
-const itemSchema = z.object({ image: assetSchema, caption: z.string().max(30000).optional(), href: z.string().max(2048).optional(), enabled: z.boolean().optional(), pages: z.array(z.string().refine(page => pageSet.has(page), 'Unknown page')).max(pages.length).refine(items => new Set(items).size === items.length, 'Select each page only once') }).passthrough();
+const itemSchema = z.object({ image: assetSchema, caption: z.string().max(30000).optional(), href: z.string().max(2048).optional(), enabled: z.boolean().optional(), pages: z.array(z.string()).optional(), sections: z.array(z.enum(['life', 'events'])).max(2).optional() }).passthrough();
 const bodySchema = z.object({ content: z.object({ items: z.array(itemSchema).max(200) }), updatedAt: z.string().datetime().nullable() }).strict();
 const GALLERY_KEY = 'gallery.life';
-const collectionKey = (collection: string) => collection === 'life' ? 'gallery.life' : collection === 'albums' ? 'gallery.albums' : null;
+const collectionKey = (collection: string) => collection === 'unified' ? 'gallery.unified' : collection === 'life' ? 'gallery.life' : collection === 'albums' ? 'gallery.albums' : null;
 
 function asItems(value: unknown): Record<string, unknown>[] {
   if (!value || typeof value !== 'object' || !('items' in value) || !Array.isArray((value as { items: unknown }).items)) return [];
@@ -68,11 +68,20 @@ export async function readGalleryMaster() {
   return { content: { items: mergeLegacy(home, aicte) }, updatedAt: null };
 }
 
-export async function readGalleryCollection(collection: string) {
+export async function readGalleryCollection(collection: string): Promise<{ content: { items: Record<string, unknown>[] }; updatedAt: string | null }> {
   const key = collectionKey(collection);
   if (!key) throw new HttpError(404, 'GALLERY_COLLECTION_NOT_FOUND', 'Unknown gallery collection');
   const row = await prisma.websiteSetting.findUnique({ where: { key } });
   if (row) return { content: row.value as { items: Record<string, unknown>[] }, updatedAt: row.updatedAt.toISOString() };
+  if (collection === 'unified') {
+    const [albums, life, eventRow] = await Promise.all([readGalleryCollection('albums'), readGalleryMaster(), prisma.websiteSetting.findUnique({ where: { key: 'home.master-events' } })]);
+    const items = [
+      ...albums.content.items.map(item => ({ ...item, sections: item.sections ?? [] })),
+      ...life.content.items.map(item => ({ ...item, title: item.title ?? item.caption ?? '', sections: item.sections ?? ['life'] })),
+      ...asItems(eventRow?.value ?? homeMasterDefaults.events).map(item => ({ ...item, title: item.title ?? item.caption ?? '', sections: item.sections ?? ['events'] })),
+    ];
+    return { content: { items }, updatedAt: null };
+  }
   if (collection === 'life') return readGalleryMaster();
   const legacyKeys = ['gallery', 'gallery-2'].map(page => `events.${page}.master-albums`);
   const legacyRows = await prisma.websiteSetting.findMany({ where: { key: { in: legacyKeys } } });
@@ -92,7 +101,7 @@ export async function saveGalleryCollection(collection: string, input: unknown, 
   if (!recordKey) throw new HttpError(404, 'GALLERY_COLLECTION_NOT_FOUND', 'Unknown gallery collection');
   const parsed = bodySchema.parse(input);
   for (const item of parsed.content.items) {
-    if (!item.pages.length) throw new HttpError(400, 'GALLERY_PAGE_REQUIRED', 'Choose at least one page for each gallery image.');
+    if (collection !== 'unified' && !item.pages?.length) throw new HttpError(400, 'GALLERY_PAGE_REQUIRED', 'Choose at least one page for each gallery image.');
   }
   return prisma.$transaction(async tx => {
     const old = await tx.websiteSetting.findUnique({ where: { key: recordKey } });
@@ -110,7 +119,11 @@ export async function saveGalleryCollection(collection: string, input: unknown, 
 
 export async function readPublicGallery(page: string) {
   if (!pageSet.has(page)) throw new HttpError(404, 'PAGE_NOT_FOUND', 'Unknown page');
-  const collection = page === 'events-gallery' || page === 'events-gallery-2' ? 'albums' : 'life';
-  const master = await readGalleryCollection(collection);
-  return master.content.items.filter(item => item.enabled !== false && Array.isArray(item.pages) && item.pages.includes(page));
+  const unified = await readGalleryCollection('unified');
+  return unified.content.items.filter(item => item.enabled !== false && ((page === 'events-gallery' || page === 'events-gallery-2') || (Array.isArray(item.sections) && item.sections.includes('life'))));
+}
+
+export async function readGalleryEvents() {
+  const unified = await readGalleryCollection('unified');
+  return unified.content.items.filter(item => item.enabled !== false && Array.isArray(item.sections) && item.sections.includes('events'));
 }

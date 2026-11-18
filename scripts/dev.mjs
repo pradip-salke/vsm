@@ -1,9 +1,12 @@
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const node = process.execPath;
+// The API and CMS import contracts from dist, so compile them before starting dev servers.
+const contracts = spawnSync(node, [resolve(root, 'node_modules/typescript/bin/tsc'), '-p', resolve(root, 'packages/contracts/tsconfig.json')], { cwd: root, stdio: 'inherit' });
+if (contracts.status !== 0) process.exit(contracts.status ?? 1);
 const commands = [
   ['api', 'apps/api', 'node_modules/tsx/dist/cli.mjs', ['watch', 'src/server.ts']],
   ['web', 'apps/web', 'node_modules/next/dist/bin/next', ['dev', '-p', '3000']],

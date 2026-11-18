@@ -117,12 +117,6 @@ const labels: Record<string, string> = {
   outro: 'Text after the list',
   moduleTitle: 'Module heading',
   subsectionTitle: 'Subsection heading',
-  multiExitTitle: 'Multi-exit block heading',
-  exitAwards: 'Exit award lines',
-  certificateBlockTitle: 'Certificate block heading',
-  certificateImage: 'Certificate image',
-  certificateButtonText: 'Certificate button label',
-  certificateButtonHref: 'Certificate button link',
   year1Module1Heading: 'Year 1 Module 1 table heading',
   year1Module2Heading: 'Year 1 Module 2 table heading',
   year2Intro: 'Year 2 intro (above table)',
@@ -142,7 +136,7 @@ const labels: Record<string, string> = {
   'about-aima': 'About AIMA block',
   'about-pgdm': 'About PGDM block',
   'course-modules': 'Course modules',
-  'other-details': 'Other details & certificate',
+  'other-details': 'Other details',
   'program-structure': 'Program structure highlights',
   overview: 'Overview',
   why: 'Why this programme',
@@ -1373,7 +1367,7 @@ export function Field({
           <legend>{label(name)}</legend>
         )}
         {error && <p role="alert" className="cms-error">{error}</p>}
-        {Object.entries(value).filter(([key]) => key !== 'sectionType' && !(value.sectionType === 'text' && (key === 'subsectionTitle' || key === 'items'))).map(([key, item]) => (
+        {Object.entries(value).filter(([key]) => key !== 'sectionType' && key !== 'imageUrl' && !(value.sectionType === 'text' && (key === 'subsectionTitle' || key === 'items'))).map(([key, item]) => (
           <Field
             key={key}
             name={key}
@@ -1389,6 +1383,19 @@ export function Field({
             onChange={(v) => onChange({ ...value, [key]: v })}
           />
         ))}
+        {value.sectionType === 'text' && <div className="cms-field cms-field--long">
+          <span className="cms-field-label">Optional image</span>
+          <input type="file" accept="image/png,image/jpeg,image/webp,image/avif,image/svg+xml" disabled={readOnly || uploading} onChange={async event => {
+            const file = event.target.files?.[0];
+            event.target.value = '';
+            if (!file) return;
+            setUploading(true); setError('');
+            try { const asset = await onUpload(file); onChange({ ...value, imageUrl: asset.src }); }
+            catch (cause) { setError(cause instanceof Error ? cause.message : 'Image upload failed'); }
+            finally { setUploading(false); }
+          }} />
+          {typeof value.imageUrl === 'string' && value.imageUrl && <><img src={preview(value.imageUrl)} alt="Section image preview" style={{ maxWidth: '180px', maxHeight: '120px', objectFit: 'contain' }} /><button type="button" className="cms-secondary" disabled={readOnly || uploading} onClick={() => onChange({ ...value, imageUrl: '' })}>Remove image</button></>}
+        </div>}
       </fieldset>
     );
   }

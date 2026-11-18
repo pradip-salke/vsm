@@ -24,7 +24,6 @@ export const aimaTabs = [
   { label: 'Course Modules', id: 'course-modules' },
   { label: 'Fees', id: 'aima-fees' },
   { label: 'Other Details', id: 'other-details' },
-  { label: 'Admission Procedure', id: 'admission-procedure' },
 ];
 
 export const aimaSpecialisations = [
@@ -121,10 +120,4 @@ export const aimaOtherDetailItems = asIconList([
   [aimaOtherDetails[10]],
   [aimaOtherDetails[11]],
   [aimaOtherDetails[12]],
-]);
-export const aimaExitAwardItems = asIconList([
-  ['Semester 1 (6 papers): Certificate in Management', `${ICON}why-icon-curriculum-2.svg`, 44],
-  ['Semester II (6 papers) – Advance Certificate in Management', `${ICON}why-icon-curriculum-2.svg`, 44],
-  ['Semester III (5 papers within specialization) – Professional Certificate in Management PGDM', `${ICON}why-icon-curriculum-2.svg`, 44],
-  ['Semester IV (4 papers + Project Work) – Post Graduate Diploma in Management', `${ICON}why-icon-curriculum-2.svg`, 44],
 ]);

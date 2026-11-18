@@ -6,9 +6,9 @@ import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import styles from './FaqSection.module.css';
-import type { HomeContent } from '@vsmedu/contracts/home';
 
 export type FaqItem = { question: string; answer: ReactNode };
+export type FaqSectionContent = { title: string; eyebrow?: string; description?: string; items: FaqItem[] };
 
 function FaqColumn({ items, startIndex, openIndex, onToggle }: {
   items: FaqItem[];
@@ -78,10 +78,10 @@ export function FaqList({ items }: { items: FaqItem[] }) {
   );
 }
 
-export function FaqSection({ content }: { content?: HomeContent['faq'] }) {
+export function FaqSection({ content, className }: { content?: FaqSectionContent; className?: string }) {
   if (!content?.items?.length) return null;
   return (
-    <section className={styles.section} aria-labelledby="faq-title">
+    <section className={`${styles.section} ${className ?? ''}`} aria-labelledby="faq-title">
       <div className="container">
         <SectionHeading
           id="faq-title"

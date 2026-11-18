@@ -109,6 +109,17 @@ export function AcademicsPageEditor({
     }
   }
 
+  async function uploadReport(file: File) {
+    if (file.type !== 'application/pdf' || file.size > 20 * 1024 * 1024) throw new Error('Choose a PDF file of up to 20 MB');
+    setUploads((count) => count + 1);
+    try {
+      return (await api<{ data: { src: string } }>('/admin/about/eoa-report/file', {
+        method: 'POST', body: file,
+        headers: { 'Content-Type': 'application/pdf', 'X-File-Name': encodeURIComponent(file.name) },
+      })).data.src;
+    } finally { setUploads((count) => count - 1); }
+  }
+
   function change(key: string, content: Value) {
     setDocuments((prev) => ({ ...prev, [key]: { ...prev[key], content } }));
     setDirtyKeys((prev) => new Set(prev).add(key));
@@ -239,6 +250,30 @@ export function AcademicsPageEditor({
                         richAnswers={config.faq?.richAnswers}
                         onChange={(next) => change(key, next as Value)}
                       />
+                    ) : config.apiList === '/admin/about/eoa-report' && key === 'report' && doc.content && typeof doc.content === 'object' && !Array.isArray(doc.content) ? (
+                      <fieldset className="cms-fields">
+                        {Object.entries(doc.content).filter(([field]) => field !== 'linkHref').map(([field, value]) => <Field key={field} name={field} value={value} template={value} readOnly={readOnly} onUpload={upload} onChange={next => change(key, { ...(doc.content as Record<string, Value>), [field]: next })} />)}
+                        <div className="cms-report-upload cms-field--long">
+                          <span className="cms-field-label">EOA report PDF</span>
+                          <div className="cms-report-upload-card">
+                            <span className="cms-report-upload-icon" aria-hidden="true">PDF</span>
+                            <div className="cms-report-upload-details">
+                              <strong>{typeof doc.content.linkHref === 'string' && doc.content.linkHref ? doc.content.linkHref.split('/').pop() || 'Current report' : 'No report selected'}</strong>
+                              <small>PDF file, up to 20 MB</small>
+                              <label className={`cms-report-upload-button${readOnly ? ' is-disabled' : ''}`}>
+                                {uploads > 0 ? 'Uploading…' : doc.content.linkHref ? 'Replace PDF' : 'Upload PDF'}
+                                <input className="cms-visually-hidden" type="file" accept="application/pdf,.pdf" disabled={readOnly} onChange={event => {
+                                  const file = event.target.files?.[0];
+                                  event.target.value = '';
+                                  if (file) void uploadReport(file).then(src => change(key, { ...(doc.content as Record<string, Value>), linkHref: src })).catch(cause => setError(cause instanceof Error ? cause.message : 'PDF upload failed'));
+                                }} />
+                              </label>
+                            </div>
+                            {typeof doc.content.linkHref === 'string' && doc.content.linkHref && <a className="cms-report-upload-view" href={doc.content.linkHref.startsWith('/') ? `${WEB_BASE}${doc.content.linkHref}` : doc.content.linkHref} target="_blank" rel="noopener noreferrer">View report ↗</a>}
+                          </div>
+                          <small className="cms-report-upload-hint">Save the page after uploading to publish the report.</small>
+                        </div>
+                      </fieldset>
                     ) : key === 'advantage' && doc.content && typeof doc.content === 'object' && !Array.isArray(doc.content) ? (
                       <>
                         <Field name="title" value={doc.content.title} template={doc.content.title} readOnly={readOnly} onUpload={upload} onChange={title => change(key, { ...(doc.content as Record<string, Value>), title })} />
@@ -311,7 +346,7 @@ export function AcademicsPageEditor({
                 const content = documents.templateSections.content;
                 if (!content || typeof content !== 'object' || Array.isArray(content)) return;
                 const sections = Array.isArray(content.sections) ? content.sections : [];
-                change('templateSections', { ...content, sections: [...sections, { title: '', body: '', subsectionTitle: '', displayOrder: 1, items: [], sectionType: 'text' }] });
+                change('templateSections', { ...content, sections: [...sections, { title: '', body: '', subsectionTitle: '', displayOrder: 1, items: [], sectionType: 'text', imageUrl: '' }] });
                 requestAnimationFrame(() => document.getElementById('section-templateSections')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
               }}>＋ Add Text Section</button>}
               {config.sections.includes('templateSections') && <button type="button" className="cms-secondary" disabled={loading || readOnly || !documents.templateSections} onClick={() => {

@@ -58,15 +58,8 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
           )}
           <div className={styles.detailIntro}>
             <div className={styles.lead} dangerouslySetInnerHTML={{ __html: article.excerpt }} />
-            {article.authorName && (
-              <div className={styles.author}>
-                {article.authorImageUrl && <Image src={article.authorImageUrl} alt="" width={44} height={44} unoptimized={/^https?:\/\//i.test(article.authorImageUrl)} />}
-                <span><strong>{article.authorName}</strong>{article.authorRole && <small>{article.authorRole}</small>}</span>
-              </div>
-            )}
           </div>
           <div className={styles.articleContent} dangerouslySetInnerHTML={{ __html: articleHtml(article.body) }} />
-          {article.authorBio && <p className={styles.authorBio}>{article.authorBio}</p>}
           <footer className={styles.articleFooter}><Link href="/blogs/">{pageSettings.links.footerLinkText}</Link></footer>
         </article>
     </main>

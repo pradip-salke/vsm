@@ -28,19 +28,14 @@
 .backLink { display: inline-flex; margin-bottom: 1.5rem; color: var(--color-primary-dark); font-weight: var(--font-weight-bold); text-decoration: none; }
 .backLink:hover, .articleFooter a:hover { text-decoration: underline; text-underline-offset: .2em; }
 .detail { min-width: 0; }
-.detailHeader { max-width: 58rem; margin: 0 auto 1rem; text-align: center; }
-.detailHeader h1 { margin: 1rem 0; color: var(--color-heading); font-family: var(--font-heading); font-size: clamp(2rem, 1.25rem + 2.4vw, 3.5rem); font-weight: var(--font-weight-extrabold); line-height: 1.15; text-wrap: balance; }
-.detailHeader .meta { justify-content: center; }
+.detailHeader { width: 100%; max-width: none; margin: 0 0 1rem; text-align: left; }
+.detailHeader h1 { width: 100%; margin: 1rem 0; color: var(--color-heading); font-family: var(--font-heading); font-size: var(--font-size-h2); font-weight: var(--font-weight-extrabold); line-height: 1.2; text-wrap: balance; }
+.detailHeader .meta { justify-content: flex-start; }
 .detailIntro { max-width: 58rem; margin: 0 auto clamp(1.5rem, 3vw, 2.5rem); text-align: center; }
 .lead { color: var(--color-text-answer); font-size: var(--font-size-lead); line-height: var(--line-height-body); }
 .lead p { margin: 0; }
-.author { display: flex; align-items: center; justify-content: center; gap: .75rem; margin-top: 1rem; color: var(--color-heading); text-align: left; }
-.author img { width: 2.75rem; height: 2.75rem; border-radius: 50%; object-fit: cover; }
-.author span { display: grid; gap: .15rem; }
-.author small, .authorBio { color: var(--color-text-subtle); font-size: var(--font-size-small); }
-.authorBio { max-width: 52rem; margin: 1.5rem auto 0; line-height: var(--line-height-body); }
-.detailImage { overflow: hidden; max-height: 38rem; margin-bottom: clamp(1.25rem, 2.5vw, 2rem); border-radius: var(--radius-md); background: var(--color-cream); }
-.detailImage img { display: block; width: 100%; max-height: 38rem; object-fit: cover; }
+.detailImage { overflow: hidden; margin-bottom: clamp(1.25rem, 2.5vw, 2rem); border-radius: var(--radius-md); background: var(--color-cream); }
+.detailImage img { display: block; width: 100%; height: auto; object-fit: contain; }
 .articleContent { max-width: 52rem; margin-inline: auto; color: var(--color-text-answer); font-size: var(--font-size-body); line-height: 1.85; overflow-wrap: anywhere; }
 .articleContent :where(h1, h2, h3, h4) { margin: 2rem 0 .8rem; color: var(--color-heading); font-family: var(--font-heading); font-weight: var(--font-weight-extrabold); line-height: 1.25; }
 .articleContent :where(h1, h2) { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
@@ -64,5 +59,4 @@
   .grid { grid-template-columns: 1fr; }
   .cardBody { padding: 1.2rem; }
   .detailImage { margin-inline: calc(-1 * var(--page-gutter)); border-radius: 0; }
-  .detailImage img { max-height: 25rem; }
 }

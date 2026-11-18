@@ -45,7 +45,6 @@ export const aimaDefaults = {
       { label: 'Course Modules', anchor: 'course-modules' },
       { label: 'Fees', anchor: 'aima-fees' },
       { label: 'Other Details', anchor: 'other-details' },
-      { label: 'Admission Procedure', anchor: 'admission-procedure' },
     ],
   },
   glance: {
@@ -229,35 +228,6 @@ export const aimaDefaults = {
       iconItem('Fees – Rs. 4,00,000/- (Four Lakhs for 2 years)'),
       iconItem('Easy Installment Options – Pay Easy: Semester-wise OR Monthly Installment'),
     ],
-    multiExitTitle: 'Multi Exit',
-    exitAwards: [
-      iconItem('Semester 1 (6 papers): Certificate in Management', `${ICON}why-icon-curriculum-2.svg`, 44),
-      iconItem('Semester II (6 papers) – Advance Certificate in Management', `${ICON}why-icon-curriculum-2.svg`, 44),
-      iconItem(
-        'Semester III (5 papers within specialization) – Professional Certificate in Management PGDM',
-        `${ICON}why-icon-curriculum-2.svg`,
-        44
-      ),
-      iconItem('Semester IV (4 papers + Project Work) – Post Graduate Diploma in Management', `${ICON}why-icon-curriculum-2.svg`, 44),
-    ],
-    certificateBlockTitle: 'PGDM Certificate',
-    certificateImage: {
-      src: 'https://vsmedu.com/wp-content/uploads/2024/01/pgdm_certificate.jpg',
-      alt: 'AIMA PGDM Certificate',
-      width: 1452,
-      height: 1820,
-    } as AcademicsImage,
-    certificateButtonText: 'Apply Now',
-    certificateButtonHref: APPLY_PATH,
-  },
-  admission: {
-    title: 'PGDM Admission Procedure',
-    steps: [
-      { icon: `${FIG}/step-icon-1.svg`, iconSize: 40, text: 'Step 1: Apply and Submit your Application at www.vsmedu.com' },
-      { icon: `${FIG}/step-icon-2.svg`, iconSize: 36, text: 'Step 2: Appear for Personal Interview' },
-      { icon: `${FIG}/step-icon-3a.svg`, iconSize: 36, text: 'Step 3: Issuance of Admission Offer, Upon Selection' },
-      { icon: `${FIG}/step-icon-4.svg`, iconSize: 34, text: 'Step 4: Acceptance of Admission Offer by Candidate and Payment of Admission Fees' },
-    ],
   },
   faq: structuredClone(academicPageFaqDefault),
   internships: { title: 'Summer Internship 2025-27' },
@@ -297,8 +267,7 @@ export const aimaLabels: Record<keyof typeof aimaDefaults, string> = {
   specialisations: 'Specialisations list',
   'course-modules': 'Course Modules (Year 1 & 2 tables)',
   fees: 'Course Fees Table',
-  'other-details': 'Other Details & Certificate',
-  admission: 'Admission Procedure',
+  'other-details': 'Other Details',
   internships: 'Summer Internship',
   testimonials: 'Student Testimonials',
   faq: 'FAQ (AIMA Page)',

@@ -8,7 +8,10 @@
 .content { padding-block: 0; }
 .section { padding: var(--section-rule-gap) calc(var(--page-gutter) * 124.5 / 120) var(--section-spacing); border-bottom:1px solid var(--color-border-soft); }
 .content > .section:first-child { padding-top: var(--section-spacing); }
-.applicationFormSection { padding-bottom: max(0px, calc(var(--section-spacing) - 45px)); }
+.applicationFormSection { padding-bottom: 20px; }
+.applicationFaq.applicationFaq { padding-top: 40px; }
+.applicationFaq.applicationFaq h2[class*="title"] { max-width: none; margin-inline: 3px; }
+.applicationFaq [class*="grid"] { margin-inline: 3px; }
 .section:last-child { border-bottom:0; }
 .heading { margin-bottom:var(--heading-copy-gap); font-size:var(--font-size-h2); }
 .lead { max-width:70rem; margin-bottom:1rem; }

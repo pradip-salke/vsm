@@ -45,6 +45,10 @@
 .cms-master .cms-slides-table td p { margin: 4px 0 0; color: #738097; font-size: 13px; }
 .cms-master .cms-row-actions { display: flex; align-items: center; gap: 8px; }
 .cms-master .cms-row-actions button { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #dce3ed; border-radius: 7px; background: #fff; color: #26386a; cursor: pointer; }
+.cms-master .cms-row-actions button svg { display: block; flex: none; width: 18px; height: 18px; stroke: currentColor; fill: none; pointer-events: none; }
+.cms-master .cms-gallery-sections { display: flex; flex-wrap: wrap; gap: 6px; min-width: 150px; }
+.cms-master .cms-gallery-sections span { padding: 4px 8px; border-radius: 999px; background: #e6f4fa; color: #006f8c; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.cms-master .cms-gallery-sections .cms-gallery-sections-empty { background: #f1f4f8; color: #68768d; }
 .cms-master .cms-row-actions .cms-delete-action { color: #d95050; }
 .cms-master .cms-row-actions button:hover:not(:disabled) { background: #f2f6fb; }
 .cms-master .cms-status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid transparent; border-radius: 20px; font-size: 12px; font-weight: 600; }

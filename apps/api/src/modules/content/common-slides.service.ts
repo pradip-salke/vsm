@@ -5,7 +5,7 @@ import { readAima } from './academics-aima.service.js';
 import { readSpecialisationPage } from './academics-specialisations.service.js';
 import { readTestimonialMaster } from './testimonial-masters.service.js';
 import { readSliderVisibility } from './slider-visibility.service.js';
-import { readPublicGallery } from './gallery.service.js';
+import { readPublicGallery, readGalleryEvents } from './gallery.service.js';
 import { HttpError } from '../../middleware/errors.js';
 
 const scopes = ['home', 'aicte', 'aima', ...academicsSpecialisationIndex.map(item => item.slug)];
@@ -30,7 +30,7 @@ export async function readCommonSlides(scope: string) {
     return sourced(data.items, scopes[index]!, testimonialVisibility.pages);
   });
   return {
-    gallery,
+    gallery, galleryEvents: await readGalleryEvents(),
     faculty: shared(home.masters.faculty.items, facultyVisibility.pages),
     recruiters: shared(home.masters.recruiters.items, recruiterVisibility.pages),
     internships: internshipSources.flatMap((items, index) => sourced(items, scopes[index]!, internshipVisibility.pages)),

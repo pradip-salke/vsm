@@ -30,7 +30,7 @@ export async function AcademicClosingSections({ scope, faq, internships, interns
       {scope !== 'aicte' && (visibility.faculty || Boolean(selected?.faculty.length)) && <FacultySection items={selected?.faculty ?? common.masters.faculty.items.filter(item => item.enabled)} heading={common.sections.faculty} />}
       {(visibility.recruiters || Boolean(selected?.recruiters.length)) && <Recruiters items={selected?.recruiters ?? common.masters.recruiters.items.filter(item => item.enabled)} title={common.sections.recruiters.title} />}
       {(visibility.internships || Boolean(selected?.internships.length)) && <Internships variant="academic" items={selected?.internships ?? internships.filter((item) => item.enabled !== false)} title={internshipTitle} />}
-      {(visibility.testimonials || Boolean(selected && (selected.video.length || selected.written.length))) && <Testimonials videoItems={selected?.video ?? masters.video.filter(item => item.enabled)} writtenItems={selected?.written ?? masters.written.filter(item => item.enabled)} heading={testimonialHeading} />}
+      {(visibility.testimonials || Boolean(selected && (selected.video.length || selected.written.length))) && <Testimonials videoItems={selected?.video ?? masters.video.filter(item => item.enabled)} writtenItems={selected?.written ?? masters.written.filter(item => item.enabled)} heading={testimonialHeading} reduceBottomPadding={!faq?.items?.length} />}
       <FaqSection content={faq} />
     </>
   );

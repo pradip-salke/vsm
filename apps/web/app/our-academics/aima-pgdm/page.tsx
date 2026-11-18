@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { AcademicClosingSections } from '@/components/sections/AcademicClosingSections';
@@ -33,11 +32,11 @@ export default async function AimaPgdmPage() {
   const sectionAnchor = (index: number, fallback: string) => sections.tabs.links[index]?.anchor ?? fallback;
   // Display order is a position in the page's main content, starting before About VSM.
   const customSections = (sections.templateSections?.sections ?? []).map((section, index) => ({ section, index })).sort((a, b) => a.section.displayOrder - b.section.displayOrder || a.index - b.index);
-  const sectionsAt = (position: number) => customSections.filter(({ section }) => Math.max(1, Math.min(10, section.displayOrder || 1)) === position).map(({ section, index }) => (
-    <section key={`custom-${index}`} className={layout.block}>
+  const sectionsAt = (position: number) => customSections.filter(({ section }) => Math.max(1, Math.min(9, section.displayOrder || 1)) === position).map(({ section, index }) => (
+    <section key={`custom-${index}`} className={`${layout.block} ${section.sectionType === 'text' ? layout.customTextSection : ''}`}>
       {section.title && <SectionHeading title={section.title} />}
       <div className={blocks.prose}>
-        <div className={blocks.templateRichText} dangerouslySetInnerHTML={{ __html: section.body }} />
+        <div className={section.sectionType === 'text' && section.imageUrl ? blocks.templateTextWithImage : undefined}><div className={blocks.templateRichText} dangerouslySetInnerHTML={{ __html: section.body }} />{section.sectionType === 'text' && section.imageUrl && <img className={blocks.templateTextImage} src={section.imageUrl} alt="" />}</div>
         {section.subsectionTitle && <h3 className={styles.subheading}>{section.subsectionTitle}</h3>}
         {section.items.length > 0 && <div className={section.items.length > 5 ? layout.customListViewport : undefined} role={section.items.length > 5 ? 'region' : undefined} aria-label={section.items.length > 5 ? `${section.title} list` : undefined} tabIndex={section.items.length > 5 ? 0 : undefined}>
           <IconList items={section.items.slice().sort((a, b) => a.displayOrder - b.displayOrder)} divided className={styles.iconList} />
@@ -124,28 +123,9 @@ export default async function AimaPgdmPage() {
             <div className={styles.otherDetailsViewport}>
               <IconList items={sections['other-details'].details} divided className={`${styles.iconList} ${styles.otherDetailsList}`} />
             </div>
-            <h3 className={styles.subheading}>{sections['other-details'].multiExitTitle}</h3>
-            <IconList items={sections['other-details'].exitAwards} divided className={styles.iconList} />
-            <div className={styles.certificate}>
-              <h3>{sections['other-details'].certificateBlockTitle}</h3>
-              <Image
-                className={styles.certificateImage}
-                src={sections['other-details'].certificateImage.src}
-                alt={sections['other-details'].certificateImage.alt}
-                width={sections['other-details'].certificateImage.width}
-                height={sections['other-details'].certificateImage.height}
-                sizes="(max-width: 767px) 45vw, 160px"
-              />
-              <Button href={sections['other-details'].certificateButtonHref}>{sections['other-details'].certificateButtonText}</Button>
-            </div>
           </section>
 
           {sectionsAt(9)}
-          <section id={sectionAnchor(8, 'admission-procedure')} className={layout.block} aria-labelledby="admission-title">
-            <SectionHeading id="admission-title" title={sections.admission.title} />
-            <IconList items={sections.admission.steps} ordered divided className={layout.steps} />
-          </section>
-          {sectionsAt(10)}
         </div>
       </div>
       <AcademicClosingSections

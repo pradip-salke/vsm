@@ -110,8 +110,11 @@ const placementsPageMenus = pageGroupMenus(
 );
 const eventsPageMenus = pageGroupMenus(
   '/website/events',
-  Object.fromEntries(eventsPageSlugs.map((slug) => [slug, eventsPages[slug]])) as Record<string, { navTitle: string; masterLabels: Record<string, string> }>
-).map((page) => ({ ...page, children: page.children.filter((child) => isMenuLeaf(child) ? child.label !== 'Gallery Albums' : true) }));
+  Object.fromEntries(eventsPageSlugs.filter((slug) => slug !== 'gallery-2').map((slug) => [slug, eventsPages[slug]])) as Record<string, { navTitle: string; masterLabels: Record<string, string> }>
+).map((page) => ({ ...page, children: [
+  ...page.children.filter((child) => isMenuLeaf(child) ? child.label !== 'Gallery Albums' : true),
+  ...(page.label === 'Photo Gallery' ? [{ label: 'Gallery Management', path: '/masters/gallery', description: 'Manage Gallery Albums and Life @ VSM images in one place.' }] : []),
+] }));
 
 export const adminMenu: AdminMenuGroup[] = [
   { id: 'dashboard', label: 'Dashboard', icon: 'dashboard', children: [{ label: 'Overview', path: '/' }] },
@@ -128,11 +131,6 @@ export const adminMenu: AdminMenuGroup[] = [
           { label: 'Home CMS', path: '/website/home-sections', description: 'Homepage content sections.' },
           { label: 'Upcoming Events', path: '/masters/events', description: 'Upcoming events carousel on homepage.' },
         ],
-      },
-      {
-        label: 'Gallery',
-        icon: 'pages',
-        children: [{ label: 'Gallery Management', path: '/masters/gallery', description: 'Manage Gallery Albums and Life @ VSM images in one place.' }],
       },
       {
         label: 'Our Academics',

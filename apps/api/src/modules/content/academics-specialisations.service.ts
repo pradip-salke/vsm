@@ -32,10 +32,10 @@ export const specDocuments: Record<string, unknown> = (() => {
     out[`${slug}.glance`] = page.glance;
     out[`${slug}.overview`] = page.overview;
     out[`${slug}.templateSections`] = page.templateSections;
-    out[`${slug}.why`] = page.why;
-    out[`${slug}.careers`] = page.careers;
-    out[`${slug}.curriculum`] = page.curriculum;
-    out[`${slug}.admission`] = page.admission;
+    if (page.why && slug !== 'pgdm-in-business-analytics-mumbai') out[`${slug}.why`] = page.why;
+    if (page.careers && slug !== 'pgdm-in-business-analytics-mumbai' && slug !== 'operations-and-supply-chain-management-specialisation') out[`${slug}.careers`] = page.careers;
+    if (page.curriculum && slug !== 'pgdm-in-business-analytics-mumbai' && slug !== 'operations-and-supply-chain-management-specialisation') out[`${slug}.curriculum`] = page.curriculum;
+    if (page.admission && slug !== 'pgdm-in-business-analytics-mumbai' && slug !== 'operations-and-supply-chain-management-specialisation') out[`${slug}.admission`] = page.admission;
     out[`${slug}.faq`] = page.faq;
     out[`${slug}.internships`] = page.internships;
     out[`${slug}.testimonials`] = page.testimonials;
@@ -53,6 +53,13 @@ export const specDocuments: Record<string, unknown> = (() => {
 const RICH_TEXT_KEYS = new Set(['subtitle', 'body', 'intro', 'itemsIntro', 'outro', 'employers', 'description', 'answer']);
 
 function normalizeDocument(key: string, content: unknown): unknown {
+  if ((key === 'pgdm-in-business-analytics-mumbai.tabs' || key === 'operations-and-supply-chain-management-specialisation.tabs') && content && typeof content === 'object' && !Array.isArray(content)) {
+    const doc = content as { links?: unknown[] };
+    if (Array.isArray(doc.links)) {
+      const removedAnchors = key.startsWith('pgdm-in-business-analytics-mumbai.') ? ['why-specialisation', 'career-opportunities', 'specialisation-curriculum', 'admission-procedure'] : ['career-opportunities', 'specialisation-curriculum', 'admission-procedure'];
+      return { ...doc, links: doc.links.filter((link) => !link || typeof link !== 'object' || Array.isArray(link) || !removedAnchors.includes(String((link as { anchor?: unknown }).anchor ?? '')) ) };
+    }
+  }
   if ((key.endsWith('.careers') || key.endsWith('.curriculum')) && content && typeof content === 'object' && !Array.isArray(content)) {
     const doc = content as Record<string, unknown>;
     const field = key.endsWith('.careers') ? 'roles' : 'subjects';
@@ -88,7 +95,7 @@ function assertKnown(key: string) {
 }
 
 function contentSchema(value: unknown, key = '', parent = '', documentKey = ''): z.ZodType {
-  if (documentKey.endsWith('.templateSections') && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true })).max(100);
+  if (documentKey.endsWith('.templateSections') && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true, imageUrl: true })).max(100);
   if (documentKey.endsWith('.templateSections') && key === 'items' && Array.isArray(value)) return z.array(contentSchema(academicTemplateItem, '', key, documentKey)).max(100);
   const section = documentKey.includes('.') ? documentKey.split('.', 2)[1]! : '';
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key, documentKey)).max(100);
@@ -229,14 +236,16 @@ export async function readSpecialisationPage(slug: string) {
     slug,
     meta,
     hero: mergedHero,
-    tabs: pick('tabs'),
+    tabs: normalizeDocument(`${slug}.tabs`, pick('tabs')),
     glance: pick('glance'),
     overview: pick('overview'),
     templateSections: pick('templateSections'),
-    why: pick('why'),
-    careers: normalizeDocument(`${slug}.careers`, pick('careers')),
-    curriculum: normalizeDocument(`${slug}.curriculum`, pick('curriculum')),
-    admission: pick('admission'),
+    ...(slug !== 'pgdm-in-business-analytics-mumbai' ? { why: pick('why') } : {}),
+    ...(!['pgdm-in-business-analytics-mumbai', 'operations-and-supply-chain-management-specialisation'].includes(slug) ? {
+      careers: normalizeDocument(`${slug}.careers`, pick('careers')),
+      curriculum: normalizeDocument(`${slug}.curriculum`, pick('curriculum')),
+      admission: pick('admission'),
+    } : {}),
     faq: rows.has(`${slug}.faq`)
       ? pick('faq')
       : { ...(specDocuments[`${slug}.faq`] as object), items: [] },
