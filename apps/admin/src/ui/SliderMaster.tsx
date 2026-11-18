@@ -71,10 +71,9 @@ const homeTitles: Record<HomeMasterKey, string> = {
   life: 'Life at VSM',
 };
 const academicsTitles: Record<AcademicsMasterKey, string> = {
-  hero: 'AICTE PGDM â€“ Page Banner',
-  'program-videos': 'AICTE PGDM â€“ Program Videos',
-  gallery: 'AICTE PGDM â€“ Life @ VSM Gallery',
-  events: 'AICTE PGDM â€“ Upcoming Events',
+  hero: 'AICTE PGDM – Page Banner',
+  'program-videos': 'AICTE PGDM – Program Videos',
+  gallery: 'AICTE PGDM – Life @ VSM Gallery',
   internships: 'Academic Pages - Summer Internships',
   testimonials: 'Academic Pages - Student Testimonials',
 };
@@ -262,11 +261,11 @@ export function SliderMaster({
   const title = (() => {
     if (routeScope === 'gallery') return 'Gallery Management';
     if (testimonialKind) return master === 'testimonials' ? 'Student Testimonials' : testimonialKind === 'video' ? 'Video Testimonials' : 'Written Testimonials';
-    if (groupMeta) return `${groupMeta.navTitle} â€“ ${groupMeta.masterLabels[master] ?? master}`;
-    if (admissionsMeta) return `${admissionsMeta.navTitle} â€“ Page Banner`;
+    if (groupMeta) return `${groupMeta.navTitle} – ${groupMeta.masterLabels[master] ?? master}`;
+    if (admissionsMeta) return `${admissionsMeta.navTitle} – Page Banner`;
     if (isFaculty) return facultyMasterLabels[master as FacultyMasterKey];
-    if (isSpec && specMeta && master === 'hero') return `${specMeta.navTitle} â€“ Page Banner`;
-    if (isSpec && specMeta && master === 'internships') return `${specMeta.navTitle} â€“ Summer Internships`;
+    if (isSpec && specMeta && master === 'hero') return `${specMeta.navTitle} – Page Banner`;
+    if (isSpec && specMeta && master === 'internships') return `${specMeta.navTitle} – Summer Internships`;
     if (isAima) return aimaMasterLabels[master as keyof typeof aimaMasterLabels];
     if (isAcademics) return academicsTitles[master as AcademicsMasterKey];
     return homeTitles[master as HomeMasterKey];
@@ -586,17 +585,17 @@ export function SliderMaster({
         {isFormRoute && master === 'hero' && <p className="page-description">Update slide content, calls-to-action and background image.</p>}
         {!isFormRoute && anyAcademics && (
           <p className="page-description">
-            Manage the {master === 'hero' ? 'page banner' : isFacultyProfiles ? 'faculty profile cards' : groupMeta ? title.replace(/^[^â€“]+â€“\s*/, '').toLowerCase() : `${title.replace(/^[^â€“]+â€“\s*/, '')} carousel`} on{' '}
+            Manage the {master === 'hero' ? 'page banner' : isFacultyProfiles ? 'faculty profile cards' : groupMeta ? title.replace(/^[^–]+–\s*/, '').toLowerCase() : `${title.replace(/^[^–]+–\s*/, '')} carousel`} on{' '}
             <a href={`${WEB_BASE}${livePageUrl}#${livePageAnchor}`} target="_blank" rel="noopener noreferrer">
-              {livePageUrl}#{livePageAnchor} â†—
+              {livePageUrl}#{livePageAnchor} ↗
             </a>
           </p>
         )}
       </div>
       {isFormRoute ? (
-        <button type="button" className="cms-secondary" disabled={busy || uploads > 0} onClick={() => { navigate(`${listPath}${testimonialQuery}`); setError(''); }}>â† Back to {title}</button>
+        <button type="button" className="cms-secondary" disabled={busy || uploads > 0} onClick={() => { navigate(`${listPath}${testimonialQuery}`); setError(''); }}>← Back to {title}</button>
       ) : (
-        <button type="button" data-tour="master-add" className="cms-primary" disabled={!canEdit || !document || items.length >= 100} onClick={() => { navigate(`${listPath}/new${testimonialQuery}`); setMessage(''); setError(''); }}><span aria-hidden="true">ï¼‹</span> Add {itemNoun}</button>
+        <button type="button" data-tour="master-add" className="cms-primary" disabled={!canEdit || !document || items.length >= 100} onClick={() => { navigate(`${listPath}/new${testimonialQuery}`); setMessage(''); setError(''); }}><Icon name="plus" size={18} /> Add {itemNoun}</button>
       )}
     </header>
     {error && <div className="cms-error" role="alert">{error} {!isFormRoute && <button type="button" onClick={() => void load()}>Reload</button>}</div>}
@@ -610,7 +609,7 @@ export function SliderMaster({
               <h2 className="cms-section-card-heading">Section Settings</h2>
               <p className="cms-section-card-subheading">
                 {isFacultyProfiles
-                  ? 'Edit the â€œMeet Our Facultyâ€ heading block shown above the faculty cards.'
+                  ? 'Edit the “Meet Our Faculty” heading block shown above the faculty cards.'
                   : groupMeta
                   ? `Edit the heading shown above these items on ${groupMeta.path}. Also editable in Page Sections.`
                   : anyAcademics
@@ -646,7 +645,7 @@ export function SliderMaster({
             disabled={!canEdit || !staticDirty || busy}
             onClick={() => { if (staticDocument) { void persistStatic(staticDocument.content); setStaticDirty(false); } }}
           >
-            {busy ? 'Savingâ€¦' : 'âœ“ Update Section Settings'}
+            {busy ? 'Saving…' : '✓ Update Section Settings'}
           </button>
         </div>
       </section>
@@ -662,7 +661,7 @@ export function SliderMaster({
         <label className="cms-field cms-slide-order"><span>Display order</span><input type="number" required min={1} max={items.length + (editing.index === null ? 1 : 0)} value={editing.position} disabled={readOnly} onChange={event => setEditing({ ...editing, position: Number(event.target.value) })} /></label>
         <Field name={`${itemNoun} details`} value={Object.fromEntries(Object.entries(editing.item).filter(([key]) => key !== 'pages' && key !== 'sections' && (!testimonialKind || (testimonialKind === 'video' ? ['batch', 'videoLink', 'image', 'enabled'] : ['name', 'batch', 'quote', 'avatar', 'enabled']).includes(key)))) as Item} template={template} onChange={item => setEditing({ ...editing, item: { ...editing.item, ...(item as Item) } })} readOnly={readOnly} onUpload={upload} />
       </>}
-      <div className="cms-save-bar"><button type="button" className="cms-secondary" disabled={busy || uploads > 0} onClick={() => { navigate(`${listPath}${testimonialQuery}`); setError(''); }}>Cancel</button><button data-tour="master-save" className="cms-primary" type="submit" disabled={!canEdit || busy || uploads > 0}>{busy ? 'Savingâ€¦' : master === 'hero' ? `${editing.index === null ? 'Create' : 'âœ“ Update'} ${anyAcademics ? 'Banner' : 'Home'} Slide` : itemNoun !== 'Slide' ? `${editing.index === null ? 'Create' : 'âœ“ Update'} ${itemNoun}` : 'Save slide'}</button></div>
+      <div className="cms-save-bar"><button type="button" className="cms-secondary" disabled={busy || uploads > 0} onClick={() => { navigate(`${listPath}${testimonialQuery}`); setError(''); }}>Cancel</button><button data-tour="master-save" className="cms-primary" type="submit" disabled={!canEdit || busy || uploads > 0}>{busy ? 'Saving…' : master === 'hero' ? `${editing.index === null ? 'Create' : '✓ Update'} ${anyAcademics ? 'Banner' : 'Home'} Slide` : itemNoun !== 'Slide' ? `${editing.index === null ? 'Create' : '✓ Update'} ${itemNoun}` : 'Save slide'}</button></div>
     </form> : !isFormRoute ? <>
       <div className="cms-table-toolbar" data-tour="master-table-toolbar"><label>Show <select aria-label="Entries per page" value={size} onChange={event => { setSize(Number(event.target.value)); setPage(1); }}>{[10, 25, 50, 100].map(number => <option key={number}>{number}</option>)}</select> entries</label><label>Search: <input type="search" aria-label="Search slides" value={query} onChange={event => { setQuery(event.target.value); setPage(1); }} /></label></div>
       <div className="cms-table-card" data-tour="master-table"><div className="cms-table-overflow"><table className="cms-slides-table"><thead><tr>
@@ -673,7 +672,7 @@ export function SliderMaster({
         <th scope="col" aria-sort={sortLabel('status')}><button type="button" onClick={() => changeSort('status')}>Status <span className={sort.key === 'status' ? 'is-sorted' : undefined}>{sortIcon('status')}</span></button></th>
         <th scope="col">Action</th>
       </tr></thead><tbody>
-        {!document ? <tr><td colSpan={routeScope === 'gallery' ? 6 : 5}>{error ? 'Slides could not be loaded.' : 'Loading slidesâ€¦'}</td></tr> : rows.length === 0 ? <tr><td colSpan={routeScope === 'gallery' ? 6 : 5}>No {itemNoun.toLowerCase()}s found.</td></tr> : rows.map(({ item, index }) => <tr key={index}>
+        {!document ? <tr><td colSpan={routeScope === 'gallery' ? 6 : 5}>{error ? 'Slides could not be loaded.' : 'Loading slides…'}</td></tr> : rows.length === 0 ? <tr><td colSpan={routeScope === 'gallery' ? 6 : 5}>No {itemNoun.toLowerCase()}s found.</td></tr> : rows.map(({ item, index }) => <tr key={index}>
           <td>{index + 1}</td><td>{image(item) ? <img className="cms-slide-thumbnail" src={preview(image(item))} alt={String(item.alt || item.name || item.title || 'Slide preview')} /> : <span className="cms-no-image">No image</span>}</td>
           <td><strong>{heading(item, index, master)}</strong>{(item.subtitle || item.role || item.batch) && <p>{String(item.subtitle || item.role || item.batch)}</p>}</td>
           {routeScope === 'gallery' && <td><div className="cms-gallery-sections">{Array.isArray(item.sections) && item.sections.includes('life') && <span>Life @ VSM</span>}{Array.isArray(item.sections) && item.sections.includes('events') && <span>Upcoming Events</span>}{(!Array.isArray(item.sections) || item.sections.length === 0) && <span className="cms-gallery-sections-empty">Gallery only</span>}</div></td>}
@@ -684,6 +683,6 @@ export function SliderMaster({
       <footer className="cms-table-footer"><span>Showing {filtered.length ? (currentPage - 1) * size + 1 : 0} to {Math.min(currentPage * size, filtered.length)} of {filtered.length} entries{query && ` (filtered from ${items.length} total entries)`}</span><nav aria-label="Slide pagination"><button type="button" disabled={currentPage === 1} onClick={() => setPage(currentPage - 1)}>Previous</button>{Array.from({ length: pages }, (_, i) => i + 1).map(number => <button key={number} type="button" aria-label={`Page ${number}`} aria-current={currentPage === number ? 'page' : undefined} onClick={() => setPage(number)}>{number}</button>)}<button type="button" disabled={currentPage === pages} onClick={() => setPage(currentPage + 1)}>Next</button></nav></footer>
       </div>
     </> : null}
-    <dialog className="cms-delete-dialog" ref={deleteRef} onCancel={() => setDeleting(null)} aria-labelledby="delete-slide-title"><h2 id="delete-slide-title">Delete this {itemNoun.toLowerCase()}?</h2><p>{deleting !== null && items[deleting] ? heading(items[deleting], deleting, master) : ''}</p><p>This removes it from the {anyAcademics && master === 'hero' ? `page banner carousel on ${livePageUrl}` : isFacultyProfiles ? `faculty directory on ${livePageUrl}` : groupMeta ? `${title.replace(/^[^â€“]+â€“\s*/, '')} on ${livePageUrl}` : anyAcademics ? `${title.replace(/^[^â€“]+â€“\s*/, '')} carousel on ${livePageUrl}` : 'homepage carousel'}.</p><div className="cms-save-bar"><button type="button" className="cms-danger" disabled={busy} onClick={() => void remove()}>{busy ? 'Deletingâ€¦' : `Delete ${itemNoun.toLowerCase()}`}</button><button type="button" className="cms-secondary" disabled={busy} onClick={() => setDeleting(null)}>Cancel</button></div>{error && <p className="cms-error" role="alert">{error}</p>}</dialog>
+    <dialog className="cms-delete-dialog" ref={deleteRef} onCancel={() => setDeleting(null)} aria-labelledby="delete-slide-title"><h2 id="delete-slide-title">Delete this {itemNoun.toLowerCase()}?</h2><p>{deleting !== null && items[deleting] ? heading(items[deleting], deleting, master) : ''}</p><p>This removes it from the {anyAcademics && master === 'hero' ? `page banner carousel on ${livePageUrl}` : isFacultyProfiles ? `faculty directory on ${livePageUrl}` : groupMeta ? `${title.replace(/^[^–]+–\s*/, '')} on ${livePageUrl}` : anyAcademics ? `${title.replace(/^[^–]+–\s*/, '')} carousel on ${livePageUrl}` : 'homepage carousel'}.</p><div className="cms-save-bar"><button type="button" className="cms-danger" disabled={busy} onClick={() => void remove()}>{busy ? 'Deleting…' : `Delete ${itemNoun.toLowerCase()}`}</button><button type="button" className="cms-secondary" disabled={busy} onClick={() => setDeleting(null)}>Cancel</button></div>{error && <p className="cms-error" role="alert">{error}</p>}</dialog>
   </div>;
 }

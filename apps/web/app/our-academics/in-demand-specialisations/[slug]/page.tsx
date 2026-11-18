@@ -101,7 +101,11 @@ export default async function SpecialisationPage({ params }: Props) {
             {closingContent.why.intro && <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.why.intro }} />}
             {closingContent.why.itemsTitle && <h3>{closingContent.why.itemsTitle}</h3>}
             {closingContent.why.itemsIntro && <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.why.itemsIntro }} />}
-            <IconList items={closingContent.why.items} divided className={styles.list} />
+            {slug === 'mba-in-marketing-mumbai' && closingContent.why.items.length > 5 ? (
+              <div className={layout.customListViewport} role="region" aria-label={`${closingContent.why.title} list`} tabIndex={0}>
+                <IconList items={closingContent.why.items} divided className={styles.list} />
+              </div>
+            ) : <IconList items={closingContent.why.items} divided className={styles.list} />}
             {closingContent.why.outro && <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.why.outro }} />}
           </section>}
           {sectionsAt(3)}

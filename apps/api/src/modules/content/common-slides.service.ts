@@ -30,7 +30,7 @@ export async function readCommonSlides(scope: string) {
     return sourced(data.items, scopes[index]!, testimonialVisibility.pages);
   });
   return {
-    gallery, galleryEvents: await readGalleryEvents(),
+    gallery, galleryEvents: await readGalleryEvents(scope),
     faculty: shared(home.masters.faculty.items, facultyVisibility.pages),
     recruiters: shared(home.masters.recruiters.items, recruiterVisibility.pages),
     internships: internshipSources.flatMap((items, index) => sourced(items, scopes[index]!, internshipVisibility.pages)),

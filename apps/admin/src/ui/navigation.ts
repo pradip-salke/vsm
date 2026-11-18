@@ -143,7 +143,6 @@ export const adminMenu: AdminMenuGroup[] = [
               { label: 'Page Banner', path: '/website/academics/aicte-pgdm/hero', description: 'Banner slides for the AICTE PGDM page.' },
               { label: 'AICTE PGDM CMS', path: '/website/academics/aicte-pgdm', description: 'All in-page sections of the AICTE PGDM page.' },
               { label: 'Program Videos', path: '/website/academics/aicte-pgdm/program-videos', description: 'Program video carousel master.' },
-              { label: 'Events', path: '/website/academics/aicte-pgdm/events', description: 'Upcoming events carousel master.' },
             ],
           },
           {

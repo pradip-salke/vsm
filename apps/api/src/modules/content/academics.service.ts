@@ -146,26 +146,6 @@ function normalizeAboutSection(raw: unknown): unknown {
   return o;
 }
 
-/** AICTE Upcoming Events: `caption` removed; migrate legacy rows (optional http(s) caption → videoLink). */
-function normalizeAcademicsEventsMaster(content: unknown): unknown {
-  if (!content || typeof content !== 'object' || Array.isArray(content)) return content;
-  const doc = content as { items?: unknown[] };
-  if (!Array.isArray(doc.items)) return content;
-  return {
-    ...doc,
-    items: doc.items.map((raw) => {
-      if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return raw;
-      const item = raw as Record<string, unknown>;
-      const { caption, ...rest } = item;
-      let videoLink = typeof rest.videoLink === 'string' ? rest.videoLink : '';
-      if (!videoLink.trim() && typeof caption === 'string' && /^https?:\/\//i.test(caption.trim())) {
-        videoLink = caption.trim();
-      }
-      return { ...rest, videoLink };
-    }),
-  };
-}
-
 /** Keep existing Academic testimonial records compatible with the editable video URL field. */
 function normalizeAcademicsTestimonialsMaster(content: unknown): unknown {
   if (!content || typeof content !== 'object' || Array.isArray(content)) return content;
@@ -315,7 +295,6 @@ export async function readAcademicsDocument(key: string) {
   else if (key === 'eligibility') content = normalizeEligibilitySection(base);
   else if (key === 'master-program-videos') content = normalizeAcademicsProgramVideosMaster(base);
   else if (key === 'master-gallery') content = normalizeAcademicsGalleryMaster(base);
-  else if (key === 'master-events') content = normalizeAcademicsEventsMaster(base);
   else if (key === 'master-testimonials') content = normalizeAcademicsTestimonialsMaster(base);
   return { content, updatedAt: row?.updatedAt.toISOString() ?? null };
 }
@@ -329,7 +308,6 @@ export async function readAcademics() {
       let masterVal = row.value;
       if (key === 'master-program-videos') masterVal = normalizeAcademicsProgramVideosMaster(masterVal) as typeof masterVal;
       if (key === 'master-gallery') masterVal = normalizeAcademicsGalleryMaster(masterVal) as typeof masterVal;
-      if (key === 'master-events') masterVal = normalizeAcademicsEventsMaster(masterVal) as (typeof masters)['events'];
       if (key === 'master-testimonials') masterVal = normalizeAcademicsTestimonialsMaster(masterVal) as (typeof masters)['testimonials'];
       Object.assign(masters, { [key.slice(7) as AcademicsMasterKey]: masterVal });
     } else if (key in sections) {
@@ -371,7 +349,6 @@ export async function readAcademicsAllAdmin() {
     else if (key === 'eligibility') content = normalizeEligibilitySection(raw);
     else if (key === 'master-program-videos') content = normalizeAcademicsProgramVideosMaster(raw);
     else if (key === 'master-gallery') content = normalizeAcademicsGalleryMaster(raw);
-    else if (key === 'master-events') content = normalizeAcademicsEventsMaster(raw);
     else if (key === 'master-testimonials') content = normalizeAcademicsTestimonialsMaster(raw);
     result[key] = { content, updatedAt: row?.updatedAt.toISOString() ?? null };
   }
@@ -438,7 +415,6 @@ export async function updateAcademicsDocument(
   else if (key === 'advantage') toValidate = normalizeAdvantage(content);
   else if (key === 'eligibility') toValidate = normalizeEligibilitySection(content);
   else if (key === 'master-program-videos') toValidate = normalizeAcademicsProgramVideosMaster(content);
-  else if (key === 'master-events') toValidate = normalizeAcademicsEventsMaster(content);
   else if (key === 'master-testimonials') toValidate = normalizeAcademicsTestimonialsMaster(content);
   const validated = validate(key, toValidate);
   return prisma.$transaction((tx) => write(tx, key, validated, updatedAt, 'academics.update', actorId, requestId));
@@ -462,7 +438,6 @@ export async function updateAcademicsBulk(input: unknown, actorId: number, reque
     else if (key === 'advantage') toValidate = normalizeAdvantage(item.content);
     else if (key === 'eligibility') toValidate = normalizeEligibilitySection(item.content);
     else if (key === 'master-program-videos') toValidate = normalizeAcademicsProgramVideosMaster(item.content);
-    else if (key === 'master-events') toValidate = normalizeAcademicsEventsMaster(item.content);
     else if (key === 'master-testimonials') toValidate = normalizeAcademicsTestimonialsMaster(item.content);
     return { key, content: validate(key, toValidate), updatedAt: item.updatedAt };
   });

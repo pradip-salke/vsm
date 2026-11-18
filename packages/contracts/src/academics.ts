@@ -254,13 +254,6 @@ const mediaItem = (src: string, alt: string, width: number, height: number, capt
   enabled: true,
 });
 
-const eventsMediaItem = (src: string, alt: string, width: number, height: number, videoLink = '', href = ''): AcademicsVideoItem => ({
-  image: { src, alt, width, height },
-  videoLink,
-  href,
-  enabled: true,
-});
-
 export const academicsMasterDefaults = {
   hero: {
     items: [
@@ -290,13 +283,6 @@ export const academicsMasterDefaults = {
       { ...mediaItem(`${FIG}/life-vsm.webp`, 'Valia School of Management students outside the campus building', 768, 432), videoLink: '' },
       { ...mediaItem(`${FIG}/life-vsm.webp`, '', 768, 432), videoLink: '' },
       { ...mediaItem(`${FIG}/life-vsm.webp`, '', 768, 432), videoLink: '' },
-    ] as AcademicsVideoItem[],
-  },
-  events: {
-    items: [
-      eventsMediaItem(`${MEDIA}/program-video-1.webp`, 'PGDM classroom session at Valia School of Management', 790, 454),
-      eventsMediaItem(`${MEDIA}/program-video-2.webp`, 'Guest speaker at Valia School of Management', 790, 454),
-      eventsMediaItem(`${FIG}/event-silvassa.webp`, 'Students at the Silvassa industrial visit', 768, 432),
     ] as AcademicsVideoItem[],
   },
   internships: homeMasterDefaults.internships,

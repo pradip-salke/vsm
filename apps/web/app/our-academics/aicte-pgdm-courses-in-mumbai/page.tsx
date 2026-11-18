@@ -95,7 +95,7 @@ export default async function AictePgdmPage() {
           </div>
           {sectionsAt(5)}
           <div id="events" className={`${layout.block} ${layout.bleed}`}>
-            <MediaCarousel id="events-carousel" title={academics.events.title} items={masters.events.items.filter((item) => item.enabled !== false)} layout="events" variant="column" galleryPopup galleryAlbums={eventGalleryAlbums} />
+            <MediaCarousel id="events-carousel" title={academics.events.title} items={selected?.galleryEvents ?? []} layout="events" variant="column" galleryPopup galleryAlbums={eventGalleryAlbums} />
           </div>
           {sectionsAt(6)}
           <div id="curriculum" className={`${layout.block} ${layout.beforeFacultyBlock}`}>

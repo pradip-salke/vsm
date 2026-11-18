@@ -313,6 +313,8 @@
 .cms-enquiries-view--application .cms-enquiries-table th:nth-child(7) { width: 120px; }
 .cms-enquiries-view--application .cms-enquiries-table th:nth-child(8) { width: 90px; }
 .cms-enquiries-view--application .cms-enquiries-table th:nth-child(9) { width: 92px; }
+.cms-enquiries-view .cms-enquiries-table th:nth-last-child(2) { width: 150px; }
+.cms-enquiries-view .cms-enquiries-table td:nth-last-child(2) { white-space: nowrap; overflow-wrap: normal; }
 
 .cms-enquiries-table th button {
   display: inline-flex;
@@ -471,6 +473,8 @@
 /* Status Badges */
 .cms-status-pill {
   display: inline-block;
+  white-space: nowrap;
+  overflow-wrap: normal;
   padding: 3px 8px;
   border-radius: 20px;
   font-size: 11px;

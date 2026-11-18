@@ -70,7 +70,7 @@ const AICTE_SUBTITLES: Record<AcademicsKey, string> = {
   'program-videos': 'Carousel heading. Video slides are managed in Program Videos.',
   why: 'Why Choose VSM image and highlight list with icons.',
   gallery: 'Carousel heading is edited here. Gallery images and page visibility are managed in the shared Gallery CMS.',
-  events: 'Carousel heading. Event slides are managed in Upcoming Events.',
+  events: 'Carousel heading. Event images and page visibility are managed in the shared Gallery CMS.',
   internships: 'Carousel heading. Internship slides are managed in Summer Internships.',
   testimonials: 'Testimonial heading. Student testimonials and their optional video links are managed in Student Testimonials.',
   curriculum: 'Curriculum introduction and the Year 1 / Year 2 course tables.',
