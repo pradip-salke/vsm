@@ -115,7 +115,8 @@ export function App() {
               return [<Route key={base} path={base} element={element} />, <Route key={`${base}/new`} path={`${base}/new`} element={element} />, <Route key={`${base}/edit`} path={`${base}/:slidePos/edit`} element={element} />];
             });
           })}
-          {(Object.keys(homeMasterDefaults).filter((key) => key !== 'life') as (keyof typeof homeMasterDefaults)[]).flatMap((key) => {
+          <Route path="/masters/events/*" element={<Navigate to="/website/home-sections#section-events" replace />} />
+          {(Object.keys(homeMasterDefaults).filter((key) => key !== 'life' && key !== 'events') as (keyof typeof homeMasterDefaults)[]).flatMap((key) => {
             const k = key;
             const el = <HomeEditor master={k} canEdit={canEdit} />;
             return [
@@ -125,7 +126,8 @@ export function App() {
             ];
           })}
           <Route path={ACADEMICS_CMS_PATH} element={<AictePgdmPageEditor canEdit={canEdit} />} />
-          {(Object.keys(academicsMasterDefaults).filter((key) => key !== 'gallery') as AcademicsMasterKey[]).flatMap((key) => {
+          <Route path={`${ACADEMICS_CMS_PATH}/program-videos/*`} element={<Navigate to="/website/events/videos-of-speakers/videos" replace />} />
+          {(Object.keys(academicsMasterDefaults).filter((key) => key !== 'gallery' && key !== 'program-videos') as AcademicsMasterKey[]).flatMap((key) => {
             const el = <SliderMaster key={key} master={key} scope="academics" canEdit={canEdit} />;
             return [
               <Route key={`academics-${key}-list`} path={`${ACADEMICS_CMS_PATH}/${key}`} element={el} />,

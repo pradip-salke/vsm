@@ -36,7 +36,7 @@ export default async function BlogsPage({ searchParams }: { searchParams: Promis
 
   return (
     <>
-      <PageHero size="inner" slides={[slide]} actions={<Button href="#blog-articles">Explore articles</Button>} breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Blogs' }]} />
+      <PageHero className={styles.blogHero} size="inner" slides={[slide]} actions={<Button href="#blog-articles">Explore articles</Button>} breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Blogs' }]} />
       <main className={`container ${styles.main}`}>
         <header className={styles.heading}>
           <span className={styles.eyebrow}>Insights &amp; Ideas</span>

@@ -19,6 +19,7 @@ const HOME_SECTIONS_SEQUENCE = [
   'faculty',
   'why',
   'specialisations',
+  'events',
   'faq',
   'cta',
 ] as const;
@@ -34,6 +35,7 @@ const sectionTitles: Record<HomeSectionKey, string> = {
   faculty: 'Meet Our Industry-Oriented PGDM Faculty',
   why: 'Why Choose VSM Among PGDM Colleges in Mumbai?',
   specialisations: 'Explore Industry-Relevant PGDM Specialisations',
+  events: 'Upcoming Events',
   faq: 'FAQ About PGDM Admissions',
   cta: 'Apply Now Banner',
 };
@@ -46,6 +48,7 @@ const sectionSubtitles: Record<HomeSectionKey, string> = {
   faculty: 'Faculty section title, subtitle, and intro narrative. Slide items managed in Faculty Slider Master.',
   why: 'Why Choose VSM features, icons, immersion overview, and campus highlights.',
   specialisations: 'Specialisation cards with icons, descriptions, and curriculum links.',
+  events: 'Edit the heading. Manage event images and their visibility in Gallery Management.',
   faq: 'Frequently asked questions regarding PGDM admissions, fees, and eligibility.',
   cta: 'Bottom full-width call-to-action banner with background image and apply button.',
 };
@@ -58,6 +61,7 @@ const sectionPills: Record<HomeSectionKey, string> = {
   faculty: 'Home Page Section: #faculty',
   why: 'Home Page Section: #why-vsm',
   specialisations: 'Home Page Section: #specialisations',
+  events: 'Home Page Section: #events',
   faq: 'Home Page Section: #faq',
   cta: 'Home Page Section: #apply-now',
 };
@@ -597,11 +601,11 @@ export function HomeEditor({
                     <span className="cms-section-pill">{sectionPills[key]}</span>
                     {masterKey && (
                       <Link
-                        to={masterKey === 'life' ? '/masters/gallery/life' : `/masters/${masterKey}`}
+                        to={masterKey === 'life' || masterKey === 'events' ? '/masters/gallery/life' : `/masters/${masterKey}`}
                         className="cms-master-link-btn"
                         title={masterKey === 'life' ? 'Manage Gallery images and page visibility' : `Manage ${homeLabels[masterKey]} slider items`}
                       >
-                        Manage {homeLabels[masterKey]} Slider →
+                        Manage {masterKey === 'events' ? 'Gallery' : homeLabels[masterKey]} {masterKey === 'events' ? 'Images' : 'Slider'} →
                       </Link>
                     )}
                   </div>

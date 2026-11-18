@@ -271,6 +271,23 @@
   padding-inline: var(--column-inset) var(--edge);
 }
 
+/* Keep the advantage highlight inside its vertical scroll area. */
+.main .advantageListViewport {
+  padding-inline: 0;
+}
+
+.main .advantageListViewport .steps {
+  --band-bleed: 0px;
+  --band-end: 0px;
+  --academic-divider-left: 0px;
+  --academic-divider-right: 0px;
+  margin: 0;
+}
+
+.main .advantageListViewport .steps > li {
+  padding-block: 0.75rem;
+}
+
 /* Carousels run to the viewport edge inside the column */
 .bleed {
   overflow-x: clip;

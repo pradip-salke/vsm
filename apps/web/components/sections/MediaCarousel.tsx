@@ -96,13 +96,13 @@ export function MediaCarousel({
     const media = (
       <>
         <span className={styles.frame}>
-          <Image
+          {item.image.src ? <Image
             src={item.image.src}
             alt={item.image.alt}
             width={item.image.width}
             height={item.image.height}
             sizes={variant === 'page' ? '(max-width: 767px) 85vw, 36vw' : '(max-width: 767px) 85vw, 42vw'}
-          />
+          /> : videoLink ? <video src={videoLink} muted playsInline preload="metadata" aria-hidden="true" /> : null}
           {showPlayBadge && (
             <span className={styles.play} aria-hidden>
               <Icon src={icons.playSmall} size="100%" />

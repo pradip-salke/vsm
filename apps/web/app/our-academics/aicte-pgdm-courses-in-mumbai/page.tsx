@@ -19,7 +19,8 @@ import { Fees } from '@/features/academics/Fees';
 import layout from '@/features/academics/AcademicsLayout.module.css';
 import { getAcademicsContent } from '@/lib/academics-content';
 import { withSeo } from '@/lib/seo';
-import { getProgramVideoContent } from '@/lib/video-content';
+import { getSpeakerVideoContent } from '@/lib/video-content';
+import { videoThumbnailUrl } from '@/lib/video-url';
 import { eventGalleryAlbums } from '@/content/events';
 import { academicsDefaults } from '@vsmedu/contracts/academics';
 import { getSliderVisibility } from '@/lib/slider-visibility';
@@ -38,7 +39,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AictePgdmPage() {
-  const [{ sections: academics, masters }, programVideos] = await Promise.all([getAcademicsContent(), getProgramVideoContent()]);
+  const [{ sections: academics, masters }, speakerVideos] = await Promise.all([getAcademicsContent(), getSpeakerVideoContent()]);
+  const programVideos = speakerVideos.videos.filter((video) => video.enabled !== false && video.videoUrl?.trim()).map((video) => ({
+    image: { src: videoThumbnailUrl(video.videoUrl) ?? '', alt: video.title, width: 790, height: 454 },
+    caption: video.title,
+    videoLink: video.videoUrl,
+  }));
   const [visibility, common] = await Promise.all([getSliderVisibility('aicte'), getHomeContent()]);
   const selected = await getCommonSlides('aicte');
   const advantage = academics.advantage ?? academicsDefaults.advantage;
@@ -83,7 +89,7 @@ export default async function AictePgdmPage() {
           </div>
           {sectionsAt(2)}
           <div id="program-videos" className={`${layout.block} ${layout.bleed}`}>
-            <MediaCarousel id="program-videos-carousel" title={programVideos.title} items={programVideos.items} layout="video" variant="column" play />
+            <MediaCarousel id="program-videos-carousel" title={academics['program-videos'].title} items={programVideos} layout="video" variant="column" play />
           </div>
           {sectionsAt(3)}
           <div className={`${layout.block} ${layout.bleed} ${layout.why}`}>

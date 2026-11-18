@@ -129,7 +129,6 @@ export const adminMenu: AdminMenuGroup[] = [
         children: [
           { label: 'Home Slider', path: '/masters/hero', description: 'Manage homepage banner slides.' },
           { label: 'Home CMS', path: '/website/home-sections', description: 'Homepage content sections.' },
-          { label: 'Upcoming Events', path: '/masters/events', description: 'Upcoming events carousel on homepage.' },
         ],
       },
       {
@@ -142,7 +141,6 @@ export const adminMenu: AdminMenuGroup[] = [
             children: [
               { label: 'Page Banner', path: '/website/academics/aicte-pgdm/hero', description: 'Banner slides for the AICTE PGDM page.' },
               { label: 'AICTE PGDM CMS', path: '/website/academics/aicte-pgdm', description: 'All in-page sections of the AICTE PGDM page.' },
-              { label: 'Program Videos', path: '/website/academics/aicte-pgdm/program-videos', description: 'Program video carousel master.' },
             ],
           },
           {

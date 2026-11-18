@@ -67,7 +67,7 @@ const AICTE_SUBTITLES: Record<AcademicsKey, string> = {
   glance: 'Programme summary card in the left sidebar, with its Apply, Brochure and Contact buttons.',
   about: 'Programme introduction: section heading and one rich-text block for all body copy (links and lists in the editor).',
   templateSections: 'Display order places a section before: 1 About Program, 2 Program Videos, 3 Why VSM, 4 Gallery, 5 Events, 6 Curriculum, 7 Faculty, 8 Eligibility, 9 Fees, 10 Admission, 11 VSM Advantage; 12 places it after VSM Advantage.',
-  'program-videos': 'Carousel heading. Video slides are managed in Program Videos.',
+  'program-videos': 'Carousel heading. Videos are managed in Events → Videos of Speakers.',
   why: 'Why Choose VSM image and highlight list with icons.',
   gallery: 'Carousel heading is edited here. Gallery images and page visibility are managed in the shared Gallery CMS.',
   events: 'Carousel heading. Event images and page visibility are managed in the shared Gallery CMS.',
@@ -123,7 +123,7 @@ export const aictePageConfig: AcademicsPageEditorConfig = {
   defaults: { ...academicsDefaults, templateSections: { sections: [academicTemplateSection] } } as unknown as Record<string, Value>,
   masterLinks: {
     hero: { to: `${ACADEMICS_CMS_PATH}/hero`, label: 'Manage Page Banner Slides →' },
-    'program-videos': { to: `${ACADEMICS_CMS_PATH}/program-videos`, label: 'Manage Program Video Slides →' },
+    'program-videos': { to: '/website/events/videos-of-speakers/videos', label: 'Manage Speaker Videos →' },
     gallery: { to: '/masters/gallery/life', label: 'Manage Gallery images →' },
     events: { to: `${ACADEMICS_CMS_PATH}/events`, label: 'Manage Event Slides →' },
     faculty: { to: '/masters/faculty', label: 'Manage Faculty Slider →' },
