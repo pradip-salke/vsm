@@ -11,7 +11,7 @@ const HERO_SUBTITLE = "Navigating Today's Business World with Tomorrow's Leaders
 export type EventsImage = { src: string; alt: string; width: number; height: number };
 export type EventsAlbumItem = { title: string; image: EventsImage; images: EventsImage[]; enabled: boolean };
 export type EventsPhotoItem = EventsImage & { enabled: boolean };
-export type EventsSpeakerItem = { name: string; role: string; enabled: boolean };
+export type EventsSpeakerItem = { name: string; role: string; designation?: string; company?: string; topic?: string; description?: string; date?: string; photoUrl?: string; enabled: boolean };
 export type EventsVideoItem = { title: string; role: string; videoUrl: string; enabled: boolean };
 
 const allPageLinks = [
@@ -180,7 +180,7 @@ export const eventsPages = {
           ['Ms. Pratibha Dewett', 'Chief Sustainability & Marketing Officer, Lucro Plastecycle Pvt. Ltd'],
           ['Mr. Rajesh Devasia', 'Founder & CEO, Clevermind Technologies'],
           ['Dr. Arloph John Vieira', 'Sr. Vice President, Bajaj Healthcare Limited'],
-        ] as [string, string][]).map(([name, role]): EventsSpeakerItem => ({ name, role, enabled: true })),
+        ] as [string, string][]).map(([name, role]): EventsSpeakerItem => ({ name, role, designation: '', company: '', topic: '', description: '', date: '', photoUrl: '', enabled: true })),
       },
     },
     masterLabels: { hero: 'Page Banner', speakers: 'Speakers' },

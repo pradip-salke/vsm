@@ -82,6 +82,7 @@
   .placementsIntro { padding-bottom: calc(var(--section-spacing) + 20px); }
   .recordListingSection { padding-bottom: calc(var(--section-spacing) + 20px); }
   .batchRecordsSection { padding-bottom: calc(var(--section-spacing) + 20px); }
+  .salaryTableSection { padding-bottom: calc(var(--section-spacing) + 20px); }
 }
 
 @media (max-width: 599px) {

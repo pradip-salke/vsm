@@ -241,6 +241,8 @@ model Enquiry {
   name           String        @db.VarChar(160)
   email          String?       @db.VarChar(254)
   phone          String        @db.VarChar(32)
+  organization   String?       @db.VarChar(180)
+  designation    String?       @db.VarChar(160)
   city           String?       @db.VarChar(120)
   message        String?       @db.VarChar(4000)
   source         String?       @db.VarChar(120)

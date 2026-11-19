@@ -23,6 +23,8 @@ export type GeneralEnquiryItem = {
   name: string;
   email: string | null;
   phone: string;
+  organization: string | null;
+  designation: string | null;
   city: string | null;
   message: string | null;
   source: string | null;
@@ -86,6 +88,8 @@ export const enquiriesService = {
     name: string;
     email?: string | null;
     phone: string;
+    organization: string;
+    designation: string;
     city?: string | null;
     message?: string | null;
     source?: string | null;
@@ -95,6 +99,8 @@ export const enquiriesService = {
         name: input.name.trim(),
         email: input.email ? input.email.trim() : null,
         phone: input.phone.trim(),
+        organization: input.organization.trim(),
+        designation: input.designation.trim(),
         city: input.city ? input.city.trim() : null,
         message: input.message ? input.message.trim() : null,
         source: input.source ?? 'website-enquire-now',
@@ -252,6 +258,8 @@ export const enquiriesService = {
         { name: { contains: q } },
         { email: { contains: q } },
         { phone: { contains: q } },
+        { organization: { contains: q } },
+        { designation: { contains: q } },
         { city: { contains: q } },
         { message: { contains: q } },
       ];
@@ -323,6 +331,8 @@ export const enquiriesService = {
         { name: { contains: q } },
         { email: { contains: q } },
         { phone: { contains: q } },
+        { organization: { contains: q } },
+        { designation: { contains: q } },
         { city: { contains: q } },
         { message: { contains: q } },
       ];
@@ -345,6 +355,8 @@ export const enquiriesService = {
       name: row.name,
       email: row.email,
       phone: row.phone,
+      organization: row.organization,
+      designation: row.designation,
       city: row.city,
       message: row.message,
       source: row.source,

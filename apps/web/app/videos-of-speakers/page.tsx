@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function SpeakerVideosPage() {
   const content = await getSpeakerVideoContent();
   const cms = await getEventsPageContent('videos-of-speakers');
-  return <EventsShell title="Speaker Bites" active="Speaker Bites" cms={cms}><section className={`container ${styles.section}`}>
+  return <EventsShell title="Speaker Bites" active="Speaker Bites" cms={cms}><section className={`container ${styles.section} ${styles.speakerVideosSection}`}>
     <header className={styles.heading}><h2>{content.title}</h2><p>{content.description}</p></header>
     <SpeakerVideos videos={content.videos} />
   </section></EventsShell>;

@@ -8,6 +8,9 @@ export type EnquiryPayload = {
   name: string;
   email?: string;
   phone: string;
+  organization: string;
+  designation: string;
+  message: string;
   city?: string;
   consent: true;
   source?: string;

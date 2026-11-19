@@ -23,6 +23,8 @@ type GeneralItem = {
   name: string;
   email: string | null;
   phone: string;
+  organization: string | null;
+  designation: string | null;
   city: string | null;
   message: string | null;
   source: string | null;
@@ -127,7 +129,7 @@ export function EnquiriesPage({
       ? 'Every submission made through the website career form, stored in the enquiries master table.'
       : type === 'application'
         ? 'Every submission made through the online admission application form, stored in the applications master table.'
-        : 'Every submission made through the website contact form, stored in the enquiries master table.';
+        : 'Website contact and recruitment enquiries, stored in the enquiries master table.';
 
   const badgeLabel =
     type === 'career'
@@ -253,7 +255,7 @@ export function EnquiriesPage({
         ? ['#', 'Name', 'Email', 'Phone', 'Position', 'Designation', 'Resume URL', 'Submitted At', 'Status']
         : type === 'application'
           ? ['#', 'Name', 'Email', 'Phone', 'City', 'Country', 'Qualification', 'Entrance Exam', 'Submitted At', 'Status']
-          : ['#', 'Name', 'Email', 'Phone', 'City', 'Message', 'Source', 'Submitted At', 'Status'];
+          : ['#', 'Name', 'Email', 'Phone', 'Organization', 'Designation', 'City', 'Message', 'Source', 'Submitted At', 'Status'];
 
     const rows = sortedItems.map((item) => {
       if (type === 'career') {
@@ -290,6 +292,8 @@ export function EnquiriesPage({
           `"${(g.name || '').replace(/"/g, '""')}"`,
           `"${g.email || ''}"`,
           `"${g.phone || ''}"`,
+          `"${(g.organization || '').replace(/"/g, '""')}"`,
+          `"${(g.designation || '').replace(/"/g, '""')}"`,
           `"${g.city || ''}"`,
           `"${(g.message || '').replace(/"/g, '""')}"`,
           `"${g.source || ''}"`,
@@ -487,6 +491,8 @@ export function EnquiriesPage({
                   </>
                 ) : (
                   <>
+                    <th scope="col">ORGANIZATION</th>
+                    <th scope="col">DESIGNATION</th>
                     <th scope="col">CITY</th>
                     <th scope="col">MESSAGE</th>
                   </>
@@ -515,13 +521,13 @@ export function EnquiriesPage({
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={type === 'career' ? 10 : 9} className="cms-table-empty">
+                  <td colSpan={type === 'career' ? 10 : type === 'enquiry' ? 11 : 9} className="cms-table-empty">
                     <span className="button-spinner" /> Loading submissions…
                   </td>
                 </tr>
               ) : sortedItems.length === 0 ? (
                 <tr>
-                  <td colSpan={type === 'career' ? 10 : 9} className="cms-table-empty">
+                  <td colSpan={type === 'career' ? 10 : type === 'enquiry' ? 11 : 9} className="cms-table-empty">
                     No submissions found.
                   </td>
                 </tr>
@@ -555,6 +561,8 @@ export function EnquiriesPage({
 
                       {gen && (
                         <>
+                          <td>{gen.organization || '—'}</td>
+                          <td>{gen.designation || '—'}</td>
                           <td>{gen.city || '—'}</td>
                           <td className="cms-truncate-cell" title={gen.message ?? ''}>
                             {gen.message || '—'}
@@ -795,6 +803,14 @@ export function EnquiriesPage({
                   <div className="cms-detail-item">
                     <label>City</label>
                     <p>{selectedItem.city || '—'}</p>
+                  </div>
+                  <div className="cms-detail-item">
+                    <label>Organization</label>
+                    <p>{selectedItem.organization || '—'}</p>
+                  </div>
+                  <div className="cms-detail-item">
+                    <label>Designation</label>
+                    <p>{selectedItem.designation || '—'}</p>
                   </div>
                   <div className="cms-detail-item">
                     <label>Email Address</label>

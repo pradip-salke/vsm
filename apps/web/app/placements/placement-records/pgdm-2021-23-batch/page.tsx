@@ -29,7 +29,7 @@ export default async function PlacementBatch2021Page() {
   const fallbackIntro = '<p>VSM strives to ensure every student enrolled with us understands the importance of placements and what it takes to help companies that visit our campus provide opportunities to excel.</p><p>Placements is not a one-day process. We provide every student a platform with learning, industry interaction and internships with hands-on experience, helping them understand expectations, become industry ready and build confidence for success.</p>';
   return (
     <PlacementPageShell title="PGDM 2021–23 Batch" active="Placement Records" pageSlug="pgdm-2021-23-batch">
-      <PlacementSection title={cmsString(intro?.title, 'Placements Details of PGDM 2021–23 Batch')} intro={<CmsHtml html={cmsString(intro?.body, fallbackIntro)} />}>
+      <PlacementSection className={styles.salaryTableSection} title={cmsString(intro?.title, 'Placements Details of PGDM 2021–23 Batch')} intro={<CmsHtml html={cmsString(intro?.body, fallbackIntro)} />}>
         <h3 className={styles.sectionSubheading}>{cmsString(highlights?.title, 'Key Highlights')}</h3>
         <div className={styles.stats}>{stats.map(({ value, label }) => <div key={label} className={styles.stat}><strong><CountUpValue value={value} /></strong><span>{label}</span></div>)}</div>
         <h3 className={styles.sectionSubheading}>{cmsString(specialisation?.title, 'Specialization-wise Placement Record')}</h3>

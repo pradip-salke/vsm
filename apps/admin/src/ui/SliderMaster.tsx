@@ -87,6 +87,7 @@ const heading = (item: Item, index: number, masterKey: SupportedMasterKey) => {
   return String(item.title || item.name || item.caption || item.alt || `Slide ${index + 1}`);
 };
 function image(item: Item) {
+  if (typeof item.photoUrl === 'string' && item.photoUrl) return item.photoUrl;
   const asset = item.image && typeof item.image === 'object' && !Array.isArray(item.image) ? item.image : item;
   return typeof asset.src === 'string' ? asset.src : '';
 }
@@ -98,6 +99,30 @@ function facultyDetails(item: Item): FacultyDetail[] {
 }
 
 type FacultyImage = { src?: string; alt?: string; width?: number; height?: number };
+
+function SpeakerPhotoUpload({ value, disabled, onChange, upload }: { value: string; disabled: boolean; onChange: (src: string) => void; upload: (file: File) => Promise<{ src: string }> }) {
+  const input = useRef<HTMLInputElement>(null);
+  const [over, setOver] = useState(false);
+  const [error, setError] = useState('');
+  async function take(file?: File) {
+    if (!file || disabled) return;
+    setError('');
+    try {
+      if (!/^image\/(png|jpeg|webp|avif)$/.test(file.type)) throw new Error('Choose a JPG, PNG, WebP or AVIF image.');
+      onChange((await upload(file)).src);
+    } catch (cause) { setError(cause instanceof Error ? cause.message : 'Image upload failed'); }
+    finally { if (input.current) input.current.value = ''; }
+  }
+  return <div className="cms-field cms-speaker-photo-field"><span>Photo (optional)</span>
+    <div className={`cms-speaker-dropzone${over ? ' is-over' : ''}${disabled ? ' is-disabled' : ''}`} role="button" tabIndex={disabled ? -1 : 0} aria-label="Photo: drag and drop or browse to upload" onClick={() => { if (!disabled) input.current?.click(); }} onKeyDown={event => { if (!disabled && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); input.current?.click(); } }} onDragOver={event => { event.preventDefault(); if (!disabled) setOver(true); }} onDragLeave={() => setOver(false)} onDrop={event => { event.preventDefault(); setOver(false); void take(event.dataTransfer.files[0]); }}>
+      <input ref={input} className="cms-visually-hidden" type="file" accept="image/png,image/jpeg,image/webp,image/avif" disabled={disabled} onClick={event => event.stopPropagation()} onChange={event => void take(event.target.files?.[0])} />
+      {value ? <img className="cms-speaker-drop-preview" src={preview(value)} alt="Speaker photo preview" /> : <span className="cms-speaker-drop-icon" aria-hidden="true">↑</span>}
+      <span className="cms-speaker-drop-copy"><strong>Drag &amp; drop your image here or <span>browse</span></strong><small>JPG, PNG, WebP or AVIF · Recommended 406 × 300 px (width × height) · Max 2 MB</small></span>
+    </div>
+    {value && <button type="button" className="cms-secondary cms-speaker-remove" disabled={disabled} onClick={() => onChange('')}>Remove photo</button>}
+    {error && <small className="cms-compact-image-error" role="alert">{error}</small>}
+  </div>;
+}
 
 function FacultyDetailsEditor({ item, readOnly, onChange, upload }: { item: Item; readOnly: boolean; onChange: (item: Item) => void; upload: (file: File) => Promise<{ src: string; alt: string; width: number; height: number }> }) {
   const update = (key: string, val: Value) => onChange({ ...item, [key]: val });
@@ -657,7 +682,15 @@ export function SliderMaster({
       {master === 'hero' ? <HeroSlideFields value={editing.item} onChange={item => setEditing({ ...editing, item })} disabled={readOnly} upload={upload} position={editing.position} maxPosition={items.length + (editing.index === null ? 1 : 0)} onPositionChange={position => setEditing({ ...editing, position })} /> : master === 'faculty' ? <>
         <label className="cms-field cms-slide-order"><span>Display order</span><input type="number" required min={1} max={items.length + (editing.index === null ? 1 : 0)} value={editing.position} disabled={readOnly} onChange={event => setEditing({ ...editing, position: Number(event.target.value) })} /></label>
         <FacultyDetailsEditor item={editing.item} readOnly={readOnly} onChange={item => setEditing({ ...editing, item })} upload={upload} />
-      </> : <>
+      </> : scope === 'events' && master === 'speakers' ? <fieldset className="cms-fields">
+        <legend>Speaker details</legend>
+        <label className="cms-field cms-slide-order"><span>Display order (used for speakers without a date)</span><input type="number" required min={1} max={items.length + (editing.index === null ? 1 : 0)} value={editing.position} disabled={readOnly} onChange={event => setEditing({ ...editing, position: Number(event.target.value) })} /></label>
+        {[['name', 'Name'], ['role', 'Existing role'], ['designation', 'Designation'], ['company', 'Company name'], ['topic', 'Topic name']].map(([key, label]) => <label className="cms-field" key={key}><span>{label}</span><input required={key === 'name'} value={String(editing.item[key] ?? '')} disabled={readOnly} onChange={event => setEditing({ ...editing, item: { ...editing.item, [key]: event.target.value } })} /></label>)}
+        <label className="cms-field"><span>Date</span><input type="date" value={String(editing.item.date ?? '')} disabled={readOnly} onChange={event => setEditing({ ...editing, item: { ...editing.item, date: event.target.value } })} /></label>
+        <div className="cms-field cms-field--long"><span>Short description</span><RichSubtitle label="Short description" value={String(editing.item.description ?? '')} disabled={readOnly} onChange={description => setEditing({ ...editing, item: { ...editing.item, description } })} /></div>
+        <SpeakerPhotoUpload value={String(editing.item.photoUrl ?? '')} disabled={readOnly} upload={upload} onChange={photoUrl => setEditing(current => current ? { ...current, item: { ...current.item, photoUrl } } : current)} />
+        <label className="cms-field"><span>Status</span><select value={editing.item.enabled === false ? 'disabled' : 'active'} disabled={readOnly} onChange={event => setEditing({ ...editing, item: { ...editing.item, enabled: event.target.value === 'active' } })}><option value="active">Active</option><option value="disabled">Disabled</option></select></label>
+      </fieldset> : <>
         <label className="cms-field cms-slide-order"><span>Display order</span><input type="number" required min={1} max={items.length + (editing.index === null ? 1 : 0)} value={editing.position} disabled={readOnly} onChange={event => setEditing({ ...editing, position: Number(event.target.value) })} /></label>
         <Field name={`${itemNoun} details`} value={Object.fromEntries(Object.entries(editing.item).filter(([key]) => key !== 'pages' && key !== 'sections' && (!testimonialKind || (testimonialKind === 'video' ? ['batch', 'videoLink', 'image', 'enabled'] : ['name', 'batch', 'quote', 'avatar', 'enabled']).includes(key)))) as Item} template={template} onChange={item => setEditing({ ...editing, item: { ...editing.item, ...(item as Item) } })} readOnly={readOnly} onUpload={upload} />
       </>}

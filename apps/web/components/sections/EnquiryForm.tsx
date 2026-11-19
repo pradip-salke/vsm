@@ -9,7 +9,7 @@ import { submitEnquiry } from '@/lib/api';
 import styles from './EnquiryForm.module.css';
 
 type Status = { type: 'idle' } | { type: 'sending' } | { type: 'success' } | { type: 'error'; message: string };
-type Errors = Partial<Record<'firstName' | 'lastName' | 'email' | 'phone' | 'city' | 'captcha' | 'consent', string>>;
+type Errors = Partial<Record<'name' | 'phone' | 'email' | 'organization' | 'designation' | 'message' | 'city' | 'captcha' | 'consent', string>>;
 
 const CAPTCHA_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
 const makeCaptcha = () => Array.from({ length: 4 }, () => CAPTCHA_CHARS[Math.floor(Math.random() * CAPTCHA_CHARS.length)]).join('');
@@ -17,10 +17,12 @@ const makeCaptcha = () => Array.from({ length: 4 }, () => CAPTCHA_CHARS[Math.flo
 function validate(data: FormData, captcha: string): Errors {
   const errors: Errors = {};
   const value = (key: string) => String(data.get(key) ?? '').trim();
-  if (value('firstName').length < 1) errors.firstName = 'Enter your first name.';
-  if (value('lastName').length < 1) errors.lastName = 'Enter your last name.';
+  if (value('name').length < 2) errors.name = 'Enter your name.';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value('email'))) errors.email = 'Enter a valid email address.';
   if (!/^\+?[\d\s-]{7,20}$/.test(value('phone'))) errors.phone = 'Enter a valid phone number.';
+  if (value('organization').length < 2) errors.organization = 'Enter your organization.';
+  if (value('designation').length < 2) errors.designation = 'Enter your designation.';
+  if (value('message').length < 5) errors.message = 'Please add a short message.';
   if (!value('city')) errors.city = 'Select your city.';
   if (value('captcha') !== captcha) errors.captcha = 'The text does not match the image.';
   if (!data.get('consent')) errors.consent = 'Please accept to continue.';
@@ -50,12 +52,15 @@ export function EnquiryForm() {
 
     setStatus({ type: 'sending' });
     const result = await submitEnquiry({
-      name: `${data.get('firstName')} ${data.get('lastName')}`.trim(),
+      name: String(data.get('name')).trim(),
       email: String(data.get('email')).trim(),
       phone: String(data.get('phone')).trim(),
+      organization: String(data.get('organization')).trim(),
+      designation: String(data.get('designation')).trim(),
+      message: String(data.get('message')).trim(),
       city: String(data.get('city')),
       consent: true,
-      source: 'website-enquire-now',
+      source: 'recruitment-enquiry',
     });
     if ('message' in result) {
       setStatus({ type: 'error', message: result.message });
@@ -83,18 +88,14 @@ export function EnquiryForm() {
     <form className={styles.form} onSubmit={onSubmit} noValidate>
       <div className={styles.grid}>
         <div className={styles.field}>
-          <label htmlFor={`${formId}-firstName`} className="visually-hidden">
-            First Name
-          </label>
-          <input {...field('firstName')} className={styles.input} placeholder="First Name*" autoComplete="given-name" required />
-          {error('firstName')}
+          <label htmlFor={`${formId}-name`} className="visually-hidden">Name</label>
+          <input {...field('name')} className={styles.input} placeholder="Name*" autoComplete="name" required />
+          {error('name')}
         </div>
         <div className={styles.field}>
-          <label htmlFor={`${formId}-lastName`} className="visually-hidden">
-            Last Name
-          </label>
-          <input {...field('lastName')} className={styles.input} placeholder="Last Name*" autoComplete="family-name" required />
-          {error('lastName')}
+          <label htmlFor={`${formId}-phone`} className="visually-hidden">Phone Number</label>
+          <input {...field('phone')} type="tel" className={styles.input} placeholder="Phone Number*" autoComplete="tel" required />
+          {error('phone')}
         </div>
         <div className={styles.field}>
           <label htmlFor={`${formId}-email`} className="visually-hidden">
@@ -104,13 +105,16 @@ export function EnquiryForm() {
           {error('email')}
         </div>
         <div className={styles.field}>
-          <label htmlFor={`${formId}-phone`} className="visually-hidden">
-            Phone Number
-          </label>
-          <input {...field('phone')} type="tel" className={styles.input} placeholder="Phone Number*" autoComplete="tel" required />
-          {error('phone')}
+          <label htmlFor={`${formId}-organization`} className="visually-hidden">Organization</label>
+          <input {...field('organization')} className={styles.input} placeholder="Organization*" autoComplete="organization" required />
+          {error('organization')}
         </div>
-        <div className={`${styles.field} ${styles.full}`}>
+        <div className={styles.field}>
+          <label htmlFor={`${formId}-designation`} className="visually-hidden">Designation</label>
+          <input {...field('designation')} className={styles.input} placeholder="Designation*" autoComplete="organization-title" required />
+          {error('designation')}
+        </div>
+          <div className={styles.field}>
           <label htmlFor={`${formId}-city`} className="visually-hidden">
             City
           </label>
@@ -126,6 +130,11 @@ export function EnquiryForm() {
           </select>
           {error('city')}
         </div>
+          <div className={`${styles.field} ${styles.full}`}>
+            <label htmlFor={`${formId}-message`} className="visually-hidden">Message</label>
+            <textarea {...field('message')} className={`${styles.input} ${styles.message}`} placeholder="Message*" rows={4} required />
+            {error('message')}
+          </div>
         <div className={styles.field}>
           <div className={`${styles.input} ${styles.captchaBox}`}>
             <span className={styles.captchaText} aria-label={`Verification text: ${captcha.split('').join(' ')}`} role="img">

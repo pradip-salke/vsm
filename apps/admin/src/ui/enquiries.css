@@ -262,6 +262,7 @@
 }
 
 .cms-enquiries-view--career .cms-enquiries-table { min-width: 1120px; }
+.cms-enquiries-view--enquiry .cms-enquiries-table { min-width: 1260px; }
 .cms-enquiries-view--application .cms-enquiries-table { min-width: 1060px; }
 
 .cms-enquiries-table th {
@@ -289,13 +290,14 @@
 .cms-enquiries-table tbody tr:last-child td { border-bottom: 0; }
 .cms-enquiries-table th:nth-child(1) { width: 62px; }
 .cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(2) { width: 130px; }
-.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(3) { width: 90px; }
-.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(4) { width: 150px; }
-.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(5) { width: 160px; }
-.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(6) { width: 120px; }
-.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(7) { width: 110px; }
-.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(8) { width: 90px; }
-.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(9) { width: 92px; }
+.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(3) { width: 140px; }
+.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(4) { width: 130px; }
+.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(5) { width: 105px; }
+.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(6) { width: 170px; }
+.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(7) { width: 150px; }
+.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(8) { width: 120px; }
+.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(9) { width: 100px; }
+.cms-enquiries-view--enquiry .cms-enquiries-table th:nth-child(10) { width: 92px; }
 .cms-enquiries-view--career .cms-enquiries-table th:nth-child(2) { width: 125px; }
 .cms-enquiries-view--career .cms-enquiries-table th:nth-child(3),
 .cms-enquiries-view--career .cms-enquiries-table th:nth-child(4) { width: 125px; }

@@ -44,12 +44,14 @@ export const uploadResumeMiddleware = multer({
 }).single('resume');
 
 // --- Schemas ---
-const generalEnquirySchema = z.object({
+export const generalEnquirySchema = z.object({
   name: z.string().trim().min(1, 'Name is required').max(160),
-  email: z.string().trim().email().max(254).optional().or(z.literal('')),
+  email: z.string().trim().email('Valid email is required').max(254),
   phone: z.string().trim().min(7, 'Phone number is required').max(32),
+  organization: z.string().trim().min(2, 'Organization is required').max(180),
+  designation: z.string().trim().min(2, 'Designation is required').max(160),
   city: z.string().trim().max(120).optional(),
-  message: z.string().trim().max(4000).optional(),
+  message: z.string().trim().min(5, 'Message is required').max(4000),
   source: z.string().trim().max(120).optional(),
 });
 

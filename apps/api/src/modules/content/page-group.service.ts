@@ -99,6 +99,12 @@ export function createPageGroupService(options: PageGroupOptions) {
       result = result.refine((v) => typeof v === 'string' && v.trim().length > 0, 'This field is required');
     }
     if (key === 'width' || key === 'height') return z.number().int().min(1).max(20000);
+    if (group === 'events' && documentKey === 'master-speakers' && ['designation', 'company', 'topic', 'description', 'date', 'photoUrl'].includes(key)) {
+      if (key === 'date') result = z.string().regex(/^(?:\d{4}-\d{2}-\d{2})?$/, 'Use a date in YYYY-MM-DD format');
+      if (key === 'photoUrl') result = z.string().max(2048).refine((v) => !v || /^\/(?!\/)/.test(v) || /^https:\/\/vsmedu\.com\//.test(v), 'Upload an image or use a local image path');
+      if (key === 'description') result = result.transform((v) => cleanSubtitle(String(v)));
+      return result.optional();
+    }
     if (richText.has(key)) result = result.transform((v) => cleanSubtitle(String(v)));
     return result;
   }
@@ -142,7 +148,7 @@ export function createPageGroupService(options: PageGroupOptions) {
     const masters: Record<string, { items: { enabled?: boolean }[] }> = {};
     for (const [key, doc] of Object.entries(list)) {
       if (key.startsWith('master-')) {
-        const items = ((doc.content as { items?: { enabled?: boolean }[] })?.items ?? []).filter((item) => item.enabled !== false);
+        const items = ((doc.content as { items?: { enabled?: boolean; description?: string }[] })?.items ?? []).filter((item) => item.enabled !== false).map((item) => group === 'events' && key === 'master-speakers' && typeof item.description === 'string' ? { ...item, description: cleanSubtitle(item.description) } : item);
         masters[key.slice(7)] = { items };
       } else {
         sections[key] = doc.content;
