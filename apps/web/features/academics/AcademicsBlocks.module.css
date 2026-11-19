@@ -5,6 +5,7 @@
 }
 
 .templateRichText {
+  min-width: 0;
   color: var(--color-text-body);
   font-family: inherit;
   font-size: var(--font-size-body);
@@ -20,6 +21,10 @@
 
 .templateRichText :global(p) + :global(p) { margin-top: 1em; }
 .templateRichText :global(a) { color: var(--color-primary); text-decoration: underline; }
+.templateRichText :global(img),
+.templateRichText :global(video) { max-width: 100%; height: auto; }
+.templateRichText :global(iframe) { max-width: 100%; }
+.templateRichText :global(table) { display: block; max-width: 100%; overflow-x: auto; }
 
 .templateTextWithImage { --text-image-gap: clamp(1.5rem, 3vw, 3rem); position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--text-image-gap); align-items: start; }
 .templateTextWithImage > .templateRichText { position: absolute; inset: 0 auto 0 0; width: calc((100% - var(--text-image-gap)) / 2); overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; scrollbar-color: #888 transparent; }

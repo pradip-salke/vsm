@@ -170,6 +170,21 @@
   .heading.heading > h2,
   .title {
     max-width: none;
+    margin-left: 0;
+  }
+
+  .heading.heading > p:first-child {
+    margin-left: 0;
+  }
+
+  .heading.heading > div {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .grid,
+  .more {
+    margin-left: 0;
   }
 
   .column + .column {

@@ -65,7 +65,7 @@
   --column-inset: clamp(1.5rem, 2.24vw, 2.6875rem); /* 43px at 1920px, matching Why Choose VSM */
   --academic-divider-left: var(--column-inset);
   --academic-divider-right: calc(var(--edge) + 0.365vw);
-  --academic-section-bottom: calc(var(--section-spacing) + 0.78125vw); /* +15px at 1920px */
+  --academic-section-bottom: calc(var(--section-spacing) + 0.45vw);
   display: grid;
   grid-template-columns: calc(var(--edge) + clamp(16rem, 26.094vw, 31.3125rem)) minmax(0, 1fr);
 }
@@ -117,6 +117,8 @@
   scrollbar-color: #888 transparent;
 }
 .customListViewport li > :last-child { min-width: 0; overflow-wrap: anywhere; }
+.customTemplateSection :global([class*="IconList_item"]) { padding-block: 0.75rem; }
+.customTemplateSection :global([class*="IconList_text"]) { min-width: 0; overflow-wrap: anywhere; }
 .customListViewport::-webkit-scrollbar { width: 8px; }
 .customListViewport::-webkit-scrollbar-track { background: transparent; }
 .customListViewport::-webkit-scrollbar-thumb { background: #888; border-radius: 999px; }

@@ -24,13 +24,14 @@
   margin-top: 1.75rem;
 }
 .listViewport .list { margin-top: 0; }
+.list > li { padding-block: 0.75rem; }
 
 @media (max-width: 1199px) {
   .sidebar { padding: var(--section-spacing) var(--page-gutter); }
   .listViewport {
-    --band-start: 0px;
+    --band-start: var(--page-gutter);
     --band-extension: var(--page-gutter);
-    margin-inline: 0 calc(-1 * var(--page-gutter));
+    margin-inline: calc(-1 * var(--band-start)) calc(-1 * var(--page-gutter));
   }
-  .list { --band-bleed: 0px; --band-end: calc(-1 * var(--page-gutter)); }
+  .list { --band-bleed: var(--page-gutter); --band-end: calc(-1 * var(--page-gutter)); }
 }

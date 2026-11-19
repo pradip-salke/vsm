@@ -18,10 +18,10 @@
 
 .navList::-webkit-scrollbar { display: none; }
 .navList li { display: flex; flex: 1 1 0; min-width: 0; }
-.navList a { position: relative; display: flex; width: 100%; align-items: center; justify-content: center; color: var(--color-heading); font-weight: var(--font-weight-extrabold); text-align: center; }
+.navList a { position: relative; display: flex; width: 100%; align-items: center; justify-content: center; padding: .5rem .75rem; color: var(--color-heading); font-weight: var(--font-weight-extrabold); line-height: 1.25; text-align: center; text-wrap: balance; }
 .navList a:hover,
 .navList a[aria-current='page'] { color: var(--color-primary); }
-.navList a[aria-current='page']::after { position: absolute; right: 0; bottom: calc(50% - 1em); left: 0; height: 2px; background: var(--color-primary); content: ''; }
+.navList a[aria-current='page']::after { position: absolute; right: 0; bottom: 0; left: 0; height: 2px; background: var(--color-primary); content: ''; }
 
 .main { min-width: 0; }
 .section + .section { border-top: 1px solid var(--color-border-soft); }
@@ -74,7 +74,8 @@
 }
 
 @media (max-width: 599px) {
-  .navList { justify-content: initial; }
+  .navList { min-height: 4.25rem; }
+  .navList a { padding-inline: .35rem; font-size: clamp(.8rem, 3.6vw, .95rem); }
   .cards, .stats { grid-template-columns: 1fr; }
   .logoGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .recordGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

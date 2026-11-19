@@ -64,3 +64,9 @@
     animation: none;
   }
 }
+
+@media (max-width: 767px) {
+  .row {
+    padding-inline: var(--page-gutter);
+  }
+}

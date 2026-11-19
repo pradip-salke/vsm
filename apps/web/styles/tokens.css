@@ -91,8 +91,8 @@
   --container-width: 105rem;                         /* 1680px content */
   --page-gutter: clamp(1.25rem, 6.25vw, 7.5rem);     /* 120px at 1920 */
   --container-max: calc(var(--container-width) + var(--page-gutter) * 2);
-  --section-spacing: clamp(2.5rem, 3.646vw, 4.375rem); /* 40px mobile, 70px at 1920px */
-  --section-rule-gap: 1.8229167vw; /* 35px at 1920px, proportional at every viewport */
+  --section-spacing: clamp(24px, 2.3vw, 44px);
+  --section-rule-gap: clamp(1.25rem, 1.6vw, 1.875rem);
   --heading-copy-gap: 0.78125vw; /* 15px at 1920px, proportional at every viewport */
   --header-height: calc(clamp(4.5rem, 6.354vw, 7.625rem) - 20px); /* navigation min-height reduced by 20px */
   --topbar-height: calc(clamp(2.375rem, 2.969vw, 3.5625rem) - 5px); /* 5px shorter across viewport sizes */
@@ -141,4 +141,12 @@
   --z-header: 50;
   --z-drawer: 80;
   --z-modal: 100;
+}
+
+@media (max-width: 767px) {
+  :root {
+    /* Keep shared navigation, page containers, and academic sections aligned
+       with the 20% narrower mobile gutter used by the academic layouts. */
+    --page-gutter: clamp(1rem, 5vw, 6rem);
+  }
 }

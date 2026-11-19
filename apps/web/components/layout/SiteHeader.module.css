@@ -355,6 +355,11 @@
 
   .inner { gap: clamp(0.5rem, 2vw, 1rem); }
   .brand { --logo-w: clamp(8rem, 41vw, 12rem); }
-  .actions { gap: clamp(0.5rem, 3vw, 1rem); margin-right: 0; }
+  /* Align the visible logo artwork and menu glyph with section content. The
+     logo asset and icon are inset inside their boxes, so compensate equally
+     on both sides of the shared page gutter. */
+  .brand { margin-left: -0.5rem; }
+  .actions { gap: clamp(0.5rem, 3vw, 1rem); margin-right: -0.5rem; }
   .aicte { --aicte-w: clamp(2.5rem, 11vw, 3rem); }
+  .drawer { padding-inline: var(--page-gutter); }
 }
