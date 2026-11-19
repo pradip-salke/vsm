@@ -67,7 +67,7 @@ const AICTE_SUBTITLES: Record<AcademicsKey, string> = {
   glance: 'Programme summary card in the left sidebar, with its Apply, Brochure and Contact buttons.',
   about: 'Programme introduction: section heading and one rich-text block for all body copy (links and lists in the editor).',
   templateSections: 'Display order places a section before: 1 About Program, 2 Program Videos, 3 Why VSM, 4 Gallery, 5 Events, 6 Curriculum, 7 Faculty, 8 Eligibility, 9 Fees, 10 Admission, 11 VSM Advantage; 12 places it after VSM Advantage.',
-  'program-videos': 'Carousel heading. Videos are managed in Events → Videos of Speakers.',
+  'program-videos': 'Carousel heading. Videos are managed in Events → Speaker Bites.',
   why: 'Why Choose VSM image and highlight list with icons.',
   gallery: 'Carousel heading is edited here. Gallery images and page visibility are managed in the shared Gallery CMS.',
   events: 'Carousel heading. Event images and page visibility are managed in the shared Gallery CMS.',

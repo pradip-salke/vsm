@@ -16,10 +16,10 @@ export type EventsVideoItem = { title: string; role: string; videoUrl: string; e
 
 const allPageLinks = [
   { label: 'Events', href: '/events/' },
+  { label: 'Guest Speakers', href: '/list-of-speakers/' },
   { label: 'Photo Gallery', href: '/events/gallery/' },
   { label: 'Achievements', href: '/events/achievements/' },
-  { label: 'List of Speakers', href: '/list-of-speakers/' },
-  { label: 'Videos of Speakers', href: '/videos-of-speakers/' },
+  { label: 'Speaker Bites', href: '/videos-of-speakers/' },
 ];
 
 const pageNav = (withoutEvents = false) => ({
@@ -161,7 +161,7 @@ export const eventsPages = {
   },
   'list-of-speakers': {
     path: '/list-of-speakers/',
-    navTitle: 'List of Speakers',
+    navTitle: 'Guest Speakers',
     sections: {
       hero: breadcrumb('List of Speakers'),
       'page-nav': pageNav(),
@@ -194,7 +194,7 @@ export const eventsPages = {
   },
   'videos-of-speakers': {
     path: '/videos-of-speakers/',
-    navTitle: 'Videos of Speakers',
+    navTitle: 'Speaker Bites',
     sections: {
       hero: breadcrumb('Campus-Corporate Connect'),
       'page-nav': pageNav(),

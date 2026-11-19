@@ -38,13 +38,13 @@ export default async function AdmissionsProcessPage() {
   const stepItems = Array.isArray(stepsContent?.items) ? stepsContent.items as {title:string;text:string}[] : steps.map(([title,text]) => ({title,text}));
   const cta = content?.sections['apply-cta'];
   return <AdmissionsPageShell title="PGDM Admissions 2026 at VSM" subtitle="Embark on a Journey of Excellence" active="Admissions Process" content={content}>
-    <AdmissionSection title={cmsString(eligibilityContent?.title, 'Eligibility Criteria')}>
+    <AdmissionSection className={styles.eligibilitySection} title={cmsString(eligibilityContent?.title, 'Eligibility Criteria')}>
       <ul className={styles.list} role="list">{eligibilityItems.map(({label, detail}, i) => <li key={`${label}-${i}`}><span className={styles.marker} aria-hidden>{i + 1}</span><p><strong>{label}:</strong> {detail}</p></li>)}</ul>
     </AdmissionSection>
     <AdmissionSection title={cmsString(stepsContent?.title, 'Steps to Apply')}>
       <div className={styles.stepGrid}>{stepItems.map(({title, text}, i) => <article key={`${title}-${i}`} className={styles.step}><span className={styles.marker} aria-hidden>{i + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div>
     </AdmissionSection>
-    <AdmissionSection title={cmsString(cta?.title, 'Begin Your Management Journey – Apply Now')}>
+    <AdmissionSection className={styles.applyCtaSection} title={cmsString(cta?.title, 'Begin Your Management Journey – Apply Now')}>
       <div className={styles.lead} dangerouslySetInnerHTML={{ __html: cmsString(cta?.lead, '<p>Take the first step toward your management career. Complete the application form to get started.</p>') }} />
       <div className={styles.actions}><Button href={cmsString(cta?.primaryHref, APPLY_PATH)}>{cmsString(cta?.primaryText, 'Complete Application Form')}</Button><Button variant="arrow" href={cmsString(cta?.secondaryHref, '/contact-us/')}>{cmsString(cta?.secondaryText, 'Contact Admissions')}</Button></div>
     </AdmissionSection>

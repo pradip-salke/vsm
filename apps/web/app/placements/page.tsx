@@ -34,7 +34,7 @@ export default async function PlacementsPage() {
   const introBody = cmsString(intro?.body, placementIntro.map((paragraph) => `<p>${paragraph}</p>`).join(''));
   return (
     <PlacementPageShell title="Placements" active="Placements" pageSlug="placements">
-      <PlacementSection title={cmsString(intro?.title, 'Achieve Your Career Goals with VSM’s PGDM Placements')} intro={<CmsHtml html={introBody} />}>
+      <PlacementSection className={styles.placementsIntro} title={cmsString(intro?.title, 'Achieve Your Career Goals with VSM’s PGDM Placements')} intro={<CmsHtml html={introBody} />}>
         <div className={styles.cards}>
           {cards.map((page) => <article className={styles.card} key={page.href}>
             <h3>{page.title}</h3><p>{page.text}</p><Link href={page.href}>{page.linkText}<span aria-hidden>→</span></Link>

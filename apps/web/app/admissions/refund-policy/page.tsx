@@ -34,11 +34,11 @@ export default async function RefundPolicyPage() {
   const refundTable = content?.sections['refund-table'];
   const cmsRows = Array.isArray(refundTable?.refundRows) ? refundTable.refundRows as {particular:string;deduction:string;refund:string}[] : null;
   return <AdmissionsPageShell title="Refund Policy" subtitle="Cancellation of Admission, Refund of Fees and Return of Documents by Institute" active="Refund Policy" content={content}>
-    <AdmissionSection title={cmsString(policyContent?.title, 'Cancellation of Admission, Refund of Fees and Return of Documents by Institute')}>
+    <AdmissionSection className={styles.refundPolicySection} title={cmsString(policyContent?.title, 'Cancellation of Admission, Refund of Fees and Return of Documents by Institute')}>
       <ol className={styles.list}>{(policyClauses ?? policy.map((item) => ({body: ''}))).map((clause, index) => <li key={index}><span className={styles.marker} aria-hidden>{index + 1}</span><div>{policyClauses ? <span dangerouslySetInnerHTML={{__html:clause.body}} /> : policy[index]}</div></li>)}</ol>
       <p className={`${styles.lead} ${styles.refundAfterList}`} dangerouslySetInnerHTML={{__html:cmsString(policyContent?.note, 'Notwithstanding the clause above, the student shall not be entitled to any refund of his/her fee, if the cancellation of admission request is made by the Student after the Course Commences.')}} />
     </AdmissionSection>
-    <AdmissionSection title={cmsString(refundTable?.title, 'Refund Policy: As prescribed by AICTE')}>
+    <AdmissionSection className={styles.refundTableSection} title={cmsString(refundTable?.title, 'Refund Policy: As prescribed by AICTE')}>
       <div className={styles.tableScroll} tabIndex={0}><table className={styles.table}><caption className="visually-hidden">Refund policy prescribed by AICTE</caption>
         <thead><tr><th scope="col">{cmsString(refundTable?.particularHeading,'Fees Particulars')}</th><th scope="col">{cmsString(refundTable?.deductionHeading,'Deduction')}</th><th scope="col">{cmsString(refundTable?.refundHeading,'Refund')}</th></tr></thead>
         <tbody>{(cmsRows ?? refundRows.map(([particular,deduction,refund])=>({particular,deduction,refund}))).map(({particular,deduction,refund}) => <tr key={particular}><th scope="row">{particular}</th><td>{deduction}</td><td>{refund}</td></tr>)}</tbody>

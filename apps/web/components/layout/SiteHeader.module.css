@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(1rem, 2vw, 3rem);
+  gap: clamp(0.75rem, 1vw, 1.5rem);
   min-height: var(--header-height);
   padding-block: clamp(0.375rem, 0.7vw, 0.75rem);
 }
@@ -23,7 +23,7 @@
  * → 20.18 → Harvard 111.05×69.40 (top +1.31). Everything derives from --logo-w so it scales as one unit.
  */
 .brand {
-  --logo-w: clamp(9.5rem, 13.854vw, 16.625rem);
+  --logo-w: clamp(9.5rem, 12vw, 15rem);
   display: flex;
   align-items: flex-start;
   min-width: 0;
@@ -59,8 +59,8 @@
 
 .harvard {
   flex: none;
-  width: calc(var(--logo-w) * 111.047 / 266);
-  margin: calc(var(--logo-w) * 1.31 / 266) 0 0 calc(var(--logo-w) * 20.18 / 266);
+  width: clamp(3.5rem, 5.8vw, 6.95rem);
+  margin: 0;
 }
 
 /* Figma: nav starts 59px after the Harvard logo (row gap + 1.074vw at 1920) */
@@ -73,7 +73,7 @@
   --nav-font: clamp(0.9375rem, 1.146vw, 1.375rem);
   display: flex;
   align-items: center;
-  gap: clamp(0.75rem, 1.823vw, 2.1875rem);
+  gap: clamp(0.65rem, 1vw, 1.25rem);
 }
 
 .navItem {
@@ -81,6 +81,14 @@
   display: flex;
   align-items: center;
 }
+
+.navItem[data-active] {
+  background: #e2f5fa;
+  box-shadow: 0 0 0 0.4rem #e2f5fa;
+  border-radius: 0.2rem;
+}
+
+.navItem[data-active] > .navLink { font-weight: 700; }
 
 .navLink {
   color: var(--color-heading);
@@ -189,7 +197,7 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: clamp(1rem, 3.542vw, 4.25rem);
+  gap: clamp(0.75rem, 1.5vw, 1.75rem);
   flex: none;
   margin-right: calc(var(--page-gutter) * 7.5 / 120);
 }

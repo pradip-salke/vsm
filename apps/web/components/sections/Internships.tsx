@@ -12,9 +12,13 @@ export function Internships({ variant = 'default', items = internships, title = 
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [visibleCount, setVisibleCount] = useState(1);
+  // A lone CMS slide is repeated to fill the same three-card track used by
+  // the carousel animation, keeping the layout and controls usable.
+  const displayItems = items.length === 1 ? [items[0], items[0], items[0]] : items;
+  const loopDotMode = items.length > 0 && items.length <= visibleCount;
   // Preserve the existing pace as the CMS adds or removes internship slides.
   const durationMs = Math.max(1, (items.length / internships.length) * 18000);
-  const dotCount = items.length ? Math.ceil(items.length / visibleCount) : 0;
+  const dotCount = loopDotMode ? 3 : items.length ? Math.ceil(items.length / visibleCount) : 0;
 
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -42,14 +46,21 @@ export function Internships({ variant = 'default', items = internships, title = 
       const animation = trackRef.current?.getAnimations()[0];
       if (!animation || typeof animation.currentTime !== 'number') return;
       const progress = (animation.currentTime % durationMs) / durationMs;
-      setActive(Math.min(dotCount - 1, Math.floor((progress * items.length) / visibleCount)));
+      const nextActive = loopDotMode
+        ? Math.floor(progress * dotCount)
+        : Math.floor((progress * items.length) / visibleCount);
+      setActive(Math.min(dotCount - 1, nextActive));
     }, 120);
     return () => window.clearInterval(timer);
-  }, [durationMs, dotCount, items.length, visibleCount]);
+  }, [durationMs, dotCount, items.length, loopDotMode, visibleCount]);
 
   const selectGroup = (index: number) => {
     const animation = trackRef.current?.getAnimations()[0];
-    if (animation) animation.currentTime = ((index * visibleCount) / items.length) * durationMs;
+    if (animation) {
+      animation.currentTime = loopDotMode
+        ? (index / dotCount) * durationMs
+        : ((index * visibleCount) / items.length) * durationMs;
+    }
     setActive(index);
   };
 
@@ -59,12 +70,12 @@ export function Internships({ variant = 'default', items = internships, title = 
         <SectionHeading id="internship-title" title={title} align="center" />
         <div ref={carouselRef} className={styles.carousel} role="region" aria-roledescription="carousel" aria-label="Summer Internship 2025-27">
           <div className={styles.viewport}>
-            <div ref={trackRef} className={styles.track} style={items.length <= 1 ? { animation: 'none' } : { '--internship-scroll-duration': `${durationMs}ms` } as CSSProperties}>
-              {(items.length > 1 ? [0, 1, 2] : [0]).map((copy) => (
+            <div ref={trackRef} className={styles.track} style={items.length === 0 ? { animation: 'none' } : { '--internship-scroll-duration': `${durationMs}ms` } as CSSProperties}>
+              {(items.length > 0 ? [0, 1, 2] : [0]).map((copy) => (
                 <ul key={copy} className={styles.group} role="list" aria-hidden={copy > 0 || undefined}>
-                  {items.map((card, index) => (
+                  {displayItems.map((card, index) => (
                     <li key={`${card.src}-${index}`} className={styles.card}>
-                      <Image src={card.src} alt={copy === 0 ? card.alt : ''} width={card.width} height={card.height} sizes="(max-width: 767px) 85vw, 30vw" />
+                      <Image src={card.src} alt={copy === 0 && (items.length !== 1 || index === 0) ? card.alt : ''} width={card.width} height={card.height} sizes="(max-width: 767px) 85vw, 30vw" />
                     </li>
                   ))}
                 </ul>

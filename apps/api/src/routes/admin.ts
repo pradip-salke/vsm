@@ -1,5 +1,6 @@
 import { Router, raw } from 'express';
 import { usersRouter } from '../modules/admin/users.js';
+import { rolesRouter } from '../modules/admin/roles.js';
 import { readSliderVisibility, saveSliderVisibility } from '../modules/content/slider-visibility.service.js';
 import { readTestimonialMaster, saveTestimonialMaster } from '../modules/content/testimonial-masters.service.js';
 import { readGalleryCollection, saveGalleryCollection } from '../modules/content/gallery.service.js';
@@ -110,6 +111,7 @@ import {
 export const adminRouter = Router();
 adminRouter.use(requireTrustedOrigin, requireAuth);
 adminRouter.use('/users', usersRouter);
+adminRouter.use('/roles', rolesRouter);
 
 adminRouter.get('/dashboard', requirePermission('dashboard.read'), dashboard);
 adminRouter.get('/slider-visibility/:master', requirePermission('pages.read'), async (req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json({ data: await readSliderVisibility(String(req.params.master)) }); });

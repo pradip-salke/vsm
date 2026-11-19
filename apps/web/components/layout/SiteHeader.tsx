@@ -12,6 +12,8 @@ import { TopBar } from './TopBar';
 import styles from './SiteHeader.module.css';
 
 function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string }) {
+  const matches = (href: string) => { const path = href.replace(/\/$/, ''); return path && (pathname === path || pathname.startsWith(`${path}/`)); };
+  const active = item.label === 'About Us' ? pathname.startsWith('/about-us/') : item.label === 'Academics' ? pathname.startsWith('/our-academics/') || pathname === '/faculty' || ['/committee', '/anti-ragging-policy', '/eoa-report'].includes(pathname) : item.label === 'Events' ? pathname.startsWith('/events') || ['/list-of-speakers', '/videos-of-speakers'].includes(pathname) : matches(item.href) || item.children?.some(child => matches(child.href));
   const [open, setOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
   const [dismissed, setDismissed] = useState(false);
@@ -29,8 +31,8 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
 
   if (!item.children) {
     return (
-      <li className={styles.navItem}>
-        <Link className={styles.navLink} href={item.href}>
+      <li className={styles.navItem} data-active={active || undefined}>
+        <Link className={styles.navLink} href={item.href} aria-current={active ? 'page' : undefined}>
           {item.label}
         </Link>
       </li>
@@ -41,6 +43,7 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
     <li
       ref={ref}
       className={styles.navItem}
+      data-active={active || undefined}
       data-open={open || undefined}
       data-dismissed={dismissed || undefined}
       onPointerEnter={() => {
@@ -61,7 +64,7 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
         if (!ref.current?.contains(event.relatedTarget as Node)) setOpen(false);
       }}
     >
-      <Link className={styles.navLink} href={item.href} onClick={() => { setOpen(false); setDismissed(true); }}>
+      <Link className={styles.navLink} href={item.href} aria-current={active ? 'page' : undefined} onClick={() => { setOpen(false); setDismissed(true); }}>
         {item.label}
       </Link>
       <button
@@ -191,15 +194,6 @@ export function SiteHeader({ logoSrc, socials }: { logoSrc: string; socials?: Fo
               <img src={logoSrc} alt="Valia School of Management" width={266} height={78} fetchPriority="high" />
             </Link>
             <Image className={styles.years} src="/images/brand/63-years.webp" alt="63 years" width={145} height={73} priority />
-            <span className={styles.brandDivider} aria-hidden />
-            <Image
-              className={styles.harvard}
-              src="/images/brand/harvard-publishing.webp"
-              alt="Harvard Business Publishing Education"
-              width={112}
-              height={70}
-              priority
-            />
           </div>
 
           <nav className={styles.nav} aria-label="Main">
@@ -211,6 +205,7 @@ export function SiteHeader({ logoSrc, socials }: { logoSrc: string; socials?: Fo
           </nav>
 
           <div className={styles.actions}>
+            <Image className={styles.harvard} src="/images/brand/harvard-publishing.webp" alt="Harvard Business Publishing Education" width={112} height={70} priority />
             <Image className={styles.aicte} src="/images/brand/aicte.webp" alt="AICTE approved" width={92} height={92} priority />
             <button
               ref={toggleRef}

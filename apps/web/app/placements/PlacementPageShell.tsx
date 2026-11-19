@@ -11,7 +11,7 @@ import { getPlacementsPageContent, cmsString } from '@/lib/cms-content';
 export const placementPages = [
   { label: 'Our Recruiters', href: '/placements/our-recruiters/' },
   { label: 'Placement Records', href: '/placements/placement-records/' },
-  { label: 'Connect With Us', href: '/connect-with-us/' },
+  { label: 'Recruitment Enquiry', href: '/connect-with-us/' },
 ];
 
 export async function PlacementPageShell({ title, active, activeHref, children, pageSlug }: { title: string; active: string; activeHref?: string; children: ReactNode; pageSlug?: string }) {
@@ -19,12 +19,16 @@ export async function PlacementPageShell({ title, active, activeHref, children, 
   const hero = cms?.sections.hero ?? {};
   const slide = { ...academicsHero, ...hero, title: cmsString(hero.title, title), subtitle: cmsString(hero.subtitle, "Navigating Today’s Business World with Tomorrow’s Leaders") };
   const nav = cms?.sections['page-nav'];
-  const navLinks = Array.isArray(nav?.links) ? nav.links as { label: string; href: string }[] : placementPages;
+  const navLinks = (Array.isArray(nav?.links) ? nav.links as { label: string; href: string }[] : placementPages).map((link) => link.href.replace(/\/$/, '') === '/connect-with-us' ? { ...link, label: 'Recruitment Enquiry' } : link);
+  const heroItems = Array.isArray(cms?.masters.hero?.items) ? cms.masters.hero.items as Record<string, unknown>[] : [];
+  const slides = pageSlug === 'connect-with-us' && heroItems.length === 0
+    ? [{ ...slide, title }]
+    : heroItems.filter(item => item.enabled !== false).map(item => ({ ...slide, ...item, ...(pageSlug === 'connect-with-us' && item.title === 'Connect With Us' ? { title: 'Recruitment Enquiry' } : {}) }) as typeof academicsHero);
   return (
     <>
       <PageHero
         size="inner"
-        slides={(Array.isArray(cms?.masters.hero?.items) ? cms.masters.hero.items as Record<string, unknown>[] : []).filter(item => item.enabled !== false).map(item => ({ ...slide, ...item }) as typeof academicsHero)}
+        slides={slides}
         actions={<>
           {cmsString(hero.primaryText, 'Apply Now') && <Button href={cmsString(hero.primaryHref, APPLY_PATH)}>{cmsString(hero.primaryText, 'Apply Now')}</Button>}
           {cmsString(hero.secondaryText, 'Enquire now') && <Button variant="arrow" href={cmsString(hero.secondaryHref, 'mailto:admissions@vsmedu.in')}>{cmsString(hero.secondaryText, 'Enquire now')}</Button>}

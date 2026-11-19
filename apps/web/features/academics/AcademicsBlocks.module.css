@@ -5,7 +5,9 @@
 }
 
 .templateRichText {
+  width: 100%;
   min-width: 0;
+  max-width: none;
   color: var(--color-text-body);
   font-family: inherit;
   font-size: var(--font-size-body);

@@ -26,12 +26,17 @@
 .main { min-width: 0; }
 .section + .section { border-top: 1px solid var(--color-border-soft); }
 .section { padding-block: var(--section-spacing); }
+.recruitersSection { padding-bottom: calc(var(--section-spacing) + 20px); }
+.recordListingSection { padding-bottom: var(--section-spacing); }
+.placementsIntro { padding-bottom: calc(var(--section-spacing) + 10px); }
 .main > .section:first-child { padding-top: var(--section-spacing); }
 .sectionHeader { margin-bottom: var(--heading-copy-gap); }
+.placementsIntro .sectionHeader { margin-bottom: 0; padding-bottom: 10px; }
 .placementRecordsSection .sectionHeader { margin-bottom: calc(var(--heading-copy-gap) + 10px); }
 .eyebrow { margin-bottom: var(--space-2); color: var(--color-primary-dark); font-weight: var(--font-weight-bold); text-transform: uppercase; }
 .sectionHeader h2 { color: var(--color-heading); font-size: var(--font-size-h2); }
 .sectionSubheading { margin: var(--space-7) 0 var(--space-5); color: var(--color-heading); font-size: var(--font-size-h3); }
+.highlightsHeading { margin-bottom: calc(var(--space-5) + 10px); }
 .placementRecordsSection .sectionSubheading { margin-top: 0; margin-bottom: calc(var(--space-5) + 5px); }
 .intro { display: grid; gap: var(--space-4); max-width: 75rem; margin-bottom: var(--space-7); color: var(--color-text-answer); line-height: var(--line-height-body); }
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 1.5vw, 1.75rem); }
@@ -71,6 +76,12 @@
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .logoGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .recordCarousel { --slide-width: calc((100% - 1rem) / 2); }
+}
+
+@media (min-width: 1200px) {
+  .placementsIntro { padding-bottom: calc(var(--section-spacing) + 20px); }
+  .recordListingSection { padding-bottom: calc(var(--section-spacing) + 20px); }
+  .batchRecordsSection { padding-bottom: calc(var(--section-spacing) + 20px); }
 }
 
 @media (max-width: 599px) {

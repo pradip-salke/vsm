@@ -21,7 +21,7 @@ export default async function RecruitersPage() {
     .map((company) => ({ ...company, alt: company.alt ?? '', width: company.width ?? 240, height: company.height ?? 120 }));
   return (
     <PlacementPageShell title="Our Recruiters" active="Our Recruiters" pageSlug="our-recruiters">
-      <PlacementSection eyebrow={cmsString(intro?.eyebrow)} title={cmsString(intro?.title)} intro={cmsString(intro?.body) ? <CmsHtml html={cmsString(intro?.body)} /> : undefined}>
+      <PlacementSection className={styles.recruitersSection} eyebrow={cmsString(intro?.eyebrow)} title={cmsString(intro?.title)} intro={cmsString(intro?.body) ? <CmsHtml html={cmsString(intro?.body)} /> : undefined}>
         {cmsString(section?.title) && <h3 className={styles.sectionSubheading}>{cmsString(section?.title)}</h3>}
         <div className={styles.logoGrid}>
           {logos.map((company) => (

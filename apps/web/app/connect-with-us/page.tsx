@@ -4,7 +4,7 @@ import { withSeo } from '@/lib/seo';
 import { getPlacementsPageContent, cmsString } from '@/lib/cms-content';
 
 const metadata: Metadata = {
-  title: 'Connect With Us',
+  title: 'Recruitment Enquiry',
   description: 'Contact Valia School of Management with your questions, suggestions and feedback.',
   alternates: { canonical: '/connect-with-us/' },
 };
@@ -16,11 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ConnectWithUsPage() {
   const cms = await getPlacementsPageContent('connect-with-us');
   const contact = cms?.sections.contact;
-  const pageLinks = cms?.sections['page-nav']?.links;
-  const pageTitle = Array.isArray(pageLinks)
-    ? (pageLinks.find((item) => item && typeof item === 'object' && 'href' in item && item.href === '/connect-with-us/') as { label?: unknown } | undefined)?.label
-    : undefined;
-  const title = typeof pageTitle === 'string' ? pageTitle : '';
+  const title = 'Recruitment Enquiry';
   const emails = Array.isArray(contact?.emails) ? contact.emails.filter((item): item is string => typeof item === 'string' && Boolean(item.trim())) : [];
   const phones = Array.isArray(contact?.phones) ? contact.phones.filter((item): item is string => typeof item === 'string' && Boolean(item.trim())) : [];
 

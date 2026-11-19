@@ -110,7 +110,11 @@ const placementsPageMenus = pageGroupMenus(
 );
 const eventsPageMenus = pageGroupMenus(
   '/website/events',
-  Object.fromEntries(eventsPageSlugs.filter((slug) => slug !== 'gallery-2').map((slug) => [slug, eventsPages[slug]])) as Record<string, { navTitle: string; masterLabels: Record<string, string> }>
+  Object.fromEntries([...eventsPageSlugs].filter((slug) => slug !== 'gallery-2').sort((a, b) => {
+    const order = ['list-of-speakers', 'gallery', 'achievements', 'videos-of-speakers'];
+    const rank = (slug: string) => { const index = order.indexOf(slug); return index === -1 ? order.length : index; };
+    return rank(a) - rank(b);
+  }).map((slug) => [slug, eventsPages[slug]])) as Record<string, { navTitle: string; masterLabels: Record<string, string> }>
 ).map((page) => ({ ...page, children: [
   ...page.children.filter((child) => isMenuLeaf(child) ? child.label !== 'Gallery Albums' : true),
   ...(page.label === 'Photo Gallery' ? [{ label: 'Gallery Management', path: '/masters/gallery', description: 'Manage Gallery Albums and Life @ VSM images in one place.' }] : []),
@@ -255,7 +259,7 @@ export const adminMenu: AdminMenuGroup[] = [
     id: 'access',
     label: 'Access',
     icon: 'settings',
-    children: [{ label: 'Users', path: '/access/users', description: 'Manage admin accounts.' }],
+    children: [{ label: 'Users', path: '/access/users', description: 'Manage admin accounts.' }, { label: 'Roles', path: '/access/roles', description: 'Manage roles and permissions.' }],
   },
   {
     id: 'settings',

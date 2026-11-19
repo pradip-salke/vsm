@@ -15,7 +15,7 @@ const pageNav = () => ({
   links: [
     { label: 'Our Recruiters', href: '/placements/our-recruiters/' },
     { label: 'Placement Records', href: '/placements/placement-records/' },
-    { label: 'Connect With Us', href: '/connect-with-us/' },
+    { label: 'Recruitment Enquiry', href: '/connect-with-us/' },
   ],
 });
 
@@ -287,9 +287,9 @@ export const placementsPages = {
   },
   'connect-with-us': {
     path: '/connect-with-us/',
-    navTitle: 'Connect With Us',
+    navTitle: 'Recruitment Enquiry',
     sections: {
-      hero: breadcrumb('Connect With Us'),
+      hero: breadcrumb('Recruitment Enquiry'),
       'page-nav': pageNav(),
       contact: {
         eyebrow: EYEBROW,
@@ -301,7 +301,7 @@ export const placementsPages = {
         phones: ['+91 73043 43478', '+91 73043 43460'],
       },
     },
-    masters: { hero: { items: [] } },
+    masters: { hero: { items: [bannerSlide('Recruitment Enquiry')] } },
     masterLabels: { hero: 'Page Banner' },
     masterSections: {},
     labels: {

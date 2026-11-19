@@ -31,7 +31,26 @@ export const specialisationLinks: NavLink[] = [
   },
 ];
 
+export const aboutLinks: NavLink[] = [
+  { label: 'About VSM', href: '/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/' },
+  { label: 'Our Philosophy', href: '/about-us/our-philosophy/' },
+  { label: 'Academic Advisory Board', href: '/about-us/academic-advisory-board/' },
+  { label: 'Trustee’s Message', href: '/about-us/trustee-message/' },
+  { label: 'Vice Chairman Message', href: '/about-us/vice-chairman-message/' },
+  { label: 'Director Message', href: '/about-us/director-message/' },
+  { label: 'Affiliation & Industry Leadership', href: '/about-us/affiliation-industry-leadership/' },
+  { label: 'Infrastructure', href: '/about-us/infrastructure/' },
+  { label: 'Student Residence', href: '/about-us/student-residence/' },
+  { label: 'Board of Governance', href: 'https://vsmedu.com/wp-content/uploads/2026/08/DocScanner-25-Aug-2026-3-56-pm.pdf' },
+];
+
+export const careerAndBlogLinks: NavLink[] = [
+  { label: 'Career', href: '/career/' },
+  { label: 'Blogs', href: '/blogs/' },
+];
+
 export const mainNav: NavItem[] = [
+  { label: 'About Us', href: '/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/', children: [...aboutLinks] },
   {
     label: 'Academics',
     href: ACADEMICS_PGDM_PATH,
@@ -67,17 +86,17 @@ export const mainNav: NavItem[] = [
     children: [
       { label: 'Our Recruiters', href: '/placements/our-recruiters/' },
       { label: 'Placement Records', href: '/placements/placement-records/' },
-      { label: 'Connect With Us', href: '/connect-with-us/' },
+      { label: 'Recruitment Enquiry', href: '/connect-with-us/' },
     ],
   },
   {
     label: 'Events',
     href: '/events/',
     children: [
+      { label: 'Guest Speakers', href: '/list-of-speakers/' },
       { label: 'Photo Gallery', href: '/events/gallery/' },
       { label: 'Achievements', href: '/events/achievements/' },
-      { label: 'List of Speakers', href: '/list-of-speakers/' },
-      { label: 'Videos of Speakers', href: '/videos-of-speakers/' },
+      { label: 'Speaker Bites', href: '/videos-of-speakers/' },
     ],
   },
   { label: 'Contact', href: '/contact-us/' },
@@ -85,24 +104,6 @@ export const mainNav: NavItem[] = [
 
 /** Secondary links shown only in the mobile / hamburger drawer. */
 export const drawerNav: NavLink[] = [];
-
-export const aboutLinks: NavLink[] = [
-  { label: 'About VSM', href: '/about-us/about-vsm-mba-pgdm-colleges-in-mumbai/' },
-  { label: 'Our Philosophy', href: '/about-us/our-philosophy/' },
-  { label: 'Academic Advisory Board', href: '/about-us/academic-advisory-board/' },
-  { label: 'Trustee’s Message', href: '/about-us/trustee-message/' },
-  { label: 'Vice Chairman Message', href: '/about-us/vice-chairman-message/' },
-  { label: 'Director Message', href: '/about-us/director-message/' },
-  { label: 'Affiliation & Industry Leadership', href: '/about-us/affiliation-industry-leadership/' },
-  { label: 'Infrastructure', href: '/about-us/infrastructure/' },
-  { label: 'Student Residence', href: '/about-us/student-residence/' },
-  { label: 'Board of Governance', href: 'https://vsmedu.com/wp-content/uploads/2026/08/DocScanner-25-Aug-2026-3-56-pm.pdf' },
-];
-
-export const careerAndBlogLinks: NavLink[] = [
-  { label: 'Career', href: '/career/' },
-  { label: 'Blogs', href: '/blogs/' },
-];
 
 export const footer = {
   about:

@@ -23,7 +23,7 @@ export default async function PlacementRecordsPage() {
   const records = images.map((asset) => ({ ...asset, alt: asset.alt ?? 'PGDM internship placement record', width: asset.width ?? 724, height: asset.height ?? 1024 }));
   return (
     <PlacementPageShell title="Placement Records" active="Placement Records" pageSlug="placement-records">
-      <PlacementSection title={cmsString(section?.title, 'Batch Wise Placement Records')} className={styles.placementRecordsSection}>
+      <PlacementSection title={cmsString(section?.title, 'Batch Wise Placement Records')} className={`${styles.placementRecordsSection} ${styles.recordListingSection}`}>
         <h3 className={styles.sectionSubheading}>{cmsString(section?.subheading, 'Summer Internship 2025–27')}</h3>
         <div className={styles.recordGrid}>
           {records.map((asset) => <a className={styles.recordLink} href={asset.src} target="_blank" rel="noreferrer" key={asset.src}>
