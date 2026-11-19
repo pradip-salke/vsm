@@ -225,7 +225,7 @@
   padding-block: 0;
 }
 
-.block:last-child {
+.block:not(.customTemplateSection):last-child {
   border-bottom: 0;
 }
 
