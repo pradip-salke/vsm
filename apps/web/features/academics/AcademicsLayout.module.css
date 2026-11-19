@@ -173,6 +173,13 @@
   border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
+@media (max-width: 767px) {
+  .customTemplateSection h2 {
+    font-size: clamp(1.5rem, 5vw, 1.75rem);
+    overflow-wrap: anywhere;
+  }
+}
+
 .main > :global(#curriculum).block {
   --curriculum-year-tabs-gap: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - 17px);
   padding-top: calc(var(--academic-heading-top-visible-gap) - var(--academic-title-ink-offset));
@@ -300,6 +307,12 @@
     grid-template-columns: 1fr;
     --academic-divider-left: var(--page-gutter);
     --academic-divider-right: var(--page-gutter);
+  }
+
+  /* The About Program block follows the full-width At a Glance row on smaller
+     screens. Replace its desktop column offset with the shared section gap. */
+  .main > :global(#about-program).block {
+    padding-top: var(--section-rule-gap);
   }
 
   .sidebar {
