@@ -95,7 +95,7 @@ function assertKnown(key: string) {
 }
 
 function contentSchema(value: unknown, key = '', parent = '', documentKey = ''): z.ZodType {
-  if (documentKey.endsWith('.templateSections') && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true, imageUrl: true })).max(100);
+  if (documentKey.endsWith('.templateSections') && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ sectionType: true, imageUrl: true }).extend({ navigationEnabled: z.boolean().optional(), navigationId: z.string().regex(/^section-[a-zA-Z0-9-]+$/).max(100).optional().or(z.literal('')), navigationLabel: z.string().max(120).optional(), navigationOrder: z.number().int().min(1).max(1000).optional() }).refine((section: any) => !section.navigationEnabled || (Boolean(section.navigationId) && Boolean(section.navigationLabel?.trim())), 'Enabled navigation requires a section ID and tab label')).max(100).refine((sections: any[]) => { const ids = sections.map(section => section.navigationId).filter(Boolean); return new Set(ids).size === ids.length; }, 'Section IDs must be unique');
   if (documentKey.endsWith('.templateSections') && key === 'items' && Array.isArray(value)) return z.array(contentSchema(academicTemplateItem, '', key, documentKey)).max(100);
   const section = documentKey.includes('.') ? documentKey.split('.', 2)[1]! : '';
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key, documentKey)).max(100);

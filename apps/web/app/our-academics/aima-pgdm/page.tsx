@@ -5,6 +5,7 @@ import { AcademicClosingSections } from '@/components/sections/AcademicClosingSe
 import { IconList } from '@/components/sections/IconList';
 import { PageHero } from '@/components/sections/PageHero';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
+import { mergeTemplateTabs, templateSectionId } from '@/features/academics/templateNavigation';
 import { AimaCourseModules } from '@/features/academics/AimaCourseModules';
 import { AtAGlance } from '@/features/academics/AtAGlance';
 import layout from '@/features/academics/AcademicsLayout.module.css';
@@ -33,7 +34,7 @@ export default async function AimaPgdmPage() {
   // Display order is a position in the page's main content, starting before About VSM.
   const customSections = (sections.templateSections?.sections ?? []).map((section, index) => ({ section, index })).sort((a, b) => a.section.displayOrder - b.section.displayOrder || a.index - b.index);
   const sectionsAt = (position: number) => customSections.filter(({ section }) => Math.max(1, Math.min(9, section.displayOrder || 1)) === position).map(({ section, index }) => (
-    <section key={`custom-${index}`} className={`${layout.block} ${layout.customTemplateSection} ${section.sectionType === 'text' ? layout.customTextSection : ''}`}>
+    <section key={`custom-${index}`} id={templateSectionId(section)} className={`${layout.block} ${layout.customTemplateSection} ${section.sectionType === 'text' ? layout.customTextSection : ''}`}>
       {section.title && <SectionHeading title={section.title} />}
       <div className={blocks.prose}>
         <div className={section.sectionType === 'text' && section.imageUrl ? blocks.templateTextWithImage : undefined}><div className={blocks.templateRichText} dangerouslySetInnerHTML={{ __html: section.body }} />{section.sectionType === 'text' && section.imageUrl && <img className={blocks.templateTextImage} src={section.imageUrl} alt="" />}</div>
@@ -57,7 +58,7 @@ export default async function AimaPgdmPage() {
           </>
         }
       />
-      <AcademicsTabs tabs={tabs} />
+      <AcademicsTabs tabs={mergeTemplateTabs(tabs, customSections.map(({ section }) => section))} />
 
       <div className={layout.layout}>
         <aside className={layout.sidebar} aria-label="AIMA PGDM summary">

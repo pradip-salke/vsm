@@ -70,6 +70,21 @@
   grid-template-columns: calc(var(--edge) + clamp(16rem, 26.094vw, 31.3125rem)) minmax(0, 1fr);
 }
 
+/* The AICTE Figma frame spans the viewport on desktop. Keep the responsive
+   centered container behavior everywhere else. */
+.aictePage > .layout {
+  --edge: max(var(--page-gutter), (100% - var(--container-width)) / 2);
+}
+
+@media (min-width: 1200px) {
+  .aictePage > .layout {
+    width: 100vw;
+    margin-inline: 0;
+    --edge: max(var(--page-gutter), (100vw - var(--container-width)) / 2);
+    --academic-section-bottom: calc(var(--section-spacing) + 0.78125vw);
+  }
+}
+
 .sidebar {
   padding-left: var(--edge);
   border-right: var(--border-width) solid var(--color-border-soft);

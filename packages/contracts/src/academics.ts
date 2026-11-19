@@ -39,7 +39,7 @@ const ENQUIRY_ANCHOR = '#enquire-now';
 const PAGE_PATH = '/our-academics/aicte-pgdm-courses-in-mumbai/';
 
 export const academicTemplateItem = { icon: '/images/figma/icon-neutral.svg', iconSize: 32, text: '', displayOrder: 1 };
-export const academicTemplateSection = { title: '', body: '', subsectionTitle: '', displayOrder: 1, items: [academicTemplateItem], sectionType: '', imageUrl: '' };
+export const academicTemplateSection = { title: '', body: '', subsectionTitle: '', displayOrder: 1, items: [academicTemplateItem], sectionType: '', imageUrl: '', navigationEnabled: false, navigationId: '', navigationLabel: '', navigationOrder: 1 };
 
 export const academicsDefaults = {
   templateSections: { sections: [] as (typeof academicTemplateSection)[] },

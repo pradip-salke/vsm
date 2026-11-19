@@ -48,7 +48,7 @@ function assertKnown(key: string) {
 }
 
 function contentSchema(value: unknown, key = '', parent = '', documentKey = ''): z.ZodType {
-  if (documentKey === 'templateSections' && key === 'sections' && Array.isArray(value)) return z.array(contentSchema(academicTemplateSection, '', key, documentKey)).max(100);
+  if (documentKey === 'templateSections' && key === 'sections' && Array.isArray(value)) return z.array((contentSchema(academicTemplateSection, '', key, documentKey) as z.ZodObject<any>).partial({ navigationEnabled: true, navigationId: true, navigationLabel: true, navigationOrder: true })).max(100);
   if (documentKey === 'templateSections' && key === 'items' && Array.isArray(value)) return z.array(contentSchema(academicTemplateItem, '', key, documentKey)).max(100);
   if (Array.isArray(value)) return z.array(contentSchema(value[0], '', key, documentKey)).max(100);
   if (typeof value === 'boolean') return z.boolean();

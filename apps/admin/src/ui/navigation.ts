@@ -252,6 +252,12 @@ export const adminMenu: AdminMenuGroup[] = [
     ],
   },
   {
+    id: 'access',
+    label: 'Access',
+    icon: 'settings',
+    children: [{ label: 'Users', path: '/access/users', description: 'Manage admin accounts.' }],
+  },
+  {
     id: 'settings',
     label: 'Settings',
     icon: 'settings',

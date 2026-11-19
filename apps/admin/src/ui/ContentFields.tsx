@@ -1367,7 +1367,7 @@ export function Field({
           <legend>{label(name)}</legend>
         )}
         {error && <p role="alert" className="cms-error">{error}</p>}
-        {Object.entries(value).filter(([key]) => key !== 'sectionType' && key !== 'imageUrl' && !(value.sectionType === 'text' && (key === 'subsectionTitle' || key === 'items'))).map(([key, item]) => (
+        {Object.entries(value).filter(([key]) => !['sectionType', 'imageUrl', 'navigationEnabled', 'navigationId', 'navigationLabel', 'navigationOrder'].includes(key) && !(value.sectionType === 'text' && (key === 'subsectionTitle' || key === 'items'))).map(([key, item]) => (
           <Field
             key={key}
             name={key}
@@ -1383,6 +1383,7 @@ export function Field({
             onChange={(v) => onChange({ ...value, [key]: v })}
           />
         ))}
+        {'subsectionTitle' in value && 'displayOrder' in value && 'items' in value && <fieldset className="cms-field"><legend>Section navigation</legend><label><input type="checkbox" disabled={readOnly} checked={value.navigationEnabled === true} onChange={event => onChange({ ...value, navigationEnabled: event.target.checked, navigationId: value.navigationId || (event.target.checked ? `section-${Array.from(crypto.getRandomValues(new Uint8Array(16)), byte => byte.toString(16).padStart(2, '0')).join('')}` : ''), navigationLabel: value.navigationLabel || '', navigationOrder: typeof value.navigationOrder === 'number' ? value.navigationOrder : 1 })} /> Add to section navigation</label>{value.navigationEnabled === true && <><label className="cms-field"><span>Tab Label</span><input required maxLength={120} disabled={readOnly} value={typeof value.navigationLabel === 'string' ? value.navigationLabel : ''} onChange={event => onChange({ ...value, navigationLabel: event.target.value })} /></label><label className="cms-field"><span>Tab Display Order</span><input type="number" min={1} max={1000} disabled={readOnly} value={typeof value.navigationOrder === 'number' ? value.navigationOrder : 1} onChange={event => onChange({ ...value, navigationOrder: Number(event.target.value) })} /></label></>}</fieldset>}
         {value.sectionType === 'text' && <div className="cms-field cms-field--long">
           <span className="cms-field-label">Optional image</span>
           <input type="file" accept="image/png,image/jpeg,image/webp,image/avif,image/svg+xml" disabled={readOnly || uploading} onChange={async event => {

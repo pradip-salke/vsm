@@ -34,6 +34,7 @@ import { PlacementsPageEditor } from './PlacementsPageEditor';
 import { eventsMasterKeys, eventsPageSlugs } from '@vsmedu/contracts/events';
 import { EventsPageEditor } from './EventsPageEditor';
 import { ProfilePage } from './ProfilePage';
+import { UsersPage } from './UsersPage';
 import { SEO_STUDIO_PATH, SeoStudio, seoTabPath } from './seo/SeoStudio';
 import { GuidedTour, type TourId } from './GuidedTour';
 import { GalleryManagementPage } from './GalleryManagementPage';
@@ -265,6 +266,7 @@ export function App() {
           <Route path="/settings/contact" element={<ContactDetailsEditor canEdit={canEdit} />} />
           <Route path="/settings/footer" element={<FooterEditor canEdit={canEdit} />} />
           <Route path="/settings/profile" element={<ProfilePage user={user} onUserUpdate={setUser} onLogout={() => void logout()} />} />
+          <Route path="/access/users" element={<UsersPage />} />
           <Route path="/enquiries/career" element={<EnquiriesPage type="career" canEdit={canEdit} />} />
           <Route path="/enquiries/enquiry" element={<EnquiriesPage type="enquiry" canEdit={canEdit} />} />
           <Route path="/enquiries/application" element={<EnquiriesPage type="application" canEdit={canEdit} />} />

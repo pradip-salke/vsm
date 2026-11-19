@@ -11,6 +11,7 @@ import { academicsHero } from '@/content/academics';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import { AboutProgram } from '@/features/academics/AboutProgram';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
+import { mergeTemplateTabs, templateSectionId } from '@/features/academics/templateNavigation';
 import { AtAGlance } from '@/features/academics/AtAGlance';
 import { Curriculum } from '@/features/academics/Curriculum';
 import blocks from '@/features/academics/AcademicsBlocks.module.css';
@@ -50,7 +51,7 @@ export default async function AictePgdmPage() {
   const advantage = academics.advantage ?? academicsDefaults.advantage;
   const customSections = (academics.templateSections?.sections ?? []).map((section, index) => ({ section, index })).sort((a, b) => a.section.displayOrder - b.section.displayOrder || a.index - b.index);
   const sectionsAt = (position: number) => customSections.filter(({ section }) => Math.max(1, Math.min(12, section.displayOrder || 1)) === position).map(({ section, index }) => (
-    <section key={`custom-${index}`} className={`${layout.block} ${layout.customTemplateSection} ${section.sectionType === 'text' ? layout.customTextSection : ''}`}>
+    <section key={`custom-${index}`} id={templateSectionId(section)} className={`${layout.block} ${layout.customTemplateSection} ${section.sectionType === 'text' ? layout.customTextSection : ''}`}>
       {section.title && <SectionHeading title={section.title} />}
       <div className={blocks.prose}>
         <div className={section.sectionType === 'text' && section.imageUrl ? blocks.templateTextWithImage : undefined}><div className={blocks.templateRichText} dangerouslySetInnerHTML={{ __html: section.body }} />{section.sectionType === 'text' && section.imageUrl && <img className={blocks.templateTextImage} src={section.imageUrl} alt="" />}</div>
@@ -60,7 +61,7 @@ export default async function AictePgdmPage() {
     </section>
   ));
   return (
-    <div className={layout.page}>
+    <div className={`${layout.page} ${layout.aictePage}`}>
       <PageHero
         size="inner"
         slideActions
@@ -75,7 +76,7 @@ export default async function AictePgdmPage() {
           </>
         }
       />
-      <AcademicsTabs tabs={academics.tabs.links.map(({ label, anchor }) => ({ label, id: anchor }))} />
+      <AcademicsTabs tabs={mergeTemplateTabs(academics.tabs.links.map(({ label, anchor }) => ({ label, id: anchor })), customSections.map(({ section }) => section))} />
 
       <div className={layout.layout}>
         <aside className={layout.sidebar} aria-label="Programme summary">

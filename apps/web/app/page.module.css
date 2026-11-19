@@ -6,3 +6,15 @@
   padding-top: var(--section-spacing);
   background: var(--color-page);
 }
+
+/* Restore the original Figma desktop spacing; retain the tighter responsive
+   spacing used on phones and tablets. */
+@media (min-width: 1200px) {
+  .homePage {
+    --section-spacing: calc(clamp(2.5rem, 3.646vw, 4.375rem) + 1.041667vw);
+  }
+
+  .homePage + :global(#enquire-now) {
+    padding-top: calc(var(--section-spacing) * 2);
+  }
+}

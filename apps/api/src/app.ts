@@ -15,7 +15,7 @@ export function createApp() {
   app.disable('x-powered-by');
   if (env.TRUST_PROXY) app.set('trust proxy', 1);
   app.use(helmet());
-  app.use(cors({ origin: [...trustedOrigins], credentials: true, methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'X-Request-Id', 'X-CSRF-Token', 'X-File-Name'] }));
+  app.use(cors({ origin: [...trustedOrigins], credentials: true, methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], allowedHeaders: ['Content-Type', 'X-Request-Id', 'X-CSRF-Token', 'X-File-Name'] }));
   app.use('/cms-media', (_req, res, next) => { res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin'); next(); }, express.static(homeMediaRoot, { immutable: true, maxAge: '1y', dotfiles: 'deny', index: false }));
   app.use(express.json({ limit: '256kb' }));
   app.use((req, res, next) => { req.requestId = req.get('x-request-id')?.slice(0, 100) || randomUUID(); res.setHeader('X-Request-Id', req.requestId); next(); });

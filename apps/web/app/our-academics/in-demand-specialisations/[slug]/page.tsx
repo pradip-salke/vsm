@@ -9,6 +9,7 @@ import { academicSpecialisations } from '@/content/academic-specialisations';
 import { academicsSpecialisationDefaults } from '@vsmedu/contracts/academics-specialisations';
 import { APPLY_PATH, ENQUIRY_ANCHOR } from '@/content/site';
 import { AcademicsTabs } from '@/features/academics/AcademicsTabs';
+import { mergeTemplateTabs, templateSectionId } from '@/features/academics/templateNavigation';
 import { AtAGlance } from '@/features/academics/AtAGlance';
 import layout from '@/features/academics/AcademicsLayout.module.css';
 import blocks from '@/features/academics/AcademicsBlocks.module.css';
@@ -43,7 +44,7 @@ export default async function SpecialisationPage({ params }: Props) {
   if (!specPage) notFound();
   const closingContent = await getSpecialisationClosingContent(slug);
   const customSections = (closingContent.templateSections?.sections ?? []).map((section, index) => ({ section, index })).sort((a, b) => a.section.displayOrder - b.section.displayOrder || a.index - b.index);
-  const sectionsAt = (position: number) => customSections.filter(({ section }) => Math.max(1, Math.min(6, section.displayOrder || 1)) === position).map(({ section, index }) => <section key={`custom-${index}`} className={`${layout.block} ${layout.customTemplateSection} ${section.sectionType === 'text' ? layout.customTextSection : ''}`}>{section.title && <SectionHeading title={section.title} />}<div className={blocks.prose}><div className={section.sectionType === 'text' && section.imageUrl ? blocks.templateTextWithImage : undefined}><div className={blocks.templateRichText} dangerouslySetInnerHTML={{ __html: section.body }} />{section.sectionType === 'text' && section.imageUrl && <img className={blocks.templateTextImage} src={section.imageUrl} alt="" />}</div>{section.subsectionTitle && <h3>{section.subsectionTitle}</h3>}{section.items.length > 0 && <div className={section.items.length > 5 ? layout.customListViewport : undefined} role={section.items.length > 5 ? 'region' : undefined} aria-label={section.items.length > 5 ? `${section.title || 'Content'} list` : undefined} tabIndex={section.items.length > 5 ? 0 : undefined}><IconList items={section.items.slice().sort((a, b) => a.displayOrder - b.displayOrder)} divided className={styles.list} /></div>}</div></section>);
+  const sectionsAt = (position: number) => customSections.filter(({ section }) => Math.max(1, Math.min(6, section.displayOrder || 1)) === position).map(({ section, index }) => <section key={`custom-${index}`} id={templateSectionId(section)} className={`${layout.block} ${layout.customTemplateSection} ${section.sectionType === 'text' ? layout.customTextSection : ''}`}>{section.title && <SectionHeading title={section.title} />}<div className={blocks.prose}><div className={section.sectionType === 'text' && section.imageUrl ? blocks.templateTextWithImage : undefined}><div className={blocks.templateRichText} dangerouslySetInnerHTML={{ __html: section.body }} />{section.sectionType === 'text' && section.imageUrl && <img className={blocks.templateTextImage} src={section.imageUrl} alt="" />}</div>{section.subsectionTitle && <h3>{section.subsectionTitle}</h3>}{section.items.length > 0 && <div className={section.items.length > 5 ? layout.customListViewport : undefined} role={section.items.length > 5 ? 'region' : undefined} aria-label={section.items.length > 5 ? `${section.title || 'Content'} list` : undefined} tabIndex={section.items.length > 5 ? 0 : undefined}><IconList items={section.items.slice().sort((a, b) => a.displayOrder - b.displayOrder)} divided className={styles.list} /></div>}</div></section>);
 
   const defaultBreadcrumb = [
     { label: 'Home', href: '/' },
@@ -72,7 +73,7 @@ export default async function SpecialisationPage({ params }: Props) {
         breadcrumb={closingContent.breadcrumb ?? defaultBreadcrumb}
         actions={<><Button href={APPLY_PATH}>Apply Now</Button><Button variant="arrow" href={ENQUIRY_ANCHOR}>Enquire now</Button></>}
       />
-      <AcademicsTabs tabs={closingContent.tabs.links.filter(({ anchor }) => !(['financial-management-specialisation', 'mba-pgdm-in-human-resources-mumbai', 'mba-in-marketing-mumbai'].includes(slug) && ['specialisation-curriculum', 'admission-procedure'].includes(anchor))).map(({ label, anchor }) => ({ label, id: anchor }))} />
+      <AcademicsTabs tabs={mergeTemplateTabs(closingContent.tabs.links.filter(({ anchor }) => !(['financial-management-specialisation', 'mba-pgdm-in-human-resources-mumbai', 'mba-in-marketing-mumbai'].includes(slug) && ['specialisation-curriculum', 'admission-procedure'].includes(anchor))).map(({ label, anchor }) => ({ label, id: anchor })), customSections.map(({ section }) => section))} />
       <div className={`${layout.layout} ${styles.layout}`}>
         <aside className={`${layout.sidebar} ${styles.sidebar}`} aria-label={`${page.title} overview`}>
           <AtAGlance
