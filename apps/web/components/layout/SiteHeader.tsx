@@ -110,7 +110,7 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
 }
 
 function closeOpenDrawerSiblings(event: MouseEvent<HTMLElement>) {
-  const current = event.currentTarget.parentElement;
+  const current = event.currentTarget.parentElement as HTMLDetailsElement | null;
   const siblingList = current?.parentElement?.parentElement;
   if (!current || current.open || !siblingList) return;
 
@@ -207,6 +207,7 @@ export function SiteHeader({ logoSrc, socials }: { logoSrc: string; socials?: Fo
             <Link href="/" className={styles.logo} aria-label="Valia School of Management home">
               <img src={logoSrc} alt="Valia School of Management" width={266} height={78} fetchPriority="high" />
             </Link>
+            <Image className={styles.society} src="/images/brand/cosmopolitan-education-society.png" alt="Cosmopolitan Education Society" width={72} height={72} priority />
             <Image className={styles.years} src="/images/brand/63-years.webp" alt="63 years" width={145} height={73} priority />
           </div>
 

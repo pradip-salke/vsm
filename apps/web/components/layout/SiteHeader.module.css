@@ -27,6 +27,7 @@
   display: flex;
   align-items: flex-start;
   min-width: 0;
+  flex-shrink: 0;
   margin-left: calc(var(--page-gutter) / -12);
 }
 
@@ -36,11 +37,19 @@
 }
 
 .logo img,
+.society,
 .years,
 .harvard,
 .aicte {
   width: 100%;
   height: auto;
+}
+
+.society {
+  flex: none;
+  width: clamp(2.5rem, 4vw, 4.25rem);
+  align-self: center;
+  margin-left: clamp(0.35rem, 0.7vw, 0.75rem);
 }
 
 .years {
@@ -344,10 +353,15 @@
   color: var(--color-primary);
 }
 
-@media (max-width: 1279px) {
+@media (max-width: 1439px) {
   .nav {
     display: none;
   }
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  .brand { --logo-w: clamp(9rem, 20vw, 12rem); }
+  .society { width: clamp(2.75rem, 5vw, 3.75rem); }
 }
 
 @media (max-width: 767px) {
@@ -362,7 +376,8 @@
   }
 
   .inner { gap: clamp(0.5rem, 2vw, 1rem); }
-  .brand { --logo-w: clamp(8rem, 41vw, 12rem); }
+  .brand { --logo-w: clamp(7rem, 38vw, 12rem); }
+  .society { width: clamp(2rem, 9vw, 2.75rem); margin-left: 0.25rem; }
   /* Align the visible logo artwork and menu glyph with section content. The
      logo asset and icon are inset inside their boxes, so compensate equally
      on both sides of the shared page gutter. */
