@@ -353,10 +353,19 @@
   color: var(--color-primary);
 }
 
-@media (max-width: 1439px) {
+@media (max-width: 1279px) {
   .nav {
     display: none;
   }
+}
+
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .inner { gap: 0.5rem; }
+  .brand { --logo-w: 9.5rem; }
+  .society { width: 2.75rem; }
+  .nav { margin-inline: 0.25rem auto; }
+  .navList { --nav-font: 0.9375rem; gap: 0.5rem; }
+  .actions { gap: 0.75rem; }
 }
 
 @media (min-width: 768px) and (max-width: 1279px) {
