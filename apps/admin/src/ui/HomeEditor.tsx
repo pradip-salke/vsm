@@ -7,6 +7,7 @@ import { Field, preview, type Value } from './ContentFields';
 import { SliderMaster, type SupportedMasterKey } from './SliderMaster';
 import { Icon } from './Icon';
 import { FaqSectionEditor, type FaqContent } from './FaqSectionEditor';
+import { actionAllowed, useRoleActions, useWebsiteAction } from './roleActions';
 
 type Document = { content: Value; updatedAt: string | null };
 
@@ -79,6 +80,8 @@ function MarqueeEditor({
   canEdit: boolean;
   busy: boolean;
 }) {
+  const allowAdd = useWebsiteAction('add');
+  const allowDelete = useWebsiteAction('delete');
   const items = value?.items ?? [];
 
   function updateItem(index: number, field: 'text' | 'highlight', val: string | boolean) {
@@ -119,7 +122,7 @@ function MarqueeEditor({
             <button
               type="button"
               className="cms-btn-delete"
-              disabled={!canEdit || busy || items.length <= 1}
+              disabled={!canEdit || !allowDelete || busy || items.length <= 1}
               onClick={() => removeItem(index)}
               title="Delete item"
               aria-label="Delete item"
@@ -133,7 +136,7 @@ function MarqueeEditor({
         <button
           type="button"
           className="cms-secondary cms-btn-add-item"
-          disabled={!canEdit || busy || items.length >= 50}
+          disabled={!canEdit || !allowAdd || busy || items.length >= 50}
           onClick={addItem}
         >
           ＋ Add Item
@@ -231,6 +234,8 @@ function StatsItemsEditor({
   readOnly: boolean;
   onItemsChange: (next: StatItem[]) => void;
 }) {
+  const allowAdd = useWebsiteAction('add');
+  const allowDelete = useWebsiteAction('delete');
   const setItem = (index: number, field: keyof StatItem, val: string) => {
     const next = [...items];
     next[index] = { ...next[index], [field]: val };
@@ -274,7 +279,7 @@ function StatsItemsEditor({
             <button
               type="button"
               className="cms-compact-delete"
-              disabled={readOnly}
+              disabled={readOnly || !allowDelete}
               aria-label={`Delete item ${index + 1}`}
               title="Delete item"
               onClick={() => removeItem(index)}
@@ -287,7 +292,7 @@ function StatsItemsEditor({
       <button
         type="button"
         className="cms-compact-add"
-        disabled={readOnly || items.length >= 100}
+        disabled={readOnly || !allowAdd || items.length >= 100}
         onClick={addItem}
       >
         ＋ Add Item
@@ -377,6 +382,8 @@ export function HomeEditor({
   master?: SupportedMasterKey;
   canEdit: boolean;
 }) {
+  const actionSettings = useRoleActions();
+  const allowEdit = actionAllowed(actionSettings, '/website/home-sections', 'edit');
   if (master) return <SliderMaster master={master} canEdit={canEdit} />;
 
   const [documents, setDocuments] = useState<Record<string, Document>>({});
@@ -618,26 +625,26 @@ export function HomeEditor({
                     <MarqueeEditor
                       value={doc.content as { items?: MarqueeItem[] }}
                       onChange={(next) => handleSectionChange(key, next as unknown as Value)}
-                      canEdit={canEdit}
+                      canEdit={canEdit && allowEdit}
                       busy={busy}
                     />
                   ) : key === 'stats' ? (
                     <StatsItemsEditor
                       items={(doc.content as { items?: StatItem[] })?.items ?? []}
-                      readOnly={!canEdit || busy || uploads > 0}
+                      readOnly={!canEdit || !allowEdit || busy || uploads > 0}
                       onItemsChange={(items) => handleSectionChange(key, { items })}
                     />
                   ) : key === 'specialisations' ? (
                     <SpecialisationsItemsEditor
                       items={(doc.content as { items?: SpecialisationItem[] })?.items ?? []}
-                      readOnly={!canEdit || busy || uploads > 0}
+                      readOnly={!canEdit || !allowEdit || busy || uploads > 0}
                       onItemsChange={(items) => handleSectionChange(key, { ...(doc.content as object), items })}
                       upload={upload}
                     />
                   ) : key === 'faq' ? (
                     <FaqSectionEditor
                       content={(doc.content as FaqContent) ?? {}}
-                      readOnly={!canEdit || busy || uploads > 0}
+                      readOnly={!canEdit || !allowEdit || busy || uploads > 0}
                       onChange={(next) => handleSectionChange(key, next as unknown as Value)}
                     />
                   ) : (
@@ -648,7 +655,7 @@ export function HomeEditor({
                         ? { ...homeDefaults.program, ...doc.content }
                         : doc.content}
                       template={template}
-                      readOnly={!canEdit || busy || uploads > 0}
+                      readOnly={!canEdit || !allowEdit || busy || uploads > 0}
                       onUpload={upload}
                       onChange={(content) => handleSectionChange(key, content)}
                     />
@@ -697,7 +704,7 @@ export function HomeEditor({
               <button
                 type="button"
                 className="cms-primary cms-btn-update-home"
-                disabled={!canEdit || dirtyCount === 0 || busy || uploads > 0}
+                disabled={!canEdit || !allowEdit || dirtyCount === 0 || busy || uploads > 0}
                 onClick={() => void handleSaveAll()}
               >
                 {busy ? (

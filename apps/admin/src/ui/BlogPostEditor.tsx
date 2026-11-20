@@ -5,6 +5,7 @@ import { api } from '../lib/api';
 import { ArticleHtmlEditor } from './ArticleHtmlEditor';
 import { preview } from './ContentFields';
 import { BLOG_POSTS_PATH } from './sitePagesAdmin';
+import { actionAllowed, useRoleActions } from './roleActions';
 import './home-editor.css';
 
 type Form = Omit<BlogPostRecord, 'id' | 'createdAt' | 'updatedAt'>;
@@ -147,6 +148,8 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
   const location = useLocation();
   const { id } = useParams<{ id?: string }>();
   const isNew = !id;
+  const actionSettings = useRoleActions();
+  const allowedAction = actionAllowed(actionSettings, BLOG_POSTS_PATH, isNew ? 'add' : 'edit');
   const [form, setForm] = useState<Form>(EMPTY);
   const [updatedAt, setUpdatedAt] = useState<string | null>(null);
   const [slugTouched, setSlugTouched] = useState(!isNew);
@@ -246,7 +249,7 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
     }
   }
 
-  const readOnly = !canEdit || busy || uploads > 0;
+  const readOnly = !canEdit || !allowedAction || busy || uploads > 0;
   const publicUrl = `${WEB_BASE}/blogs/${form.slug}/`;
 
   return (
@@ -263,7 +266,7 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
             <span className="cms-breadcrumb-current">{isNew ? 'Add Post' : 'Edit Post'}</span>
           </nav>
           <h1>{isNew ? 'Add Blog Post' : `Edit: ${form.title || 'Blog post'}`}</h1>
-          <p className="page-description">Article content, featured image, categories, tags, author, publishing and SEO for one blog detail page.</p>
+          <p className="page-description">Article content, featured image, categories, tags, publishing and SEO for one blog detail page.</p>
         </div>
         <div className="cms-heading-actions">
           <button type="button" className="cms-secondary" onClick={() => navigate(BLOG_POSTS_PATH)}>← Back to Blog Posts</button>
@@ -293,24 +296,14 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
             </div>
           </Card>
 
-          <Card title="Content" subtitle="Short summary for post cards and the full article.">
+          <Card title="Content" subtitle="The full article.">
             <div className="cms-fields">
-              <div className="cms-field cms-field--long"><span>Summary</span><ArticleHtmlEditor label="Summary" rows={3} value={form.excerpt} disabled={readOnly} onChange={(html) => set('excerpt', html)} /></div>
               <div className="cms-field cms-field--long"><span>Article body</span><ArticleHtmlEditor label="Article body" value={form.body} disabled={readOnly} upload={upload} onChange={(html) => set('body', html)} /></div>
             </div>
           </Card>
 
           <Card title="Media" subtitle="Featured image shown on the blog listing and post page.">
             <ImageField label="Featured image" value={form.coverImageUrl} alt={form.coverImageAlt} onChange={(src) => set('coverImageUrl', src)} onAltChange={(alt) => set('coverImageAlt', alt)} upload={upload} disabled={readOnly} />
-          </Card>
-
-          <Card title="Author" subtitle="Author details for this article (optional).">
-            <div className="cms-fields">
-              <label className="cms-field"><span>Author name</span><input maxLength={160} value={form.authorName} disabled={readOnly} onChange={(e) => set('authorName', e.target.value)} /></label>
-              <label className="cms-field"><span>Author designation</span><input maxLength={160} value={form.authorRole} disabled={readOnly} onChange={(e) => set('authorRole', e.target.value)} /></label>
-              <ImageField label="Author photo" value={form.authorImageUrl} onChange={(src) => set('authorImageUrl', src)} upload={upload} disabled={readOnly} />
-              <label className="cms-field"><span>Author bio</span><textarea rows={3} maxLength={2000} value={form.authorBio} disabled={readOnly} onChange={(e) => set('authorBio', e.target.value)} /></label>
-            </div>
           </Card>
 
           <Card title="Publishing" subtitle="Draft and archived posts are hidden from the website. A future publish date schedules the post.">
@@ -350,7 +343,7 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
             </div>
             <div className="cms-save-actions">
               <button type="button" className="cms-secondary" disabled={busy} onClick={() => navigate(BLOG_POSTS_PATH)}>Cancel</button>
-              <button type="submit" className="cms-primary cms-btn-update-home" disabled={!canEdit || busy || uploads > 0 || (!dirty && !isNew)}>
+              <button type="submit" className="cms-primary cms-btn-update-home" disabled={!canEdit || !allowedAction || busy || uploads > 0 || (!dirty && !isNew)}>
                 {busy ? <><span className="button-spinner" /> Saving…</> : isNew ? 'Create Blog Post' : '✓ Update Blog Post'}
               </button>
             </div>
@@ -364,8 +357,7 @@ export function BlogPostEditor({ canEdit }: { canEdit: boolean }) {
         </div>
         {form.coverImageUrl && <img src={preview(form.coverImageUrl)} alt={form.coverImageAlt || ''} style={{ display: 'block', width: '100%', maxHeight: 360, objectFit: 'cover', borderRadius: 8, marginTop: 16 }} />}
         <h1>{form.title || 'Untitled post'}</h1>
-        <p className="cms-muted-text">{form.categories.join(' · ')}{form.authorName ? ` · ${form.authorName}` : ''}{form.publishedAt ? ` · ${new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' }).format(new Date(form.publishedAt))}` : ''}</p>
-        <div className="cms-article-preview" dangerouslySetInnerHTML={{ __html: form.excerpt }} />
+        <p className="cms-muted-text">{form.categories.join(' · ')}{form.publishedAt ? ` · ${new Intl.DateTimeFormat('en-IN', { dateStyle: 'long' }).format(new Date(form.publishedAt))}` : ''}</p>
         <div className="cms-article-preview" dangerouslySetInnerHTML={{ __html: form.body }} />
       </dialog>
     </div>

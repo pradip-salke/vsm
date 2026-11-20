@@ -55,3 +55,7 @@
   .facultyGrid.facultyGrid { grid-template-columns: 1fr; }
 }
 
+@media (max-width: 767px) {
+  .section.firstSection { padding-top: calc(clamp(4.375rem, 5.208vw, 6.25rem) - 30px); }
+}
+

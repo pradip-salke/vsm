@@ -96,9 +96,14 @@ export function Curriculum({ content }: { content: AcademicsContent['curriculum'
               </tr>
             </tbody>
           </table>
-          {table.note ? <div className={`${styles.note} ${styles.curriculumNote}`} dangerouslySetInnerHTML={{ __html: table.note }} /> : null}
         </div>
       ))}
+      {curriculum[selected]?.note ? (
+        <div
+          className={`${styles.note} ${styles.curriculumNote}`}
+          dangerouslySetInnerHTML={{ __html: curriculum[selected].note! }}
+        />
+      ) : null}
     </section>
   );
 }

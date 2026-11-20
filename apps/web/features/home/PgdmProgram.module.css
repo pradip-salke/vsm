@@ -103,3 +103,9 @@
     padding-inline: var(--page-gutter);
   }
 }
+
+@media (max-width: 767px) {
+  .link {
+    margin-bottom: 15px;
+  }
+}

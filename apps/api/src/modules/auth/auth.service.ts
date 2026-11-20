@@ -7,7 +7,7 @@ import { authRepository } from './auth.repository.js';
 export const authService = {
   async login(input: { email: string; password: string; userAgent?: string; ipAddress?: string; requestId?: string }) {
     const user = await authRepository.findUserByEmail(input.email.trim().toLowerCase());
-    const valid = user?.status === 'ACTIVE' && await argon2.verify(user.passwordHash, input.password).catch(() => false);
+    const valid = user?.status === 'ACTIVE' && user.userRoles.some(({ role }) => role.isActive) && await argon2.verify(user.passwordHash, input.password).catch(() => false);
     if (!user || !valid) throw new HttpError(401, 'INVALID_CREDENTIALS', 'Email or password is incorrect');
     const token = createSessionToken();
     const expiresAt = new Date(Date.now() + env.SESSION_TTL_HOURS * 60 * 60 * 1000);

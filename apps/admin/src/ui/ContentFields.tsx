@@ -2,6 +2,7 @@ import { SectionNavigationFields } from './SectionNavigationFields';
 import { useState, useRef, useEffect, type CSSProperties } from 'react';
 import { Icon } from './Icon';
 import { RichSubtitle } from './RichSubtitle';
+import { useWebsiteAction } from './roleActions';
 
 export type Value = string | number | boolean | Value[] | { [key: string]: Value };
 
@@ -206,6 +207,8 @@ type CurriculumYearsFieldProps = {
 };
 
 function CurriculumYearsField({ value: years, readOnly, onChange }: CurriculumYearsFieldProps) {
+  const allowAdd = useWebsiteAction('add');
+  const allowDelete = useWebsiteAction('delete');
   const [tab, setTab] = useState(0);
 
   useEffect(() => {
@@ -337,7 +340,7 @@ function CurriculumYearsField({ value: years, readOnly, onChange }: CurriculumYe
                   <button
                     type="button"
                     className="cms-btn-delete cms-curriculum-row-delete"
-                    disabled={readOnly || (active.rows?.length ?? 0) <= 1}
+                    disabled={readOnly || !allowDelete || (active.rows?.length ?? 0) <= 1}
                     onClick={() => {
                       setYearAt(tab, (y) => ({
                         ...y,
@@ -358,7 +361,7 @@ function CurriculumYearsField({ value: years, readOnly, onChange }: CurriculumYe
             <button
               type="button"
               className="cms-secondary cms-btn-add-item"
-              disabled={readOnly || (active.rows?.length ?? 0) >= 100}
+              disabled={readOnly || !allowAdd || (active.rows?.length ?? 0) >= 100}
               onClick={() => {
                 setYearAt(tab, (y) => {
                   const n = curriculumColCount(y);
@@ -580,6 +583,8 @@ function ProgramFeesSection({
   readOnly: boolean;
   onChange: (v: Value) => void;
 }) {
+  const allowAdd = useWebsiteAction('add');
+  const allowDelete = useWebsiteAction('delete');
   const columnLabel = String(value.columnLabel ?? '');
   const columnValue = String(value.columnValue ?? '');
   const rows = value.rows ?? [];
@@ -646,7 +651,7 @@ function ProgramFeesSection({
               <button
                 type="button"
                 className="cms-btn-delete cms-curriculum-row-delete"
-                disabled={readOnly || rows.length <= 1}
+                disabled={readOnly || !allowDelete || rows.length <= 1}
                 onClick={() => setRows(rows.filter((_, i) => i !== ri))}
                 title="Delete row"
                 aria-label={`Delete fee row ${ri + 1}`}
@@ -661,7 +666,7 @@ function ProgramFeesSection({
           <button
             type="button"
             className="cms-secondary cms-btn-add-item"
-            disabled={readOnly || rows.length >= 100}
+            disabled={readOnly || !allowAdd || rows.length >= 100}
             onClick={() => setRows([...rows, { label: '', amount: '' }])}
           >
             ＋ Add row
@@ -811,6 +816,8 @@ export function Field({
   hideLegend?: boolean;
   caption?: string;
 }) {
+  const allowAdd = useWebsiteAction('add');
+  const allowDelete = useWebsiteAction('delete');
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -924,7 +931,7 @@ export function Field({
                 <button
                   type="button"
                   className="cms-btn-delete"
-                  disabled={readOnly || stringValues.length <= 1}
+                  disabled={readOnly || !allowDelete || stringValues.length <= 1}
                   onClick={() => removeStringItem(index)}
                   title="Delete item"
                   aria-label="Delete item"
@@ -938,7 +945,7 @@ export function Field({
             <button
               type="button"
               className="cms-secondary cms-btn-add-item"
-              disabled={readOnly || stringValues.length >= 50}
+              disabled={readOnly || !allowAdd || stringValues.length >= 50}
               onClick={addStringItem}
             >
               ＋ Add Item
@@ -1040,7 +1047,7 @@ export function Field({
                 <button
                   type="button"
                   className="cms-btn-delete"
-                  disabled={readOnly || (itemValues.length <= 1 && !(itemTemplate && typeof itemTemplate === 'object' && !Array.isArray(itemTemplate) && 'displayOrder' in itemTemplate))}
+                  disabled={readOnly || !allowDelete || (itemValues.length <= 1 && !(itemTemplate && typeof itemTemplate === 'object' && !Array.isArray(itemTemplate) && 'displayOrder' in itemTemplate))}
                   onClick={() => removeItem(index)}
                   title="Delete item"
                   aria-label="Delete item"
@@ -1054,7 +1061,7 @@ export function Field({
             <button
               type="button"
               className="cms-secondary cms-btn-add-item"
-              disabled={readOnly || itemValues.length >= 50}
+              disabled={readOnly || !allowAdd || itemValues.length >= 50}
               onClick={addItem}
             >
               ＋ Add Item
@@ -1209,7 +1216,7 @@ export function Field({
                   <button
                     type="button"
                     className="cms-item-remove-btn cms-btn-delete"
-                    disabled={readOnly}
+                    disabled={readOnly || !allowDelete}
                     onClick={() => onChange(value.filter((_, i) => i !== index))}
                     title={`Delete ${itemLabel(item)} ${index + 1}`}
                     aria-label={`Delete ${itemLabel(item)} ${index + 1}`}
@@ -1233,7 +1240,7 @@ export function Field({
           <button
             type="button"
             className="cms-secondary cms-btn-add-item"
-            disabled={readOnly || value.length >= 100}
+            disabled={readOnly || !allowAdd || value.length >= 100}
             onClick={() => onChange([...value, blank(itemTemplate)])}
           >
             ＋ Add {itemName}

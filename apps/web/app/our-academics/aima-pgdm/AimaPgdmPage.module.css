@@ -59,6 +59,7 @@
 }
 
 @media (max-width: 767px) {
+  .iconList.iconList > li { padding-block: 10px; }
   .feeTable.feeTable { min-width: 0; table-layout: fixed; }
   .feeTable.feeTable :is(th, td) { padding-inline: 0.75rem; overflow-wrap: anywhere; }
 }

@@ -10,10 +10,11 @@ import {
   findAdminPage,
   getActiveAdminMenuPath,
   normalizeMenuPath,
+  permittedNodes,
 } from './navigation';
 import { Icon, type IconName } from './Icon';
 
-type Props = { collapsed: boolean; mobileOpen: boolean; onToggleCollapse: () => void; onCloseMobile: () => void; onLogout: () => void };
+type Props = { collapsed: boolean; mobileOpen: boolean; onToggleCollapse: () => void; onCloseMobile: () => void; onLogout: () => void; menuVisibility?: string[] | null };
 
 function includesQuery(value: string, query: string) {
   return value.toLocaleLowerCase().includes(query);
@@ -90,7 +91,7 @@ function RouteLink({
   );
 }
 
-export function Sidebar({ collapsed, mobileOpen, onToggleCollapse, onCloseMobile, onLogout }: Props) {
+export function Sidebar({ collapsed, mobileOpen, onToggleCollapse, onCloseMobile, onLogout, menuVisibility }: Props) {
   const { pathname } = useLocation();
   const [mobileViewport, setMobileViewport] = useState(() => window.matchMedia('(max-width: 900px)').matches);
   const isCollapsed = collapsed && !mobileViewport;
@@ -106,7 +107,15 @@ export function Sidebar({ collapsed, mobileOpen, onToggleCollapse, onCloseMobile
   });
   const [flyoutGroup, setFlyoutGroup] = useState<string | null>(null);
   const normalized = search.trim().toLocaleLowerCase();
-  const groups = useMemo(() => adminMenu.map((group) => visibleGroup(group, normalized)).filter((group): group is AdminMenuGroup => Boolean(group)), [normalized]);
+  const groups = useMemo(() => {
+    const allowed = menuVisibility == null ? null : new Set(menuVisibility);
+    return adminMenu.flatMap(group => {
+      const children = allowed ? permittedNodes(group.children ?? [], allowed) : group.children;
+      if (allowed && !children?.length && !(group.path && allowed.has(group.path))) return [];
+      const visible = visibleGroup({ ...group, children }, normalized);
+      return visible ? [visible] : [];
+    });
+  }, [normalized, menuVisibility]);
   const activeMenuPath = useMemo(() => getActiveAdminMenuPath(pathname), [pathname]);
 
   useEffect(() => {

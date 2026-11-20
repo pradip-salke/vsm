@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { api } from '../lib/api';
 import './home-editor.css';
 import { Field, blank, type Value } from './ContentFields';
 import { academicTemplateSection } from '@vsmedu/contracts/academics';
 import { FaqSectionEditor, type FaqContent } from './FaqSectionEditor';
 import { type AcademicsPageEditorConfig, aictePageConfig, aimaPageConfig, facultyPageConfig } from './academicsPageConfigs';
+import { actionAllowed, useRoleActions } from './roleActions';
 
 type Document = { content: Value; updatedAt: string | null };
 type Upload = { src: string; alt: string; width: number; height: number };
@@ -59,6 +60,10 @@ export function AcademicsPageEditor({
   /** Wrap bulk PATCH body — default `{ sections }`. */
   mapBulkSavePayload?: (sections: Record<string, Document>) => Record<string, unknown>;
 }) {
+  const { pathname } = useLocation();
+  const actionSettings = useRoleActions();
+  const allowEdit = actionAllowed(actionSettings, pathname, 'edit');
+  const allowAdd = actionAllowed(actionSettings, pathname, 'add');
   const [documents, setDocuments] = useState<Record<string, Document>>({});
   const [dirtyKeys, setDirtyKeys] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
@@ -163,7 +168,7 @@ export function AcademicsPageEditor({
   }
 
   const dirtyCount = dirtyKeys.size;
-  const readOnly = !canEdit || busy || uploads > 0;
+  const readOnly = !canEdit || !allowEdit || busy || uploads > 0;
 
   return (
     <div className="cms-editor cms-home-page-editor">
@@ -342,14 +347,14 @@ export function AcademicsPageEditor({
               {!canEdit && <span className="cms-status-readonly">You have read-only access.</span>}
             </div>
             <div className="cms-save-actions">
-              {config.sections.includes('templateSections') && <button type="button" className="cms-secondary" disabled={loading || readOnly || !documents.templateSections} onClick={() => {
+              {config.sections.includes('templateSections') && <button type="button" className="cms-secondary" disabled={loading || readOnly || !allowAdd || !documents.templateSections} onClick={() => {
                 const content = documents.templateSections.content;
                 if (!content || typeof content !== 'object' || Array.isArray(content)) return;
                 const sections = Array.isArray(content.sections) ? content.sections : [];
                 change('templateSections', { ...content, sections: [...sections, { title: '', body: '', subsectionTitle: '', displayOrder: 1, items: [], sectionType: 'text', imageUrl: '' }] });
                 requestAnimationFrame(() => document.getElementById('section-templateSections')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
               }}>＋ Add Text Section</button>}
-              {config.sections.includes('templateSections') && <button type="button" className="cms-secondary" disabled={loading || readOnly || !documents.templateSections} onClick={() => {
+              {config.sections.includes('templateSections') && <button type="button" className="cms-secondary" disabled={loading || readOnly || !allowAdd || !documents.templateSections} onClick={() => {
                 const content = documents.templateSections.content;
                 if (!content || typeof content !== 'object' || Array.isArray(content)) return;
                 const sections = Array.isArray(content.sections) ? content.sections : [];
@@ -364,7 +369,7 @@ export function AcademicsPageEditor({
               <button
                 type="button"
                 className="cms-primary cms-btn-update-home"
-                disabled={!canEdit || dirtyCount === 0 || busy || uploads > 0}
+                disabled={!canEdit || !allowEdit || dirtyCount === 0 || busy || uploads > 0}
                 onClick={() => void saveAll()}
               >
                 {busy ? (

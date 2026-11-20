@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { api, publicAssetUrl } from '../lib/api';
 import { Icon } from './Icon';
+import { actionAllowed, useRoleActions } from './roleActions';
 import './enquiries.css';
 
 export type EnquiryType = 'career' | 'enquiry' | 'application';
@@ -90,6 +91,11 @@ export function EnquiriesPage({
   type: EnquiryType;
   canEdit: boolean;
 }) {
+  const actionSettings = useRoleActions();
+  const menuPath = `/enquiries/${type}`;
+  const allowEdit = actionAllowed(actionSettings, menuPath, 'edit');
+  const allowDelete = actionAllowed(actionSettings, menuPath, 'delete');
+  const allowExport = actionAllowed(actionSettings, menuPath, 'export');
   const [items, setItems] = useState<AnySubmission[]>([]);
   const [total, setTotal] = useState(0);
   const [stats, setStats] = useState({ total: 0, newCount: 0 });
@@ -396,6 +402,7 @@ export function EnquiriesPage({
           <button
             type="button"
             className="cms-export-btn cms-export-btn--excel"
+            disabled={!allowExport}
             onClick={exportExcel}
             title="Export to Excel spreadsheet"
           >
@@ -405,6 +412,7 @@ export function EnquiriesPage({
           <button
             type="button"
             className="cms-export-btn cms-export-btn--csv"
+            disabled={!allowExport}
             onClick={exportCSV}
             title="Export to CSV text file"
           >
@@ -414,6 +422,7 @@ export function EnquiriesPage({
           <button
             type="button"
             className="cms-export-btn cms-export-btn--print"
+            disabled={!allowExport}
             onClick={handlePrint}
             title="Print or save as PDF"
           >
@@ -635,7 +644,7 @@ export function EnquiriesPage({
                           <button
                             type="button"
                             className="cms-delete-action"
-                            disabled={!canEdit || actionBusy}
+                            disabled={!canEdit || !allowDelete || actionBusy}
                             onClick={() => setDeletingItem(item)}
                             title="Delete submission"
                             aria-label={`Delete submission #${item.id}`}
@@ -720,7 +729,7 @@ export function EnquiriesPage({
                 <span className="cms-modal-status-label">Current Status:</span>
                 <select
                   value={selectedItem.status || 'NEW'}
-                  disabled={!canEdit || actionBusy}
+                  disabled={!canEdit || !allowEdit || actionBusy}
                   onChange={(e) => void handleStatusChange(selectedItem, e.target.value)}
                   className="cms-modal-status-select"
                 >

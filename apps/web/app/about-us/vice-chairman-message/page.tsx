@@ -24,7 +24,7 @@ export default async function ViceChairmanMessagePage() {
   const careers = list(section?.careers, message.careers);
   const signature = list(section?.signature, message.signature);
   return <AboutPageShell title="Vice Chairman Message" active="Vice Chairman Message" viewportContent pageSlug="vice-chairman-message">
-    <AboutSection title={cmsString(section?.title, 'Message From Vice Chairman')} className={styles.messagePageSection}>
+    <AboutSection title={cmsString(section?.title, 'Message From Vice Chairman')} className={`${styles.messagePageSection} ${styles.viceChairmanMessageSection}`}>
       <div className={styles.message}>
         <Image src={image.src} alt={image.alt ?? ''} width={image.width ?? 600} height={image.height ?? 900} sizes="(max-width: 650px) min(100vw, 18rem), 15rem" />
         <div className={styles.copy}>

@@ -35,3 +35,7 @@
   }
   .list { --band-bleed: var(--page-gutter); --band-end: calc(-1 * var(--page-gutter)); }
 }
+
+@media (max-width: 767px) {
+  .section:global(#admission-procedure) > :global(div:first-child) { margin-bottom: 25px; }
+}

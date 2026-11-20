@@ -21,6 +21,6 @@ export default async function SpeakersPage() {
     .map(({ item }) => item);
   return <EventsShell title="Guest Speakers" active="Guest Speakers" cms={cms}><section className={`container ${styles.section} ${styles.speakersSection}`}>
     <header className={styles.heading}><h2>{cmsString(intro?.title, 'Campus-Corporate Connect')}</h2><p>{cmsString(intro?.description, 'Industry leaders share practical perspectives and experience with VSM students.')}</p></header>
-    <SpeakerCards items={items} />
+    <SpeakerCards items={items} title={cmsString(intro?.title, 'Campus-Corporate Connect')} description={cmsString(intro?.description, 'Industry leaders share practical perspectives and experience with VSM students.')} />
   </section></EventsShell>;
 }

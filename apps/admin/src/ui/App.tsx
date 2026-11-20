@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { api } from '../lib/api';
 import { LoginPage, type AdminUser } from './LoginPage';
 import { Sidebar } from './Sidebar';
+import { RoleActionsContext } from './roleActions';
 import { Topbar } from './Topbar';
 import { DashboardPage } from './DashboardPage';
 import { PlaceholderPage } from './PlaceholderPage';
@@ -96,8 +97,8 @@ export function App() {
 
   const canEdit = user.permissions?.includes('pages.write') ?? false;
 
-  return <div className={`admin-shell ${collapsed ? 'sidebar-is-collapsed' : ''}`}>
-    <Sidebar collapsed={collapsed} mobileOpen={mobileOpen} onToggleCollapse={() => setCollapsed((value) => { const next = !value; localStorage.setItem('vsm-admin-sidebar-collapsed', String(next)); return next; })} onCloseMobile={() => setMobileOpen(false)} onLogout={() => void logout()} />
+  return <RoleActionsContext.Provider value={user.roles?.includes('super_admin') ? null : user.menuVisibility ?? null}><div className={`admin-shell ${collapsed ? 'sidebar-is-collapsed' : ''}`}>
+    <Sidebar collapsed={collapsed} mobileOpen={mobileOpen} menuVisibility={user.roles?.includes('super_admin') ? null : user.menuVisibility} onToggleCollapse={() => setCollapsed((value) => { const next = !value; localStorage.setItem('vsm-admin-sidebar-collapsed', String(next)); return next; })} onCloseMobile={() => setMobileOpen(false)} onLogout={() => void logout()} />
     <div className="admin-main-column"><Topbar user={user} onToggleSidebar={toggleSidebar} onLogout={() => void logout()} onStartTour={startTour} tourAvailable />
       <main className="admin-content" id="main-content" key={location.pathname}>
         {logoutError && <div className="inline-error" role="alert"><Icon name="shield" size={18} /><p>{logoutError}</p></div>}
@@ -282,5 +283,5 @@ export function App() {
       </main>
     </div>
     {activeTour && <GuidedTour key={`${activeTour}-${tourRun}`} tourId={activeTour} isFormPage={isFormPage} pageTitle={tourPageTitle} route={normalizedTourRoute} onEnd={() => setActiveTour(null)} />}
-  </div>;
+  </div></RoleActionsContext.Provider>;
 }

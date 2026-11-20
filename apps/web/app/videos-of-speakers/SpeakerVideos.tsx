@@ -40,11 +40,11 @@ export function SpeakerVideos({ videos }: { videos: EventsVideoItem[] }) {
 
   return (
     <>
-      <div ref={gridRef} className={styles.speakerGrid}>
+      <div ref={gridRef} className={styles.videoGrid}>
         {videos.map((video) => {
           const thumbnail = videoThumbnailUrl(video.videoUrl);
           return (
-            <article className={`${styles.speaker} ${styles.videoCard}`} key={video.videoUrl}>
+            <article className={styles.videoCard} key={video.videoUrl}>
               <button
                 className={styles.speakerThumbnail}
                 type="button"

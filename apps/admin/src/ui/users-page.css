@@ -1,5 +1,6 @@
 .users-page h1 { margin: 0 0 1.5rem; }
 .users-page .users-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.users-page .roles-save-actions { display: flex; justify-content: flex-end; }
 .users-page .users-back-icon { transform: rotate(180deg); flex: none; }
 .users-page .users-search { display: flex; justify-content: flex-end; align-items: center; gap: .75rem; margin: 1.5rem 0 1rem; color: var(--muted); }
 .users-page .users-search input { width: min(100%, 260px); padding: .65rem .8rem; border: 1px solid #dce3ef; border-radius: 8px; font: inherit; }
@@ -11,6 +12,30 @@
 .users-page .users-status.is-active { color: #087856; background: #e3f7ef; }
 .users-page .users-status.is-inactive { color: #697487; background: #edf0f5; }
 .users-page .users-actions { display: flex; gap: .5rem; white-space: nowrap; }
+.users-page .roles-permission-grid { grid-column: 1 / -1; display: grid; gap: .75rem; }
+.users-page .roles-permission-table-wrap { grid-column: 1 / -1; min-width: 0; }
+.users-page .roles-permission-table-wrap > p { margin: 0 0 1rem; }
+.users-page .roles-permission-table { width: 100%; border-collapse: collapse; text-align: center; }
+.users-page .roles-permission-table th, .users-page .roles-permission-table td { padding: .8rem; border-bottom: 1px solid #e7edf4; }
+.users-page .roles-permission-table thead { background: #f5f7fa; }
+.users-page .roles-permission-table th:first-child { text-align: left; }
+.users-page .roles-page-permission th { padding-left: 1.8rem; font-weight: 500; }
+.users-page .roles-page-permission small { display: block; color: #78879b; font-weight: 400; }
+.users-page .roles-page-permission td { color: #78879b; font-size: .85rem; }
+.users-page .roles-permission-row { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin: 0; padding: .8rem 1rem 1rem; border: 1px solid #dce3ef; border-radius: 8px; }
+.users-page .roles-permission-row legend { padding: 0 .35rem; font-weight: 700; }
+.users-page .roles-permission-row label { display: flex; align-items: center; gap: .4rem; }
+.users-page .role-menu-tree .roles-permission-row { display: block; }
+.users-page .role-menu-tree ul { display: grid; gap: .65rem; margin: .65rem 0 0; padding-left: 1.5rem; list-style: none; }
+.users-page .role-menu-tree li { min-width: 0; }
+.users-page .role-menu-tree .cms-section-card { margin: 0; overflow: hidden; }
+.users-page .roles-matrix-heading { padding: 1rem 1.25rem; background: #f5f7fa; border-bottom: 1px solid #e7edf4; }
+.users-page .roles-matrix-heading h3, .users-page .roles-matrix-heading p { margin: 0; }
+.users-page .roles-matrix-heading p { margin-top: .25rem; color: #78879b; }
+.users-page .role-menu-tree .cms-table-overflow { padding: 1rem 1.25rem; }
+.users-page .role-menu-tree .roles-permission-table { min-width: 680px; }
+.users-page .cms-slides-table th:nth-child(4),
+.users-page .cms-slides-table td:nth-child(4) { white-space: nowrap; }
 .users-page .cms-row-actions .cms-secondary {
   width: auto;
   min-width: 5rem;

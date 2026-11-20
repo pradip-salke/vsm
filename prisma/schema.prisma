@@ -48,6 +48,8 @@ model Role {
   code            String           @unique @db.VarChar(80)
   name            String           @db.VarChar(120)
   description     String?          @db.VarChar(500)
+  isActive        Boolean          @default(true) @map("is_active")
+  menuVisibility  Json?            @map("menu_visibility")
   userRoles       UserRole[]
   rolePermissions RolePermission[]
   @@map("roles")

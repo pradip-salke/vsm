@@ -22,7 +22,7 @@ export default async function DirectorMessagePage() {
   const pillars = Array.isArray(section?.pillars) ? section.pillars as { label: string; detail: string }[] : message.pillars.map(([label, detail]) => ({ label, detail }));
   const signature = Array.isArray(section?.signature) ? section.signature.map(String) : message.signature;
   return <AboutPageShell title="Director's Message" active="Director Message" viewportContent pageSlug="director-message">
-    <AboutSection title={cmsString(section?.title, 'Message From Director')}>
+    <AboutSection className={styles.directorMessageSection} title={cmsString(section?.title, 'Message From Director')}>
       <div className={styles.message}>
         <Image src={image.src} alt={image.alt ?? ''} width={image.width ?? 600} height={image.height ?? 750} sizes="(max-width: 650px) min(100vw, 18rem), 15rem" />
         <div className={styles.copy}>

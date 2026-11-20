@@ -19,9 +19,15 @@ export const requireAuth: RequestHandler = async (req, _res, next) => {
       if (session) await authRepository.revokeSession(token);
       throw new HttpError(401, 'UNAUTHENTICATED', 'Please sign in');
     }
-    const roles = session.user.userRoles.map(({ role }) => role.code);
-    const permissions = [...new Set(session.user.userRoles.flatMap(({ role }) => role.rolePermissions.map(({ permission }) => permission.code)))];
-    req.auth = { userId: session.user.id, email: session.user.email, name: session.user.name, roles, permissions };
+    const activeRoles = session.user.userRoles.filter(({ role }) => role.isActive);
+    if (activeRoles.length === 0) {
+      await authRepository.revokeSession(token);
+      throw new HttpError(401, 'UNAUTHENTICATED', 'Please sign in');
+    }
+    const roles = activeRoles.map(({ role }) => role.code);
+    const permissions = [...new Set(activeRoles.flatMap(({ role }) => role.rolePermissions.map(({ permission }) => permission.code)))];
+    const menuVisibility = activeRoles.some(({ role }) => role.menuVisibility === null) ? null : [...new Set(activeRoles.flatMap(({ role }) => Array.isArray(role.menuVisibility) ? role.menuVisibility.filter((value): value is string => typeof value === 'string') : []))];
+    req.auth = { userId: session.user.id, email: session.user.email, name: session.user.name, roles, permissions, menuVisibility };
     next();
   } catch (error) { next(error); }
 };

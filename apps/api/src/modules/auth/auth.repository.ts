@@ -2,7 +2,7 @@ import { prisma } from '../../lib/prisma.js';
 import { hashSessionToken } from '../../security/session.js';
 
 export const authRepository = {
-  findUserByEmail: (email: string) => prisma.adminUser.findUnique({ where: { email } }),
+  findUserByEmail: (email: string) => prisma.adminUser.findUnique({ where: { email }, include: { userRoles: { include: { role: true } } } }),
   findUserById: (id: number) => prisma.adminUser.findUnique({ where: { id } }),
   createSession: (input: { tokenHash: string; userId: number; expiresAt: Date; userAgent?: string; ipAddress?: string; requestId?: string }) => prisma.$transaction([
     prisma.session.create({ data: { tokenHash: input.tokenHash, userId: input.userId, expiresAt: input.expiresAt, userAgent: input.userAgent, ipAddress: input.ipAddress } }),

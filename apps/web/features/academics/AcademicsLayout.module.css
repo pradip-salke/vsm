@@ -183,16 +183,20 @@
 }
 
 .block.customTemplateSection {
-  padding-top: 20px;
-  padding-bottom: 40px;
+  padding-top: calc(var(--academic-heading-top-visible-gap) - var(--academic-title-ink-offset));
+  padding-bottom: max(0px, calc(var(--academic-section-bottom) - 14px));
   border-bottom: var(--border-width) solid var(--color-border-soft);
 }
 
-@media (max-width: 767px) {
-  .customTemplateSection h2 {
-    font-size: clamp(1.5rem, 5vw, 1.75rem);
-    overflow-wrap: anywhere;
-  }
+.customTemplateSection > :global(div:first-child) h2 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-heading);
+  overflow-wrap: anywhere;
+}
+
+.customTemplateSection > :global(div:first-child) + :global(div) {
+  margin-top: calc(clamp(1.5rem, 1rem + 1.6vw, 2.6rem) - 17px);
 }
 
 .main > :global(#curriculum).block {
@@ -351,6 +355,29 @@
     padding: var(--section-rule-gap) var(--page-gutter) var(--academic-section-bottom);
   }
 
+  .aictePage .main > .block.why {
+    padding-top: calc(var(--section-rule-gap) + 10px);
+  }
+
+  .aictePage .main > .block.why :global(#why-vsm-title) {
+    margin-bottom: 10px;
+  }
+
+  .aictePage .main > .lifeBlock {
+    padding-top: calc(var(--life-heading-top-space) + 10px);
+  }
+
+  .aictePage .main > .lifeBlock :global(#gallery-carousel-title),
+  .aictePage .main > :global(#events).block :global(#events-carousel-title),
+  .aictePage .main > :global(#curriculum).block :global(#curriculum-title) {
+    margin-bottom: 10px;
+  }
+
+  .aictePage .main > :global(#events).block,
+  .aictePage .main > :global(#curriculum).block {
+    padding-top: calc(var(--academic-heading-top-visible-gap) - var(--academic-title-ink-offset) + 10px);
+  }
+
   .main .steps {
     --academic-divider-left: 0px;
     --academic-divider-right: 0px;
@@ -374,6 +401,16 @@
 }
 
 @media (max-width: 767px) {
+  .aictePage .main > :global(#curriculum).block :global([class*="curriculumNote"]) {
+    display: block;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 10px;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
   .page > :global(section[aria-label='Introduction']) > div > :global(div.container) > div {
     margin-top: var(--space-5);
   }

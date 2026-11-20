@@ -24,6 +24,14 @@ export function isMenuLeaf(item: AdminMenuNode): item is AdminMenuLink {
   return 'path' in item;
 }
 
+export function permittedNodes(nodes: AdminMenuNode[], allowed: Set<string>): AdminMenuNode[] {
+  return nodes.flatMap<AdminMenuNode>(node => {
+    if (isMenuLeaf(node)) return allowed.has(node.path) ? [node] : [];
+    const children = permittedNodes(node.children, allowed);
+    return children.length ? [{ ...node, children }] : [];
+  });
+}
+
 /** Stable id for sidebar expand/collapse (e.g. `pages:Our Academics:AICTE PGDM`). */
 export function branchSectionKey(groupId: string, trailToParent: string[], label: string) {
   return [groupId, ...trailToParent, label].join(':');

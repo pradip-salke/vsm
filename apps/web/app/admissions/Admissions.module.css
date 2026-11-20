@@ -68,3 +68,4 @@
 @media(max-width:900px) { .stepGrid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:1023px) { .section { padding-inline: var(--page-gutter); } }
 @media(max-width:600px) { .navList { justify-content:flex-start; } .stepGrid,.fields { grid-template-columns:1fr; } .wide { grid-column:auto; } .table th,.table td { padding:.8rem; } }
+@media(max-width:767px) { .refundPolicySection > .list { margin-block-start:30px; } }

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Link } from '@/components/navigation/Link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState, type MouseEvent } from 'react';
 import { drawerNav, mainNav, type NavItem } from '@/content/site';
 import type { FooterSocialLink } from '@vsmedu/contracts/footer';
 import { Icon } from '@/components/ui/Icon';
@@ -109,6 +109,20 @@ function DesktopNavItem({ item, pathname }: { item: NavItem; pathname: string })
   );
 }
 
+function closeOpenDrawerSiblings(event: MouseEvent<HTMLElement>) {
+  const current = event.currentTarget.parentElement;
+  const siblingList = current?.parentElement?.parentElement;
+  if (!current || current.open || !siblingList) return;
+
+  siblingList.querySelectorAll<HTMLDetailsElement>(':scope > li > details').forEach((sibling) => {
+    if (sibling === current) return;
+    sibling.open = false;
+    sibling.querySelectorAll<HTMLDetailsElement>('details[open]').forEach((nested) => {
+      nested.open = false;
+    });
+  });
+}
+
 function MobileNav({ onNavigate }: { onNavigate: () => void }) {
   return (
     <ul className={styles.drawerList} role="list">
@@ -116,7 +130,7 @@ function MobileNav({ onNavigate }: { onNavigate: () => void }) {
         item.children ? (
           <li key={item.label}>
             <details className={styles.drawerGroup}>
-              <summary className={styles.drawerLink}>
+              <summary className={styles.drawerLink} onClick={closeOpenDrawerSiblings}>
                 {item.label}
                 <Icon src={icons.chevronDown} className={styles.drawerChevron} />
               </summary>
@@ -124,7 +138,7 @@ function MobileNav({ onNavigate }: { onNavigate: () => void }) {
                 {item.children.map((child) => (
                   <li key={child.href + child.label}>
                     {child.children ? <details className={styles.drawerNested}>
-                      <summary className={styles.drawerNestedLink}>{child.label}<Icon src={icons.chevronDown} className={styles.drawerChevron} /></summary>
+                      <summary className={styles.drawerNestedLink} onClick={closeOpenDrawerSiblings}>{child.label}<Icon src={icons.chevronDown} className={styles.drawerChevron} /></summary>
                       <ul className={styles.drawerNestedSub} role="list">
                         {child.children.map((nested) => <li key={nested.href + nested.label}>
                           <Link href={nested.href} onClick={onNavigate}>{nested.label}</Link>

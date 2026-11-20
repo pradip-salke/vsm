@@ -1,6 +1,7 @@
 .main { min-width: 0; }
+.main :global(section[aria-labelledby='cta-title']) :global(h2) + :global(a) { margin-top: 10px; margin-bottom: 15px; }
 .hero { min-width: 0; }
-.application { padding-block: var(--section-spacing); }
+.application { padding-block: calc(var(--section-spacing) + 20px); }
 .sectionHeading { max-width: 48rem; margin: 0 auto clamp(2rem, 4vw, 3.5rem); text-align: center; }
 .eyebrow { display: block; margin-bottom: .65rem; color: var(--color-primary-dark); font-size: .875rem; font-weight: var(--font-weight-extrabold); letter-spacing: .12em; text-transform: uppercase; }
 .sectionHeading h2 { margin: 0; color: var(--color-heading); font-family: var(--font-heading); font-size: clamp(2rem, 1.3rem + 2vw, 3.25rem); font-weight: var(--font-weight-extrabold); line-height: 1.1; }

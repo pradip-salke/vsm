@@ -33,8 +33,8 @@ export const patchProfile: RequestHandler = async (req, res) => {
   const name = input.name.trim();
   const email = input.email.trim().toLowerCase();
   await authService.updateProfile(req.auth!.userId, name, email, req.requestId);
-  const { userId, roles, permissions } = req.auth!;
-  res.json({ data: { id: userId, userId, email, name, roles, permissions } });
+  const { userId, roles, permissions, menuVisibility } = req.auth!;
+  res.json({ data: { id: userId, userId, email, name, roles, permissions, menuVisibility } });
 };
 
 const ChangePasswordSchema = z.object({ currentPassword: z.string().min(1).max(256), newPassword: z.string().min(8).max(256) });

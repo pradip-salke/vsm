@@ -15,8 +15,13 @@
 .section + .section { margin-top: 0; border-top: 0; }
 .section { padding: var(--section-spacing) var(--page-gutter); border-bottom: var(--border-width) solid var(--color-border-soft); }
 .section:last-child { border-bottom: 0; }
+@media (min-width: 1200px) { .visionMissionSection, .philosophySection, .advisoryBoardSection, .viceChairmanMessageSection, .directorMessageSection, .infrastructureSection { padding-bottom: calc(var(--section-spacing) + 20px); } .trusteeMessages .messagePageSection { padding-bottom: 45px; } }
 .sectionHeading { margin-bottom: var(--heading-copy-gap); }
+.advisoryBoardSection .sectionHeading { margin-bottom: calc(var(--heading-copy-gap) + 10px); }
+.directorMessageSection .sectionHeading { margin-bottom: calc(var(--heading-copy-gap) + 10px); }
+.infrastructureSection .sectionHeading { margin-bottom: calc(var(--heading-copy-gap) + 10px); }
 .messagePageSection .sectionHeading { margin-bottom: calc(var(--heading-copy-gap) + 20px); }
+.affiliationIntroSection { padding-bottom: calc(var(--section-spacing) + 20px); }
 .sectionHeading h2 { color: var(--color-heading); font-size: var(--font-size-h2); }
 .sectionHeading p { max-width: 62rem; margin-top: var(--heading-copy-gap); color: var(--color-text-answer); line-height: var(--line-height-body); }
 .copy { display: grid; gap: var(--space-4); max-width: 70rem; color: var(--color-text-answer); line-height: var(--line-height-body); }
@@ -92,6 +97,8 @@
   .profile { grid-template-columns: minmax(6.5rem, 8rem) minmax(0, 1fr); }
 }
 @media (max-width: 650px) {
+  .advisoryBoardSection .sectionHeading { margin-bottom: 15px; }
+  .philosophySection .sectionHeading { margin-bottom: 15px; }
   .sidebar ul { gap: clamp(1rem, 4vw, 1.5rem); }
   .visionMission, .valueGrid, .pillars { grid-template-columns: 1fr; }
   .visionCard { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
@@ -101,7 +108,7 @@
   .pastYears.advisoryGrid { grid-template-columns: 1fr; }
   .message { grid-template-columns: minmax(0, 1fr); }
   .trusteeMessages .message { grid-template-columns: minmax(0, 1fr); }
-  .message img { width: min(100%, 18rem); height: auto; max-height: none; aspect-ratio: 4 / 5; }
+  .message img { justify-self: center; width: min(100%, 18rem); height: auto; max-height: none; aspect-ratio: 4 / 5; }
   .trusteeMessages .message > div { height: auto; overflow: visible; padding-right: 0; }
   .viewportContent .sidebar { position: sticky; height: auto; min-height: 0; }
   .viewportContent .content { display: block; height: auto; overflow: visible; }

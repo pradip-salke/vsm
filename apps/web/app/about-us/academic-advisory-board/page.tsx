@@ -17,6 +17,6 @@ export default async function AcademicAdvisoryBoardPage() {
   const section = cms?.sections.board;
   const profiles = cmsProfiles(section?.profiles, boardMembers).map((profile) => ({ ...profile, image: typeof profile.image === 'string' ? profile.image : profile.image?.src }));
   return <AboutPageShell title="Academic Advisory Board" active="Academic Advisory Board" pageSlug="academic-advisory-board">
-    <AboutSection title={typeof section?.title === 'string' ? section.title : 'Academic Advisory Board'}><ProfileGrid profiles={profiles} advisory facultyStyle className={styles.advisoryBoardGrid} /></AboutSection>
+    <AboutSection className={styles.advisoryBoardSection} title={typeof section?.title === 'string' ? section.title : 'Academic Advisory Board'}><ProfileGrid profiles={profiles} advisory facultyStyle className={styles.advisoryBoardGrid} /></AboutSection>
   </AboutPageShell>;
 }

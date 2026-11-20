@@ -5,6 +5,7 @@ import { api } from '../lib/api';
 import { Icon } from './Icon';
 import { preview } from './ContentFields';
 import { BLOG_POSTS_PATH, SitePageEditor } from './sitePagesAdmin';
+import { actionAllowed, useRoleActions } from './roleActions';
 import './home-editor.css';
 
 type ListItem = Pick<BlogPostRecord, 'id' | 'slug' | 'title' | 'status' | 'featured' | 'publishedAt' | 'updatedAt' | 'categories' | 'tags' | 'coverImageUrl' | 'authorName'>;
@@ -23,6 +24,10 @@ const STATUS_LABEL: Record<BlogPostStatus, string> = { PUBLISHED: 'Published', D
 const formatDate = (iso: string | null) => (iso ? new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso)) : '—');
 
 export function BlogPostsPage({ canEdit }: { canEdit: boolean }) {
+  const actionSettings = useRoleActions();
+  const allowAdd = actionAllowed(actionSettings, BLOG_POSTS_PATH, 'add');
+  const allowEdit = actionAllowed(actionSettings, BLOG_POSTS_PATH, 'edit');
+  const allowDelete = actionAllowed(actionSettings, BLOG_POSTS_PATH, 'delete');
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState<'' | BlogPostStatus>('');
@@ -110,7 +115,7 @@ export function BlogPostsPage({ canEdit }: { canEdit: boolean }) {
             {counts && ` ${counts.PUBLISHED} published · ${counts.DRAFT} draft · ${counts.ARCHIVED} archived.`}
           </p>
         </div>
-        <button type="button" className="cms-primary" disabled={!canEdit} onClick={() => navigate(`${BLOG_POSTS_PATH}/new`)}>
+        <button type="button" className="cms-primary" disabled={!canEdit || !allowAdd} onClick={() => navigate(`${BLOG_POSTS_PATH}/new`)}>
           <span aria-hidden="true">＋</span> Add Blog Post
         </button>
       </header>
@@ -177,16 +182,16 @@ export function BlogPostsPage({ canEdit }: { canEdit: boolean }) {
                     </td>
                     <td>
                       <div className="cms-row-actions">
-                        <button type="button" className="cms-secondary" disabled={!canEdit || busyId !== null} onClick={() => void toggleStatus(item)}>
+                        <button type="button" className="cms-secondary" disabled={!canEdit || !allowEdit || busyId !== null} onClick={() => void toggleStatus(item)}>
                           {item.status === 'PUBLISHED' ? 'Unpublish' : 'Publish'}
                         </button>
                         <button type="button" className="cms-secondary" onClick={() => navigate(`${BLOG_POSTS_PATH}/${item.id}/edit?preview=1`)}>
                           Preview
                         </button>
-                        <button type="button" className="cms-edit-action" disabled={!canEdit} aria-label={`Edit ${item.title}`} title="Edit post" onClick={() => navigate(`${BLOG_POSTS_PATH}/${item.id}/edit`)}>
+                        <button type="button" className="cms-edit-action" disabled={!canEdit || !allowEdit} aria-label={`Edit ${item.title}`} title="Edit post" onClick={() => navigate(`${BLOG_POSTS_PATH}/${item.id}/edit`)}>
                           <Icon name="edit" size={18} />
                         </button>
-                        <button type="button" className="cms-delete-action" disabled={!canEdit || busyId !== null} aria-label={`Delete ${item.title}`} title="Delete post" onClick={() => setDeleting(item)}>
+                        <button type="button" className="cms-delete-action" disabled={!canEdit || !allowDelete || busyId !== null} aria-label={`Delete ${item.title}`} title="Delete post" onClick={() => setDeleting(item)}>
                           <Icon name="trash" size={18} />
                         </button>
                       </div>

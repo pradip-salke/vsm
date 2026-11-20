@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { api } from '../lib/api';
 import { Icon } from './Icon';
 
-export type AdminUser = { id?: number; userId?: number; name?: string; email: string; roles?: string[]; permissions?: string[] };
+export type AdminUser = { id?: number; userId?: number; name?: string; email: string; roles?: string[]; permissions?: string[]; menuVisibility?: string[] | null };
 
 export function LoginPage({ onLogin }: { onLogin: (user: AdminUser) => void }) {
   const [showPassword, setShowPassword] = useState(false);

@@ -56,9 +56,6 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
               <Image src={article.image} alt={article.imageAlt || article.title} width={1400} height={800} sizes="(max-width: 900px) 100vw, 1100px" priority unoptimized={/^https?:\/\//i.test(article.image)} />
             </div>
           )}
-          <div className={styles.detailIntro}>
-            <div className={styles.lead} dangerouslySetInnerHTML={{ __html: article.excerpt }} />
-          </div>
           <div className={styles.articleContent} dangerouslySetInnerHTML={{ __html: articleHtml(article.body) }} />
           <footer className={styles.articleFooter}><Link href="/blogs/">{pageSettings.links.footerLinkText}</Link></footer>
         </article>

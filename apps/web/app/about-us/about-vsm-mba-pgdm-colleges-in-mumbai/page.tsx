@@ -20,7 +20,7 @@ export default async function AboutVsmPage() {
   const cards = Array.isArray(visionMission?.cards) ? visionMission.cards as { title: string; text: string; image: { src: string; alt: string } }[] : null;
   return <AboutPageShell title="About VSM" active="About VSM" pageSlug="about-vsm-mba-pgdm-colleges-in-mumbai">
     <AboutSection><CmsHtml html={introBody} /></AboutSection>
-    <AboutSection title={cmsString(visionMission?.title, 'Our Vision & Mission')}>
+    <AboutSection className={styles.visionMissionSection} title={cmsString(visionMission?.title, 'Our Vision & Mission')}>
       <div className={styles.visionMission}>
         {(cards ?? [{ title: 'Our Vision', text: aboutVsm.vision, image: { src: '/images/about/vision.png', alt: '' } }, { title: 'Our Mission', text: aboutVsm.mission, image: { src: '/images/about/mission.png', alt: '' } }]).map(card => <article className={styles.visionCard} key={card.title}><Image src={card.image.src} alt={card.image.alt} width={100} height={100} sizes="100px" /><div><h3>{card.title}</h3><p>{card.text}</p></div></article>)}
       </div>

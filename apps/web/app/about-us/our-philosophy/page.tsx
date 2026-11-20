@@ -17,7 +17,7 @@ export default async function PhilosophyPage() {
   const section = cms?.sections.values;
   const cards = Array.isArray(section?.cards) ? section.cards as { title: string; text: string; image: { src: string; alt: string } }[] : null;
   return <AboutPageShell title="Our Philosophy" active="Our Philosophy" pageSlug="our-philosophy">
-    <AboutSection title={cmsString(section?.title, 'Our Philosophy at Valia School of Management')}>
+    <AboutSection className={styles.philosophySection} title={cmsString(section?.title, 'Our Philosophy at Valia School of Management')}>
       <div className={styles.valueGrid}>{(cards ?? philosophyValues.map(value => ({ ...value, image: { src: `/images/about/${value.image}`, alt: '' } }))).map((value) => <article className={styles.valueCard} key={value.title}>
         <Image src={value.image.src} alt={value.image.alt} width={100} height={100} sizes="100px" />
         <div><h3>{value.title}</h3><p>{value.text}</p></div>

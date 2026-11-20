@@ -1,5 +1,6 @@
 import { Icon } from './Icon';
 import { RichSubtitle } from './RichSubtitle';
+import { useWebsiteAction } from './roleActions';
 
 /** FAQ Q&A rows — same editor as Home Page CMS FAQ section. */
 export type FaqItem = { question?: string; answer?: string };
@@ -129,6 +130,8 @@ export function FaqItemsEditor({
   onItemsChange: (next: FaqItem[]) => void;
   richAnswers?: boolean;
 }) {
+  const allowAdd = useWebsiteAction('add');
+  const allowDelete = useWebsiteAction('delete');
   const setItem = (index: number, field: keyof FaqItem, val: string) => {
     const next = [...items];
     next[index] = { ...next[index], [field]: val };
@@ -175,7 +178,7 @@ export function FaqItemsEditor({
               <button
                 type="button"
                 className="cms-compact-delete"
-                disabled={readOnly}
+                disabled={readOnly || !allowDelete}
                 aria-label={`Delete item ${index + 1}`}
                 title="Delete item"
                 onClick={() => removeItem(index)}
@@ -189,7 +192,7 @@ export function FaqItemsEditor({
       <button
         type="button"
         className="cms-compact-add"
-        disabled={readOnly || items.length >= 100}
+        disabled={readOnly || !allowAdd || items.length >= 100}
         onClick={addItem}
       >
         ＋ Add Item
