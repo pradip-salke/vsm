@@ -400,6 +400,14 @@
   }
 }
 
+@media (max-width: 650px) {
+  .aictePage .main > .lifeBlock,
+  .aictePage .main > :global(#events).block,
+  .aictePage .main > :global(#curriculum).block {
+    padding-top: calc(var(--section-rule-gap) + 10px);
+  }
+}
+
 @media (max-width: 767px) {
   .aictePage .main > :global(#curriculum).block :global([class*="curriculumNote"]) {
     display: block;

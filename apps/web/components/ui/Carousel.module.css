@@ -106,6 +106,7 @@
 
 .overlay > .controls {
   position: absolute;
+  z-index: 2;
   inset: auto 0 var(--hero-dots-bottom, clamp(1rem, 0.5rem + 2vw, 2.4rem));
   margin-top: 0;
 }

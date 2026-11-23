@@ -13,7 +13,11 @@ export function supportedActionPaths(paths: string[], action: RoleAction) {
   return paths.filter(path =>
     (action !== 'export' && ['/masters/faculty', '/masters/recruiters', '/masters/internships', '/masters/testimonials'].includes(path)) ||
     (action !== 'add' && ['/enquiries/career', '/enquiries/enquiry', '/enquiries/application'].includes(path)) ||
+    (action === 'add' && ['/access/users', '/access/roles'].includes(path)) ||
     (action !== 'export' && (path.startsWith('/website/') || path === '/masters/hero' || path === '/masters/gallery')));
+}
+export function defaultRoleMenuVisibility(paths: string[]) {
+  return [...new Set([...paths, ...(['add', 'edit', 'delete'] as const).flatMap(action => supportedActionPaths(paths, action).map(path => actionKey(path, action)))])];
 }
 export function allRoleOptionsSelected(settings: string[], paths: string[]) {
   return paths.length > 0 && paths.every(path => settings.includes(path)) &&

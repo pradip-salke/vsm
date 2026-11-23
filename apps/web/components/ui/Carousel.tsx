@@ -243,6 +243,7 @@ export function Carousel({
       aria-label={label}
       onFocusCapture={pause}
       onBlurCapture={resume}
+      onClickCapture={resume}
     >
       <ul ref={trackRef} className={`${styles.track} ${align === 'center' ? styles.centered : ''}`} role="list" tabIndex={0}>
         {physicalSlides.map((slide, physicalIndex) => {

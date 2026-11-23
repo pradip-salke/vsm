@@ -378,15 +378,15 @@
     --topbar-height: calc(2.5rem - 5px);
   }
 
-  .years,
   .brandDivider,
   .harvard {
     display: none;
   }
 
   .inner { gap: clamp(0.5rem, 2vw, 1rem); }
-  .brand { --logo-w: clamp(7rem, 38vw, 12rem); }
+  .brand { --logo-w: clamp(6rem, 30vw, 8rem); align-items: center; }
   .society { width: clamp(2rem, 9vw, 2.75rem); margin-left: 0.25rem; }
+  .years { display: block; width: clamp(3.125rem, 16vw, 4rem); margin: 0 0 0 clamp(0.125rem, 1vw, 0.4rem); }
   /* Align the visible logo artwork and menu glyph with section content. The
      logo asset and icon are inset inside their boxes, so compensate equally
      on both sides of the shared page gutter. */

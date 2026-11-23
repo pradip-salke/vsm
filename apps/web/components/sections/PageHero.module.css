@@ -153,32 +153,6 @@
   margin-top: 0;
 }
 
-.singleDots {
-  --single-dot-size: var(--carousel-dot-size);
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  bottom: clamp(1.5rem, 2.4vw, 2.875rem);
-  display: flex;
-  align-items: center;
-  gap: clamp(3px, 0.3125vw, 6px);
-  transform: translateX(-50%);
-}
-
-.singleDots span {
-  flex: none;
-  width: var(--single-dot-size);
-  height: var(--single-dot-size);
-  border-radius: var(--radius-pill);
-  background: var(--color-text-inverse);
-  opacity: 0.3;
-}
-
-.singleDots [data-active] {
-  width: calc(var(--single-dot-size) * 4);
-  opacity: 1;
-}
-
 .title {
   margin: 0;
   color: var(--color-text);
@@ -217,8 +191,12 @@
   margin-top: clamp(1.25rem, 1rem + 1.2vw, 2.25rem);
 }
 
-/* Below tablet the photo sits under the copy so text never overlaps faces */
+/* On mobile, show each full banner image first, then dots, then its copy. */
 @media (max-width: 767px) {
+  .hero {
+    --mobile-banner-dot-gap: 12px;
+  }
+
   .breadcrumb {
     display: none;
   }
@@ -228,33 +206,62 @@
   }
 
   .slide {
+    display: grid;
+    min-width: 0;
     min-height: 0;
-    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto;
+    height: auto;
+    background: var(--color-page);
   }
 
   .image {
     position: relative;
-    grid-row: 2;
+    inset: auto;
+    grid-row: 1;
+    width: 100%;
     height: auto;
-    aspect-ratio: 16 / 10;
-    object-position: var(--hero-image-position-mobile, 78% 50%);
+    aspect-ratio: auto;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .slide::after { display: none; }
+
+  .carousel :global(ul > li) {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    align-self: start;
+  }
+
+  .hero .carousel :global([class*="controls"]) {
+    position: absolute;
+    top: calc(42.75vw + var(--mobile-banner-dot-gap));
+    right: 0;
+    bottom: auto;
+    left: 0;
+    z-index: 2;
+    justify-content: center;
+    margin: 0;
   }
 
   .home .slide {
     height: auto;
-    min-height: clamp(20rem, 85vw, 28rem);
-    grid-template-rows: 1fr;
-    background: #eef2f3;
+    min-height: 0;
+    grid-template-rows: auto auto;
+    background: var(--color-page);
   }
 
   .home .image {
-    position: absolute;
-    grid-row: auto;
-    height: 100%;
+    position: relative;
+    grid-row: 1;
+    width: 100%;
+    height: auto;
     aspect-ratio: auto;
-    object-fit: cover;
-    object-position: var(--hero-image-position-mobile, center);
+    object-fit: contain;
+    object-position: center;
   }
 
   .home .slide::after {
@@ -268,18 +275,19 @@
   .content,
   .home .content,
   .inner .content {
-    grid-row: 1;
-    padding-block: var(--space-6);
+    grid-row: 2;
+    z-index: auto;
+    justify-content: center;
+    padding: calc(var(--carousel-dot-size) + var(--mobile-banner-dot-gap) + var(--mobile-banner-dot-gap)) var(--page-gutter) var(--space-5);
+    background: var(--color-page);
   }
 
   .home .content {
-    z-index: 1;
-    justify-content: center;
-    padding-block: 2rem;
+    padding: calc(var(--carousel-dot-size) + var(--mobile-banner-dot-gap) + var(--mobile-banner-dot-gap)) var(--page-gutter) var(--space-5);
   }
 
   .home .copy {
-    max-width: min(70%, 24rem);
+    max-width: 100%;
   }
 
   .home .title {
@@ -305,11 +313,11 @@
   .home .actions > :first-child { min-width: 7rem; min-height: 2.75rem; }
 
   .inner .content {
-    padding-block: var(--space-5);
+    padding: calc(var(--carousel-dot-size) + var(--mobile-banner-dot-gap) + var(--mobile-banner-dot-gap)) var(--page-gutter) var(--space-5);
   }
 
   .hero:global(.careerHero) .content {
-    padding-block: var(--space-5);
+    padding: calc(var(--carousel-dot-size) + var(--mobile-banner-dot-gap) + var(--mobile-banner-dot-gap)) var(--page-gutter) var(--space-5);
   }
 
   .inner .breadcrumb {
@@ -321,40 +329,30 @@
   }
 
   .inner .slide {
-    min-height: clamp(19rem, 78vw, 27rem);
-    grid-template-rows: auto;
-    background: #eef2f3;
+    min-height: 0;
+    grid-template-rows: auto auto;
   }
 
   .inner .image {
-    position: absolute;
-    grid-row: auto;
-    height: 100%;
-    aspect-ratio: auto;
-    object-fit: cover;
-    object-position: var(--hero-image-position-mobile, center);
+    position: relative;
+    grid-row: 1;
+    height: auto;
+    object-fit: contain;
   }
 
   .inner .slide::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgb(255 255 255 / 94%), rgb(255 255 255 / 82%) 45%, rgb(255 255 255 / 12%));
-    pointer-events: none;
+    display: none;
   }
 
-  .inner .content { z-index: 1; justify-content: center; padding-block: 1.875rem 3rem; }
+  .inner .content { z-index: auto; justify-content: center; padding: calc(var(--carousel-dot-size) + var(--mobile-banner-dot-gap) + var(--mobile-banner-dot-gap)) var(--page-gutter) var(--space-5); }
   .inner .breadcrumb { position: absolute; inset: 1rem var(--page-gutter) auto; }
-  .inner .copy { max-width: min(75%, 24rem); margin: 0; }
+  .inner .copy { max-width: 100%; margin: 0; }
   .inner .title { font-size: clamp(1.3rem, 4.8vw, 1.9rem); line-height: 1.12; }
   .inner .subtitle { font-size: clamp(0.875rem, 3.5vw, 1rem); line-height: 1.45; }
   .inner .actions { gap: 0.75rem 1rem; margin-top: 1rem; }
   .inner .actions > * { font-size: clamp(0.8125rem, 3.2vw, 0.9375rem); }
   .inner .actions > :first-child { min-width: 7rem; min-height: 2.75rem; }
 
-  .singleDots {
-    bottom: var(--space-5);
-  }
 }
 
 @media (max-width: 767px) and (max-height: 520px) {

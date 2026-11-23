@@ -25,8 +25,12 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home', className
   // Guard against missing slides prop
   const safeSlides = Array.isArray(slides) ? slides : [];
 
-  const rendered = safeSlides
-    .filter((slide): slide is HeroSlide => Boolean(slide && slide.image))
+  const validSlides = safeSlides.filter((slide): slide is HeroSlide => Boolean(slide && slide.image));
+  const slidesForCarousel = validSlides.length === 1
+    ? [validSlides[0], validSlides[0], validSlides[0]]
+    : validSlides;
+
+  const rendered = slidesForCarousel
     .map((slide, index) => {
       const Heading = index === 0 ? 'h1' : 'p';
       return (
@@ -87,12 +91,8 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home', className
 
   return (
     <section className={`${styles.hero} ${styles[size]}${className ? ` ${className}` : ''}`} aria-label="Introduction">
-      {rendered.length === 0 ? null : rendered.length > 1 ? (
-        <Carousel label="Highlights" slides={rendered} dotsPlacement="overlay" dotsTone={size === 'home' ? 'dark' : 'light'} autoplayMs={6000} className={styles.carousel} />
-      ) : (
-        <>
-          {rendered[0]}
-        </>
+      {rendered.length === 0 ? null : (
+        <Carousel label="Highlights" slides={rendered} dotsPlacement="overlay" dotsTone="dark" autoplayMs={6000} className={styles.carousel} />
       )}
     </section>
   );
