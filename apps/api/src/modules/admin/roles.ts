@@ -32,10 +32,19 @@ router.put('/:id', async (req, res) => {
 });
 router.delete('/:id', async (req, res) => {
   const id = Number(req.params.id); if (!Number.isSafeInteger(id) || id < 1) throw new HttpError(400, 'INVALID_ROLE', 'Invalid role');
-  const role = await prisma.role.findUnique({ where: { id }, include: { _count: { select: { userRoles: true } } } });
-  if (!role) throw new HttpError(404, 'NOT_FOUND', 'Role not found');
-  if (role.code === 'super_admin') throw new HttpError(403, 'PROTECTED_ROLE', 'The super administrator role cannot be deleted');
-  if (role._count.userRoles) throw new HttpError(409, 'ROLE_IN_USE', 'Reassign users before deleting this role');
-  await prisma.role.delete({ where: { id } }); res.status(204).end();
+  const { replacementRoleId } = z.object({ replacementRoleId: z.number().int().positive().optional() }).parse(req.body ?? {});
+  await prisma.$transaction(async tx => {
+    const role = await tx.role.findUnique({ where: { id }, include: { userRoles: { select: { userId: true } } } });
+    if (!role) throw new HttpError(404, 'NOT_FOUND', 'Role not found');
+    if (role.code === 'super_admin') throw new HttpError(403, 'PROTECTED_ROLE', 'The super administrator role cannot be deleted');
+    if (role.userRoles.length) {
+      if (!replacementRoleId || replacementRoleId === id) throw new HttpError(409, 'ROLE_IN_USE', 'Select a different active role for assigned users');
+      const replacement = await tx.role.findUnique({ where: { id: replacementRoleId } });
+      if (!replacement?.isActive) throw new HttpError(400, 'INVALID_REPLACEMENT', 'Replacement role must be active');
+      for (const { userId } of role.userRoles) await tx.userRole.upsert({ where: { userId_roleId: { userId, roleId: replacementRoleId } }, update: {}, create: { userId, roleId: replacementRoleId } });
+    }
+    await tx.role.delete({ where: { id } });
+  });
+  res.status(204).end();
 });
 export { router as rolesRouter };
