@@ -30,7 +30,7 @@
 .backLink:hover, .articleFooter a:hover { text-decoration: underline; text-underline-offset: .2em; }
 .detail { min-width: 0; }
 .detailHeader { width: 100%; max-width: none; margin: 0 0 1rem; text-align: left; }
-.detailHeader h1 { display: block; width: 100%; max-width: none; margin: 1rem 0; color: var(--color-heading); font-family: var(--font-heading); font-size: var(--font-size-h2); font-weight: var(--font-weight-extrabold); line-height: 1.2; text-wrap: balance; }
+.detailHeader h1 { display: block; width: 100%; max-width: none; margin: 1rem 0; color: var(--color-heading); font-family: var(--font-heading); font-size: var(--font-size-h2); font-weight: var(--font-weight-extrabold); line-height: 1.2; text-align: justify; text-wrap: wrap; overflow-wrap: anywhere; }
 .detailHeader .meta { justify-content: flex-start; }
 .detailIntro { max-width: 58rem; margin: 0 auto clamp(1.5rem, 3vw, 2.5rem); text-align: center; }
 .lead { color: var(--color-text-answer); font-size: var(--font-size-lead); line-height: var(--line-height-body); }
@@ -59,6 +59,7 @@
 @media (max-width: 640px) {
   .grid { grid-template-columns: 1fr; }
   .cardBody { padding: 1.2rem; }
+  .detailHeader h1 { font-size: clamp(1.4rem, 5.5vw, 1.75rem); }
   .detailImage { margin-inline: calc(-1 * var(--page-gutter)); border-radius: 0; }
 }
 
