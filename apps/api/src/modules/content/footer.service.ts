@@ -42,21 +42,8 @@ function withContactLocationDefaults(content: unknown): FooterContent {
 export async function readFooterAdmin(): Promise<{ content: FooterContent; updatedAt: string | null }> {
   const row = await prisma.websiteSetting.findUnique({ where: { key: 'global.footer' } });
   if (row) {
-    const parseResult = FooterContentSchema.safeParse(row.value);
-    const parsed = parseResult.success ? parseResult.data : row.value;
-    const rawContact = row.value && typeof row.value === 'object' && !Array.isArray(row.value)
-      ? (row.value as { contactPage?: FooterContent['contactPage'] }).contactPage
-      : undefined;
-    const content = parseResult.success && rawContact ? {
-      ...parsed,
-      contactPage: {
-        ...parsed.contactPage,
-        locations: rawContact.locations ?? parsed.contactPage.locations,
-        mapLinks: rawContact.mapLinks ?? parsed.contactPage.mapLinks,
-      },
-    } : parsed;
     return {
-      content: withContactLocationDefaults(content),
+      content: withContactLocationDefaults(row.value),
       updatedAt: row.updatedAt.toISOString(),
     };
   }
@@ -121,21 +108,8 @@ export async function updateFooterAdmin(
 export async function readPublicFooter(): Promise<{ content: FooterContent }> {
   const row = await prisma.websiteSetting.findUnique({ where: { key: 'global.footer', isPublic: true } });
   if (row) {
-    const parseResult = FooterContentSchema.safeParse(row.value);
-    const parsed = parseResult.success ? parseResult.data : row.value;
-    const rawContact = row.value && typeof row.value === 'object' && !Array.isArray(row.value)
-      ? (row.value as { contactPage?: FooterContent['contactPage'] }).contactPage
-      : undefined;
-    const content = parseResult.success && rawContact ? {
-      ...parsed,
-      contactPage: {
-        ...parsed.contactPage,
-        locations: rawContact.locations ?? parsed.contactPage.locations,
-        mapLinks: rawContact.mapLinks ?? parsed.contactPage.mapLinks,
-      },
-    } : parsed;
     return {
-      content: withContactLocationDefaults(content),
+      content: withContactLocationDefaults(row.value),
     };
   }
 
