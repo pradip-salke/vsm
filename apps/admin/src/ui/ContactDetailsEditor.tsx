@@ -82,9 +82,24 @@ export function ContactDetailsEditor({ canEdit }: { canEdit: boolean }) {
             </section>
 
             <section className="seo-card">
-              <h2 className="seo-card-title">Location map</h2>
-              <p className="seo-card-desc">Paste the Google Maps embed URL for the location map displayed at the bottom of the Contact page.</p>
-              <Field label="Google Maps embed URL" htmlFor="contact-map-url"><input id="contact-map-url" type="url" className="seo-input" maxLength={2000} required value={content.mapEmbedUrl} disabled={!canEdit || saving} onChange={(event) => updateContactPage('mapEmbedUrl', event.target.value)} /></Field>
+              <h2 className="seo-card-title">Contact locations</h2>
+              <p className="seo-card-desc">Edit the address and Google Maps link for each location. Selecting a location in the Contact navigation updates only the address and map link in the Contact page footer.</p>
+              <div className="seo-two-col">
+                {([
+                  ['andheri', 'Andheri'],
+                  ['borivali', 'Borivali'],
+                  ['ghatkopar', 'Ghatkopar'],
+                ] as const).map(([key, label]) => (
+                  <div key={key} className="seo-field">
+                    <Field label={`${label} address`} htmlFor={`contact-location-${key}`}>
+                      <textarea id={`contact-location-${key}`} className="seo-input" rows={3} maxLength={1000} value={content.locations[key]} disabled={!canEdit || saving} onChange={(event) => updateContactPage('locations', { ...content.locations, [key]: event.target.value })} />
+                    </Field>
+                    <Field label={`${label} Google Maps embed URL`} htmlFor={`contact-map-link-${key}`}>
+                      <input id={`contact-map-link-${key}`} type="url" className="seo-input" maxLength={2000} placeholder="https://www.google.com/maps/embed?..." value={content.mapLinks[key]} disabled={!canEdit || saving} onChange={(event) => updateContactPage('mapLinks', { ...content.mapLinks, [key]: event.target.value })} />
+                    </Field>
+                  </div>
+                ))}
+              </div>
             </section>
 
             <SaveBar dirty={dirty}>

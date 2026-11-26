@@ -31,7 +31,7 @@ import { getHomeContent } from '@/lib/home-content';
 const metadata: Metadata = {
   title: { absolute: 'PGDM Courses in Mumbai | AICTE Approved PGDM College | VSM' },
   description:
-    'AICTE-approved 2-year PGDM in Mumbai at Valia School of Management: curriculum, eligibility, fees, faculty and admission procedure.',
+    'AICTE-approved 2-year PGDM programme in Mumbai at Valia School of Management: curriculum, eligibility, fees, faculty and admission procedure.',
   alternates: { canonical: '/our-academics/aicte-pgdm-courses-in-mumbai/' },
 };
 
@@ -70,7 +70,7 @@ export default async function AictePgdmPage() {
         actions={
           <>
             <Button href={APPLY_PATH}>Apply Now</Button>
-            <Button variant="arrow" href={ENQUIRY_ANCHOR}>
+            <Button href={ENQUIRY_ANCHOR}>
               Enquire now
             </Button>
           </>
@@ -101,9 +101,6 @@ export default async function AictePgdmPage() {
             <MediaCarousel id="gallery-carousel" title={academics.gallery.title} items={(selected?.gallery ?? masters.gallery.items).filter((item) => item.enabled !== false)} layout="life" variant="column" galleryPopup galleryAlbums={eventGalleryAlbums} galleryFallbackSlug="infra" />
           </div>
           {sectionsAt(5)}
-          <div id="events" className={`${layout.block} ${layout.bleed}`}>
-            <MediaCarousel id="events-carousel" title={academics.events.title} items={selected?.galleryEvents ?? []} layout="events" variant="column" galleryPopup galleryAlbums={eventGalleryAlbums} />
-          </div>
           {sectionsAt(6)}
           <div id="curriculum" className={`${layout.block} ${layout.beforeFacultyBlock}`}>
             <Curriculum content={academics.curriculum} />

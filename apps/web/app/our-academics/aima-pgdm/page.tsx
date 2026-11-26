@@ -15,7 +15,7 @@ import { getAimaContent } from '@/lib/aima-content';
 import { withSeo } from '@/lib/seo';
 
 const metadata: Metadata = {
-  title: { absolute: 'AIMA PGDM in Mumbai | Valia School of Management' },
+  title: { absolute: 'AIMA PGDM programme in Mumbai | Valia School of Management' },
   description: 'Explore the AIMA-Centre for Management Education PGDM at Valia School of Management, including course modules, specialisations, fees and program details.',
   alternates: { canonical: '/our-academics/aima-pgdm/' },
 };
@@ -54,7 +54,7 @@ export default async function AimaPgdmPage() {
         actions={
           <>
             {banner?.primaryText && banner.primaryHref && <Button href={banner.primaryHref}>{banner.primaryText}</Button>}
-            {banner?.secondaryText && banner.secondaryHref && <Button variant="arrow" href={banner.secondaryHref}>{banner.secondaryText}</Button>}
+            {banner?.secondaryText && banner.secondaryHref && <Button href={banner.secondaryHref}>{banner.secondaryText}</Button>}
           </>
         }
       />

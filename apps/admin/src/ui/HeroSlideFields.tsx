@@ -5,7 +5,7 @@ import { Icon } from './Icon';
 
 type Item = Record<string, Value>;
 type Asset = { src: string; alt: string; width: number; height: number };
-export function HeroSlideFields({ value, onChange, disabled, upload, position, maxPosition, onPositionChange }: { value: Item; onChange: (value: Item) => void; disabled: boolean; upload: (file: File) => Promise<Asset>; position: number; maxPosition: number; onPositionChange: (position: number) => void }) {
+export function HeroSlideFields({ value, onChange, disabled, upload, position, maxPosition, onPositionChange, multilineTitle = false }: { value: Item; onChange: (value: Item) => void; disabled: boolean; upload: (file: File) => Promise<Asset>; position: number; maxPosition: number; onPositionChange: (position: number) => void; multilineTitle?: boolean }) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
   const asset = value.image as unknown as Asset;
@@ -19,7 +19,7 @@ export function HeroSlideFields({ value, onChange, disabled, upload, position, m
   return <div className="cms-hero-fields">
     <h2>Slide details</h2>
     <div className="cms-hero-form-body">
-      <label className="cms-field cms-field--standard"><span>Heading <span className="cms-required">*</span></span><input required placeholder="e.g. PGDM Admissions 2026" disabled={disabled} value={String(value.title ?? '')} onChange={event => update('title', event.target.value)} /></label>
+      {multilineTitle ? <div className="cms-field cms-field--standard"><span>Heading <span className="cms-required">*</span></span><RichSubtitle label="Heading" value={String(value.title ?? '')} disabled={disabled} onChange={text => update('title', text)} /></div> : <label className="cms-field cms-field--standard"><span>Heading <span className="cms-required">*</span></span><input required placeholder="e.g. PGDM Admissions 2026" disabled={disabled} value={String(value.title ?? '')} onChange={event => update('title', event.target.value)} /></label>}
       <div className="cms-hero-description"><span className="cms-hero-label">Description <small>(Optional)</small></span><RichSubtitle value={String(value.subtitle ?? '')} disabled={disabled} onChange={text => update('subtitle', text)} /></div>
       <div className="cms-hero-columns">
         <fieldset className="cms-hero-button"><legend>Primary button <small>(Optional)</small></legend><div><label className="cms-field cms-field--short"><span className="cms-visually-hidden">Primary button text</span><input disabled={disabled} placeholder="Button label" value={String(value.primaryText ?? '')} onChange={event => update('primaryText', event.target.value)} /></label><label className="cms-field cms-field--link"><span className="cms-visually-hidden">Primary button link</span><input disabled={disabled} placeholder="/page-path or URL" value={String(value.primaryHref ?? '')} onChange={event => update('primaryHref', event.target.value)} /></label></div></fieldset>

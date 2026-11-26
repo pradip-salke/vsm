@@ -19,7 +19,7 @@
 
 /*
  * Brand lockup, measured in Figma at 1920 (logo at x 110, 10px inside the gutter):
- * VSM 266×78 → 14 → 63 years 144.65×72.33 (top +1.31) → 5.12 → divider 1×57.72 (top +10.07)
+ * VSM 266×78 → 14 → anniversary mark 144.65×72.33 (top +1.31) → 5.12 → divider 1×57.72 (top +10.07)
  * → 20.18 → Harvard 111.05×69.40 (top +1.31). Everything derives from --logo-w so it scales as one unit.
  */
 .brand {
@@ -179,6 +179,14 @@
   font-size: var(--font-size-input);
   line-height: 1.4;
   white-space: nowrap;
+}
+
+button.dropdownLink {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
 }
 
 .dropdownLink:hover,
@@ -348,6 +356,22 @@
   color: var(--color-text-body);
   font-size: var(--font-size-input);
 }
+
+.drawerLocation {
+  width: 100%;
+  padding: 0.45rem 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-body);
+  font: inherit;
+  font-size: var(--font-size-input);
+  text-align: left;
+  cursor: pointer;
+}
+
+.drawerLocation:hover,
+.drawerLocation:focus-visible,
+.drawerLocation[aria-current='true'] { color: var(--color-primary); }
 
 .drawerSub a:hover {
   color: var(--color-primary);

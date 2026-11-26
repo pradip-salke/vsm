@@ -9,8 +9,10 @@ import { PhoneList } from '@/components/ui/PhoneList';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { EnquiryForm } from './EnquiryForm';
 import styles from './EnquirySection.module.css';
+import { useContactLocation } from '@/components/layout/ContactLocationProvider';
 
 export function EnquirySection({ socials = [] }: { socials?: FooterSocialLink[] }) {
+  const contactLocation = useContactLocation();
   const [content, setContent] = useState<HomeContent['enquiry']>(homeDefaults.enquiry);
 
   useEffect(() => {
@@ -54,9 +56,11 @@ export function EnquirySection({ socials = [] }: { socials?: FooterSocialLink[] 
           <div>
             <h3 className={styles.label}>{content.addressLabel}</h3>
             <address className={styles.value}>
-              {content.addressTitle}
-              <br />
-              {content.address}
+              {contactLocation.isContactPage ? contactLocation.selectedLocation.label : content.addressTitle}
+              {(contactLocation.isContactPage ? contactLocation.selectedLocation.address : content.address) && <>
+                <br />
+                {contactLocation.isContactPage ? contactLocation.selectedLocation.address : content.address}
+              </>}
             </address>
           </div>
           <div>

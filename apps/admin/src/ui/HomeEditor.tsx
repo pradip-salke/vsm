@@ -20,7 +20,6 @@ const HOME_SECTIONS_SEQUENCE = [
   'faculty',
   'why',
   'specialisations',
-  'events',
   'faq',
   'cta',
 ] as const;
@@ -36,7 +35,6 @@ const sectionTitles: Record<HomeSectionKey, string> = {
   faculty: 'Meet Our Industry-Oriented PGDM Faculty',
   why: 'Why Choose VSM Among PGDM Colleges in Mumbai?',
   specialisations: 'Explore Industry-Relevant PGDM Specialisations',
-  events: 'Upcoming Events',
   faq: 'FAQ About PGDM Admissions',
   cta: 'Apply Now Banner',
 };
@@ -49,7 +47,6 @@ const sectionSubtitles: Record<HomeSectionKey, string> = {
   faculty: 'Faculty section title, subtitle, and intro narrative. Slide items managed in Faculty Slider Master.',
   why: 'Why Choose VSM features, icons, immersion overview, and campus highlights.',
   specialisations: 'Specialisation cards with icons, descriptions, and curriculum links.',
-  events: 'Edit the heading. Manage event images and their visibility in Gallery Management.',
   faq: 'Frequently asked questions regarding PGDM admissions, fees, and eligibility.',
   cta: 'Bottom full-width call-to-action banner with background image and apply button.',
 };
@@ -62,7 +59,6 @@ const sectionPills: Record<HomeSectionKey, string> = {
   faculty: 'Home Page Section: #faculty',
   why: 'Home Page Section: #why-vsm',
   specialisations: 'Home Page Section: #specialisations',
-  events: 'Home Page Section: #events',
   faq: 'Home Page Section: #faq',
   cta: 'Home Page Section: #apply-now',
 };
@@ -440,6 +436,15 @@ export function HomeEditor({
   }, [dirtyKeys]);
 
   async function upload(file: File) {
+    if (['video/mp4', 'video/webm', 'video/ogg'].includes(file.type)) {
+      if (file.size > 100 * 1024 * 1024) throw new Error('Video must be 100 MB or smaller');
+      setUploads((v) => v + 1);
+      try {
+        return (await api<{ data: { src: string; alt: string; width: number; height: number } }>('/admin/home/video-media', {
+          method: 'POST', body: file, headers: { 'Content-Type': file.type, 'X-File-Name': encodeURIComponent(file.name) },
+        })).data;
+      } finally { setUploads((v) => v - 1); }
+    }
     if (file.size > 2 * 1024 * 1024) throw new Error('Image must be less than 2 MB');
     setUploads((v) => v + 1);
     try {

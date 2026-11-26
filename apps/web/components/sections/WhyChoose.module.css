@@ -49,6 +49,22 @@
   min-width: 0;
 }
 
+.page .scrollList {
+  --badge: var(--content-icon-badge-size);
+  --list-gap: clamp(0.5rem, 1.5625vw, 1.875rem);
+  max-height: calc(6 * var(--badge) + 5 * var(--list-gap) + 1.5rem);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-cream);
+}
+
+.page .scrollList::-webkit-scrollbar { width: 8px; }
+.page .scrollList::-webkit-scrollbar-track { background: var(--color-cream); border-radius: 999px; }
+.page .scrollList::-webkit-scrollbar-thumb { background: var(--color-primary); border: 2px solid var(--color-cream); border-radius: 999px; }
+
 .page .media {
   position: relative;
   z-index: 1;
@@ -68,6 +84,7 @@
   grid-template-columns: minmax(0, 1.609fr) minmax(10rem, 1fr);
   column-gap: clamp(1rem, 3.49vw, 4.1875rem);
   margin-top: var(--why-heading-content-gap, calc(var(--academic-heading-gap, clamp(15px, 2.34375vw, 45px)) - var(--why-heading-ink-bottom, 2px)));
+  container-type: inline-size;
 }
 
 .column .list {
@@ -77,8 +94,29 @@
   padding-top: 11px;
 }
 
+.column .scrollList {
+  --why-list-row-height: clamp(4.5rem, 3.6rem + 2.4vw, 7.375rem);
+  height: calc((100cqi - clamp(1rem, 3.49vw, 4.1875rem)) * 0.4759);
+  min-height: 0;
+  max-height: calc((100cqi - clamp(1rem, 3.49vw, 4.1875rem)) * 0.4759);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+
+.column .scrollList::-webkit-scrollbar { width: 8px; }
+.column .scrollList::-webkit-scrollbar-track { background: transparent; }
+.column .scrollList::-webkit-scrollbar-thumb { background: #888; border-radius: 999px; }
+
 .column .media {
   margin-right: 0;
+}
+
+.column .body {
+  align-items: stretch;
 }
 
 .column .media img {
@@ -123,5 +161,10 @@
 
   .column .list {
     padding-top: clamp(0.5rem, 0.3rem + 0.6vw, 1.1rem);
+  }
+
+  .column .scrollList {
+    height: calc(100cqi * 0.625);
+    max-height: calc(100cqi * 0.625);
   }
 }

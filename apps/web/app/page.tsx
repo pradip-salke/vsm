@@ -25,7 +25,7 @@ import { getCommonSlides } from '@/lib/common-slides';
 const metadata: Metadata = {
   title: { absolute: 'AICTE Approved PGDM College in Mumbai | Valia School of Management' },
   description:
-    'Valia School of Management offers a 2-year full-time AICTE-approved PGDM in Mumbai with industry-led curriculum, internships and 100% placement assistance.',
+    'Valia School of Management offers a 2-year full-time AICTE-approved PGDM programme in Mumbai with industry-led curriculum, internships and 100% placement assistance.',
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -45,7 +45,7 @@ export default async function HomePage() {
         actions={
           <>
             <Button href={content.hero.primaryHref}>{content.hero.primaryText}</Button>
-            <Button variant="arrow" href={content.hero.secondaryHref}>
+            <Button href={content.hero.secondaryHref}>
               {content.hero.secondaryText}
             </Button>
           </>
@@ -62,7 +62,6 @@ export default async function HomePage() {
       {(visibility.internships || Boolean(commonSlides?.internships.length)) && <Internships items={commonSlides?.internships ?? masters.internships.items.filter(item => item.enabled !== false)} title={content.internships.title} />}
       {(visibility.testimonials || Boolean(commonSlides && (commonSlides.video.length || commonSlides.written.length))) && <Testimonials videoItems={commonSlides?.video ?? enabled(testimonialMasters.video)} writtenItems={commonSlides?.written ?? enabled(testimonialMasters.written)} heading={content.testimonials} reduceBottomPadding />}
       <Marquee items={content.marquee.items} />
-      {(commonSlides?.galleryEvents ?? []).length > 0 && <MediaCarousel id="events" title={content.events.title} items={commonSlides?.galleryEvents ?? []} layout="events" homeEventSpacing galleryPopup galleryAlbums={eventGalleryAlbums} moreLink={{ href: '/events/gallery/', label: 'View More' }} />}
       {(commonSlides?.gallery ?? enabled(masters.life.items)).length > 0 && <MediaCarousel id="life-at-vsm" title={content.life.title} items={commonSlides?.gallery ?? enabled(masters.life.items)} layout="life" background="cream" galleryPopup galleryAlbums={eventGalleryAlbums} galleryFallbackSlug="infra" />}
       <FaqSection content={content.faq} />
       <CtaBanner content={content.cta} />

@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import { Link } from '@/components/navigation/Link';
-import { aboutLinks, careerAndBlogLinks, contact, footer, specialisationLinks } from '@/content/site';
+import { aboutLinks, careerAndBlogLinks, footer, specialisationLinks } from '@/content/site';
+import type { FooterContent } from '@vsmedu/contracts/footer';
 import { Icon } from '@/components/ui/Icon';
 import { icons } from '@/components/ui/icons';
-import { PhoneList } from '@/components/ui/PhoneList';
 import styles from './SiteFooter.module.css';
+import { useContactLocation } from './ContactLocationProvider';
 
-export function SiteFooter({ logoSrc }: { logoSrc: string }) {
+export function SiteFooter({ logoSrc, contacts }: { logoSrc: string; contacts: FooterContent['contacts'] }) {
+  const contactLocation = useContactLocation();
   const [aboutExpanded, setAboutExpanded] = useState(false);
   const visibleAboutLinks = aboutLinks.slice(0, 5);
   const remainingAboutLinks = aboutLinks.slice(5);
@@ -31,7 +33,7 @@ export function SiteFooter({ logoSrc }: { logoSrc: string }) {
             <ul className={styles.links} role="list">
               {specialisationLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href}>PGDM in {link.label}</Link>
+                  <Link href={link.href}>{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -77,25 +79,33 @@ export function SiteFooter({ logoSrc }: { logoSrc: string }) {
           </nav>
 
           <div>
-            <h2 className={styles.heading}>Contacts</h2>
+            <h2 className={styles.heading}>{contacts.heading}</h2>
             <ul className={styles.contacts} role="list">
               <li>
                 <span className={styles.contactIcon}>
                   <Icon src={icons.mailOutline} />
                 </span>
-                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+                <a href={`mailto:${contacts.email}`}>{contacts.email}</a>
               </li>
               <li>
                 <span className={styles.contactIcon}>
                   <Icon src={icons.callOutline} />
                 </span>
-                <PhoneList />
+                <span>
+                  {contacts.phones.map((phone, index) => <span key={`${phone.href}-${phone.label}`}>
+                    {index > 0 && ' | '}<a href={phone.href}>{phone.label}</a>
+                  </span>)}
+                </span>
               </li>
               <li>
                 <span className={styles.contactIcon}>
                   <Icon src={icons.location} />
                 </span>
-                <address>{contact.address}</address>
+                <address>{contactLocation.isContactPage
+                  ? <><strong>{contactLocation.selectedLocation.label}</strong>{contactLocation.selectedLocation.address && <><br />{contactLocation.selectedLocation.mapLink
+                    ? <a href={contactLocation.selectedLocation.mapLink} target="_blank" rel="noreferrer">{contactLocation.selectedLocation.address}</a>
+                    : contactLocation.selectedLocation.address}</>}</>
+                    : contacts.address}</address>
               </li>
             </ul>
           </div>

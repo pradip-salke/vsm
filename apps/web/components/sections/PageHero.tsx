@@ -72,12 +72,12 @@ export function PageHero({ slides, actions, breadcrumb, size = 'home', className
               </nav>
             )}
             <div className={styles.copy}>
-              <Heading className={styles.title}>{slide.title}</Heading>
+              {size === 'home' ? <Heading className={styles.title} dangerouslySetInnerHTML={{ __html: slide.title }} /> : <Heading className={styles.title}>{slide.title}</Heading>}
               {(size === 'home' || slideActions) && 'primaryText' in slide ? <>
                 <div className={styles.subtitle} dangerouslySetInnerHTML={{ __html: slide.subtitle }} />
                 <div className={styles.actions}>
                   {slide.primaryText && slide.primaryHref && <Button href={slide.primaryHref}>{slide.primaryText}</Button>}
-                  {slide.secondaryText && slide.secondaryHref && <Button variant="arrow" href={slide.secondaryHref}>{slide.secondaryText}</Button>}
+                  {slide.secondaryText && slide.secondaryHref && <Button href={slide.secondaryHref}>{slide.secondaryText}</Button>}
                 </div>
               </> : <>
                 <p className={styles.subtitle}>{slide.subtitle}</p>

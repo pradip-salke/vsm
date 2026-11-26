@@ -123,12 +123,3 @@ export async function readPublicGallery(page: string) {
   return unified.content.items.filter(item => item.enabled !== false && ((page === 'events-gallery' || page === 'events-gallery-2') || (Array.isArray(item.sections) && item.sections.includes('life'))));
 }
 
-export async function readGalleryEvents(page: string) {
-  if (!pageSet.has(page)) throw new HttpError(404, 'PAGE_NOT_FOUND', 'Unknown page');
-  const unified = await readGalleryCollection('unified');
-  return unified.content.items.filter(item => {
-    if (item.enabled === false || !Array.isArray(item.sections) || !item.sections.includes('events')) return false;
-    const assignedPages = Array.isArray(item.pages) ? item.pages : ['home', 'aicte'];
-    return assignedPages.includes(page);
-  });
-}

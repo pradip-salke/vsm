@@ -27,7 +27,11 @@ export function WhyChoose({ id = 'why-vsm', image, items = whyChooseItems, varia
           <SectionHeading id={headingId} title={heading?.title ?? 'Why Choose VSM'} />
         )}
         <div className={styles.body}>
-          <IconList items={items} className={styles.list} />
+          {(variant === 'page' ? items.length > 6 : items.length > 5) ? (
+            <div className={styles.scrollList} tabIndex={0} role="region" aria-label="Why Choose VSM benefits">
+              <IconList items={items} className={styles.list} />
+            </div>
+          ) : <IconList items={items} className={styles.list} />}
           <div className={styles.media}>
             <Image
               src={image.src}

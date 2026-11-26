@@ -18,10 +18,10 @@ export const academicSpecialisations: SpecialisationPageContent[] = [
   {
     slug: 'financial-management-specialisation',
     title: 'Financial Management',
-    heroTitle: 'PGDM in Financial Management',
+    heroTitle: 'Financial Management',
     image: `${icons}/spec-financial.svg`,
     overview: [
-      'Finance goes beyond numbers: it helps organisations understand markets, allocate capital, manage risk, and plan for sustainable growth. VSM’s PGDM in Financial Management builds practical financial judgement alongside a strong grounding in management.',
+      'Finance goes beyond numbers: it helps organisations understand markets, allocate capital, manage risk, and plan for sustainable growth. VSM’s PGDM programme in Financial Management builds practical financial judgement alongside a strong grounding in management.',
       'Students learn to interpret financial information, evaluate investment opportunities, and make informed business decisions through an industry-oriented curriculum, case work, and project learning.',
     ],
     reasons: ['High demand across industries', 'A wide range of finance career paths', 'Strong analytical and decision-making skills', 'Exposure to investment, risk, and corporate finance', 'A foundation for long-term professional growth'],
@@ -31,7 +31,7 @@ export const academicSpecialisations: SpecialisationPageContent[] = [
   {
     slug: 'mba-pgdm-in-human-resources-mumbai',
     title: 'Human Resource Management',
-    heroTitle: 'PGDM in Human Resource Management',
+    heroTitle: 'Human Resource Management',
     image: `${icons}/spec-hr.svg`,
     overview: [
       'Human Resource Management focuses on the people, culture, and systems that help organisations perform. The PGDM specialisation develops the skills to attract, support, and grow talent while aligning people practices with organisational goals.',
@@ -44,7 +44,7 @@ export const academicSpecialisations: SpecialisationPageContent[] = [
   {
     slug: 'mba-in-marketing-mumbai',
     title: 'Marketing Management',
-    heroTitle: 'PGDM in Marketing Management',
+    heroTitle: 'Marketing Management',
     image: `${icons}/spec-marketing.svg`,
     overview: [
       'Marketing combines creativity, customer understanding, and analysis. VSM’s PGDM specialisation develops the ability to understand buying decisions, build brands, plan campaigns, and use market information to guide business growth.',
@@ -57,7 +57,7 @@ export const academicSpecialisations: SpecialisationPageContent[] = [
   {
     slug: 'pgdm-in-business-analytics-mumbai',
     title: 'Business Analytics',
-    heroTitle: 'PGDM in Business Analytics',
+    heroTitle: 'Business Analytics',
     image: `${icons}/spec-analytics.svg`,
     overview: [
       'Business Analytics combines management principles with data analysis. Students learn to interpret information, identify patterns, and turn findings into decisions that help organisations improve performance and plan strategically.',
@@ -69,7 +69,7 @@ export const academicSpecialisations: SpecialisationPageContent[] = [
   {
     slug: 'operations-and-supply-chain-management-specialisation',
     title: 'Operations & Supply Chain Management',
-    heroTitle: 'PGDM in Operations & Supply Chain Management',
+    heroTitle: 'Operations & Supply Chain Management',
     image: `${icons}/spec-operations.svg`,
     overview: [
       'Operations and supply chain management covers the flow of goods, services, information, and resources from sourcing through delivery. Professionals in this area improve productivity, quality, cost control, and customer outcomes.',

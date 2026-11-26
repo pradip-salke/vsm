@@ -1,5 +1,6 @@
 import { SectionNavigationFields } from './SectionNavigationFields';
 import { useState, useRef, useEffect, type CSSProperties } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Icon } from './Icon';
 import { RichSubtitle } from './RichSubtitle';
 import { useWebsiteAction } from './roleActions';
@@ -701,7 +702,7 @@ export function blank(value: Value): Value {
     return Object.fromEntries(
       Object.entries(value).map(([k, v]) => [
         k,
-        ['width', 'height', 'iconSize'].includes(k) ? v : blank(v),
+        k === 'navigationEnabled' ? false : ['width', 'height', 'iconSize'].includes(k) ? v : blank(v),
       ])
     );
   }
@@ -816,6 +817,7 @@ export function Field({
   hideLegend?: boolean;
   caption?: string;
 }) {
+  const isGalleryImage = useLocation().pathname.startsWith('/masters/gallery');
   const allowAdd = useWebsiteAction('add');
   const allowDelete = useWebsiteAction('delete');
   const [error, setError] = useState('');
@@ -1347,13 +1349,14 @@ export function Field({
           </div>
 
           <label className="cms-field cms-field--link">
-            <span>Image Path / URL</span>
+            <span>{isGalleryImage ? 'YouTube video link' : 'Image Path / URL'}</span>
             <input
-              placeholder="/images/... or URL"
+              placeholder={isGalleryImage ? 'Paste a YouTube video link' : '/images/... or URL'}
               disabled={readOnly}
               value={srcStr}
               onChange={(e) => onChange({ ...value, src: e.target.value })}
             />
+            {isGalleryImage && <small>Upload an image above or paste a YouTube video link here.</small>}
           </label>
           <label className="cms-field cms-field--standard">
             <span>Image Description (Alt Text)</span>

@@ -34,7 +34,7 @@ const homeMasterNames: Record<string, string> = {
   recruiters: 'Recruiter Logos',
   internships: 'Summer Internships',
   testimonials: 'Student Testimonials',
-  events: 'Upcoming Events',
+  events: 'Events Gallery',
   life: 'Life at VSM',
 };
 

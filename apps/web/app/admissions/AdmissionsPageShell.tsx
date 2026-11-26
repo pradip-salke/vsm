@@ -33,7 +33,7 @@ export function AdmissionsPageShell({ title, subtitle, active, children, content
       { label: 'Home', href: '/' }, { label: 'Admissions', href: admissionPages[0].href }, { label: active },
     ]} actions={<>
       {primaryText && <Button href={primaryHref}>{primaryText}</Button>}
-      {secondaryText && <Button variant="arrow" href={secondaryHref}>{secondaryText}</Button>}
+      {secondaryText && <Button href={secondaryHref}>{secondaryText}</Button>}
     </>} />
     <nav className={styles.nav} aria-label={typeof nav?.title === 'string' ? nav.title : 'Admissions pages'}><ul className={`container ${styles.navList}`} role="list">
       {navLinks.map((page) => <li key={page.href}><Link href={page.href} aria-current={page.label === active ? 'page' : undefined}>{page.label}</Link></li>)}

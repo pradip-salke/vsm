@@ -410,7 +410,7 @@ export function FooterEditor({ canEdit }: { canEdit: boolean }) {
                   <input
                     type="text"
                     className="cms-footer-input"
-                    placeholder="Link Label (e.g. PGDM in Finance)"
+                    placeholder="Link Label (e.g. Finance)"
                     value={link.label}
                     disabled={!canEdit}
                     onChange={(e) => setSpecLink(idx, 'label', e.target.value)}

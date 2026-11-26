@@ -4,18 +4,65 @@ import { prisma } from '../../lib/prisma.js';
 import { HttpError } from '../../middleware/errors.js';
 import { FooterContentSchema, footerDefaults, type FooterContent } from '@vsmedu/contracts/footer';
 
+const DEFAULT_CONTACT_LOCATIONS: FooterContent['contactPage']['locations'] = {
+  andheri: '5th Floor, Valia College Building, Cosmopolitan Education Society Road, Andheri & D. N. Nagar Metro Station, Andheri (West), Mumbai – 400 053.',
+  borivali: '',
+  ghatkopar: '',
+};
+const DEFAULT_CONTACT_MAP_LINKS: FooterContent['contactPage']['mapLinks'] = {
+  andheri: '',
+  borivali: '',
+  ghatkopar: '',
+};
+
+function withContactLocationDefaults(content: unknown): FooterContent {
+  const value = content && typeof content === 'object' && !Array.isArray(content)
+    ? content as Partial<FooterContent>
+    : {};
+  const savedContactPage = value.contactPage as Partial<FooterContent['contactPage']> | undefined;
+  const savedLocations = savedContactPage?.locations;
+  return {
+    ...footerDefaults,
+    ...value,
+    contactPage: {
+      ...footerDefaults.contactPage,
+      ...savedContactPage,
+      locations: {
+        ...DEFAULT_CONTACT_LOCATIONS,
+        ...(savedLocations ?? {}),
+      },
+      mapLinks: {
+        ...DEFAULT_CONTACT_MAP_LINKS,
+        ...(savedContactPage?.mapLinks ?? {}),
+      },
+    },
+  };
+}
+
 export async function readFooterAdmin(): Promise<{ content: FooterContent; updatedAt: string | null }> {
   const row = await prisma.websiteSetting.findUnique({ where: { key: 'global.footer' } });
   if (row) {
     const parseResult = FooterContentSchema.safeParse(row.value);
+    const parsed = parseResult.success ? parseResult.data : row.value;
+    const rawContact = row.value && typeof row.value === 'object' && !Array.isArray(row.value)
+      ? (row.value as { contactPage?: FooterContent['contactPage'] }).contactPage
+      : undefined;
+    const content = parseResult.success && rawContact ? {
+      ...parsed,
+      contactPage: {
+        ...parsed.contactPage,
+        locations: rawContact.locations ?? parsed.contactPage.locations,
+        mapLinks: rawContact.mapLinks ?? parsed.contactPage.mapLinks,
+      },
+    } : parsed;
     return {
-      content: parseResult.success ? parseResult.data : { ...footerDefaults, ...(row.value as object) },
+      content: withContactLocationDefaults(content),
       updatedAt: row.updatedAt.toISOString(),
     };
   }
 
   return {
-    content: footerDefaults,
+    content: withContactLocationDefaults(footerDefaults),
     updatedAt: null,
   };
 }
@@ -75,10 +122,22 @@ export async function readPublicFooter(): Promise<{ content: FooterContent }> {
   const row = await prisma.websiteSetting.findUnique({ where: { key: 'global.footer', isPublic: true } });
   if (row) {
     const parseResult = FooterContentSchema.safeParse(row.value);
+    const parsed = parseResult.success ? parseResult.data : row.value;
+    const rawContact = row.value && typeof row.value === 'object' && !Array.isArray(row.value)
+      ? (row.value as { contactPage?: FooterContent['contactPage'] }).contactPage
+      : undefined;
+    const content = parseResult.success && rawContact ? {
+      ...parsed,
+      contactPage: {
+        ...parsed.contactPage,
+        locations: rawContact.locations ?? parsed.contactPage.locations,
+        mapLinks: rawContact.mapLinks ?? parsed.contactPage.mapLinks,
+      },
+    } : parsed;
     return {
-      content: parseResult.success ? parseResult.data : { ...footerDefaults, ...(row.value as object) },
+      content: withContactLocationDefaults(content),
     };
   }
 
-  return { content: footerDefaults };
+  return { content: withContactLocationDefaults(footerDefaults) };
 }

@@ -172,6 +172,25 @@
   line-height: 1.77;
 }
 
+.home .title {
+  white-space: pre-line;
+}
+.home .title :where(p, div) { margin: 0; }
+
+.home .subtitle {
+  max-width: 32rem;
+  padding-left: clamp(0.85rem, 1.2vw, 1.25rem);
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-heading);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1rem + 0.55vw, 1.45rem);
+  line-height: 1.45;
+  letter-spacing: 0.015em;
+  text-wrap: pretty;
+}
+.home .subtitle :where(p, div) { margin: 0; }
+
 .inner .subtitle {
   margin-top: var(--space-2);
   font-size: var(--font-size-input);
@@ -185,6 +204,27 @@
   align-items: center;
   gap: var(--space-5) clamp(1.5rem, 1rem + 1.6vw, 3rem);
   margin-top: clamp(1.75rem, 1rem + 2.6vw, 4.125rem);
+}
+
+.actions a {
+  transition: background-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+@media (hover: hover) {
+  .actions a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1.1rem rgb(0 90 115 / 24%);
+  }
+}
+
+.actions a:focus-visible {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .actions a { transition: none; }
+  .actions a:hover { transform: none; }
 }
 
 .inner .actions {

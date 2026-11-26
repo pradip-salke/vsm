@@ -4,6 +4,7 @@ import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { BackToTop } from '@/components/layout/BackToTop';
 import { EnquirySection } from '@/components/sections/EnquirySection';
+import { ContactLocationProvider } from '@/components/layout/ContactLocationProvider';
 import { SeoBodyEnd, SeoBodyStart, SeoHeadTags } from '@/components/seo/SeoTags';
 import { globalSeoMetadata } from '@/lib/seo';
 import { getPublicFooter } from '@/lib/site-brand';
@@ -35,12 +36,14 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <SiteHeader logoSrc={websiteLogo} socials={footerContent.socials} />
-        <main id="main">
-          {children}
-          <EnquirySection socials={footerContent.socials} />
-        </main>
-        <SiteFooter logoSrc={websiteLogo} />
+        <ContactLocationProvider locations={footerContent.contactPage.locations} mapLinks={footerContent.contactPage.mapLinks}>
+          <SiteHeader logoSrc={websiteLogo} socials={footerContent.socials} />
+          <main id="main">
+            {children}
+            <EnquirySection socials={footerContent.socials} />
+          </main>
+          <SiteFooter logoSrc={websiteLogo} contacts={footerContent.contacts} />
+        </ContactLocationProvider>
         <BackToTop />
         <SeoBodyEnd />
       </body>

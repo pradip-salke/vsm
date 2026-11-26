@@ -9,7 +9,7 @@ import { normalizeVideoLink } from './video-link.js';
 
 function normalizeHero(value: unknown, actions = homeDefaults.hero) {
   const document = value as { items: Record<string, unknown>[] };
-  return { items: document.items.map(item => ({ primaryText: actions.primaryText, primaryHref: actions.primaryHref, secondaryText: actions.secondaryText, secondaryHref: actions.secondaryHref, ...item, subtitle: cleanSubtitle(String(item.subtitle ?? '')) })) };
+  return { items: document.items.map(item => ({ primaryText: actions.primaryText, primaryHref: actions.primaryHref, secondaryText: actions.secondaryText, secondaryHref: actions.secondaryHref, ...item, title: cleanSubtitle(String(item.title ?? '')), subtitle: cleanSubtitle(String(item.subtitle ?? '')) })) };
 }
 
 export function cleanSubtitle(value: string) {
@@ -37,7 +37,7 @@ function sanitizeFacultyDetails(content: unknown) {
   }
 }
 
-/** Upcoming Events slides: `caption` removed; migrate legacy DB rows (drop caption; optional http(s) caption → videoLink). */
+/** Events gallery slides: `caption` removed; migrate legacy DB rows (drop caption; optional http(s) caption → videoLink). */
 function normalizeHomeEventsMaster(content: unknown): unknown {
   if (!content || typeof content !== 'object' || Array.isArray(content)) return content;
   const doc = content as { items?: unknown[] };
@@ -146,8 +146,9 @@ export async function updateHomeDocument(key: string, input: unknown, actorId: n
     .strict()
     .parse({ content: normalized, updatedAt: parsed.updatedAt });
   if (key === 'master-hero') {
-    const slides = (content as { items: { subtitle: string; primaryText: string; primaryHref: string; secondaryText: string; secondaryHref: string }[] }).items;
+    const slides = (content as { items: { title: string; subtitle: string; primaryText: string; primaryHref: string; secondaryText: string; secondaryHref: string }[] }).items;
     for (const slide of slides) {
+      slide.title = cleanSubtitle(slide.title);
       slide.subtitle = cleanSubtitle(slide.subtitle);
       if (slide.primaryText.trim() && !slide.primaryHref.trim() || slide.secondaryText.trim() && !slide.secondaryHref.trim()) throw new HttpError(400, 'BUTTON_LINK_REQUIRED', 'Enter a link for each button, or clear its text to hide it');
     }

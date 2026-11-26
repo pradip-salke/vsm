@@ -178,9 +178,6 @@ export const homeDefaults = {
     "title": "Hear from Our PGDM Students",
     "eyebrow": "What students say about us?"
   },
-  "events": {
-    "title": "Upcoming Events"
-  },
   "life": {
     "title": "Life @ VSM"
   },
@@ -759,7 +756,7 @@ export const homeLabels = {
   "recruiters": "Companies Hiring Our PGDM Students",
   "internships": "Summer Internship",
   "testimonials": "Student Testimonials",
-  "events": "Upcoming Events",
+  "events": "Events Gallery",
   "life": "Life @ VSM",
   "faq": "FAQs",
   "cta": "Apply Now banner",

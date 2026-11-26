@@ -14,6 +14,14 @@ export function TopBar({ socials }: { socials?: FooterSocialLink[] }) {
   return (
     <div className={styles.topBar}>
       <div className={`container ${styles.inner}`}>
+        <details className={`${styles.mobileContact} ${styles.mobilePhone}`}>
+          <summary className={styles.circle} aria-label="Show phone numbers">
+            <Icon src={icons.phone} size="calc(var(--circle) * 19.25 / 44)" />
+          </summary>
+          <div className={styles.contactPopup}>
+            {contact.phones.map((phone) => <a key={phone.href} href={phone.href}>{phone.label}</a>)}
+          </div>
+        </details>
         <ul className={styles.contacts} role="list">
           <li className={styles.contact}>
             <span className={styles.circle}>
@@ -37,6 +45,16 @@ export function TopBar({ socials }: { socials?: FooterSocialLink[] }) {
           </li>
         </ul>
         <ul className={styles.socials} role="list">
+          <li className={styles.mobileEmailItem}>
+            <details className={styles.mobileContact}>
+              <summary className={`${styles.social} ${styles.mobileEmailIcon}`} aria-label="Show email address">
+                <MailIcon className={styles.mobileMail} />
+              </summary>
+              <div className={`${styles.contactPopup} ${styles.emailPopup}`}>
+                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              </div>
+            </details>
+          </li>
           {visibleSocials.map((social) => {
             const glyph = topBarSocialIcons[social.key];
             if (!glyph) return null;

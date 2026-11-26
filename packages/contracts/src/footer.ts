@@ -43,6 +43,20 @@ export const ContactPageSchema = z.object({
   intro: z.string().trim().max(5000).default('At Valia School of Management, we’re always open to your questions, suggestions, and feedback. Whether you’re a prospective student, a parent, or just curious about our programs, our team is here to provide you with the information you need. Reach out to us within our working hours, and we’ll be more than happy to assist you.'),
   closing: z.string().trim().max(5000).default('Feel free to contact us during our working hours, and we’ll ensure your queries are addressed promptly. Your journey towards excellence in management education starts here, and we’re excited to guide you through every step of the way.'),
   mapEmbedUrl: z.string().trim().url().max(2000).default('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15077.700395413956!2d72.81570538587455!3d19.132860685866014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c90a5cf14ec3%3A0x43e2ef0e96af06f9!2sValia%20School%20of%20Management!5e0!3m2!1sen!2sin!4v1739169921810!5m2!1sen!2sin'),
+  locations: z.object({
+    andheri: z.string().trim().max(1000).default('5th Floor, Valia College Building, Cosmopolitan Education Society Road, Andheri & D. N. Nagar Metro Station, Andheri (West), Mumbai – 400 053.'),
+    borivali: z.string().trim().max(1000).default(''),
+    ghatkopar: z.string().trim().max(1000).default(''),
+  }).default({
+    andheri: '5th Floor, Valia College Building, Cosmopolitan Education Society Road, Andheri & D. N. Nagar Metro Station, Andheri (West), Mumbai – 400 053.',
+    borivali: '',
+    ghatkopar: '',
+  }),
+  mapLinks: z.object({
+    andheri: z.string().trim().url().max(2000).or(z.literal('')).default(''),
+    borivali: z.string().trim().url().max(2000).or(z.literal('')).default(''),
+    ghatkopar: z.string().trim().url().max(2000).or(z.literal('')).default(''),
+  }).default({ andheri: '', borivali: '', ghatkopar: '' }),
 });
 
 export const FooterContentSchema = z.object({
@@ -85,11 +99,11 @@ export const footerDefaults: FooterContent = {
   specialisations: {
     heading: 'Specialisation',
     links: [
-      { label: 'PGDM in Finance', href: '/our-academics/in-demand-specialisations/financial-management-specialisation/', openInNewTab: false },
-      { label: 'PGDM in Human Resources', href: '/our-academics/in-demand-specialisations/mba-pgdm-in-human-resources-mumbai/', openInNewTab: false },
-      { label: 'PGDM in Marketing', href: '/our-academics/in-demand-specialisations/mba-in-marketing-mumbai/', openInNewTab: false },
-      { label: 'PGDM in Business Analytics', href: '/our-academics/in-demand-specialisations/pgdm-in-business-analytics-mumbai/', openInNewTab: false },
-      { label: 'PGDM in Operations & Supply Chain Management', href: '/our-academics/in-demand-specialisations/operations-and-supply-chain-management-specialisation/', openInNewTab: false },
+      { label: 'Finance', href: '/our-academics/in-demand-specialisations/financial-management-specialisation/', openInNewTab: false },
+      { label: 'Human Resources', href: '/our-academics/in-demand-specialisations/mba-pgdm-in-human-resources-mumbai/', openInNewTab: false },
+      { label: 'Marketing', href: '/our-academics/in-demand-specialisations/mba-in-marketing-mumbai/', openInNewTab: false },
+      { label: 'Business Analytics', href: '/our-academics/in-demand-specialisations/pgdm-in-business-analytics-mumbai/', openInNewTab: false },
+      { label: 'Operations & Supply Chain Management', href: '/our-academics/in-demand-specialisations/operations-and-supply-chain-management-specialisation/', openInNewTab: false },
     ],
   },
   aboutUs: {

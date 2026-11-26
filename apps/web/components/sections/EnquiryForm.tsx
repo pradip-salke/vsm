@@ -114,19 +114,11 @@ export function EnquiryForm() {
           <input {...field('designation')} className={styles.input} placeholder="Designation*" autoComplete="organization-title" required />
           {error('designation')}
         </div>
-          <div className={styles.field}>
-          <label htmlFor={`${formId}-city`} className="visually-hidden">
-            City
-          </label>
+        <div className={styles.field}>
+          <label htmlFor={`${formId}-city`} className="visually-hidden">City</label>
           <select {...field('city')} className={`${styles.input} ${styles.select}`} defaultValue="" required>
-            <option value="" disabled>
-              Select City*
-            </option>
-            {enquiryCities.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
+            <option value="" disabled>Select City*</option>
+            {enquiryCities.map((city) => <option key={city} value={city}>{city}</option>)}
           </select>
           {error('city')}
         </div>

@@ -3,7 +3,7 @@ import { events, lifeAtVsm } from './shared';
 
 const FIG = '/images/figma';
 
-const heroTitle = '2-YEARS FULL TIME AICTE APPROVED PGDM in Mumbai';
+const heroTitle = '2-YEARS FULL TIME AICTE APPROVED PGDM programme in Mumbai';
 const heroSubtitle = 'Building Future-Ready Leaders Through AI, Analytics And Industry Immersion.';
 
 const heroImagePositions = ['70% 100%', '56% 100%', '66% 100%'];

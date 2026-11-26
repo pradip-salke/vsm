@@ -57,7 +57,6 @@ export const academicsDefaults = {
       { label: 'Program Videos', anchor: 'program-videos' },
       { label: 'Why VSM', anchor: 'why-vsm' },
       { label: 'Gallery', anchor: 'gallery' },
-      { label: 'Events', anchor: 'events' },
       { label: 'Curriculum', anchor: 'curriculum' },
       { label: 'Faculties', anchor: 'faculties' },
       { label: 'Fees', anchor: 'fees' },
@@ -104,9 +103,6 @@ export const academicsDefaults = {
   },
   gallery: {
     title: 'Life @ VSM',
-  },
-  events: {
-    title: 'Upcoming Events',
   },
   internships: {
     title: homeDefaults.internships.title,
@@ -299,7 +295,6 @@ export const academicsLabels = {
   'program-videos': 'PGDM Program Videos',
   why: 'Why Choose VSM',
   gallery: 'Life @ VSM Gallery',
-  events: 'Upcoming Events',
   internships: 'Summer Internships',
   testimonials: 'Student Testimonials',
   curriculum: 'Academic Curriculum',

@@ -31,7 +31,7 @@ export async function PlacementPageShell({ title, active, activeHref, children, 
         slides={slides}
         actions={<>
           {cmsString(hero.primaryText, 'Apply Now') && <Button href={cmsString(hero.primaryHref, APPLY_PATH)}>{cmsString(hero.primaryText, 'Apply Now')}</Button>}
-          {cmsString(hero.secondaryText, 'Enquire now') && <Button variant="arrow" href={cmsString(hero.secondaryHref, 'mailto:admissions@vsmedu.in')}>{cmsString(hero.secondaryText, 'Enquire now')}</Button>}
+          {cmsString(hero.secondaryText, 'Enquire now') && <Button href={cmsString(hero.secondaryHref, 'mailto:admissions@vsmedu.in')}>{cmsString(hero.secondaryText, 'Enquire now')}</Button>}
         </>}
         breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Placements', href: '/placements/' }, { label: title }]}
       />

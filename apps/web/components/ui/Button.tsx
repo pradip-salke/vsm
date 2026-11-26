@@ -2,6 +2,7 @@ import { Link } from '@/components/navigation/Link';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import { Icon } from './Icon';
 import { icons } from './icons';
+import { ENQUIRY_ANCHOR } from '@/content/site';
 import styles from './Button.module.css';
 
 /**
@@ -34,7 +35,10 @@ export function Button(props: LinkProps | NativeButtonProps) {
   );
 
   if ('href' in rest && rest.href !== undefined) {
-    const { href, ...anchorProps } = rest as LinkProps;
+    const { href: configuredHref, ...anchorProps } = rest as LinkProps;
+    const href = typeof children === 'string' && /^enquire\s+now$/i.test(children.trim())
+      ? ENQUIRY_ANCHOR
+      : configuredHref;
     const isExternal = /^https?:\/\//.test(href);
     if (isExternal) {
       return (

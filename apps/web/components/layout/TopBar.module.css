@@ -101,6 +101,8 @@
   transform: translateY(-2px);
 }
 
+.mobileContact, .mobileEmailItem { display: none; }
+
 @media (max-width: 1023px) {
   .label {
     display: none;
@@ -108,10 +110,21 @@
 }
 
 @media (max-width: 767px) {
-  .email,
-  .secondary {
+  .contacts {
     display: none;
   }
+
+  .mobileContact, .mobileEmailItem { display: block; }
+  .mobileContact { position: relative; }
+  .mobileContact summary { cursor: pointer; list-style: none; }
+  .mobileContact summary::-webkit-details-marker { display: none; }
+  .mobileContact summary:focus-visible { outline: 2px solid white; outline-offset: 2px; }
+  .mobileEmailIcon { color: var(--color-secondary); }
+  .mobileMail { --mail-size: 1rem; }
+  .contactPopup { position: absolute; top: calc(100% + 0.35rem); left: 0; z-index: 10; display: grid; min-width: max-content; padding: 0.5rem; border-radius: 0.35rem; background: var(--color-surface); color: var(--color-heading); box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 20%); }
+  .contactPopup a { display: block; padding: 0.5rem 0.65rem; white-space: nowrap; font-weight: var(--font-weight-bold); }
+  .contactPopup a:hover, .contactPopup a:focus-visible { color: var(--color-primary); }
+  .emailPopup { right: 0; left: auto; }
 
   .inner {
     min-height: calc(2.5rem - 5px);

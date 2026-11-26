@@ -35,7 +35,7 @@ export function EventsShell({ title, active, children, cms }: { title: string; a
   return <>
     <PageHero size="inner" slides={heroMaster?.items ? heroMaster.items.filter(item => item.enabled !== false).map(item => ({ ...slide, ...item, title: item.title === 'List of Speakers' ? 'Guest Speakers' : item.title === 'Videos of Speakers' || item.title === 'Campus-Corporate Connect' && active === 'Speaker Bites' ? 'Speaker Bites' : item.title === 'Gallery' && active === 'Photo Gallery' ? 'Photo Gallery' : item.title ?? title }) as typeof slide) : [slide]} actions={<>
       <Button href={APPLY_PATH}>Apply Now</Button>
-      <Button variant="arrow" href="mailto:admissions@vsmedu.in">Enquire now</Button>
+      <Button href="mailto:admissions@vsmedu.in">Enquire now</Button>
     </>} breadcrumb={[{ label: 'Home', href: '/' }, { label: 'Events', href: '/events/' }, ...(title === 'Events' ? [] : [{ label: title }])]} />
     <nav className={styles.nav} aria-label="Event pages"><ul role="list" className={`container ${styles.navList}`}>
       {pages.filter((page) => !(page.label === 'Events' && ['Photo Gallery', 'Achievements', 'Guest Speakers', 'Speaker Bites'].includes(active))).map((page) => <li key={page.href}><Link href={page.href} aria-current={active === page.label ? 'page' : undefined}>{page.label}</Link></li>)}

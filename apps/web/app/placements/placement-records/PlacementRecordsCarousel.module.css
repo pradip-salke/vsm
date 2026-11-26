@@ -1,0 +1,57 @@
+.carousel {
+  --slide-gap: 1rem;
+  min-width: 0;
+}
+
+.viewport {
+  position: relative;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  gap: var(--slide-gap);
+  transition: transform 600ms ease;
+  will-change: transform;
+}
+
+.noTransition { transition: none; }
+
+.slide {
+  display: block;
+  flex: 0 0 calc((100% - 2 * var(--slide-gap)) / 3);
+  min-width: 0;
+  overflow: hidden;
+  aspect-ratio: 0.85;
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.slide img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.controls > :global([role='group']) { margin-top: 0; }
+
+@media (max-width: 900px) {
+  .slide { flex-basis: calc((100% - var(--slide-gap)) / 2); }
+}
+
+@media (max-width: 599px) {
+  .slide { flex-basis: 90%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track { transition: none; }
+}

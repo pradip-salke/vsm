@@ -13,6 +13,7 @@ import styles from './MediaCarousel.module.css';
 import { VideoPopup } from '@/components/ui/VideoPopup';
 import { ImageGalleryPopup } from '@/components/ui/ImageGalleryPopup';
 import { Button } from '@/components/ui/Button';
+import { videoThumbnailUrl } from '@/lib/video-url';
 
 type GalleryAlbum = { title: string; href: string; image: ImageAsset; images: ImageAsset[] };
 
@@ -58,7 +59,6 @@ type MediaCarouselProps = {
   /** Decorative play badge on video stills. */
   play?: boolean;
   background?: 'page' | 'cream';
-  homeEventSpacing?: boolean;
   /** Open the section's images in the shared gallery lightbox when a slide is clicked. */
   galleryPopup?: boolean;
   /** Full Events > Gallery albums used to resolve slider covers to their image sets. */
@@ -78,7 +78,6 @@ export function MediaCarousel({
   uppercase = false,
   play = false,
   background = 'page',
-  homeEventSpacing = false,
   galleryPopup = false,
   galleryAlbums = [],
   galleryFallbackSlug,
@@ -89,7 +88,8 @@ export function MediaCarousel({
   const [activeVideo, setActiveVideo] = useState<{ title: string; videoUrl: string } | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
   const slides = items.map((item, index) => {
-    const videoLink = item.videoLink?.trim() || '';
+    const youtubeThumbnail = videoThumbnailUrl(item.image.src);
+    const videoLink = item.videoLink?.trim() || (youtubeThumbnail ? item.image.src : '');
     const showPlayBadge = play || Boolean(videoLink);
     const linkHref = item.href?.trim() || '';
     const isExternal = /^https?:\/\//i.test(linkHref);
@@ -97,11 +97,12 @@ export function MediaCarousel({
       <>
         <span className={styles.frame}>
           {item.image.src ? <Image
-            src={item.image.src}
+            src={youtubeThumbnail || item.image.src}
             alt={item.image.alt}
             width={item.image.width}
             height={item.image.height}
             sizes={variant === 'page' ? '(max-width: 767px) 85vw, 36vw' : '(max-width: 767px) 85vw, 42vw'}
+            unoptimized={Boolean(youtubeThumbnail)}
           /> : videoLink ? <video src={videoLink} muted playsInline preload="metadata" aria-hidden="true" /> : null}
           {showPlayBadge && (
             <span className={styles.play} aria-hidden>
@@ -112,6 +113,13 @@ export function MediaCarousel({
         {showCaption && item.caption && <span className={styles.caption}>{item.caption}</span>}
       </>
     );
+    if (videoLink) {
+      return (
+        <button key={index} type="button" className={`${styles.item} ${styles.videoTrigger}`} onClick={() => setActiveVideo({ title: item.caption?.trim() || title, videoUrl: videoLink })} aria-haspopup="dialog" aria-label={`Play ${item.caption?.trim() || title}`}>
+          {media}
+        </button>
+      );
+    }
     if (galleryPopup) {
       return (
         <button
@@ -121,20 +129,6 @@ export function MediaCarousel({
           onClick={() => setActiveImageIndex(index)}
           aria-haspopup="dialog"
           aria-label={`View ${item.image.alt || title}`}
-        >
-          {media}
-        </button>
-      );
-    }
-    if (videoLink) {
-      return (
-        <button
-          key={index}
-          type="button"
-          className={`${styles.item} ${styles.videoTrigger}`}
-          onClick={() => setActiveVideo({ title: item.caption?.trim() || title, videoUrl: videoLink })}
-          aria-haspopup="dialog"
-          aria-label={`Play ${item.caption?.trim() || title}`}
         >
           {media}
         </button>
@@ -170,7 +164,7 @@ export function MediaCarousel({
   return (
     <section
       id={id}
-      className={[styles[variant], styles[layout], styles[`bg-${background}`], homeEventSpacing ? styles.homeEventSpacing : ''].filter(Boolean).join(' ')}
+      className={[styles[variant], styles[layout], styles[`bg-${background}`]].filter(Boolean).join(' ')}
       aria-labelledby={headingId}
     >
       <div className={variant === 'page' ? 'container' : undefined}>

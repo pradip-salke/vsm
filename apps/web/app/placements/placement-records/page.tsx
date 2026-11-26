@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import { PlacementPageShell, PlacementSection } from '../PlacementPageShell';
 import styles from '../PlacementPage.module.css';
+import { PlacementRecordsCarousel } from './PlacementRecordsCarousel';
 import { currentBatchInternshipAssets } from '@/content/placements';
 import { withSeo } from '@/lib/seo';
 import { getPlacementsPageContent, cmsString, type CmsImage } from '@/lib/cms-content';
@@ -25,11 +25,7 @@ export default async function PlacementRecordsPage() {
     <PlacementPageShell title="Placement Records" active="Placement Records" pageSlug="placement-records">
       <PlacementSection title={cmsString(section?.title, 'Batch Wise Placement Records')} className={`${styles.placementRecordsSection} ${styles.recordListingSection}`}>
         <h3 className={styles.sectionSubheading}>{cmsString(section?.subheading, 'Summer Internship 2025–27')}</h3>
-        <div className={styles.recordGrid}>
-          {records.map((asset) => <a className={styles.recordLink} href={asset.src} target="_blank" rel="noreferrer" key={asset.src}>
-            <Image src={asset.src} alt={asset.alt} width={724} height={1024} sizes="(max-width: 767px) 90vw, 30vw" />
-          </a>)}
-        </div>
+        <PlacementRecordsCarousel records={records} />
       </PlacementSection>
     </PlacementPageShell>
   );

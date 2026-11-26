@@ -33,7 +33,7 @@ export default async function ContactUsPage() {
         slides={[slide]}
         actions={<>
           {contactPage.hero.applyText && contactPage.hero.applyHref && <Button href={contactPage.hero.applyHref}>{contactPage.hero.applyText}</Button>}
-          {contactPage.hero.enquireText && contactPage.hero.enquireHref && <Button variant="arrow" href={contactPage.hero.enquireHref}>{contactPage.hero.enquireText}</Button>}
+          {contactPage.hero.enquireText && contactPage.hero.enquireHref && <Button href={contactPage.hero.enquireHref}>{contactPage.hero.enquireText}</Button>}
         </>}
         breadcrumb={[{ label: 'Home', href: '/' }, { label: contactPage.breadcrumbLabel }]}
       />

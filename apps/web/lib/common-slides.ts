@@ -9,7 +9,6 @@ export type CommonSlides = {
   video: HomeMasters['testimonials']['items'];
   written: HomeMasters['testimonials']['items'];
   gallery: (HomeMasters['life']['items'][number] & { pages?: string[] })[];
-  galleryEvents: (HomeMasters['events']['items'][number] & { pages?: string[]; sections?: string[] })[];
 };
 
 export async function getCommonSlides(scope: string): Promise<CommonSlides | null> {

@@ -18,6 +18,7 @@ import { withSeo } from '@/lib/seo';
 import { getSpecialisationClosingContent } from '@/lib/academics-specialisations-content';
 
 type Props = { params: Promise<{ slug: string }> };
+const specialisationName = (text: string) => text.replace(/\bPGDM\s+in\s+/gi, '');
 
 export const dynamic = 'force-dynamic';
 
@@ -69,9 +70,9 @@ export default async function SpecialisationPage({ params }: Props) {
     <div className={layout.page}>
       <PageHero
         size="inner"
-        slides={[closingContent.hero]}
+        slides={[{ ...closingContent.hero, title: specialisationName(closingContent.hero.title) }]}
         breadcrumb={closingContent.breadcrumb ?? defaultBreadcrumb}
-        actions={<><Button href={APPLY_PATH}>Apply Now</Button><Button variant="arrow" href={ENQUIRY_ANCHOR}>Enquire now</Button></>}
+        actions={<><Button href={APPLY_PATH}>Apply Now</Button><Button href={ENQUIRY_ANCHOR}>Enquire now</Button></>}
       />
       <AcademicsTabs tabs={mergeTemplateTabs(closingContent.tabs.links.filter(({ anchor }) => !(['financial-management-specialisation', 'mba-pgdm-in-human-resources-mumbai', 'mba-in-marketing-mumbai'].includes(slug) && ['specialisation-curriculum', 'admission-procedure'].includes(anchor))).map(({ label, anchor }) => ({ label, id: anchor })), customSections.map(({ section }) => section))} />
       <div className={`${layout.layout} ${styles.layout}`}>
@@ -92,13 +93,13 @@ export default async function SpecialisationPage({ params }: Props) {
           {sectionsAt(1)}
           <div id="about-program" className={layout.block}>
             <section id="overview" className={styles.section}>
-              <SectionHeading eyebrow={closingContent.overview.eyebrow} title={closingContent.overview.title} />
+              <SectionHeading eyebrow={closingContent.overview.eyebrow} title={specialisationName(closingContent.overview.title)} />
               <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.overview.body }} />
             </section>
           </div>
           {sectionsAt(2)}
           {closingContent.why && <section id="why-specialisation" className={`${layout.block} ${styles.section}`}>
-            <SectionHeading title={closingContent.why.title} />
+            <SectionHeading title={specialisationName(closingContent.why.title)} />
             {closingContent.why.intro && <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.why.intro }} />}
             {closingContent.why.itemsTitle && <h3>{closingContent.why.itemsTitle}</h3>}
             {closingContent.why.itemsIntro && <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: closingContent.why.itemsIntro }} />}

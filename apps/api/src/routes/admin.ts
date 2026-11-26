@@ -276,6 +276,7 @@ adminRouter.put('/settings/footer', requirePermission('pages.write'), saveFooter
 
 adminRouter.post('/home-media', requirePermission('pages.write'), raw({ type: ['image/png', 'image/jpeg', 'image/webp', 'image/avif', 'image/svg+xml'], limit: '2mb' }), uploadHomeImage);
 adminRouter.post('/academics/video-media', requirePermission('pages.write'), raw({ type: ['video/mp4', 'video/webm', 'video/ogg'], limit: '100mb' }), uploadProgramVideo);
+adminRouter.post('/home/video-media', requirePermission('pages.write'), raw({ type: ['video/mp4', 'video/webm', 'video/ogg'], limit: '100mb' }), uploadProgramVideo);
 adminRouter.post('/about/eoa-report/file', requirePermission('pages.write'), raw({ type: 'application/pdf', limit: '20mb' }), uploadReportPdf);
 adminRouter.post('/pages', requirePermission('pages.write'), createPage);
 adminRouter.get('/pages', requirePermission('pages.read'), listPages);

@@ -55,9 +55,9 @@ export const mainNav: NavItem[] = [
     label: 'Academics',
     href: ACADEMICS_PGDM_PATH,
     children: [
-      { label: 'AICTE PGDM', href: ACADEMICS_PGDM_PATH },
-      { label: 'AIMA PGDM', href: '/our-academics/aima-pgdm/' },
-      ...specialisationLinks.map((link) => ({ label: `PGDM in ${link.label}`, href: link.href })),
+      { label: 'AICTE', href: ACADEMICS_PGDM_PATH },
+      { label: 'AIMA', href: '/our-academics/aima-pgdm/' },
+      ...specialisationLinks.map((link) => ({ label: link.label, href: link.href })),
       { label: 'Faculty', href: '/faculty/' },
       {
         label: 'Mandatory Disclosure',
@@ -109,13 +109,12 @@ export const footer = {
   about:
     'VSM stands not just as an educational institute but as a catalyst for future-ready leaders poised to make a meaningful impact in the business world.',
   bottomLinks: [
-    { label: 'PGDM', href: ACADEMICS_PGDM_PATH },
+    { label: 'Academics', href: ACADEMICS_PGDM_PATH },
     { label: 'Admissions Process', href: '/admissions/mba-pgdm-admissions-process/' },
     { label: 'Application Form', href: APPLY_PATH },
     { label: 'Pay Online', href: 'https://fees.easebuzz.in/cf/vsmedu-online' },
     { label: 'Students Residence', href: '/about-us/student-residence/' },
     { label: 'Testimonials', href: '/#testimonials' },
-    { label: 'Admin Login', href: process.env.NEXT_PUBLIC_ADMIN_URL ?? 'http://localhost:5173' },
   ] satisfies NavLink[],
   copyright:
     'Copyright © 2026 | Cosmopolitan Education Society’s Valia School of Management',
