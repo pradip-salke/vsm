@@ -7,7 +7,7 @@ export type Speaker = { name: string; role?: string; designation?: string; compa
 
 function Photo({ speaker, modal = false }: { speaker: Speaker; modal?: boolean }) {
   const className = modal ? styles.speakerModalPhoto : styles.speakerPhoto;
-  return speaker.photoUrl ? <img className={className} src={speaker.photoUrl} alt={speaker.name} loading="lazy" /> : <span className={`${styles.speakerPlaceholder} ${modal ? styles.speakerModalPhoto : ''}`} aria-hidden="true">{speaker.name.trim().split(/\s+/).slice(0, 2).map(part => part[0]).join('').toUpperCase()}</span>;
+  return speaker.photoUrl?.trim() ? <img className={className} src={speaker.photoUrl.trim()} alt={speaker.name} loading="lazy" /> : null;
 }
 
 export function SpeakerCards({ items, title, description }: { items: Speaker[]; title: string; description: string }) {
@@ -27,7 +27,7 @@ export function SpeakerCards({ items, title, description }: { items: Speaker[]; 
     <dialog ref={dialog} className={styles.speakerDialog} aria-labelledby="speaker-dialog-name" onClose={close} onClick={event => { if (event.target === event.currentTarget) close(); }}>
       {selected && <div className={styles.speakerModalContent}>
         <header className={styles.speakerModalIntro}><p>Guest Speakers</p><h2>{title}</h2><div>{description}</div></header>
-        <div className={styles.speakerModalCard}>
+        <div className={`${styles.speakerModalCard} ${!selected.photoUrl?.trim() ? styles.speakerModalCardNoPhoto : ''}`}>
         <button type="button" className={styles.speakerModalClose} onClick={close} aria-label="Close speaker profile">×</button>
         <Photo speaker={selected} modal />
         <div className={styles.speakerModalBody}>
